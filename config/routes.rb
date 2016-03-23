@@ -22,6 +22,8 @@ namespace :api do
     resources :branches
     resources :users
     resources :companies
+    resources :team_masters
+    resources :technology_masters
  end#namespace :v1 do
 end#namespace :api do
 
