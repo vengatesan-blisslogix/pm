@@ -1,20 +1,29 @@
 Rails.application.routes.draw do
 
 
-  scope :api do
-    scope :v1 do
-      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-         registrations: 'api/v1/overrides/registrations'
-      }
-    end
+  get 'home/index'
+
+ #get 'home/index'
+
+  root 'home#index'
+scope :api do
+  scope :v1 do
+    mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+      registrations: 'api/v1/overrides/registrations'
+    }
   end
+end
   #mount_devise_token_auth_for 'User', at: 'auth'
-  namespace :api do
-    namespace :v1 do
-     resources :role_masters
-     resources :companies
-    end#namespace :v1 do
-  end#namespace :api do
+namespace :api do
+ namespace :v1 do
+
+
+    resources :role_masters
+    resources :branches
+    resources :users
+    resources :companies
+ end#namespace :v1 do
+end#namespace :api do
 
   
   # The priority is based upon order of creation: first created -> highest priority.
