@@ -11,7 +11,7 @@ before_action :set_team, only: [:show, :edit, :update]
 	else
 	  @teams = TeamMaster.limit(10)
 	end
-	  render json: @teams     
+	  render json: @teams  
  end
 
 def show	
