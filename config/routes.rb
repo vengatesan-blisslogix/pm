@@ -14,16 +14,18 @@ scope :api do
   end
 end
   #mount_devise_token_auth_for 'User', at: 'auth'
-namespace :api do
- namespace :v1 do
-    resources :role_masters
-    resources :branches
-    resources :users
-    resources :companies
-    resources :clients
-    resources :client_sources
- end#namespace :v1 do
-end#namespace :api do
+  namespace :api do
+   namespace :v1 do
+      resources :role_masters
+      resources :branches
+      resources :users
+      resources :companies
+      resources :team_masters
+      resources :technology_masters
+      resources :clients
+      resources :client_sources
+   end#namespace :v1 do
+  end#namespace :api do
 
   
   # The priority is based upon order of creation: first created -> highest priority.

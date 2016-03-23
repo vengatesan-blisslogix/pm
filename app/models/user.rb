@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
     belongs_to :company
     belongs_to :role_master
     belongs_to :branch
+    belongs_to :team_master
 
  # Override default Devise serializer
   def token_validation_response
