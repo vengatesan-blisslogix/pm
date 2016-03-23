@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  billable: MyString
+  project_name: MyString
+  description: MyString
+  project_image: MyString
+  domain_id: 1
+  client_id: 1
+  created_by_user_id: 1
+  start_date: 2016-03-21
+  end_date: 2016-03-21
+  project_status_id: 1
+  website: MyString
+  facebook_page: MyString
+  twitter_page: MyString
+  star_rating: 1
+  active: MyString
+  tag_keywords: MyString
+  flag_id: 1
+  approved: MyString
+  approved_by_user_id: 1
+  approved_date_time: 2016-03-21 10:46:27
+  assigned_to_user_id: 1
+  kickstart_date: 2016-03-21
+
+two:
+  billable: MyString
+  project_name: MyString
+  description: MyString
+  project_image: MyString
+  domain_id: 1
+  client_id: 1
+  created_by_user_id: 1
+  start_date: 2016-03-21
+  end_date: 2016-03-21
+  project_status_id: 1
+  website: MyString
+  facebook_page: MyString
+  twitter_page: MyString
+  star_rating: 1
+  active: MyString
+  tag_keywords: MyString
+  flag_id: 1
+  approved: MyString
+  approved_by_user_id: 1
+  approved_date_time: 2016-03-21 10:46:27
+  assigned_to_user_id: 1
+  kickstart_date: 2016-03-21

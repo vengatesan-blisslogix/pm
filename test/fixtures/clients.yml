@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  client_name: MyString
+  client_company_name: MyString
+  web_address: MyString
+  first_address: MyString
+  second_address: MyString
+  city: MyString
+  state: MyString
+  country: MyString
+  zip_code: MyString
+  region: MyString
+  client_email: MyString
+  mobile: MyString
+  phone1: MyString
+  phone2: MyString
+  fax: MyString
+  skypke: MyString
+  star_rating: 1
+  active: MyString
+  comments: MyString
+  tag: MyString
+  archived: MyString
+  client_source_id: 1
+
+two:
+  client_name: MyString
+  client_company_name: MyString
+  web_address: MyString
+  first_address: MyString
+  second_address: MyString
+  city: MyString
+  state: MyString
+  country: MyString
+  zip_code: MyString
+  region: MyString
+  client_email: MyString
+  mobile: MyString
+  phone1: MyString
+  phone2: MyString
+  fax: MyString
+  skypke: MyString
+  star_rating: 1
+  active: MyString
+  comments: MyString
+  tag: MyString
+  archived: MyString
+  client_source_id: 1

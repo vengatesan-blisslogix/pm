@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  release_name: MyString
+  start_date: 2016-03-21
+  end_date: 2016-03-21
+  comments: MyString
+  active: MyString
+  release_notes: MyString
+  approved: 1
+  approved_by_user_id: 1
+  qa_approved: MyString
+  qa_approved_by_user_id: 1
+  qa_approved_date_time: 2016-03-21 11:52:38
+  user_id: 1
+  project_id: 1
+
+two:
+  release_name: MyString
+  start_date: 2016-03-21
+  end_date: 2016-03-21
+  comments: MyString
+  active: MyString
+  release_notes: MyString
+  approved: 1
+  approved_by_user_id: 1
+  qa_approved: MyString
+  qa_approved_by_user_id: 1
+  qa_approved_date_time: 2016-03-21 11:52:38
+  user_id: 1
+  project_id: 1
