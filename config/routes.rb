@@ -26,6 +26,7 @@ end
       resources :client_sources
       resources :project_masters
       resources :user_technologies
+      resources :release_plannings
    end#namespace :v1 do
   end#namespace :api do
 
