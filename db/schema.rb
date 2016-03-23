@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160323071510) do
     t.string   "active"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "user_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(version: 20160323071510) do
     t.integer  "client_source_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.integer  "user_id"
   end
 
   create_table "companies", force: :cascade do |t|
