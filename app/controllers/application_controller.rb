@@ -24,4 +24,12 @@ class ApplicationController < ActionController::Base
     ]
   end
 
+  def current_user
+    if params[:user_id]
+    current_user = User.find_by_id(params[:user_id])
+    else
+    render json: { valid: false, error: 'unauthorized user!!!' }, status: 404
+    end
+  end
+  
 end

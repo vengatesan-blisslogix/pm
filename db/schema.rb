@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321064438) do
+ActiveRecord::Schema.define(version: 20160323055916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20160321064438) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "active"
+    t.integer  "user_id"
   end
 
   create_table "client_sources", force: :cascade do |t|
@@ -194,6 +196,16 @@ ActiveRecord::Schema.define(version: 20160321064438) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "role_activity_mappings", force: :cascade do |t|
+    t.integer  "role_master_id"
+    t.integer  "activity_master_id"
+    t.integer  "access_value"
+    t.integer  "user_id"
+    t.integer  "active"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
   create_table "role_masters", force: :cascade do |t|
     t.string   "role_name"
     t.string   "active"
@@ -265,9 +277,6 @@ ActiveRecord::Schema.define(version: 20160321064438) do
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "branch_id"
-    t.integer  "company_id"
-    t.integer  "role_master_id"
     t.string   "mobile_no"
     t.string   "office_phone"
     t.string   "home_phone"
@@ -277,6 +286,9 @@ ActiveRecord::Schema.define(version: 20160321064438) do
     t.date     "doj"
     t.date     "dob"
     t.integer  "team_id"
+    t.integer  "branch_id"
+    t.integer  "company_id"
+    t.integer  "role_master_id"
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree

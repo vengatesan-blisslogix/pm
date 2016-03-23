@@ -3,18 +3,18 @@ default: &default
   adapter   : postgresql
   pool      : 5
   timeout   : 5000
-  user      : yogesh
-  password  : bliss
+  user      : postgres
+  password  : postgres
   host      : localhost
 
 development:
   <<: *default
-  database: bliss_pm_development
+  database: pm_development
 
 test:
   <<: *default
-  database: bliss_pm_test
+  database: pm_test
 
 production:
   <<: *default
-  database: bliss_pm_production
+  database: pm_production
