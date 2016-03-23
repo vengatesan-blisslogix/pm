@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assign_date: 2016-03-21
+  completed_date: 2016-03-21
+  planned_duration: MyString
+  actual_duration: MyString
+  assigned_by: 1
+  active: MyString
+  priority: MyString
+  sprint_planning_id: 1
+  task_status_id: 1
+  project_task_id: 1
+  project_id: 1
+  release_id: 1
+  user_id: 1
+
+two:
+  assign_date: 2016-03-21
+  completed_date: 2016-03-21
+  planned_duration: MyString
+  actual_duration: MyString
+  assigned_by: 1
+  active: MyString
+  priority: MyString
+  sprint_planning_id: 1
+  task_status_id: 1
+  project_task_id: 1
+  project_id: 1
+  release_id: 1
+  user_id: 1

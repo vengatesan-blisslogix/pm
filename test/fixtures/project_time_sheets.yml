@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  duration_in_hours: 2016-03-21
+  date_time: 2016-03-21 12:09:28
+  comments: MyString
+  timesheet_status: MyString
+  approved_by: 1
+  project_id: 1
+  task_id: 1
+
+two:
+  duration_in_hours: 2016-03-21
+  date_time: 2016-03-21 12:09:28
+  comments: MyString
+  timesheet_status: MyString
+  approved_by: 1
+  project_id: 1
+  task_id: 1

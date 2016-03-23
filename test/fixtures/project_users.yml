@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assigned_date: 2016-03-21
+  relived_date: 2016-03-21
+  active: MyString
+  utilization: 1.5
+  is_billable: MyString
+  project_id: 1
+  user_id: 1
+
+two:
+  assigned_date: 2016-03-21
+  relived_date: 2016-03-21
+  active: MyString
+  utilization: 1.5
+  is_billable: MyString
+  project_id: 1
+  user_id: 1
