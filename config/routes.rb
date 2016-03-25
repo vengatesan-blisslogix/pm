@@ -26,6 +26,8 @@ end
       resources :release_plannings
       resources :sprint_plannings
       resources :project_tasks
+      resources :project_task_mappings
+      resources :project_time_sheets
    end#namespace :v1 do
   end#namespace :api do
 
