@@ -25,6 +25,7 @@ end
       resources :user_technologies
       resources :release_plannings
       resources :sprint_plannings
+      resources :project_tasks
    end#namespace :v1 do
   end#namespace :api do
 
