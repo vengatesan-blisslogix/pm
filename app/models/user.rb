@@ -46,17 +46,45 @@ def getbranch
 	@branch = Branch.find(branch_id)
 	resp = @branch.name if @branch
 end
-  def getaccess
-    resp = []
-    @access_value = User.find(id).role_master.role_activity_mappings
-    @access_value.each do |access|
+
+def getadmin_acccess(act_id)
+  sub = []
+  
+  @sub_activity = ActivityMaster.where("parent_id=#{act_id}") 
+  if @sub_activity != nil and @sub_activity.size.to_i!=0
+        @sub_activity.each do |a|
+        sub <<  {
+          "menu" =>a.activity_Name
+        }
+      end  
+  end
+  sub
+end
+
+def getstatus(act_id)
+@sub_activity_true = ActivityMaster.where("parent_id=#{act_id}") 
+  if @sub_activity_true != nil and @sub_activity_true.size.to_i!=0
+  @val = "true"
+  else
+  @val = "false"
+  end
+end
+
+def getaccess
+  resp = []
+  @access_value = User.find(id).role_master.role_activity_mappings
+    @access_value.each do |access|      
     	@activity = ActivityMaster.find(access.activity_master_id)
+      if @activity.parent_id.to_i == 0
       resp << {
-        'id' => access.id,
-        'action' => @activity.activity_Name,
-        'access' => access.access_value
+           'main_menu' => @activity.activity_Name,   
+           "sub_menu_status" => getstatus(access.activity_master_id),
+           "sub_menu" => getadmin_acccess(access.activity_master_id) 
       }
     end
-    resp
   end
+  resp
+end
+
+
 end
