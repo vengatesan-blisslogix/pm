@@ -51,9 +51,9 @@ private
     def task_mapping_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}",  :planned_duration => "#{params[:planned_duration]}",  :actual_duration => "#{params[:actual_duration]}", :project_id => "#{params[:project_id]}" }
+      raw_parameters = { :assign_date => "#{params[:assign_date]}", :completed_date => "#{params[:completed_date]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :planned_duration => "#{params[:planned_duration]}",  :actual_duration => "#{params[:actual_duration]}", :assigned_by => "#{params[:assigned_by]}", :sprint_planning_id => "#{params[:sprint_planning_id]}",:task_status_id => "#{params[:task_status_id]}", :project_task_id => "#{params[:project_task_id]}", :project_id => "#{params[:project_id]}", :release_id => "#{params[:release_id]}", :user_id => "#{params[:user_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority, :planned_duration, :actual_duration, :project_id)
+      parameters.permit(:assign_date, :completed_date, :active, :priority, :planned_duration, :actual_duration, :assigned_by, :sprint_planning_id, :task_status_id, :project_task_id, :project_id, :release_id, :user_id)
     
     end
 
