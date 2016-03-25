@@ -1,6 +1,5 @@
 class Api::V1::ReleasePlanningsController < ApplicationController
 
-
 before_action :authenticate_user!
 before_action :set_planning, only: [:show, :edit, :update]
 
