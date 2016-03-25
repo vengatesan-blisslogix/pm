@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-
-  get 'home/index'
-
  #get 'home/index'
 
   root 'home#index'
@@ -25,6 +22,9 @@ end
       resources :clients
       resources :client_sources
       resources :project_masters
+      resources :user_technologies
+      resources :release_plannings
+      resources :sprint_plannings
    end#namespace :v1 do
   end#namespace :api do
 

@@ -2,40 +2,40 @@ class Api::V1::TechnologyMastersController < ApplicationController
 
 
 before_action :authenticate_user!
-before_action :set_team, only: [:show, :edit, :update]
+before_action :set_tech, only: [:show, :edit, :update]
 
 
 
  def index
 	if params[:page] && params[:per]
-	  @teams = TeamMaster.page(params[:page]).per(params[:per])
+	  @technlogies = TechnologyMaster.page(params[:page]).per(params[:per])
 	else
-	  @teams = TeamMaster.limit(10)
+	  @technlogies = TechnologyMaster.limit(10)
 	end
-	  render json: @teams     
+	  render json: @technlogies     
  end
 
 def show	
-   render json: @team
+   render json: @technology
 end
 
 def create
 
-    @team = TeamMaster.new(team_params)
-    if @team.save
+    @technology = TechnologyMaster.new(technology_params)
+    if @technology.save
     	index
      else
-        render json: { valid: false, error: @team.errors }, status: 404
+        render json: { valid: false, error: @technology.errors }, status: 404
      end
     
 end
 
  def update   
 
-    if @team.update(team_params)  	      
-       render json: @team
+    if @technology.update(technology_params)  	      
+       render json: @technology
      else
-        render json: { valid: false, error: @team.errors }, status: 404
+        render json: { valid: false, error: @technology.errors }, status: 404
      end
   end
 
@@ -43,20 +43,20 @@ end
 private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_team
-      @team = TeamMaster.find_by_id(params[:id])
-      if @team
+    def set_tech
+      @technology = TechnologyMaster.find_by_id(params[:id])
+      if @technology
       else
       	render json: { valid: false}, status: 404
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.
-    def team_params
+    def technology_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :team_name => "#{params[:team_name]}", :description => "#{params[:description]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}" }
+      raw_parameters = { :technology => "#{params[:technology]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:team_name, :description, :active, :user_id)
+      parameters.permit(:technology, :active, :user_id)
     
     end
 
