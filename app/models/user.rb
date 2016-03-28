@@ -54,7 +54,9 @@ def getadmin_acccess(act_id)
   if @sub_activity != nil and @sub_activity.size.to_i!=0
         @sub_activity.each do |a|
         sub <<  {
-          "menu" =>a.activity_Name
+          'menu' =>a.activity_Name,
+          'href'  =>  a.href,
+          'icon' => a.icon
         }
       end  
   end
@@ -64,9 +66,9 @@ end
 def getstatus(act_id)
 @sub_activity_true = ActivityMaster.where("parent_id=#{act_id}") 
   if @sub_activity_true != nil and @sub_activity_true.size.to_i!=0
-  @val = "true"
+  @val = true
   else
-  @val = "false"
+  @val = false
   end
 end
 
@@ -77,9 +79,11 @@ def getaccess
     	@activity = ActivityMaster.find(access.activity_master_id)
       if @activity.parent_id.to_i == 0
       resp << {
-           'main_menu' => @activity.activity_Name,   
-           "sub_menu_status" => getstatus(access.activity_master_id),
-           "sub_menu" => getadmin_acccess(access.activity_master_id) 
+           'main_menu' => @activity.activity_Name,
+           'href'  =>  @activity.href,
+           'icon' => @activity.icon,
+           'sub_menu_status' => getstatus(access.activity_master_id),
+           'sub_menu' => getadmin_acccess(access.activity_master_id) 
       }
     end
   end
