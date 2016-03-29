@@ -28,6 +28,7 @@ end
       resources :project_tasks
       resources :project_task_mappings
       resources :project_time_sheets
+      resources :activity_masters
    end#namespace :v1 do
   end#namespace :api do
 
