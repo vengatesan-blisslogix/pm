@@ -37,21 +37,21 @@ u.save!
 end
 =end
 
-href = ["home.dashboard", "home.clients", "home.projects", "home.releasePlanning", "home.sprintPlanning", "home.tasks",  "home.taskBoard", "home.timesheets", "home.reports", "home.admin"]
+href = ["home.dashboard", "home.clients", "home.projects", "home.projectUsers", "home.releasePlanning", "home.sprintPlanning", "home.tasks",  "home.taskBoard", "home.timesheets", "home.reports", "home.admin"]
 
-icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
+icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
 i = 0
 
-["Dashboard", "Clients", "Projects", "Release Planning", "Sprint Planning", "Tasks", "Task Board", "TimeSheets", "Reports", "Admin"].each do |al|
+["Dashboard", "Clients", "Projects", "Project Users", "Release Planning", "Sprint Planning", "Tasks", "Task Board", "TimeSheets", "Reports", "Admin"].each do |al|
 a = ActivityMaster.create(activity_Name: "#{al}", active: 1, parent_id:0, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: a.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
 end
 
 #Add Project Users activity
-project = ActivityMaster.find_by_activity_Name("Projects")
-pro = ActivityMaster.create(activity_Name: "Project Users", active: 1, parent_id: project.id, href: "home.projectUsers", icon: "fa fa-fw fa-tachometer")
-RoleActivityMapping.create(role_master_id: r.id, activity_master_id: pro.id, access_value: 1, user_id: u.id, active: 1)
+#project = ActivityMaster.find_by_activity_Name("Projects")
+#pro = ActivityMaster.create(activity_Name: "Project Users", active: 1, parent_id: project.id, href: "home.projectUsers", icon: "fa fa-fw fa-tachometer")
+#RoleActivityMapping.create(role_master_id: r.id, activity_master_id: pro.id, access_value: 1, user_id: u.id, active: 1)
 #Add Report sub activity
 report = ActivityMaster.find_by_activity_Name("Reports")
 

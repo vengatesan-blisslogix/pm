@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
     belongs_to :role_master
     belongs_to :branch
     belongs_to :team_master
+after_create :send_welcome_email
 
  # Override default Devise serializer
   def token_validation_response
@@ -90,5 +91,8 @@ def getaccess
   resp
 end
 
+def send_welcome_email
+  
+end#def send_welcome_email
 
 end

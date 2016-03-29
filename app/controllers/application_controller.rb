@@ -20,7 +20,9 @@ class ApplicationController < ActionController::Base
       :active,
       :branch_id,
       :company_id,
-      :role_master_id
+      :role_master_id,
+      :name,
+      :user_id
     ]
   end
 
