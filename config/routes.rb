@@ -10,6 +10,8 @@ scope :api do
     }
   end
 end
+match "/api/v1/forget_password", :to => "home#forget_password", :via => ["post"]
+resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
    namespace :v1 do
@@ -26,6 +28,10 @@ end
       resources :release_plannings
       resources :sprint_plannings
       resources :project_tasks
+      resources :project_task_mappings
+      resources :project_time_sheets
+      resources :activity_masters
+
    end#namespace :v1 do
   end#namespace :api do
 
