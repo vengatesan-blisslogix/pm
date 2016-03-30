@@ -39,7 +39,8 @@ def create
     @role = RoleMaster.new(role_master_params)
     if @role.save
       if params[:activity_id] && params[:activity_id]!=""
-    	@all_activity = ActivityMaster.where("id IN #{params[:activity_id]}")
+        params[:activity_id] = params[:activity_id].gsub('"',"")
+    	@all_activity = ActivityMaster.where("id IN (#{params[:activity_id]})")
         @all_activity.each do |act|
     	RoleActivityMapping.create(role_master_id: @role.id, activity_master_id: act.id, access_value: 1, user_id: current_user.id)
         end
@@ -55,7 +56,8 @@ end
  
     if @role.update(role_master_params)
       if params[:activity_id] && params[:activity_id]!=""
-    	@all_activity = ActivityMaster.where("id IN #{params[:activity_id]}")
+        params[:activity_id] = params[:activity_id].gsub('"',"")
+    	@all_activity = ActivityMaster.where("id IN (#{params[:activity_id]})")
       RoleActivityMapping.destroy_all(:role_master_id => @role.id)
         @all_activity.each do |act|
     	RoleActivityMapping.create(role_master_id: @role.id, activity_master_id: act.id, access_value: 1, user_id: current_user.id)

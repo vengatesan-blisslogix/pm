@@ -93,7 +93,7 @@ end
 
 def send_welcome_email
   #@user_welcome = User.find(id)
-  puts"--@user_welcome----#{email}---#{password}----#{name}--"
+  #puts"--@user_welcome----#{email}---#{password}----#{name}--"
   UserNotifier.welcome_email(email,name,password).deliver_now
 end#def send_welcome_email
 
