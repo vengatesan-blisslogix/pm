@@ -9,6 +9,10 @@ class AddColumnsToUsers < ActiveRecord::Migration
     add_column :users, :doj, :date
     add_column :users, :dob, :date
     add_column :users, :team_id, :integer
+    add_column :users, :last_name, :string
+    add_column :users, :created_by_user, :string
+    add_column :users, :reporting_to, :string
+
   end
 end
 

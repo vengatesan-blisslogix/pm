@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330094236) do
+ActiveRecord::Schema.define(version: 20160330121326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -285,6 +285,16 @@ ActiveRecord::Schema.define(version: 20160330094236) do
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "branch_id"
+    t.integer  "company_id"
+    t.integer  "role_master_id"
+    t.integer  "otp"
+    t.string   "original_password"
+    t.string   "password"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.string   "mobile_no"
     t.string   "office_phone"
     t.string   "home_phone"
@@ -294,11 +304,9 @@ ActiveRecord::Schema.define(version: 20160330094236) do
     t.date     "doj"
     t.date     "dob"
     t.integer  "team_id"
-    t.integer  "branch_id"
-    t.integer  "company_id"
-    t.integer  "role_master_id"
-    t.integer  "otp"
-    t.string   "password"
+    t.string   "last_name"
+    t.string   "created_by_user"
+    t.string   "reporting_to"
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
