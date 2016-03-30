@@ -22,7 +22,11 @@ class ApplicationController < ActionController::Base
       :company_id,
       :role_master_id,
       :name,     
-      :password
+      :password,
+      :team_id,
+      :prior_experience,
+      :doj,
+      :dob
     ]
   end
 
