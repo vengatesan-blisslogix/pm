@@ -21,8 +21,8 @@ class ApplicationController < ActionController::Base
       :branch_id,
       :company_id,
       :role_master_id,
-      :name,
-      :user_id
+      :name,     
+      :password
     ]
   end
 

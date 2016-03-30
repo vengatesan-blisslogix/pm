@@ -13,4 +13,11 @@ class UserNotifier < ApplicationMailer
   	mail( :to => @user.email,
     :subject => 'OTP for PMT' )
   end
+def welcome_email(email,name,password)
+  @password =password
+  @name = name
+  @email = email
+    mail( :to => email,
+    :subject => 'Welcome to PMT' )
+end
 end

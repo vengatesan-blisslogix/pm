@@ -29,7 +29,7 @@ def show
         'id' => @role.id,
         'role_name' => @role.role_name,
         'description' => @role.description,
-        'access' => getaccess(@role.id)
+        'activity' => getaccess(@role.id)
       }
       render json: resp
 end

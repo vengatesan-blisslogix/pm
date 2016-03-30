@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
 
 
- before_action :authenticate_user!
+before_action :authenticate_user!
 before_action :set_user, only: [:show, :edit, :update]
 
 
@@ -44,7 +44,82 @@ end
         render json: { valid: false, error: @user.errors }, status: 404
      end
   end
+
+def add_edit_user
+      
+      resp << {
+        'company' => getcompany,
+        'role' => getrole,
+        'branch' => getbranch,
+        'reporting_to' => getreporting_to,
+        'team' => getteam,
+        'technology' => gettech      
+      }
+     
+    render json: resp
+end
+
 private
+
+def getcompany
+  resp = []
+    @value = Company.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'company_name' => v.company_name
+      }
+    end
+    resp
+end
+
+def getrole
+  resp = []
+    @value = RoleMaster.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'role_name' => v.role_name
+      }
+    end
+    resp
+end
+
+def getreporting_to
+  resp = []
+    @value = User.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'reporting_name' => v.name
+      }
+    end
+    resp
+end
+
+def getteam
+  resp = []
+    @value = TeamMaster.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'team_name' => v.team_name
+      }
+    end
+    resp
+end
+
+def gettech
+  resp = []
+    @value = TechnologyMaster.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'technology_name' => v.technology
+      }
+    end
+    resp
+end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user
