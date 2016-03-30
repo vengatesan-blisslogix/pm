@@ -1,6 +1,6 @@
 class Api::V1::ProjectMastersController < ApplicationController
 
-	before_action :authenticate_user!
+	#before_action :authenticate_user!
 before_action :set_project_master, only: [:show, :edit, :update]
 
 

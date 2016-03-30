@@ -26,7 +26,8 @@ class ApplicationController < ActionController::Base
       :team_id,
       :prior_experience,
       :doj,
-      :dob
+      :dob,
+      :avatar
     ]
   end
 

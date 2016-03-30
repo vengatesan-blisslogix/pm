@@ -12,6 +12,17 @@ class User < ActiveRecord::Base
     belongs_to :team_master
     after_create :send_welcome_email
 
+
+    has_attached_file :avatar,
+                   styles: {
+                     medium: '300x300>',
+                     thumb: '100x100>'
+                   }                    
+
+ validates_attachment_content_type :avatar, content_type: %r{\Aimage\/.*\Z}
+ validates_with AttachmentSizeValidator, attributes: :avatar,
+                                         less_than: 2.megabytes
+
  # Override default Devise serializer
   def token_validation_response
       serialize_self
