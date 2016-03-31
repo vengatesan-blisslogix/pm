@@ -28,7 +28,10 @@ class ApplicationController < ActionController::Base
       :prior_experience,
       :doj,
       :dob,
-      :avatar
+      :avatar,
+      :last_name,
+      :created_by_user,
+      :reporting_to
     ]
   end
 
