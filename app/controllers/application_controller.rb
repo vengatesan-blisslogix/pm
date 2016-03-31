@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
 # protect_from_forgery with: :exception
 
  #protect_from_forgery with: :null_session
- 
+
+ $PER_PAGE = 3 #per page records
  before_action :configure_permitted_parameters, if: :devise_controller?
   
   private
@@ -39,4 +40,39 @@ class ApplicationController < ActionController::Base
     end
   end
   
+def pagination(model)
+@no_of_roles = model.all
+@no_of_pages = @no_of_roles.size.to_i.divmod($PER_PAGE.to_i)
+    @no_pages = @no_of_pages[0].to_i
+    if @no_of_pages[1].to_i!=0
+    @no_pages = @no_pages+1
+    end
+    if params[:page]!=nil and params[:page]!="" and params[:page].to_i!=0
+    current_page = params[:page].to_i
+    else
+    current_page = 1
+    end
+
+if @no_pages.to_i > 1 && current_page == 1
+  @prev = false
+  @next = "page=#{current_page+1}"
+end
+if @no_pages.to_i > 1 && current_page == @no_pages.to_i
+   @prev = "page=#{current_page-1}"
+   @next = false
+end
+if @no_pages.to_i > 1 && current_page != 1 && current_page != @no_pages.to_i
+  @prev = "page=#{current_page-1}"
+  @next = "page=#{current_page+1}"
+end
+
+if @prev == nil
+@prev = false
+end
+if @next == nil
+@next = false
+end
+end
+
+
 end
