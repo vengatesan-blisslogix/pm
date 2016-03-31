@@ -4,22 +4,37 @@ before_action :set_role, only: [:show, :edit, :update]
 
 
  def index
-  if params[:page] && params[:per]
-    @roles = RoleMaster.page(params[:page]).per(params[:per]).order(:id)
-  else
-    @roles = RoleMaster.limit(10).order(:id)
-  end
+  
+    @roles = RoleMaster.page(params[:page]).order(:id)    
+
      resp=[]
      @roles.each do |r| 
       @no_of_act = RoleActivityMapping.where(:role_master_id => r.id)
+      if r.active.to_i==1
+        @status=true
+      else
+        @status=false
+      end
       resp << {
         'id' => r.id,
         'role_name' => r.role_name,
-        'no_of_activies' =>@no_of_act.size,
-        'description' => r.description
+        'no_of_activies' => @no_of_act.size,
+        'description' => r.description,
+        'status' => @status
       }
       end
-    render json: resp 
+   
+    pagination(RoleMaster)
+    
+    response = {
+      'no_of_roles' => @no_of_roles.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'roles' => resp
+    }
+
+    render json: response
     
  end
 
@@ -89,13 +104,18 @@ private
 
     def getaccess(role_id)
     resp = []
-    @access_value = RoleMaster.find(role_id).role_activity_mappings
+    @access_value = ActivityMaster.all
     @access_value.each do |access|
-      @activity = ActivityMaster.find(access.activity_master_id)
+      @activity = RoleActivityMapping.where("role_master_id=#{role_id} and activity_master_id=#{access.id}")
+      if @activity!=nil and @activity.size!=0
+        @selected = true
+      else
+        @selected = false
+      end
       resp << {
         'id' => access.id,
-        'action' => @activity.activity_Name,
-        'access' => access.access_value
+        'action' => access.activity_Name,
+        'selected' => @selected
       }
     end
     resp
