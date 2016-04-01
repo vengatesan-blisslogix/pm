@@ -12,11 +12,12 @@ scope :api do
 end
 match "/api/v1/forget_password", :to => "home#forget_password", :via => ["post"]
 match "/api/v1/add_edit_user", :to => "home#add_edit_user", :via => ["get"]
+match "/api/v1/add_new_client", :to => "home#add_new_client", :via => ["get"]
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
    namespace :v1 do
-   
+  
       resources :role_masters
       resources :branches
       resources :users

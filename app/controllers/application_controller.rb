@@ -44,8 +44,8 @@ class ApplicationController < ActionController::Base
   end
   
 def pagination(model)
-@no_of_roles = model.all
-@no_of_pages = @no_of_roles.size.to_i.divmod($PER_PAGE.to_i)
+@no_of_records = model.all
+@no_of_pages = @no_of_records.size.to_i.divmod($PER_PAGE.to_i)
     @no_pages = @no_of_pages[0].to_i
     if @no_of_pages[1].to_i!=0
     @no_pages = @no_pages+1
@@ -68,14 +68,14 @@ if @no_pages.to_i > 1 && current_page != 1 && current_page != @no_pages.to_i
   @prev = "page=#{current_page-1}"
   @next = "page=#{current_page+1}"
 end
-
+end
 if @prev == nil
 @prev = false
 end
 if @next == nil
 @next = false
 end
-end
+
 
 
 end

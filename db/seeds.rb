@@ -6,6 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+#Add activity
+=begin
+["Add Role", "Add Company", "Add Clients", "Add Clients Source", "Add Users", "Add Activity", "Add Branch", "Add Project", "Add Project User", "Add Release Planning", "Add Sprint Planning", "Add Project Task", "Add Task Status Master", "Add Project Status Master", "Add Project Timesheet"].each do |am|
+ a = ActivityMaster.create(activity_Name: "#{am}", active: 1)
+ RoleActivityMapping.create(role_master_id: r.id, activity_master_id: a.id, access_value: 1, user_id: u.id, active: 1)
+end
+=end
+
+
 #Add super admin Role
 r = RoleMaster.create(role_name: "Super Admin", active: 1)
 #Add branch 
@@ -29,13 +38,7 @@ u = User.create(email: 'superadmin@yourcompany.com',
 u.save!
 
 
-#Add activity
-=begin
-["Add Role", "Add Company", "Add Clients", "Add Clients Source", "Add Users", "Add Activity", "Add Branch", "Add Project", "Add Project User", "Add Release Planning", "Add Sprint Planning", "Add Project Task", "Add Task Status Master", "Add Project Status Master", "Add Project Timesheet"].each do |am|
- a = ActivityMaster.create(activity_Name: "#{am}", active: 1)
- RoleActivityMapping.create(role_master_id: r.id, activity_master_id: a.id, access_value: 1, user_id: u.id, active: 1)
-end
-=end
+
 
 href = ["home.dashboard", "home.clients", "home.projects", "home.projectUsers", "home.releasePlanning", "home.sprintPlanning", "home.tasks",  "home.taskBoard", "home.timesheets", "home.reports", "home.admin"]
 
@@ -54,17 +57,13 @@ end
 #RoleActivityMapping.create(role_master_id: r.id, activity_master_id: pro.id, access_value: 1, user_id: u.id, active: 1)
 #Add Report sub activity
 report = ActivityMaster.find_by_activity_Name("Reports")
-
 href = ["home.report1", "home.report2"]
 icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
 i = 0
-
 ["Report1","Report2"].each do |re|
 rep = ActivityMaster.create(activity_Name: "#{re}", active: 1, parent_id: report.id, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: rep.id, access_value: 1, user_id: u.id, active: 1)
-
 i = i+1
-
 end
 
 #add admin sub activity
@@ -75,7 +74,15 @@ admin = ActivityMaster.find_by_activity_Name("Admin")
 ["Users","Roles","Activity","Branch"].each do |ad|
 ad = ActivityMaster.create(activity_Name: "#{ad}", active: 1, parent_id: admin.id, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: ad.id, access_value: 1, user_id: u.id, active: 1)
-
 i = i+1
+end
 
+#add client source
+["Elance","Guru","Direct","BAT","Others","Confenrence"].each do |cs|
+ClientSource.create(source_name:"#{cs}", description: "#{cs}", active: 1, user_id: u.id)
+end
+
+#project status master add 
+["Assigned","In progress","On Hold","Development Completed","Pending Payment","Closed"].each do |ps|
+ProjectStatusMaster.create(status:"#{ps}", active: 1, user_id: u.id)
 end
