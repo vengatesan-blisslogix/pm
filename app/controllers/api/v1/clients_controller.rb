@@ -5,12 +5,48 @@ before_action :set_client, only: [:show, :edit, :update]
 
 
  def index
-  if params[:page] && params[:per]
-    @clients = Client.page(params[:page]).per(params[:per])
-  else
-    @clients = Client.limit(10)
-  end
-     render json: @clients 
+  
+    @clients = Client.page(params[:page]).order(:id)
+
+    resp=[]
+     @clients.each do |c| 
+      
+      if c.active.to_i==1
+        @status=true
+      else
+        @status=false
+      end
+     @c_source=ClientSource.find_by_id(c.client_source_id)
+       if @c_source!=nil && @c_source!=""
+        @client_source=@c_source.source_name
+      else
+        @client_source=""
+      end
+      resp << {
+        'id' => c.id,
+        'client_name' => c.client_name,
+        'client_company_name' => c.client_company_name,
+        'client_source' => @client_source,
+        'client_email' => c.client_email,
+        'mobile' => c.mobile,        
+        'skype' => c.skypke,
+        'status' => @status,
+
+      }
+      end
+   
+    pagination(Client)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'roles' => resp
+    }
+
+    render json: response  
+    
     
  end
 
@@ -22,7 +58,7 @@ def create
 
     @client = Client.new(client_params)
     if @client.save
-    	index
+    	render json: { valid: true, msg:"#{@client.client_name} created successfully."}
      else
         render json: { valid: false, error: @client.errors }, status: 404
      end
@@ -32,7 +68,7 @@ end
  def update   
 
     if @client.update(client_params)  	      
-       render json: @client
+       render json: { valid: true, msg:"#{@client.client_name} updated successfully."}
      else
         render json: { valid: false, error: @client.errors }, status: 404
      end

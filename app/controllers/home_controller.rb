@@ -54,8 +54,25 @@ def add_edit_user
      
     render json: resp
 end
+def add_new_client
+    resp = []
+    @client_sources = ClientSource.all.order(:id)
+    @client_sources.each do |cs|
+      resp << {
+        'id' => cs.id,
+        'client_source_name' => cs.source_name
+              
+      }
+     end
 
+     client_source = []
+     client_source << {
+      'source' => resp
+     }
+    render json: client_source
+  end
 private
+
 def getcompany
   resp = []
     @value = Company.all.order(:id)

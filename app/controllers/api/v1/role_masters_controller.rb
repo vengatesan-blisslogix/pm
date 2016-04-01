@@ -27,7 +27,7 @@ before_action :set_role, only: [:show, :edit, :update]
     pagination(RoleMaster)
     
     response = {
-      'no_of_roles' => @no_of_roles.size,
+      'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
