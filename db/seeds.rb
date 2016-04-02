@@ -86,3 +86,14 @@ end
 ["Assigned","In progress","On Hold","Development Completed","Pending Payment","Closed"].each do |ps|
 ProjectStatusMaster.create(status:"#{ps}", active: 1, user_id: u.id)
 end
+
+#add project domain
+#["Finance and Insurance","Real Estate and Rental and Leasing","Retail Trade","Health Care and Social Assistance","Educational Services","Management of Companies and Enterprises",""]
+["Enterprise Mobility","Custom Mobile Development","Web development","UX / UI","Web & Mobile QA","IoT & Wearables","Analytics"].each do |pd|
+ProjectDomain.create(domain_name:"#{pd}", active: 1, user_id: u.id)
+end
+
+#add project type
+["New","Enhancement","Maintance"].each do |pt|
+ProjectType.create(project_name:"#{pt}", active: 1, user_id: u.id)
+end
