@@ -71,6 +71,20 @@ def add_new_client
      }
     render json: client_source
   end
+
+def add_new_project
+      resp = []
+      resp << {
+        'project_type' => getproject_type,
+        'domain_name' => getdomain_name,
+        'client_name' => getclient_name,
+        'project_status' => getproject_status
+            
+      }
+     
+    render json: resp
+end
+
 private
 
 def getcompany
@@ -144,4 +158,56 @@ def gettech
     end
     resp
 end
+
+def getproject_type
+  resp = []
+    @value = ProjectType.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'project_type_name' => v.project_name
+      }
+    end
+    resp
+end
+
+def getdomain_name
+  resp = []
+    @value = ProjectDomain.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'domain_name' => v.domain_name
+      }
+    end
+    resp
+end
+
+def getclient_name
+  resp = []
+    @value = Client.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'client_name' => v.client_name
+      }
+    end
+    resp
+end
+
+def getproject_status
+  resp = []
+    @value = ProjectStatusMaster.all.order(:id)
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'project_status' => v.status
+      }
+    end
+    resp
+end
+
+
+
+
 end

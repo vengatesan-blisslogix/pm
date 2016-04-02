@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401071909) do
+ActiveRecord::Schema.define(version: 20160402051314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,14 @@ ActiveRecord::Schema.define(version: 20160401071909) do
     t.datetime "updated_at",     null: false
   end
 
+  create_table "project_domains", force: :cascade do |t|
+    t.string   "domain_name"
+    t.integer  "active"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "project_masters", force: :cascade do |t|
     t.string   "billable"
     t.string   "project_name"
@@ -121,6 +129,11 @@ ActiveRecord::Schema.define(version: 20160401071909) do
     t.date     "kickstart_date"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.integer  "project_type_id"
   end
 
   create_table "project_status_masters", force: :cascade do |t|
@@ -171,6 +184,14 @@ ActiveRecord::Schema.define(version: 20160401071909) do
     t.integer  "task_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "project_types", force: :cascade do |t|
+    t.string   "project_name"
+    t.integer  "active"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "project_users", force: :cascade do |t|
