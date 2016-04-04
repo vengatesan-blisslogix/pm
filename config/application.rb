@@ -21,6 +21,7 @@ module BlissPm
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.secret_key = '7727c90d781aae5c88c573997c5d3514408b4044eff60185f6df969b415c4b2535dfbde2e384dc12d65a4c80baa044f95f16726252549aca81c05a703b95bf16'
 config.assets.initialize_on_precompile = false
     config.active_record.raise_in_transactional_callbacks = true
    config.web_console.whiny_requests = false
