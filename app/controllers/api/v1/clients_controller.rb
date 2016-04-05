@@ -27,9 +27,11 @@ before_action :set_client, only: [:show, :edit, :update]
         'client_name' => c.client_name,
         'client_company_name' => c.client_company_name,
         'client_source' => @client_source,
+        'web_address' => c.web_address,
         'client_email' => c.client_email,
         'mobile' => c.mobile,        
         'skype' => c.skypke,
+        'tag' => c.tag,
         'status' => @status,
 
       }

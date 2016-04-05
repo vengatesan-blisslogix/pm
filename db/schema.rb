@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160402051314) do
+ActiveRecord::Schema.define(version: 20160404060751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -276,6 +276,33 @@ ActiveRecord::Schema.define(version: 20160402051314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
+  end
+
+  create_table "todotasklists", force: :cascade do |t|
+    t.string   "task_name"
+    t.integer  "created_by_user"
+    t.integer  "closed_by_user"
+    t.integer  "status"
+    t.integer  "remainder"
+    t.integer  "archive"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "todotaskmappings", force: :cascade do |t|
+    t.integer  "todotasklist_id"
+    t.integer  "created_by_user"
+    t.integer  "closed_by_user"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "todotaskshares", force: :cascade do |t|
+    t.integer  "todotasklist_id"
+    t.integer  "shared_by"
+    t.integer  "shared_to"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "user_technologies", force: :cascade do |t|
