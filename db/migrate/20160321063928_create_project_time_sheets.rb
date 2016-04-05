@@ -6,8 +6,8 @@ class CreateProjectTimeSheets < ActiveRecord::Migration
       t.string :comments
       t.string :timesheet_status
       t.integer :approved_by
-      t.integer :project_id
-      t.integer :task_id
+      t.integer :project_master_id
+      t.integer :task_status_master_id
 
       t.timestamps null: false
     end

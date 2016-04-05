@@ -7,7 +7,7 @@ class CreateProjectTasks < ActiveRecord::Migration
       t.integer :priority
       t.datetime :planned_duration
       t.datetime :actual_duration
-      t.integer :project_id
+      t.integer :project_master_id
 
       t.timestamps null: false
     end

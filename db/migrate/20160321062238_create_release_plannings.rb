@@ -13,7 +13,7 @@ class CreateReleasePlannings < ActiveRecord::Migration
       t.integer :qa_approved_by_user_id
       t.datetime :qa_approved_date_time
       t.integer :user_id
-      t.integer :project_id
+      t.integer :project_master_id
 
       t.timestamps null: false
     end
