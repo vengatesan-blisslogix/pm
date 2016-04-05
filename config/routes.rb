@@ -35,6 +35,9 @@ resources :home
       resources :project_task_mappings
       resources :project_time_sheets
       resources :activity_masters
+      resources :todotasklists
+      resources :todotaskshares
+      resources :todotaskmappings
 
    end#namespace :v1 do
   end#namespace :api do

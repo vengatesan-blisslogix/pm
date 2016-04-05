@@ -31,7 +31,9 @@ class ApplicationController < ActionController::Base
       :avatar,
       :last_name,
       :created_by_user,
-      :reporting_to
+      :reporting_to,
+      :nickname,
+      :active
     ]
   end
 

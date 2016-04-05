@@ -7,29 +7,64 @@ before_action :set_user, only: [:show, :edit, :update]
 
 
  def index
-  if params[:page] && params[:per]
-    @users = User.page(params[:page]).per(params[:per])
-  else
-    @users = User.limit(10)
-  end
+
+    @users = User.page(params[:page]).order(:id)
+
 
      #render json: @users 
      resp=[]
      @users.each do |u| 
+          @role = RoleMaster.find_by_id(u.role_master_id)
+          if @role!=nil and @role!=""
+          @role = @role.role_name
+          else
+          @role =""
+          end
+
+          @reporting_to = User.find_by_id(u.reporting_to)
+          if @reporting_to!=nil and @reporting_to!=""
+          @reporting_to = @reporting_to.name
+          else
+          @reporting_to =""
+          end
+ 
+          @branch = Branch.find_by_id(u.branch_id)
+          if @branch!=nil and @branch!=""
+          @branch = @branch.name
+          else
+          @branch =""
+          end
+
+          if u.active.to_i==1
+          @status=true
+          else
+          @status=false
+          end
       resp << {
         'id' => u.id,
-        'name' => u.name,
-        'nickname' => u.nickname,
+        'first_name' => u.name,
+        'last_name' => u.last_name,
         'email' => u.email,
-        'mobile_no' => u.mobile_no,
-        'office_phone' => u.office_phone,
-        'home_phone' => u.home_phone,
-        'prior_experience' => u.prior_experience,
-        'doj' => u.doj,
-        'dob' => u.dob
+        'role' =>@role,
+        'reporting_to' =>@reporting_to,
+        'project_assigned' =>"",
+        'branch' =>@branch,
+        'status' =>@status
+      
       }
       end
-    render json: resp
+      
+    pagination(User)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'roles' => resp
+    }
+
+    render json: response
     
  end
 
