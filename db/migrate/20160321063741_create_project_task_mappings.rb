@@ -9,10 +9,10 @@ class CreateProjectTaskMappings < ActiveRecord::Migration
       t.string :active
       t.string :priority
       t.integer :sprint_planning_id
-      t.integer :task_status_id
+      t.integer :task_status_master_id
       t.integer :project_task_id
-      t.integer :project_id
-      t.integer :release_id
+      t.integer :project_master_id
+      t.integer :release_planning_id
       t.integer :user_id
 
       t.timestamps null: false

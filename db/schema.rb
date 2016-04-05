@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.integer  "created_by_user_id"
     t.date     "start_date"
     t.date     "end_date"
-    t.integer  "project_status_id"
+    t.integer  "project_status_master_id"
     t.string   "website"
     t.string   "facebook_page"
     t.string   "twitter_page"
@@ -127,13 +127,8 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.datetime "approved_date_time"
     t.integer  "assigned_to_user_id"
     t.date     "kickstart_date"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
-    t.integer  "project_type_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "project_status_masters", force: :cascade do |t|
@@ -153,13 +148,13 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.string   "active"
     t.string   "priority"
     t.integer  "sprint_planning_id"
-    t.integer  "task_status_id"
+    t.integer  "task_status_master_id"
     t.integer  "project_task_id"
-    t.integer  "project_id"
-    t.integer  "release_id"
+    t.integer  "project_master_id"
+    t.integer  "release_planning_id"
     t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "project_tasks", force: :cascade do |t|
@@ -169,9 +164,9 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.integer  "priority"
     t.datetime "planned_duration"
     t.datetime "actual_duration"
-    t.integer  "project_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "project_master_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "project_time_sheets", force: :cascade do |t|
@@ -180,10 +175,10 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.string   "comments"
     t.string   "timesheet_status"
     t.integer  "approved_by"
-    t.integer  "project_id"
-    t.integer  "task_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.integer  "project_master_id"
+    t.integer  "task_status_master_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "project_types", force: :cascade do |t|
@@ -196,14 +191,14 @@ ActiveRecord::Schema.define(version: 20160404060751) do
 
   create_table "project_users", force: :cascade do |t|
     t.date     "assigned_date"
-    t.date     "relived_date"
+    t.date     "relieved_date"
     t.string   "active"
     t.float    "utilization"
     t.string   "is_billable"
-    t.integer  "project_id"
+    t.integer  "project_master_id"
     t.integer  "user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "release_plannings", force: :cascade do |t|
@@ -219,7 +214,7 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.integer  "qa_approved_by_user_id"
     t.datetime "qa_approved_date_time"
     t.integer  "user_id"
-    t.integer  "project_id"
+    t.integer  "project_master_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
@@ -249,10 +244,10 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.string   "sprint_name"
     t.string   "sprint_desc"
     t.integer  "sprint_status_id"
-    t.integer  "project_id"
-    t.integer  "release_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "project_master_id"
+    t.integer  "release_planning_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "task_status_masters", force: :cascade do |t|
@@ -276,6 +271,18 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
+  end
+
+  create_table "todo_task_lists", force: :cascade do |t|
+    t.string   "task_name"
+    t.integer  "created_by_user"
+    t.integer  "closed_by_user"
+    t.string   "status"
+    t.datetime "CreatedDate"
+    t.datetime "ModifiedDate"
+    t.datetime "remainder"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "todotasklists", force: :cascade do |t|
@@ -339,8 +346,8 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.integer  "company_id"
     t.integer  "role_master_id"
     t.integer  "otp"
-    t.string   "password"
     t.string   "original_password"
+    t.string   "password"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"

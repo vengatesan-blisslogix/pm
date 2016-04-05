@@ -7,8 +7,8 @@ class CreateSprintPlannings < ActiveRecord::Migration
       t.string :sprint_name
       t.string :sprint_desc
       t.integer :sprint_status_id
-      t.integer :project_id
-      t.integer :release_id
+      t.integer :project_master_id
+      t.integer :release_planning_id
 
       t.timestamps null: false
     end

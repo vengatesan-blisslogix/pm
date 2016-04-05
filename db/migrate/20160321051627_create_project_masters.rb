@@ -10,7 +10,7 @@ class CreateProjectMasters < ActiveRecord::Migration
       t.integer :created_by_user_id
       t.date :start_date
       t.date :end_date
-      t.integer :project_status_id
+      t.integer :project_status_master_id
       t.string :website
       t.string :facebook_page
       t.string :twitter_page
