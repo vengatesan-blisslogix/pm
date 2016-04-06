@@ -31,7 +31,7 @@ before_action :set_project_master, only: [:show, :edit, :update]
         @client=""
       end
      
-      @pro_status = ProjectStatusMaster.find_by_id(p.project_status_id)
+      @pro_status = ProjectStatusMaster.find_by_id(p.project_status_master_id)
 
       if @pro_status!=nil && @pro_status!=""
         @pro_status =@pro_status.status
@@ -61,12 +61,31 @@ before_action :set_project_master, only: [:show, :edit, :update]
 
       pagination(ProjectMaster)
     
+        @client_all = Client.all.order(:id)
+        client_resp=[]
+        @client_all.each do |c| 
+           client_resp << {
+          'id' => c.id,
+          'client_name' => c.client_name      
+        }
+        end
+        @project_all = ProjectMaster.all.order(:id)
+        project_resp=[]
+        @project_all.each do |p| 
+           project_resp << {
+          'id' => p.id,
+          'project_name' => p.project_name      
+        }
+        end
+
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
-      'roles' => resp
+      'clients_list' => client_resp,
+      'projects_list' => project_resp,
+      'projects' => resp
     }
 
     render json: response 
@@ -112,7 +131,7 @@ private
   
     def set_avatar
       if params[:avatar]!=nil and params[:avatar]!=""
-    @project_master.update_attributes(avatar: params[:avatar])
+    @project_master.avatar = params[:avatar]
     @project_master.save
   end
     end
@@ -131,7 +150,7 @@ private
        :created_by_user_id => "#{params[:created_by_user_id]}",
        :start_date => "#{params[:start_date]}",
        :end_date => "#{params[:end_date]}",
-       :project_status_id => "#{params[:project_status_id]}",
+       :project_status_master_id => "#{params[:project_status_master_id]}",
        :website => "#{params[:website]}",
        :facebook_page => "#{params[:facebook_page]}",
        :twitter_page => "#{params[:twitter_page]}",
@@ -146,7 +165,7 @@ private
        :kickstart_date => "#{params[:kickstart_date]}"
    }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:project_type_id, :billable, :project_name, :description, :project_image, :domain_id, :client_id, :created_by_user_id, :start_date, :end_date, :project_status_id, :website, :facebook_page, :twitter_page, :star_rating, :active, :tag_keywords, :flag_id, :approved, :approved_by_user_id, :approved_date_time, :assigned_to_user_id, :kickstart_date)
+      parameters.permit(:project_type_id, :billable, :project_name, :description, :project_image, :domain_id, :client_id, :created_by_user_id, :start_date, :end_date, :project_status_master_id, :website, :facebook_page, :twitter_page, :star_rating, :active, :tag_keywords, :flag_id, :approved, :approved_by_user_id, :approved_date_time, :assigned_to_user_id, :kickstart_date)
     
     end
 end

@@ -127,8 +127,13 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.datetime "approved_date_time"
     t.integer  "assigned_to_user_id"
     t.date     "kickstart_date"
+    t.integer  "project_type_id"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   create_table "project_status_masters", force: :cascade do |t|
@@ -273,18 +278,6 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.integer  "user_id"
   end
 
-  create_table "todo_task_lists", force: :cascade do |t|
-    t.string   "task_name"
-    t.integer  "created_by_user"
-    t.integer  "closed_by_user"
-    t.string   "status"
-    t.datetime "CreatedDate"
-    t.datetime "ModifiedDate"
-    t.datetime "remainder"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
   create_table "todotasklists", force: :cascade do |t|
     t.string   "task_name"
     t.integer  "created_by_user"
@@ -346,8 +339,8 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.integer  "company_id"
     t.integer  "role_master_id"
     t.integer  "otp"
-    t.string   "original_password"
     t.string   "password"
+    t.string   "original_password"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
