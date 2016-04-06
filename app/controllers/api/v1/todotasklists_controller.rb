@@ -92,24 +92,6 @@ private
       parameters = ActionController::Parameters.new(raw_parameters)
       parameters.permit(:task_name, :created_by_user, :status)
     end
-
-    def getaccess(role_id)
-    resp = []
-    @access_value = ActivityMaster.all
-    @access_value.each do |access|
-      @activity = RoleActivityMapping.where("role_master_id=#{role_id} and activity_master_id=#{access.id}")
-      if @activity!=nil and @activity.size!=0
-        @selected = true
-      else
-        @selected = false
-      end
-      resp << {
-        'id' => access.id,
-        'action' => access.activity_Name,
-        'selected' => @selected
-      }
-    end
-    resp
-  end
+   
 
 end

@@ -23,6 +23,7 @@ class CreateProjectMasters < ActiveRecord::Migration
       t.datetime :approved_date_time
       t.integer :assigned_to_user_id
       t.date :kickstart_date
+      t.integer :project_type_id
 
       t.timestamps null: false
     end
