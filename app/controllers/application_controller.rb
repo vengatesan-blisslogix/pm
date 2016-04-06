@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
     end
   end
   
-def pagination(model)
-@no_of_records = model.all
+def pagination(model,search)
+@no_of_records = model.where("#{search}").all
 @no_of_pages = @no_of_records.size.to_i.divmod($PER_PAGE.to_i)
     @no_pages = @no_of_pages[0].to_i
     if @no_of_pages[1].to_i!=0
