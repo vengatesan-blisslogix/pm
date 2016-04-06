@@ -8,7 +8,29 @@ before_action :set_user, only: [:show, :edit, :update]
 
  def index
 
-    @users = User.page(params[:page]).order(:id)
+      #search
+      if params[:role_id]!=nil and params[:role_id]!=""
+        @search_role ="role_master_id = #{params[:role_id]}"
+      else
+        @search_role =""
+      end
+      if params[:email]!=nil and params[:email]!=""
+        @search_email ="email = '#{params[:email]}'"
+      else
+        @search_email =""
+      end
+      if @search_role != "" and @search_email != ""
+        @search = "#{@search_role} and #{@search_email}"
+      elsif @search_role != ""
+        @search = "#{@search_role}"
+      elsif @search_email !=""
+        @search = "#{@search_email}"
+      else
+        @search = ""
+      end
+      #search
+
+    @users = User.where("#{@search}").page(params[:page]).order(:id)
    
     resp=[]
     @users.each do |u| 
@@ -52,7 +74,7 @@ before_action :set_user, only: [:show, :edit, :update]
         }
     end
       
-    pagination(User)
+    pagination(User,@search)
     
     @roles = RoleMaster.all.order(:id)
     role_resp=[]

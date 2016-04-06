@@ -4,12 +4,44 @@ before_action :authenticate_user!
 before_action :set_project, only: [:show, :edit, :update]
 
  def index
-	if params[:page] && params[:per]
-	  @projects = ProjectTask.page(params[:page]).per(params[:per])
-	else
-	  @projects = ProjectTask.limit(10)
-	end
-	  render json: @projects  
+
+	  @project_tasks = ProjectTask.page(params[:page])
+	  resp=[]
+     @project_tasks.each do |p| 
+    
+      if p.active.to_i==1
+        @status=true
+      else
+        @status=false
+      end
+      @project_master = ProjectMaster.find_by_id(p.project_master_id)
+      if @project_master!=nil and @project_master!=""
+        @project_name =@project_master.project_name
+      else
+        @project_name =""
+      end
+      resp << {
+        'id' => p.id,
+        'project_name' => @project_name,
+        'task_name' => p.task_name,        
+        'description' => p.task_description,
+        'status' => @status,
+        'priority' => p.priority,
+        'planned_duration' => p.planned_duration
+      }
+      end
+   
+    pagination(ProjectTask)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'project_tasks' => resp
+    }
+
+    render json: response
  end
 
 def show	
@@ -20,7 +52,7 @@ def create
 
     @project = ProjectTask.new(project_params)
     if @project.save
-    	index
+    	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
      end
@@ -51,9 +83,9 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}",  :planned_duration => "#{params[:planned_duration]}",  :actual_duration => "#{params[:actual_duration]}", :project_id => "#{params[:project_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}",  :planned_duration => "#{params[:planned_duration]}",  :actual_duration => "#{params[:actual_duration]}", :project_master_id => "#{params[:project_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority, :planned_duration, :actual_duration, :project_id)
+      parameters.permit(:task_name, :task_description, :active, :priority, :planned_duration, :actual_duration, :project_master_id)
     
     end
 

@@ -7,7 +7,30 @@ before_action :set_project_master, only: [:show, :edit, :update]
 
  def index
   
-    @project_masters = ProjectMaster.page(params[:page]).order(:id)
+      #search
+      if params[:client_id]!=nil and params[:client_id]!=""
+        @search_client ="client_id = #{params[:client_id]}"
+      else
+        @search_client =""
+      end
+      if params[:project_id]!=nil and params[:project_id]!=""
+        @search_word ="id = #{params[:project_id]}"
+      else
+        @search_word =""
+      end
+      if @search_client != "" and @search_word != ""
+        @search = "#{@search_client} and #{@search_word}"
+      elsif @search_client != ""
+        @search = "#{@search_client}"
+      elsif @search_word !=""
+        @search = "#{@search_word}"
+      else
+        @search = ""
+      end
+      #search
+
+
+  @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:id)
   
 
   resp=[]
@@ -59,7 +82,7 @@ before_action :set_project_master, only: [:show, :edit, :update]
       }
       end
 
-      pagination(ProjectMaster)
+      pagination(ProjectMaster,@search)
     
         @client_all = Client.all.order(:id)
         client_resp=[]

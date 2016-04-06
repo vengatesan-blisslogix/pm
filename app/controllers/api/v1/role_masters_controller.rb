@@ -23,8 +23,8 @@ before_action :set_role, only: [:show, :edit, :update]
         'status' => @status
       }
       end
-   
-    pagination(RoleMaster)
+   @search=""
+    pagination(RoleMaster,@search)
     
     response = {
       'no_of_records' => @no_of_records.size,
