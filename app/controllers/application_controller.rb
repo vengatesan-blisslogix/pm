@@ -78,6 +78,35 @@ if @next == nil
 @next = false
 end
 
+  def get_all_projects
+      @project_all = ProjectMaster.all.order(:id)
+      @project_resp=[]
+      @project_all.each do |p| 
+         @project_resp << {
+        'id' => p.id,
+        'project_name' => p.project_name      
+      }
+      end
+  end
+
+  def get_all_clients
+      @client_all = Client.all.order(:id)
+      @client_resp=[]
+      @client_all.each do |c| 
+         @client_resp << {
+        'id' => c.id,
+        'client_name' => c.client_name      
+      }
+      end
+  end
 
 
+    def convert_param_to_array(value)
+    value = value.gsub('"',"")
+    @output_array = []
+    value.split(",").each do |user|
+    @output_array << user
+    end
+    end
+    
 end

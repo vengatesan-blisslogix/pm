@@ -5,63 +5,55 @@ before_action :set_project_master, only: [:show, :edit, :update]
 
 
 
- def index
-  
-      #search
-      if params[:client_id]!=nil and params[:client_id]!=""
-        @search_client ="client_id = #{params[:client_id]}"
-      else
-        @search_client =""
-      end
-      if params[:project_id]!=nil and params[:project_id]!=""
-        @search_word ="id = #{params[:project_id]}"
-      else
-        @search_word =""
-      end
-      if @search_client != "" and @search_word != ""
-        @search = "#{@search_client} and #{@search_word}"
-      elsif @search_client != ""
-        @search = "#{@search_client}"
-      elsif @search_word !=""
-        @search = "#{@search_word}"
-      else
-        @search = ""
-      end
-      #search
-
-
+def index  
+  #search
+  if params[:client_id]!=nil and params[:client_id]!=""
+    @search_client ="client_id = #{params[:client_id]}"
+  else
+    @search_client =""
+  end
+  if params[:project_id]!=nil and params[:project_id]!=""
+    @search_word ="id = #{params[:project_id]}"
+  else
+    @search_word =""
+  end
+  if @search_client != "" and @search_word != ""
+    @search = "#{@search_client} and #{@search_word}"
+  elsif @search_client != ""
+    @search = "#{@search_client}"
+  elsif @search_word !=""
+    @search = "#{@search_word}"
+  else
+    @search = ""
+  end
+  #search
   @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:id)
-  
-
   resp=[]
-     @project_masters.each do |p| 
+  @project_masters.each do |p| 
       @pro_type = ProjectType.find_by_id(p.project_type_id)
-       if @pro_type!=nil && @pro_type!=""
-        @pro_type =@pro_type.project_name
+      if @pro_type!=nil && @pro_type!=""
+      @pro_type =@pro_type.project_name
       else
-        @pro_type=""
+      @pro_type=""
       end
       @domain = ProjectDomain.find_by_id(p.domain_id)
-       if @domain!=nil && @domain!=""
-        @domain =@domain.domain_name
+      if @domain!=nil && @domain!=""
+      @domain =@domain.domain_name
       else
-        @domain=""
+      @domain=""
       end
-    @client = Client.find_by_id(p.client_id)
-       if @client!=nil && @client!=""
-        @client =@client.client_name
+      @client = Client.find_by_id(p.client_id)
+      if @client!=nil && @client!=""
+      @client =@client.client_name
       else
-        @client=""
-      end
-     
+      @client=""
+      end    
       @pro_status = ProjectStatusMaster.find_by_id(p.project_status_master_id)
-
       if @pro_status!=nil && @pro_status!=""
         @pro_status =@pro_status.status
       else
         @pro_status=""
       end
-
       if p.active.to_i==1
         @status=true
       else
@@ -80,40 +72,22 @@ before_action :set_project_master, only: [:show, :edit, :update]
         'kickstart_date' => p.kickstart_date,        
         'status' => @status
       }
-      end
+  end
 
-      pagination(ProjectMaster,@search)
-    
-        @client_all = Client.all.order(:id)
-        client_resp=[]
-        @client_all.each do |c| 
-           client_resp << {
-          'id' => c.id,
-          'client_name' => c.client_name      
-        }
-        end
-        @project_all = ProjectMaster.all.order(:id)
-        project_resp=[]
-        @project_all.each do |p| 
-           project_resp << {
-          'id' => p.id,
-          'project_name' => p.project_name      
-        }
-        end
-
-    response = {
-      'no_of_records' => @no_of_records.size,
-      'no_of_pages' => @no_pages,
-      'next' => @next,
-      'prev' => @prev,
-      'clients_list' => client_resp,
-      'projects_list' => project_resp,
-      'projects' => resp
-    }
-
-    render json: response 
-    
- end
+  pagination(ProjectMaster,@search)        
+  get_all_projects
+  get_all_clients
+  response = {
+  'no_of_records' => @no_of_records.size,
+  'no_of_pages' => @no_pages,
+  'next' => @next,
+  'prev' => @prev,
+  'clients_list' => @client_resp,
+  'projects_list' => @project_resp,
+  'projects' => resp
+  }
+  render json: response    
+end
 
 def show	
    render json: @project_master
