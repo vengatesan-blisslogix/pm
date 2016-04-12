@@ -19,6 +19,7 @@ before_action :set_user, only: [:show, :edit, :update]
       else
         @search_email =""
       end
+
       if @search_role != "" and @search_email != ""
         @search = "#{@search_role} and #{@search_email}"
       elsif @search_role != ""
@@ -28,11 +29,23 @@ before_action :set_user, only: [:show, :edit, :update]
       else
         @search = ""
       end
+
+      if params[:team_id]!=nil and params[:team_id]!=""
+        @search_team ="team_id = '#{params[:team_id]}'"
+          if @search != ""
+            @search = "#{@search} and #{@search_team}"
+          else
+            @search = "#{@search_team}"
+          end
+      end
+
+     
       #search
 
     @users = User.where("#{@search}").page(params[:page]).order(:id)
    
     resp=[]
+    resp_email = []
     @users.each do |u| 
         @role = RoleMaster.find_by_id(u.role_master_id)
         if @role!=nil and @role!=""
@@ -60,6 +73,7 @@ before_action :set_user, only: [:show, :edit, :update]
         else
         @status=false
         end
+resp_email << { 'email' => u.email }
         resp << {
           'id' => u.id,
           'first_name' => u.name,
@@ -85,12 +99,23 @@ before_action :set_user, only: [:show, :edit, :update]
     }
     end
 
+     @teams = TeamMaster.all.order(:id)
+    team_resp=[]
+    @teams.each do |t| 
+       team_resp << {
+      'id' => t.id,
+      'team_name' => t.team_name      
+    }
+    end
+
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
       'roles' => role_resp,
+      'emails'=> resp_email,
+      'teams' => team_resp,
       'users' => resp
     }
 

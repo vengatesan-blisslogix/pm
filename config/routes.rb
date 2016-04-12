@@ -38,6 +38,7 @@ resources :home
       resources :todotasklists
       resources :todotaskshares
       resources :todotaskmappings
+      resources :project_users
 
    end#namespace :v1 do
   end#namespace :api do

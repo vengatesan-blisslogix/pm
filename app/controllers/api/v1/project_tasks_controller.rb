@@ -30,8 +30,8 @@ before_action :set_project, only: [:show, :edit, :update]
         'planned_duration' => p.planned_duration
       }
       end
-   
-    pagination(ProjectTask)
+   @search=""
+    pagination(ProjectTask,@search)
     
     response = {
       'no_of_records' => @no_of_records.size,
