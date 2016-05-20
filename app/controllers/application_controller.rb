@@ -37,6 +37,22 @@ class ApplicationController < ActionController::Base
       ]
     end
 
+  def get_hours(task_master_id)
+    @hours_resp =  []
+    @logtimes = Logtime.where("task_master_id = #{params[:task_master_id]}")
+    @total_time =    [] 
+
+    @logtimes.each do |l|  
+    @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
+    end
+puts "-----------#{@total_time}-----------"
+    @hours_resp << {
+        'total_hours' => @total_time.sum
+      }
+
+  end
+
+
     def get_task_board(project_master_id)
     @project_users_resp = []
       #@project_task.project_master_id != nil

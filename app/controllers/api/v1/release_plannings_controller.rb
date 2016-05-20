@@ -34,7 +34,7 @@ before_action :set_planning, only: [:show, :edit, :update]
     else
       @project_name = ProjectMaster.find_by_id(params[:project_master_id]).project_name
       
- end
+  end
 
        resp << {
         'id' => t.id,

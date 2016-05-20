@@ -55,9 +55,9 @@ private
     def timelog_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :date => "#{params[:date]}", :start_time => "#{params[:start_time]}", :end_time => "#{params[:end_time]}", :taskboard_id => "#{params[:taskboard_id]}" }
+      raw_parameters = { :date => "#{params[:date]}", :start_time => "#{params[:start_time]}", :end_time => "#{params[:end_time]}", :taskboard_id => "#{params[:taskboard_id]}", :task_master_id => "#{params[:task_master_id]}", :project_master_id => "#{params[:project_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:date, :start_time, :end_time, :taskboard_id)
+      parameters.permit(:date, :start_time, :end_time, :taskboard_id, :task_master_id, :project_master_id)
     
     end
 

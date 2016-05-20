@@ -12,7 +12,7 @@ get_all_projects
   #new
    task_resp =  []
    @task_board_id = ""
-   @all_task = Taskboard.where("task_master_id IS NOT NULL and new = ?", false) 
+   @all_task = Taskboard.where("task_master_id IS NOT NULL ") 
    @all_task.each do |at|
     if @task_board_id !=""
     @task_board_id = @task_board_id+','+at.task_master_id.to_s
@@ -43,10 +43,12 @@ get_all_projects
           }         
        end
      end
+     get_hours(t.id)
       task_resp << {
         'id' => t.id,
         'task_name' => t.task_name,
-        'assigned_name' => assigned_new
+        'assigned_name' => assigned_new,
+        'worked_hours' => @hours_resp
       }
     end
     #new
@@ -89,7 +91,8 @@ get_all_projects
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
         'task_name' => @task_name,
-        'project_users' => @project_users_resp
+        'project_users' => @project_users_resp,
+        'worked_hours' => @hours_resp
       }
     end
     #in_progress
@@ -111,7 +114,8 @@ get_all_projects
         'taskboard_id' => td.id,
         'task_id' => @task_id,
         'task_name' => @task_name,
-        'project_users' => @project_users_resp
+        'project_users' => @project_users_resp,
+        'worked_hours' => @hours_resp
       }
     end
     #development_completed
@@ -131,7 +135,8 @@ get_all_projects
           'taskboard_id' => tq.id,
           'task_id' => @task_id,
           'task_name' => @task_name,
-          'project_users' => @project_users_resp
+          'project_users' => @project_users_resp,
+          'worked_hours' => @hours_resp
         }
       end
       #qa
@@ -151,7 +156,8 @@ get_all_projects
           'taskboard_id' => tc.id,
           'task_id' => @task_id,
           'task_name' => @task_name,
-          'project_users' => @project_users_resp
+          'project_users' => @project_users_resp,
+          'worked_hours' => @hours_resp
         }
       end
       #accepted
@@ -172,7 +178,8 @@ get_all_projects
         'taskboard_id' => th.id,
         'task_id' => @task_id,
         'task_name' => @task_name,
-        'project_users' => @project_users_resp
+        'project_users' => @project_users_resp,
+        'worked_hours' => @hours_resp
       }
     end
     #hold
@@ -208,7 +215,6 @@ get_all_projects
       'next' => @next,
       'prev' => @prev,
       'project' => @project_resp,
-      'task_resp' => task_resp,
       'new_task' => new_task,
       'new' => task_resp,
       'in_progress' => in_progress,
