@@ -1,4 +1,8 @@
 class ProjectMaster < ActiveRecord::Base
+
+  default_scope { order('created_at DESC') }
+
+
    validates :project_name, presence: true, uniqueness: true
    validates :client_id, :start_date, :end_date , presence: true
    #max_paginates_per 100
@@ -8,5 +12,6 @@ class ProjectMaster < ActiveRecord::Base
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 has_many :project_tasks
 has_many :release_plannings
+has_many :taskboards
 
 end

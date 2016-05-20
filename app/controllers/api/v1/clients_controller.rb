@@ -61,12 +61,14 @@ before_action :set_client, only: [:show, :edit, :update]
       end
    
     pagination(Client,@search)
+    get_all_clients
     
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'clients_list' => @client_resp,      
       'roles' => resp
     }
 

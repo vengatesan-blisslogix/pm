@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+
+  default_scope { order('created_at DESC') }
+
+
   paginates_per $PER_PAGE
   # Include default devise modules.
   devise :database_authenticatable, :registerable,

@@ -10,10 +10,22 @@ scope :api do
     }
   end
 end
+
 match "/api/v1/forget_password", :to => "home#forget_password", :via => ["post"]
+
 match "/api/v1/add_edit_user", :to => "home#add_edit_user", :via => ["get"]
 match "/api/v1/add_new_client", :to => "home#add_new_client", :via => ["get"]
 match "/api/v1/add_new_project", :to => "home#add_new_project", :via => ["get"]
+match "/api/v1/get_sprint", :to => "home#get_sprint", :via => ["get"]
+match "/api/v1/get_task_project", :to => "home#get_task_project", :via => ["get"]
+match "/api/v1/get_release", :to => "home#get_release", :via => ["get"]
+match "/api/v1/add_sprint", :to => "home#add_sprint", :via => ["get"]
+match "/api/v1/add_taskboard", :to => "home#add_taskboard", :via => ["get"]
+match "/api/v1/get_project_users", :to => "home#get_project_users", :via => ["get"]
+match "/api/v1/filter_project_user", :to => "home#filter_project_user", :via => ["get"]
+
+
+
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
@@ -39,6 +51,12 @@ resources :home
       resources :todotaskshares
       resources :todotaskmappings
       resources :project_users
+      resources :taskboards
+      resources :task_status_masters
+      resources :timesheets
+      resources :assigns
+      resources :timelogs
+
 
    end#namespace :v1 do
   end#namespace :api do

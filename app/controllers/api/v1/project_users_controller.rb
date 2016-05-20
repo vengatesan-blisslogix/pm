@@ -5,53 +5,64 @@ before_action :set_project_user, only: [:show, :edit, :update]
 
  def index
 
-get_all_projects
-  if params[:project_id]!=nil and params[:project_id]!=""
-@search = "project_master_id = #{params[:project_id]}"
-  else
-    if @project_all!=nil and @project_all.size!=0
-@search = "project_master_id = #{@project_all[0].id}"
-    else
-@search = ""
-    end
-  end
-	  @project_users = ProjectUser.where("#{@search}").page(params[:page])
-	  resp=[]
-     @project_users.each do |p| 
-    
-      if p.active.to_i==1
-        @status=true
-      else
-        @status=false
-      end
-   @user_p = User.find_by_id(p.user_id)
+   get_all_projects
 
-   @role_user = RoleMaster.find_by_id(@user_p.role_master_id)
-   if @role_user!=nil && @role_user!=""
-        @role_name=@role_user.role_name
+
+if params[:project_master_id]
+  @search = "project_master_id=#{params[:project_master_id]} and user_id!=0"
+else
+  @search = "project_master_id=#{@project_all[0].id} and user_id!=0"
+end   
+    @project_users = ProjectUser.where("#{@search}").page(params[:page]).order(:id)
+    resp=[]
+     @project_users.each do |p|      
+     
+      @user = User.find_by_id(p.user_id)
+      if @user!=nil and @user!=""
+        @email = @user.email
+        @first_name = @user.name
+        @last_name = @user.last_name
+
+          @role_master = RoleMaster.find_by_id(@user.role_master_id)
+          if @role_master!=nil and @role_master!=""
+            @role_name =@role_master.role_name
+          else
+            @role_name =""
+          end
+
+
+          @team_master = TeamMaster.find_by_id(@user.team_id)
+          if @team_master!=nil and @team_master!=""
+            @team_name =@team_master.team_name
+          else
+            @team_name =""
+          end
+
+
       else
-        @role_name=""
-      end
-   @team_name = TeamMaster.find_by_id(@user_p.team_id)
-   if @team_name!=nil && @team_name!=""
-        @team_name=@team_name.team_name
-      else
-        @team_name=""
+        @email =""
+        @role_name =""
+         @team_name =""
       end
 
+      
 
       resp << {
         'id' => p.id,
-        'first_name' => @user_p.name,
-        'last_name' => @user_p.last_name,
-        'email_id' => @user_p.email,
-        'role' => @role_name,
+        'role_name' => @role_name,
+        'email' => @email,
         'team_name' => @team_name,
-        'status' => @status
-   
+        'first_name' => @first_name,
+        'last_name' => @last_name,
+        'assigned_date' => p.assigned_date,        
+        'relieved_date' => p.relieved_date,
+        'status' => p.active,
+        'utilization' => p.utilization,
+        'is_billable' => p.is_billable
       }
       end
 
+  
     pagination(ProjectUser,@search)
     
     response = {
@@ -59,7 +70,7 @@ get_all_projects
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
-      'projects_list' => @project_resp,
+      'projects' =>@project_resp,
       'project_users' => resp
     }
 
@@ -100,7 +111,7 @@ convert_param_to_array(params[:is_billable])
        p=p+1
      end
      
- render json: { valid: true, msg:"created successfully."}
+        render json: { valid: true, msg:"created successfully."}
       else
         render json: { valid: false, error: "Invalid parameters" }, status: 404
     end
@@ -111,8 +122,8 @@ end
 
  def update   
 
-    if @project.update(project_params)  	      
-       render json: { valid: true, msg:"#{@project.task_name} created successfully."}
+     if @project.update(project_params)                       
+       render json: { valid: true, msg:"Project created successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
      end
@@ -123,10 +134,24 @@ private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_project_user
-      @project = ProjectUser.find_by_id(params[:id])
-      if @project
+      @project_user = ProjectUser.find_by_id(params[:id])
+      if @project_user
       else
-      	render json: { valid: false}, status: 404
+        render json: { valid: false}, status: 404
       end
+    end
+
+    def project_params
+      raw_parameters = {            
+             :assigned_date => "#{params[:assigned_date]}",
+             :relieved_date => "#{params[:relieved_date]}",
+             :active => "#{params[:active]}",
+             :utilization => "#{params[:utilization]}",
+             :is_billable => "#{params[:is_billable]}",
+             :project_master_id => "#{params[:project_master_id]}",
+             :user_id => "#{params[:user_id]}"
+            }
+            parameters = ActionController::Parameters.new(raw_parameters)
+            parameters.permit(:project_type_id, :assigned_date, :relieved_date, :active, :utilization, :is_billable, :project_master_id, :user_id)
     end	
 end

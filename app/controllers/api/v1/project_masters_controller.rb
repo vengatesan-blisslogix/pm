@@ -54,11 +54,7 @@ def index
       else
         @pro_status=""
       end
-      if p.active.to_i==1
-        @status=true
-      else
-        @status=false
-      end
+         puts "#{p.avatar}"
       resp << {
         'id' => p.id,
         'project_type' => @pro_type,
@@ -70,7 +66,8 @@ def index
         'end_date' => p.end_date,
         'project_status' => @pro_status,
         'kickstart_date' => p.kickstart_date,        
-        'status' => @status
+        'status' => p.active,
+        'avatar' => p.avatar
       }
   end
 

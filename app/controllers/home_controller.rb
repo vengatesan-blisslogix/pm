@@ -1,7 +1,155 @@
 class HomeController < ApplicationController
   def index
+    @project_masters = ProjectMaster.all
   end
 
+def add_taskboard
+  get_all_projects
+  get_project_sprint(params[:project_master_id])
+  resp = []
+  resp << {
+        'project_list' => @project_resp,
+        'project_sprint'  => @project_sprint_resp
+      }
+  
+      render json: resp
+end
+
+def add_sprint
+  get_all_projects
+  get_all_sprint_status
+  get_all_releases(params[:project_master_id])
+
+  resp = []
+  resp << {
+        'project_list' => @project_resp,
+        'sprint_list' => @sprint_status_resp,
+        'release_list' => @release_resp
+      }
+  
+      render json: resp
+end
+
+
+def get_project_users
+  role_resp =  []
+   @role_masters = RoleMaster.all
+   @role_masters.each do |r|      
+      role_resp << {
+        'id' => r.id,
+        'role_name' => r.role_name,
+      }
+    end
+   email_resp =  []
+   @users = User.all
+   @users.each do |u|   
+      email_resp << {
+        'id' => u.id,
+        'email' => u.email
+      }
+    end 
+   team_resp =  []
+   @teams = TeamMaster.all
+   @teams.each do |t|   
+      team_resp << {
+        'id' => t.id,
+        'team_name' => t.team_name,
+      }
+    end
+  #search
+        @search = ""
+    if params[:role_master_id]!=nil and params[:role_master_id]!=""
+      if @search == ""
+        @search = "role_master_id = #{params[:role_master_id]}" 
+      else
+        @search = @search +  " and role_master_id = #{params[:role_master_id]}"  
+      end  
+    end
+
+    if params[:email]!=nil and params[:email]!=""      
+      if @search == ""
+        @search = "id = #{params[:email]}" 
+      else
+        @search = @search + " and id = #{params[:email]}"  
+      end  
+    end
+
+    if params[:team_master_id]!=nil and params[:team_master_id]!=""      
+      if @search == ""
+        @search = "team_id = #{params[:team_master_id]}" 
+      else
+        @search = @search + " and team_id = #{params[:team_master_id]}"  
+      end  
+    end        
+    #search
+    puts  @search
+
+   name_resp =  []
+   @users = User.where(@search)
+   @users.each do |u|   
+      name_resp << {
+        'id' => u.id,        
+        'user_name' => "#{u.name} "+ "#{u.last_name}"
+      }
+    end
+    resp = []
+    resp << {
+      'role_name' => role_resp,
+      'email_id' => email_resp,
+      'team' => team_resp,
+      'users' => name_resp
+    }
+    render json: resp
+end
+
+
+def get_release
+  resp =  []
+   @release_plannings = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}")
+   @release_plannings.each do |r|      
+      resp << {
+        'id' => r.id,
+        'release_name' => r.release_name
+      }
+    end
+    render json: resp
+
+end
+
+def get_sprint   
+   resp = []
+    @sprint_plannings = SprintPlanning.where("project_master_id = #{params[:project_master_id]}")
+    @sprint_plannings.each do |v|      
+      resp << {
+        'id' => v.id,
+        'sprint_name' => v.sprint_name
+      }
+    end
+    render json: resp
+ end
+
+
+def get_task_project
+ resp = []
+    @project_task_mappings = ProjectTaskMapping.where("project_master_id = #{params[:project_master_id]}")
+    @project_task_mappings.each do |v|    
+    @project_task_name = ProjectTask.find_by_id(v.project_task_id)
+
+@sprint_plannings = SprintPlanning.where("project_master_id = #{params[:project_master_id]}")
+    @sprint_plannings.each do |s|      
+      resp << {
+        'id' => s.id,
+        'sprint_name' => s.sprint_name
+      }
+    end
+      resp << {
+        'id' => @project_task_name.id,
+        'project_master_id' => v.project_master_id,
+        'task_name' => @project_task_name.task_name
+      }
+    end
+    render json: resp
+end
 
   def forget_password
 
@@ -84,6 +232,7 @@ def add_new_project
      
     render json: resp
 end
+
 
 private
 

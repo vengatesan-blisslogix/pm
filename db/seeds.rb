@@ -15,6 +15,7 @@ end
 =end
 
 
+
 #Add super admin Role
 r = RoleMaster.create(role_name: "Super Admin", active: 1)
 #Add branch 
@@ -97,3 +98,9 @@ end
 ["New","Enhancement","Maintance"].each do |pt|
 ProjectType.create(project_name:"#{pt}", active: 1, user_id: u.id)
 end
+
+
+
+#Add super admin Role
+s = SprintStatus.create(status: "true", active: 1, user_id: 1)
+

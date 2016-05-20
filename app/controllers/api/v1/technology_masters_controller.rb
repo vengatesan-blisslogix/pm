@@ -1,9 +1,7 @@
 class Api::V1::TechnologyMastersController < ApplicationController
 
-
 before_action :authenticate_user!
 before_action :set_tech, only: [:show, :edit, :update]
-
 
 
  def index
@@ -12,7 +10,7 @@ before_action :set_tech, only: [:show, :edit, :update]
 	else
 	  @technlogies = TechnologyMaster.limit(10)
 	end
-	  render json: @technlogies     
+	  render json: @technlogies
  end
 
 def show	

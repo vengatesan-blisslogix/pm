@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task_id: 1
+  in_progress: false
+  development_completed: false
+  qa: false
+  completed: false
+  hold: false
+
+two:
+  task_id: 1
+  in_progress: false
+  development_completed: false
+  qa: false
+  completed: false
+  hold: false

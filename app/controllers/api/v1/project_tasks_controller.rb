@@ -5,7 +5,13 @@ before_action :set_project, only: [:show, :edit, :update]
 
  def index
 
-	  @project_tasks = ProjectTask.page(params[:page])
+  get_all_projects
+
+      if params[:project_master_id] 
+        @search = "project_master_id = #{params[:project_master_id]}"
+      end
+
+	  @project_tasks = ProjectTask.where(@search).page(params[:page])
 	  resp=[]
      @project_tasks.each do |p| 
     
@@ -14,15 +20,25 @@ before_action :set_project, only: [:show, :edit, :update]
       else
         @status=false
       end
-      @project_master = ProjectMaster.find_by_id(p.project_master_id)
-      if @project_master!=nil and @project_master!=""
-        @project_name =@project_master.project_name
+ 
+        @project_master = ProjectMaster.find_by_id(params[:project_master_id])
+        if @project_master!=nil and @project_master!=""
+          @project_name =@project_master.project_name
+        else
+          @project_name =""
+        end      
+
+      @release_planning = ReleasePlanning.find_by(release_name: params[:release_name])
+      if @release_planning!=nil and @release_planning!=""
+        @release_name =@release_planning.release_name
       else
-        @project_name =""
+        @release_name =""
       end
+
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
+        'release_name' => @release_name,
         'task_name' => p.task_name,        
         'description' => p.task_description,
         'status' => @status,
@@ -38,6 +54,7 @@ before_action :set_project, only: [:show, :edit, :update]
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'project_list' => @project_resp,
       'project_tasks' => resp
     }
 
@@ -62,7 +79,7 @@ end
  def update   
 
     if @project.update(project_params)  	      
-       render json: @project
+       render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
      end

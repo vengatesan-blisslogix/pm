@@ -1,17 +1,37 @@
 class Api::V1::ProjectTimeSheetsController < ApplicationController
 
-
-#before_action :authenticate_user!
+before_action :authenticate_user!
 before_action :set_time_sheet, only: [:show, :edit, :update]
 
  def index
-	if params[:page] && params[:per]
-	  @time_sheets = ProjectTimeSheet.page(params[:page]).per(params[:per])
-	else
-	  @time_sheets = ProjectTimeSheet.limit(10)
-	end
-	  render json: @time_sheets  
+
+   @project = ProjectUser.where("user_id=#{params[:user_id]}").select(:project_master_id).uniq
+  @project.each do |pro|
+     @project_master = ProjectMaster.find(pro.project_master_id)
+      @project_resp=[]
+   
+         @project_resp << {
+        'id' => @project_master.id,
+        'project_name' => @project_master.project_name      
+      }
+  end
+
+     
+
+    pagination(ProjectTimeSheet,@search)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'projects_list' => @project_resp,
+      
+    }
+
+    render json: response
  end
+ 
 
 def show	
    render json: @time_sheet

@@ -9,11 +9,15 @@ before_action :authenticate_user!
      @activities.each do |a| 
       resp << {
         'id' => a.id,
-        'activity_name' => a.activity_Name
-        
+        'activity_name' => a.activity_Name,
+        'status' => a.active,
+        'activity_description' => a.activity_description,
+        'is_page' => a.is_page
       }
       end
-    render json: resp 
+
+    
+    render json: resp
        
  end
 

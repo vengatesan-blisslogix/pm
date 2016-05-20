@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404060751) do
+ActiveRecord::Schema.define(version: 20160517074248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,11 +19,20 @@ ActiveRecord::Schema.define(version: 20160404060751) do
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name"
     t.string   "active"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "activity_description"
+    t.string   "is_page"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "parent_id"
     t.string   "href"
     t.string   "icon"
+  end
+
+  create_table "assigns", force: :cascade do |t|
+    t.integer  "taskboard_id"
+    t.integer  "assigned_user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "branches", force: :cascade do |t|
@@ -94,6 +103,18 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.string   "company_logo"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "logtimes", force: :cascade do |t|
+    t.date     "date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.integer  "taskboard_id"
+    t.integer  "project_master_id"
+    t.integer  "sprint_planning_id"
+    t.integer  "task_master_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "project_domains", force: :cascade do |t|
@@ -255,10 +276,35 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.datetime "updated_at",          null: false
   end
 
+  create_table "sprint_statuses", force: :cascade do |t|
+    t.string   "status"
+    t.integer  "active"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "task_status_masters", force: :cascade do |t|
     t.string   "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "taskboards", force: :cascade do |t|
+    t.integer  "task_master_id"
+    t.string   "status"
+    t.boolean  "new",                   default: true
+    t.boolean  "in_progress",           default: false
+    t.boolean  "development_completed", default: false
+    t.boolean  "qa",                    default: false
+    t.boolean  "completed",             default: false
+    t.boolean  "hold",                  default: false
+    t.string   "description"
+    t.integer  "est_time"
+    t.integer  "project_master_id"
+    t.integer  "sprint_planning_id"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   create_table "team_masters", force: :cascade do |t|
@@ -276,6 +322,16 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
+  end
+
+  create_table "timesheets", force: :cascade do |t|
+    t.integer  "project_master_id"
+    t.integer  "project_task_id"
+    t.integer  "user_id"
+    t.date     "task_date"
+    t.float    "task_time"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "todotasklists", force: :cascade do |t|
@@ -335,16 +391,6 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "branch_id"
-    t.integer  "company_id"
-    t.integer  "role_master_id"
-    t.integer  "otp"
-    t.string   "password"
-    t.string   "original_password"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
     t.string   "mobile_no"
     t.string   "office_phone"
     t.string   "home_phone"
@@ -357,6 +403,16 @@ ActiveRecord::Schema.define(version: 20160404060751) do
     t.string   "last_name"
     t.string   "created_by_user"
     t.string   "reporting_to"
+    t.integer  "branch_id"
+    t.integer  "company_id"
+    t.integer  "role_master_id"
+    t.integer  "otp"
+    t.string   "original_password"
+    t.string   "password"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree

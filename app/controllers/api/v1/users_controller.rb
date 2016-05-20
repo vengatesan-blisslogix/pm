@@ -123,12 +123,12 @@ resp_email << { 'email' => u.email }
     
  end
 
-def show	
+def show  
    render json: @user
 end
 
  def update   
-    if @user.update(user_params) 	      
+    if @user.update(user_params)        
        render json: { valid: true, msg:"#{@user.name} updated successfully."}
      else
         render json: { valid: false, error: @user.errors }, status: 404
@@ -145,7 +145,7 @@ private
       @user = User.find_by_id(params[:id])
       if @user
       else
-      	render json: { valid: false}, status: 404
+        render json: { valid: false}, status: 404
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.
