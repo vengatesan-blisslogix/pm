@@ -54,11 +54,13 @@ get_all_projects
         @project_users_resp = ""
         @task_name =""
       end     
+    get_assigne(tp.id, "new")
 
       new_task << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
         'task_name' => @task_name,
+        'assign_params' => @assigned,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -76,7 +78,7 @@ get_all_projects
         @task_name =""
       end     
       get_task_board(@project_task.project_master_id)
-      get_assigne(t.id, "in_progress")
+      get_assigne(tp.id, "in_progress")
       in_progress << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
@@ -101,7 +103,7 @@ get_all_projects
       else
         @task_name =""
       end        
-      get_assigne(t.id, "development_completed")
+      get_assigne(td.id, "development_completed")
 
       development_completed << {
         'taskboard_id' => td.id,
@@ -125,7 +127,7 @@ get_all_projects
         else
           @task_name =""
         end        
-        get_assigne(t.id, "qa")
+        get_assigne(tq.id, "qa")
 
         qa << {
           'taskboard_id' => tq.id,
@@ -150,7 +152,7 @@ get_all_projects
           @task_name =""
         end       
 
-        get_assigne(t.id, "completed")
+        get_assigne(tc.id, "completed")
 
         accepted << {
           'taskboard_id' => tc.id,
@@ -176,7 +178,7 @@ get_all_projects
         @task_name =""
       end     
   
-   get_assigne(t.id, "hold")
+   get_assigne(th.id, "hold")
 
       hold << {
         'taskboard_id' => th.id,

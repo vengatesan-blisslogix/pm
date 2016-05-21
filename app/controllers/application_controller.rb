@@ -39,13 +39,15 @@ class ApplicationController < ActionController::Base
 
 
   def get_assigne(task_master_id, stage)
+puts "-----------------#{task_master_id}----#{stage}-------------------"
+
     @assigned = []
          @assigne = Taskboard.where("#{stage} = ? and task_master_id = #{task_master_id}", true).first
          if @assigne!=nil
          @find_assigne =  Assign.where("taskboard_id=#{@assigne.id}")
 
          @find_assigne.each do |a|
-          puts"- @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
+          puts"-============ @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
 
           @assigned << {
           'id' => a.id,
