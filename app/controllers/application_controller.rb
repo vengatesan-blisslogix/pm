@@ -37,10 +37,29 @@ class ApplicationController < ActionController::Base
       ]
     end
 
+
+  def get_assigne(task_master_id, stage)
+    @assigned = []
+         @assigne = Taskboard.where("#{stage} = ? and task_master_id = #{task_master_id}", true).first
+         if @assigne!=nil
+         @find_assigne =  Assign.where("taskboard_id=#{@assigne.id}")
+
+         @find_assigne.each do |a|
+          puts"- @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
+
+          @assigned << {
+          'id' => a.id,
+          'assigne' => a.assigned_user_id,
+          'assigned' => true
+          }         
+       end
+     end
+  end
+
   def get_hours(task_master_id)
     @hours_resp =  []
-    @logtimes = Logtime.where("task_master_id = #{params[:task_master_id]}")
-    @total_time =    [] 
+    @logtimes = Logtime.where("task_master_id = #{task_master_id}")
+    @total_time =  [] 
 
     @logtimes.each do |l|  
     @total_time <<  ((l.end_time - l.start_time) / 1.hour).round

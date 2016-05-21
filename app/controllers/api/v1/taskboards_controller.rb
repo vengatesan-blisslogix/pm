@@ -27,27 +27,14 @@ get_all_projects
    end
    @task_masters = ProjectTask.where("#{@unassigned}")
    @task_masters.each do |t| 
-    puts t.id
-       assigned_new = []
-         @assigne = Taskboard.where("new = ? and task_master_id = #{t.id}", true).first
-         if @assigne!=nil
-         @find_assigne =  Assign.where("taskboard_id=#{@assigne.id}")
-
-         @find_assigne.each do |a|
-          puts"- @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
-
-          assigned_new << {
-          'id' => a.id,
-          'assigne' => a.assigned_user_id,
-          'assigned' => true
-          }         
-       end
-     end
+    puts "----111---#{t.id}-------111---"
+       
+    get_assigne(t.id, "new")
      get_hours(t.id)
       task_resp << {
         'id' => t.id,
         'task_name' => t.task_name,
-        'assigned_name' => assigned_new,
+        'assign_params' => @assigned,
         'worked_hours' => @hours_resp
       }
     end
@@ -67,10 +54,12 @@ get_all_projects
         @project_users_resp = ""
         @task_name =""
       end     
+
       new_task << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
         'task_name' => @task_name,
+        'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
     end
@@ -87,12 +76,14 @@ get_all_projects
         @task_name =""
       end     
       get_task_board(@project_task.project_master_id)
+      get_assigne(t.id, "in_progress")
       in_progress << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
-        'task_name' => @task_name,
-        'project_users' => @project_users_resp,
-        'worked_hours' => @hours_resp
+        'task_name' => @task_name,        
+        'assign_params' => @assigned,
+        'worked_hours' => @hours_resp,
+        'project_users' => @project_users_resp
       }
     end
     #in_progress
@@ -110,12 +101,15 @@ get_all_projects
       else
         @task_name =""
       end        
+      get_assigne(t.id, "development_completed")
+
       development_completed << {
         'taskboard_id' => td.id,
         'task_id' => @task_id,
         'task_name' => @task_name,
-        'project_users' => @project_users_resp,
-        'worked_hours' => @hours_resp
+        'assign_params' => @assigned,
+        'worked_hours' => @hours_resp,
+        'project_users' => @project_users_resp
       }
     end
     #development_completed
@@ -131,12 +125,15 @@ get_all_projects
         else
           @task_name =""
         end        
+        get_assigne(t.id, "qa")
+
         qa << {
           'taskboard_id' => tq.id,
           'task_id' => @task_id,
           'task_name' => @task_name,
-          'project_users' => @project_users_resp,
-          'worked_hours' => @hours_resp
+          'assign_params' => @assigned,
+          'worked_hours' => @hours_resp,
+          'project_users' => @project_users_resp
         }
       end
       #qa
@@ -151,13 +148,17 @@ get_all_projects
           @task_id =@project_task.id
         else
           @task_name =""
-        end        
+        end       
+
+        get_assigne(t.id, "completed")
+
         accepted << {
           'taskboard_id' => tc.id,
           'task_id' => @task_id,
           'task_name' => @task_name,
-          'project_users' => @project_users_resp,
-          'worked_hours' => @hours_resp
+          'assign_params' => @assigned,
+          'worked_hours' => @hours_resp,
+          'project_users' => @project_users_resp
         }
       end
       #accepted
@@ -173,13 +174,17 @@ get_all_projects
         @task_id =@project_task.id
       else
         @task_name =""
-      end        
+      end     
+  
+   get_assigne(t.id, "hold")
+
       hold << {
         'taskboard_id' => th.id,
         'task_id' => @task_id,
         'task_name' => @task_name,
-        'project_users' => @project_users_resp,
-        'worked_hours' => @hours_resp
+        'assign_params' => @assigned,
+        'worked_hours' => @hours_resp,
+        'project_users' => @project_users_resp
       }
     end
     #hold
