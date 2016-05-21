@@ -7,8 +7,8 @@ before_action :set_planning, only: [:show, :edit, :update]
 
   get_all_projects
 
-    if params[:project_master_id] and params[:id]
-      @search = "project_master_id = #{params[:project_master_id]} and id = #{params[:id]}"
+    if params[:project_master_id] and params[:release_planning_id]
+      @search = "project_master_id = #{params[:project_master_id]} and id = #{params[:release_planning_id]}"
     else
       @search = ""
     end
