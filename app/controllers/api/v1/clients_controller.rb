@@ -35,9 +35,9 @@ before_action :set_client, only: [:show, :edit, :update]
      @clients.each do |c| 
       
       if c.active.to_i==1
-        @status=true
+        @status="active"
       else
-        @status=false
+        @status="inactive"
       end
      @c_source=ClientSource.find_by_id(c.client_source_id)
        if @c_source!=nil && @c_source!=""
