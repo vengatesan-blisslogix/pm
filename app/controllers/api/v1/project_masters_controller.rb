@@ -73,6 +73,7 @@ def index
         'assign_start_date' => p.start_date,
         'end_date' => p.end_date,
         'project_status' => @pro_status,
+        'tag_keywords' => p.tag_keywords,
         'kickstart_date' => p.kickstart_date,        
         'status' => @status,
         'avatar' => p.avatar
