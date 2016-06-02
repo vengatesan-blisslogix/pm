@@ -7,12 +7,13 @@ before_action :set_project_master, only: [:show, :edit, :update]
 
 def index  
   #search
-  if params[:client_id]!=nil and params[:client_id]!=""
+  if params[:client_id]!=nil and params[:client_id]!="" and params[:client_id]!= "undefined"
     @search_client ="client_id = #{params[:client_id]}"
   else
     @search_client =""
   end
-  if params[:project_id]!=nil and params[:project_id]!=""
+  puts "-----#{params[:project_id]}-------"
+  if params[:project_id]!=nil and params[:project_id]!="" and params[:project_id]!= "undefined"
     @search_word ="id = #{params[:project_id]}"
   else
     @search_word =""
