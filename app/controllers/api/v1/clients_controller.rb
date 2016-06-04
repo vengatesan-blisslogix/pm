@@ -34,11 +34,12 @@ before_action :set_client, only: [:show, :edit, :update]
     resp=[]
      @clients.each do |c| 
       
-      if c.active.to_i==1
-        @status="active"
-      else
-        @status="inactive"
-      end
+      #if c.active.to_i==1
+      #  @status="active"
+      #else
+       # @status="inactive"
+      #end
+     
      @c_source=ClientSource.find_by_id(c.client_source_id)
        if @c_source!=nil && @c_source!=""
         @client_source=@c_source.source_name
@@ -55,7 +56,7 @@ before_action :set_client, only: [:show, :edit, :update]
         'mobile' => c.mobile,        
         'skype' => c.skypke,
         'tag' => c.tag,
-        'status' => @status,
+        'status' => c.status,
 
       }
       end
