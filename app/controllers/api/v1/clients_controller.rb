@@ -56,7 +56,7 @@ before_action :set_client, only: [:show, :edit, :update]
         'mobile' => c.mobile,        
         'skype' => c.skypke,
         'tag' => c.tag,
-        'status' => c.status,
+        'status' => c.active,
 
       }
       end
