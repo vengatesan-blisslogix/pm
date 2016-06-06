@@ -57,7 +57,7 @@ def index
       end
          puts "#{p.avatar}"
 
-      if p.active == "true"
+      if p.active == "active"
         @status="active"
       else
         @status="inactive"
