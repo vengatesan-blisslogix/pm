@@ -17,11 +17,21 @@ end
     resp=[]
      @project_users.each do |p|      
      
+
       @user = User.find_by_id(p.user_id)
       if @user!=nil and @user!=""
         @email = @user.email
         @first_name = @user.name
         @last_name = @user.last_name
+
+
+          @project_master = ProjectMaster.find_by_id(p.project_master_id)
+          if @project_master!=nil and @project_master!=""
+            @project_name =@project_master.project_name
+          else
+            @project_name =""
+          end
+
 
           @role_master = RoleMaster.find_by_id(@user.role_master_id)
           if @role_master!=nil and @role_master!=""
@@ -29,7 +39,6 @@ end
           else
             @role_name =""
           end
-
 
           @team_master = TeamMaster.find_by_id(@user.team_id)
           if @team_master!=nil and @team_master!=""
@@ -51,6 +60,7 @@ end
         'id' => p.id,
         'role_name' => @role_name,
         'email' => @email,
+        'project_name' => @project_name,
         'team_name' => @team_name,
         'first_name' => @first_name,
         'last_name' => @last_name,
@@ -77,12 +87,12 @@ end
     render json: response
  end
 
-def show	
+def show  
    render json: @project
 end
 
 def create
- begin					
+ begin          
 if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
 convert_param_to_array(params[:selected_user_id])
 @s_user_id = @output_array
@@ -99,15 +109,15 @@ convert_param_to_array(params[:is_billable])
 
      p=0
      @s_user_id.each do |user|
-     	@project = ProjectUser.new
-     	@project.assigned_date = @a_date[p]
-     	@project.relieved_date = @r_date[p]
-     	@project.active = @active[p]
-     	@project.utilization = @utilization[p]
-     	@project.is_billable = @billable[p]
-     	@project.project_master_id = params[:project_master_id]
-     	@project.user_id = user
-     	@project.save!
+      @project = ProjectUser.new
+      @project.assigned_date = @a_date[p]
+      @project.relieved_date = @r_date[p]
+      @project.active = @active[p]
+      @project.utilization = @utilization[p]
+      @project.is_billable = @billable[p]
+      @project.project_master_id = params[:project_master_id]
+      @project.user_id = user
+      @project.save!
        p=p+1
      end
      
@@ -116,7 +126,7 @@ convert_param_to_array(params[:is_billable])
         render json: { valid: false, error: "Invalid parameters" }, status: 404
     end
     rescue
-    	render json: { valid: false, error: "Invalid parameters" }, status: 404
+      render json: { valid: false, error: "Invalid parameters" }, status: 404
     end    
 end
 
@@ -153,5 +163,5 @@ private
             }
             parameters = ActionController::Parameters.new(raw_parameters)
             parameters.permit(:project_type_id, :assigned_date, :relieved_date, :active, :utilization, :is_billable, :project_master_id, :user_id)
-    end	
+    end 
 end
