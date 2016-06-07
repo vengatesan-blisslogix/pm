@@ -57,11 +57,6 @@ def index
       end
          puts "#{p.avatar}"
 
-      if p.active == "active"
-        @status="active"
-      else
-        @status="inactive"
-      end
 
 
       resp << {
@@ -76,7 +71,7 @@ def index
         'project_status' => @pro_status,
         'tag_keywords' => p.tag_keywords,
         'kickstart_date' => p.kickstart_date,        
-        'status' => @status,
+        'status' => p.active,
         'avatar' => p.avatar
       }
   end
@@ -104,6 +99,8 @@ def create
 
     @project_master = ProjectMaster.new(project_master_params)
     if @project_master.save
+        @project_master.active = "active"
+        @project_master.save
     	render json: { valid: true, msg:"#{@project_master.project_name} created successfully."}
      else
         render json: { valid: false, error: @project_master.errors }, status: 404

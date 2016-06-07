@@ -39,6 +39,8 @@ before_action :set_client, only: [:show, :edit, :update]
       #else
        # @status="inactive"
       #end
+
+
      
      @c_source=ClientSource.find_by_id(c.client_source_id)
        if @c_source!=nil && @c_source!=""
@@ -86,6 +88,8 @@ def create
 
     @client = Client.new(client_params)
     if @client.save
+      @client.active = "active"
+      @client.save
     	render json: { valid: true, msg:"#{@client.client_name} created successfully."}
      else
         render json: { valid: false, error: @client.errors }, status: 404
