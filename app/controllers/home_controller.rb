@@ -168,6 +168,19 @@ def get_task_project
     render json: resp
 end
 
+
+   def get_client_project
+      @project_all = ProjectMaster.where("client_id = #{params[:client_id]}")
+      @project_resp=[]
+      @project_all.each do |p| 
+        @project_resp << {
+         'id' => p.id,
+         'project_name' => p.project_name      
+        }
+      end
+      render json: @project_resp
+   end
+
   def forget_password
 
      user = User.find_by(email: params[:email]) 

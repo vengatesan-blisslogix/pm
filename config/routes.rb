@@ -23,6 +23,7 @@ match "/api/v1/add_sprint", :to => "home#add_sprint", :via => ["get"]
 match "/api/v1/add_taskboard", :to => "home#add_taskboard", :via => ["get"]
 match "/api/v1/get_project_users", :to => "home#get_project_users", :via => ["get"]
 match "/api/v1/filter_project_user", :to => "home#filter_project_user", :via => ["get"]
+match "/api/v1/get_client_project", :to => "home#get_client_project", :via => ["get"]
 
 
 

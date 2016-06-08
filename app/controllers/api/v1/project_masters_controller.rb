@@ -85,7 +85,6 @@ def index
   'next' => @next,
   'prev' => @prev,
   'clients_list' => @client_resp,
-  'projects_list' => @project_resp,
   'projects' => resp
   }
   render json: response    
