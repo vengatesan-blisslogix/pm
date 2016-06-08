@@ -17,11 +17,6 @@ before_action :set_planning, only: [:show, :edit, :update]
     resp=[]
      @release_plannings.each do |t| 
     
-      if t.active.to_i==1
-        @status=true
-      else
-        @status=false
-      end     
 
   if @search==""
 
@@ -70,6 +65,9 @@ before_action :set_planning, only: [:show, :edit, :update]
 	def create
 	  @release_planning = ReleasePlanning.new(planning_params)
 		if @release_planning.save
+       @release_planning.active = "active"
+        @release_planning.save
+
 			render json: { valid: true, msg:"#{@release_planning.release_name} created successfully."}	
 		else
 		  render json: { valid: false, msg: @release_planning.errors }, status: 404

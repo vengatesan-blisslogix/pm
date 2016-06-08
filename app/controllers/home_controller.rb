@@ -56,6 +56,14 @@ def get_project_users
         'team_name' => t.team_name,
       }
     end
+   proj_resp =  []
+   @projects = ProjectMaster.all
+   @projects.each do |p|   
+      proj_resp << {
+        'id' => t.id,
+        'project_name' => p.project_name,
+      }
+    end    
   #search
         @search = ""
     if params[:role_master_id]!=nil and params[:role_master_id]!=""
@@ -80,6 +88,14 @@ def get_project_users
       else
         @search = @search + " and team_id = #{params[:team_master_id]}"  
       end  
+    end    
+
+    if params[:project_master_id]!=nil and params[:project_master_id]!=""      
+      if @search == ""
+        @search = "project_master_id = #{params[:project_master_id]}" 
+      else
+        @search = @search + " and project_master_id = #{params[:project_master_id]}"  
+      end  
     end        
     #search
     puts  @search
@@ -97,6 +113,7 @@ def get_project_users
       'role_name' => role_resp,
       'email_id' => email_resp,
       'team' => team_resp,
+      'project' => proj_resp,
       'users' => name_resp
     }
     render json: resp
