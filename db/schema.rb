@@ -113,6 +113,9 @@ ActiveRecord::Schema.define(version: 20160517074248) do
     t.integer  "project_master_id"
     t.integer  "sprint_planning_id"
     t.integer  "task_master_id"
+    t.integer  "user_id"
+    t.date     "task_date"
+    t.float    "task_time"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end

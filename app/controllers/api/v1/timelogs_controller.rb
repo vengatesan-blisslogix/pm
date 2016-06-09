@@ -21,6 +21,11 @@ def create
 
     @timelog = Logtime.new(timelog_params)
     if @timelog.save
+          @timelog.task_date = params[:date]
+          @timelog.task_time = ((@timelog.end_time  - @timelog.start_time) / 1.hour)
+
+          @timelog.user_id = params[:user_id]
+       @timelog.save
     	render json: { valid: true, msg:"timelog created successfully."}
      else
         render json: { valid: false, error: @timelog.errors }, status: 404

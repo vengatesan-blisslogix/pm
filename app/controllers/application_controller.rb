@@ -33,6 +33,7 @@ class ApplicationController < ActionController::Base
         :created_by_user,
         :reporting_to,
         :nickname
+
         
       ]
     end

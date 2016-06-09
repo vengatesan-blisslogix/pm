@@ -27,6 +27,12 @@ def index
   else
     @search = ""
   end
+
+@find_user = User.find_by_id(params[:user_id])
+  if @find_user and @find_user.
+
+    
+  end
   #search
   @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:id)
   resp=[]
