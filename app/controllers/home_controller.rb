@@ -187,16 +187,23 @@ end
    
 	if user
 		success=1
-		if params[:email] && params[:otp] && params[:password]
+		if params[:email] && params[:otp]
 			 if user.otp!=nil and user.otp==params[:otp].to_i
-			   user.update_attribute(:password,params[:password])            
-			   user.otp = nil
-			   user.save
+			   #user.update_attribute(:password,params[:password])            
+			   #user.otp = nil
+			   #user.save
 			   success=1          
 			 else
 			  success=0           
 			 end 
 		end#if params[:email] && params[:otp]
+
+    if params[:email] && params[:password]
+         user.update_attribute(:password,params[:password])            
+         user.otp = nil
+         user.save
+         success=1          
+    end
 
 		if params[:password_reset] && params[:password_reset].to_i==1
 		 @r = rand(9999).to_s.center(4, rand(3).to_s).to_i
