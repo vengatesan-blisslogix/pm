@@ -24,8 +24,9 @@ match "/api/v1/add_taskboard", :to => "home#add_taskboard", :via => ["get"]
 match "/api/v1/get_project_users", :to => "home#get_project_users", :via => ["get"]
 match "/api/v1/filter_project_user", :to => "home#filter_project_user", :via => ["get"]
 match "/api/v1/get_client_project", :to => "home#get_client_project", :via => ["get"]
-
-
+match "/api/v1/all_projects", :to => "home#all_projects", :via => ["get"]
+match "/api/v1/get_release_sprint", :to => "home#get_release_sprint", :via => ["get"]
+match "/api/v1/get_sprint_task", :to => "home#get_sprint_task", :via => ["get"]
 
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'

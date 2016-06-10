@@ -74,13 +74,13 @@ end
 
   
     pagination(ProjectUser,@search)
-    
+    get_all_clients
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
-      'projects' =>@project_resp,
+      'clients' => @client_resp,
       'project_users' => resp
     }
 

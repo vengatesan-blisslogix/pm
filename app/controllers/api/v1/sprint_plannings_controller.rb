@@ -87,6 +87,8 @@ before_action :set_sprint, only: [:show, :edit, :update]
 	def create
 	  @sprint_planning = SprintPlanning.new(sprint_params)
 	    if @sprint_planning.save
+        @sprint_planning.active = "active"
+        @sprint_planning.save
 		  index
 		else
 		  render json: { valid: false, error: @sprint_planning.errors }, status: 404

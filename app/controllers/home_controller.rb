@@ -15,6 +15,30 @@ def add_taskboard
       render json: resp
 end
 
+def get_release_sprint
+    resp =  []
+   @sprint_plannings = SprintPlanning.where("release_planning_id = #{params[:release_planning_id]}")
+   @sprint_plannings.each do |s|      
+      resp << {
+        'id' => s.project_master_id,
+        'sprint_name' => s.sprint_name
+      }
+    end
+    render json: resp
+end
+
+def get_sprint_task
+      resp =  []
+   @project_tasks = ProjectTask.where("project_master_id = #{params[:sprint_planning_id]}")
+   @project_tasks.each do |p|      
+      resp << {
+        'id' => p.id,
+        'task_name' => p.task_name
+      }
+    end
+    render json: resp
+end
+
 def add_sprint
   get_all_projects
   get_all_sprint_status
@@ -25,8 +49,7 @@ def add_sprint
         'project_list' => @project_resp,
         'sprint_list' => @sprint_status_resp,
         'release_list' => @release_resp
-      }
-  
+      }  
       render json: resp
 end
 
@@ -130,7 +153,6 @@ def get_release
       }
     end
     render json: resp
-
 end
 
 def get_sprint   
@@ -145,8 +167,13 @@ def get_sprint
     render json: resp
  end
 
+def all_projects
+  get_all_projects
+  render json: @project_resp
+end
 
 def get_task_project
+
  resp = []
     @project_task_mappings = ProjectTaskMapping.where("project_master_id = #{params[:project_master_id]}")
     @project_task_mappings.each do |v|    
@@ -171,14 +198,14 @@ end
 
    def get_client_project
       @project_all = ProjectMaster.where("client_id = #{params[:client_id]}")
-      @project_resp=[]
+      @client_project=[]
       @project_all.each do |p| 
-        @project_resp << {
+        @client_project << {
          'id' => p.id,
          'project_name' => p.project_name      
         }
       end
-      render json: @project_resp
+      render json: @client_project
    end
 
   def forget_password
