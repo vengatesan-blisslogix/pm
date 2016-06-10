@@ -1,12 +1,16 @@
 class Api::V1::ActivityMastersController < ApplicationController
 
 before_action :authenticate_user!
+before_action :authenticate_user!
+before_action :set_activity_params, only: [:show, :edit, :update]
 
  def index  
    @activities = ActivityMaster.all.order(:id)
 
    resp=[]
      @activities.each do |a| 
+
+      if a.is_page == "yes"
       resp << {
         'id' => a.id,
         'activity_name' => a.activity_Name,
@@ -15,10 +19,57 @@ before_action :authenticate_user!
         'is_page' => a.is_page
       }
       end
-
-    
-    render json: resp
-       
+    end    
+    render json: resp       
  end
+
+
+def create
+
+    @activity = ActivityMaster.new(activity_params)
+    if @activity.save
+        @activity.active = "active"
+        @activity.save
+      render json: { valid: true, msg:"#{@activity.activity_Name} created successfully."}
+     else
+        render json: { valid: false, error: @activity.errors }, status: 404
+     end
+    
+end
+
+ def update   
+
+    if @activity.update(activity_params)        
+       render json: { valid: true, msg:"#{@activity.activity_Name} updated successfully."}
+     else
+        render json: { valid: false, error: @activity.errors }, status: 404
+     end
+  end
+
+
+private
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_activity_params
+      @activity = ActivityMaster.find_by_id(params[:id])
+      if @activity
+      else
+        render json: { valid: false}, status: 404
+      end
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def activity_params           
+    
+      raw_parameters = { 
+       :activity_Name => "#{params[:activity_Name]}",
+       :active => "#{params[:active]}",
+       :activity_description => "#{params[:activity_description]}",
+       :is_page => "#{params[:is_page]}"
+   }
+      parameters = ActionController::Parameters.new(raw_parameters)
+      parameters.permit( :activity_Name, :active, :activity_description, :is_page)
+    
+    end
 
 end

@@ -47,7 +47,7 @@ icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachome
 i = 0
 
 ["Dashboard", "Clients", "Projects", "Project Users", "Release Planning", "Sprint Planning", "Tasks", "Task Board", "TimeSheets", "Reports", "Admin"].each do |al|
-a = ActivityMaster.create(activity_Name: "#{al}", active: 1, parent_id:0, href: href[i],  icon: icon[i])
+a = ActivityMaster.create(activity_Name: "#{al}", active: "active", is_page: "yes", parent_id:0, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: a.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
 end
@@ -62,7 +62,7 @@ href = ["home.report1", "home.report2"]
 icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
 i = 0
 ["Report1","Report2"].each do |re|
-rep = ActivityMaster.create(activity_Name: "#{re}", active: 1, parent_id: report.id, href: href[i],  icon: icon[i])
+rep = ActivityMaster.create(activity_Name: "#{re}", active: "active", is_page: "yes", parent_id: report.id, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: rep.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
 end
@@ -73,7 +73,7 @@ icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachome
 i = 0
 admin = ActivityMaster.find_by_activity_Name("Admin")
 ["Users","Roles","Activity","Branch"].each do |ad|
-ad = ActivityMaster.create(activity_Name: "#{ad}", active: 1, parent_id: admin.id, href: href[i],  icon: icon[i])
+ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: ad.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
 end
