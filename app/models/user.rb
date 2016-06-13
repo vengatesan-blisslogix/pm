@@ -91,19 +91,34 @@ end
 
 def getaccess
   resp = []
+  @act_id=""
   @access_value = User.find(id).role_master.role_activity_mappings.order(:id)
     @access_value.each do |access|      
     	@activity = ActivityMaster.find(access.activity_master_id)
       if @activity.parent_id.to_i == 0 and @activity.is_page == "yes" 
-      resp << {
-           'main_menu' => @activity.activity_Name,
-           'href'  =>  @activity.href,
-           'icon' => @activity.icon,
-           'sub_menu_status' => getstatus(access.activity_master_id),
-           'sub_menu' => getadmin_acccess(access.activity_master_id) 
+         if @act_id==""
+          @act_id=access.activity_master_id
+         else
+          @act_id=@act_id.to_s+","+access.activity_master_id.to_s
+         end
+    end
+end
+
+if @act_id!=""
+  @activity_all = ActivityMaster.where("id IN(#{@act_id})")
+  @activity_all.each  do |activity1|
+resp << {
+           'main_menu' => activity1.activity_Name,
+           'href'  =>  activity1.href,
+           'icon' => activity1.icon,
+           'sub_menu_status' => getstatus(activity1.id),
+           'sub_menu' => getadmin_acccess(activity1.id) 
       }
     end
-  end
+end
+
+
+ 
   resp
 end
 
