@@ -5,12 +5,16 @@ before_action :authenticate_user!
 before_action :set_activity_params, only: [:show, :edit, :update]
 
  def index  
-   @activities = ActivityMaster.all.order(:id)
 
+  if params[:page]
+      @activities = ActivityMaster.page(params[:page])
+  else
+      @activities = ActivityMaster.limit(10)
+  end
    resp=[]
      @activities.each do |a| 
 
-      if a.is_page == "yes"
+      #if a.is_page == "yes"
       resp << {
         'id' => a.id,
         'activity_name' => a.activity_Name,
@@ -18,9 +22,21 @@ before_action :set_activity_params, only: [:show, :edit, :update]
         'activity_description' => a.activity_description,
         'is_page' => a.is_page
       }
-      end
-    end    
-    render json: resp       
+      #end
+    end  
+@search=""
+    pagination(ActivityMaster,@search)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'resp' => resp
+      
+
+    }  
+    render json: response       
  end
 
 
