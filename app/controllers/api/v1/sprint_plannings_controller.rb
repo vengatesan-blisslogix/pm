@@ -31,11 +31,7 @@ before_action :set_sprint, only: [:show, :edit, :update]
 	  resp=[]
      @sprint_plannings.each do |p| 
     
-      if p.active.to_i==1
-        @status=true
-      else
-        @status=false
-      end
+
   
   if @search==""
       @project_master = ProjectMaster.find_by_id(p.project_master_id)
@@ -55,11 +51,12 @@ if p.project_master_id!=nil
     end
     else
       release_name =""
+      puts "---------@release_name-----------"
 end
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
-        'release_name' => @release_planning.release_name,
+        'release_name' => @release_name,
         'sprint_name' => p.sprint_name,
         'active' => p.active,
         'start_date' => p.start_date,        
