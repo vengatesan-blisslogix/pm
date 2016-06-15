@@ -44,7 +44,6 @@ before_action :set_sprint, only: [:show, :edit, :update]
       else
         @project_name =""
       end
-puts"===p.project_master_id======#{p.project_master_id}---#{p.project_master_id.class}"
 if p.project_master_id!=nil
       @release_planning = ReleasePlanning.where("project_master_id = #{p.project_master_id} and id = #{p.release_planning_id}").first
 
