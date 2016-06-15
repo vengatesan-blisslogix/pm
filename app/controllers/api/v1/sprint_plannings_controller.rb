@@ -48,18 +48,18 @@ if p.project_master_id!=nil
       @release_planning = ReleasePlanning.where("project_master_id = #{p.project_master_id} and id = #{p.release_planning_id}").first
 
       if @release_planning!=nil and @release_planning!=""
-        @release_name =@release_planning.release_name
+        @release_name =@release_planning.release_name                
       else
         @release_name =""
       end
     end
     else
-      @release_name =""
+      release_name =""
 end
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
-        'release_name' => @release_name,
+        'release_name' => @release_planning.release_name,
         'sprint_name' => p.sprint_name,
         'active' => p.active,
         'start_date' => p.start_date,        
