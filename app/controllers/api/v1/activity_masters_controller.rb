@@ -45,6 +45,7 @@ def create
     @activity = ActivityMaster.new(activity_params)
     if @activity.save
         @activity.active = "active"
+        @activity.is_page = "no"
         @activity.save
       render json: { valid: true, msg:"#{@activity.activity_Name} created successfully."}
      else

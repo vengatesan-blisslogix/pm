@@ -25,13 +25,21 @@ end
         @last_name = @user.last_name
 
 
+          
+
           @project_master = ProjectMaster.find_by_id(p.project_master_id)
           if @project_master!=nil and @project_master!=""
             @project_name =@project_master.project_name
+            @clients = Client.find_by_id(@project_master.client_id)
+            if @clients!=nil and @clients!=""
+              @client_name   =@clients.client_name 
+            else
+              @client_name   =""
+            end
           else
             @project_name =""
+            @client_name   =""
           end
-
 
           @role_master = RoleMaster.find_by_id(@user.role_master_id)
           if @role_master!=nil and @role_master!=""
@@ -60,6 +68,7 @@ end
         'id' => p.id,
         'role_name' => @role_name,
         'email' => @email,
+        'client_name' => @client_name,
         'project_name' => @project_name,
         'team_name' => @team_name,
         'first_name' => @first_name,
