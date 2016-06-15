@@ -45,7 +45,6 @@ def create
     @activity = ActivityMaster.new(activity_params)
     if @activity.save
         @activity.active = "active"
-        @activity.is_page = "no"
         @activity.save
       render json: { valid: true, msg:"#{@activity.activity_Name} created successfully."}
      else
@@ -79,7 +78,7 @@ private
     def activity_params           
     
       raw_parameters = { 
-       :activity_Name => "#{params[:activity_Name]}",
+       :activity_Name => "#{params[:activity_name]}",
        :active => "#{params[:active]}",
        :activity_description => "#{params[:activity_description]}",
        :is_page => "#{params[:is_page]}"
