@@ -5,13 +5,25 @@ class HomeController < ApplicationController
 
   def get_manager
     manager_resp = []
-    @role_masters = RoleMaster.where("(role_name like '%#{params[:role_name]}%'")
-    @users = User.where("role_master_id = #{params[:role_master_id]}")
+    @role_masters = RoleMaster.where("role_name like '%BA%' or role_name like '%PMO%'")
+  @role_id=""
+  @role_masters.each do |r|
+  if @role_id==""
+  @role_id = r.id
+  else
+  @role_id = @role_id.to_s+r.id.to_s
+  end
+  end
+
+  if @role_id!=""
+    @users = User.where("role_master_id IN(#{@role_id})")
    @users.each do |m|
     manager_resp << {
-      'managers' => m.role_name
+      'id' => m.id,
+      'managers' => m.name
     }
      end
+  end
       render json: manager_resp
   end
 
