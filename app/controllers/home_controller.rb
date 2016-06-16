@@ -3,29 +3,31 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
-  def get_manager
-    manager_resp = []
-    @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PMANDBA% 'or role_name like '%BA%' or role_name like '%PM%'")
-  @role_id=""
-  @role_masters.each do |r|
-  if @role_id==""
-  @role_id = r.id
-  else
-  @role_id = @role_id.to_s+r.id.to_s
-  end
-  end
 
-  if @role_id!=""
-    @users = User.where("role_master_id IN(#{@role_id})")
-   @users.each do |m|
-    puts ""
-    manager_resp << {
-      'id' => m.id,
-      'managers' => "#{m.name} #{m.last_name}"
-     end
-  end
-      render json: manager_resp
-  end
+  def get_manager
+      manager_resp = []
+      @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PMANDBA% 'or role_name like '%BA%' or role_name like '%PM%'")
+    @role_id=""
+    @role_masters.each do |r|
+    if @role_id==""
+    @role_id = r.id
+    else
+    @role_id = @role_id.to_s+r.id.to_s
+    end
+    end
+
+    if @role_id!=""
+      @users = User.where("role_master_id IN(#{@role_id})")
+     @users.each do |m|
+      manager_resp << {
+        'id' => m.id,
+        'managers' => "#{m.name} #{m.last_name}"
+      }
+       end
+    end
+    render json: manager_resp
+end
+
 
 def add_taskboard
   get_all_projects
