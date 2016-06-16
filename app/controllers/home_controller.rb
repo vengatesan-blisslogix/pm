@@ -3,6 +3,18 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+  def get_manager
+    manager_resp = []
+    @role_masters = RoleMaster.where("(role_name like '%#{params[:role_name]}%'")
+    @users = User.where("role_master_id = #{params[:role_master_id]}")
+   @users.each do |m|
+    manager_resp << {
+      'managers' => m.role_name
+    }
+     end
+      render json: manager_resp
+  end
+
 def add_taskboard
   get_all_projects
   get_project_sprint(params[:project_master_id])

@@ -88,7 +88,8 @@ end
 	    if @sprint_planning.save
         @sprint_planning.active = "active"
         @sprint_planning.save
-		  index
+		    render json: { valid: true, msg:"#{@sprint_planning.sprint_name} created successfully."}  
+      #index
 		else
 		  render json: { valid: false, error: @sprint_planning.errors }, status: 404
 		end    

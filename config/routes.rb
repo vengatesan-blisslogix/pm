@@ -27,6 +27,9 @@ match "/api/v1/get_client_project", :to => "home#get_client_project", :via => ["
 match "/api/v1/all_projects", :to => "home#all_projects", :via => ["get"]
 match "/api/v1/get_release_sprint", :to => "home#get_release_sprint", :via => ["get"]
 match "/api/v1/get_sprint_task", :to => "home#get_sprint_task", :via => ["get"]
+match "/api/v1/get_manager", :to => "home#get_manager", :via => ["get"]
+
+
 
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'

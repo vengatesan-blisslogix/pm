@@ -39,6 +39,9 @@ before_action :set_activity_params, only: [:show, :edit, :update]
     render json: response       
  end
 
+def show  
+   render json: @activity
+end
 
 def create
 
