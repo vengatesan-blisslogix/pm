@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   def get_manager
     manager_resp = []
-    @role_masters = RoleMaster.where("role_name like '%BA%' or role_name like '%PMO%'")
+    @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PMANDBA% 'or role_name like '%BA%' or role_name like '%PM%'")
   @role_id=""
   @role_masters.each do |r|
   if @role_id==""
