@@ -18,10 +18,10 @@ class HomeController < ApplicationController
   if @role_id!=""
     @users = User.where("role_master_id IN(#{@role_id})")
    @users.each do |m|
+    puts ""
     manager_resp << {
       'id' => m.id,
-      'managers' => m.name
-    }
+      'managers' => "#{m.name} #{m.last_name}"
      end
   end
       render json: manager_resp
