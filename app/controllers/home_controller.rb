@@ -12,12 +12,13 @@ class HomeController < ApplicationController
     if @role_id==""
     @role_id = r.id
     else
-    @role_id = @role_id.to_s+r.id.to_s
+    @role_id = @role_id.to_s+","+r.id.to_s
     end
     end
 
     if @role_id!=""
       @users = User.where("role_master_id IN(#{@role_id})")
+      puts "--------#{@role_id}--------"
      @users.each do |m|
       manager_resp << {
         'id' => m.id,
