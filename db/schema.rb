@@ -237,6 +237,7 @@ ActiveRecord::Schema.define(version: 20160517074248) do
     t.string   "comments"
     t.string   "active"
     t.string   "release_notes"
+    t.string   "flag_name"
     t.integer  "approved"
     t.integer  "approved_by_user_id"
     t.string   "qa_approved"
