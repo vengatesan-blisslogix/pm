@@ -38,7 +38,8 @@ before_action :set_planning, only: [:show, :edit, :update]
         'end_date' => t.end_date,        
         'release_notes' => t.release_notes,        
         'user_id' => t.user_id, 
-        'active' => t.active,
+        'active' => t.active, 
+        'flag_name' => t.flag_name,
         'project_name' => @project_name,
         'project_list' => @project_resp
       }      
