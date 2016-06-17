@@ -28,6 +28,7 @@ match "/api/v1/all_projects", :to => "home#all_projects", :via => ["get"]
 match "/api/v1/get_release_sprint", :to => "home#get_release_sprint", :via => ["get"]
 match "/api/v1/get_sprint_task", :to => "home#get_sprint_task", :via => ["get"]
 match "/api/v1/get_manager", :to => "home#get_manager", :via => ["get"]
+match "/api/v1/get_user", :to => "home#get_user", :via => ["get"]
 
 
 
