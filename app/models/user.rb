@@ -105,7 +105,7 @@ def getaccess
 end
 
 if @act_id!=""
-   @activity_all = ActivityMaster.where("id IN(#{@act_id})")
+   @activity_all = ActivityMaster.where("id IN(#{@act_id})").order('id asc')
 
   @activity_all.each  do |activity1|
 resp << {
