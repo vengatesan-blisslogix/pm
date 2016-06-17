@@ -95,8 +95,8 @@ private
     end
 
     def planning_params
-      raw_parameters = { :release_name => "#{params[:release_name]}", :start_date => "#{params[:start_date]}", :end_date => "#{params[:end_date]}", :comments => "#{params[:comments]}",:active => "#{params[:active]}", :release_notes => "#{params[:release_notes]}", :approved => "#{params[:approved]}", :approved_by_user_id => "#{params[:approved_by_user_id]}", :qa_approved => "#{params[:qa_approved]}", :qa_approved_by_user_id => "#{params[:qa_approved_by_user_id]}", :qa_approved_date_time => "#{params[:qa_approved_date_time]}", :user_id => "#{params[:user_id]}", :project_master_id => "#{params[:project_master_id]}" }
+      raw_parameters = { :release_name => "#{params[:release_name]}", :start_date => "#{params[:start_date]}", :end_date => "#{params[:end_date]}", :comments => "#{params[:comments]}",:active => "#{params[:active]}", :release_notes => "#{params[:release_notes]}", :approved => "#{params[:approved]}", :approved_by_user_id => "#{params[:approved_by_user_id]}", :qa_approved => "#{params[:qa_approved]}", :qa_approved_by_user_id => "#{params[:qa_approved_by_user_id]}", :qa_approved_date_time => "#{params[:qa_approved_date_time]}", :user_id => "#{params[:user_id]}", :project_master_id => "#{params[:project_master_id]}", :flag_name => "#{params[:flag_name]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:release_name, :start_date, :end_date, :comments, :active, :release_notes, :approved, :approved_by_user_id, :qa_approved, :qa_approved_by_user_id,:qa_approved_date_time, :user_id, :project_master_id)    
+      parameters.permit(:release_name, :start_date, :end_date, :comments, :active, :release_notes, :approved, :approved_by_user_id, :qa_approved, :qa_approved_by_user_id,:qa_approved_date_time, :user_id, :project_master_id, :flag_name)    
     end
 end
