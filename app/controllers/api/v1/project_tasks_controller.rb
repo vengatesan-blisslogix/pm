@@ -15,11 +15,7 @@ before_action :set_project, only: [:show, :edit, :update]
 	  resp=[]
      @project_tasks.each do |p| 
     
-      if p.active.to_i==1
-        @status=true
-      else
-        @status=false
-      end
+
  
         @project_master = ProjectMaster.find_by_id(params[:project_master_id])
         if @project_master!=nil and @project_master!=""
@@ -69,6 +65,8 @@ def create
 
     @project = ProjectTask.new(project_params)
     if @project.save
+          @project.active = "active"
+        @project.save
     	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
