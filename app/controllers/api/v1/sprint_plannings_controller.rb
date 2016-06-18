@@ -9,10 +9,7 @@ before_action :set_sprint, only: [:show, :edit, :update]
 
     if params[:project_master_id] && params[:release_planning_id]
       @search = "project_master_id = #{params[:project_master_id]} and release_planning_id = #{params[:release_planning_id]}"
-    else
-      @search = ""
-    end
-    
+
         @project_master = ProjectMaster.find_by_id(params[:project_master_id])
             if @project_master!=nil and @project_master!=""
               @project_name =@project_master.project_name
@@ -28,6 +25,9 @@ before_action :set_sprint, only: [:show, :edit, :update]
               @release_name =""
             end
 
+    else
+      @search = ""
+    end
 
 
 	  @sprint_plannings = SprintPlanning.where(@search).page(params[:page])
