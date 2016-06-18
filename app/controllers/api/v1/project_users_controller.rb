@@ -22,10 +22,7 @@ end
       if @user!=nil and @user!=""
         @email = @user.email
         @first_name = @user.name
-        @last_name = @user.last_name
-
-
-          
+        @last_name = @user.last_name          
 
           @project_master = ProjectMaster.find_by_id(p.project_master_id)
           if @project_master!=nil and @project_master!=""
