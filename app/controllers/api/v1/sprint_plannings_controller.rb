@@ -30,12 +30,15 @@ before_action :set_sprint, only: [:show, :edit, :update]
     end
 
 
+puts "#{@search}"
+
 	  @sprint_plannings = SprintPlanning.where(@search).page(params[:page])
 	  resp=[]
      @sprint_plannings.each do |p| 
     
  
   if @search==""
+    puts "#{@search}"
       @project_master = ProjectMaster.find_by_id(p.project_master_id)
       if @project_master!=nil and @project_master!=""
         @project_name =@project_master.project_name
