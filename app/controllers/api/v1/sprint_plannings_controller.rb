@@ -6,27 +6,30 @@ before_action :set_sprint, only: [:show, :edit, :update]
 	def index
 
   get_all_projects
+
     if params[:project_master_id] && params[:release_planning_id]
       @search = "project_master_id = #{params[:project_master_id]} and release_planning_id = #{params[:release_planning_id]}"
-    
-  @project_master = ProjectMaster.find_by_id(params[:project_master_id])
-      if @project_master!=nil and @project_master!=""
-        @project_name =@project_master.project_name
-      else
-        @project_name =""
-      end
-
-      @release_planning = ReleasePlanning.find_by_id(params[:release_planning_id])
-
-      if @release_planning!=nil and @release_planning!=""
-        @release_name =@release_planning.release_name
-      else
-        @release_name =""
-      end
-
     else
       @search = ""
     end
+    
+        @project_master = ProjectMaster.find_by_id(params[:project_master_id])
+            if @project_master!=nil and @project_master!=""
+              @project_name =@project_master.project_name
+            else
+              @project_name =""
+            end
+
+            @release_planning = ReleasePlanning.find_by_id(params[:release_planning_id])
+
+            if @release_planning!=nil and @release_planning!=""
+              @release_name =@release_planning.release_name
+            else
+              @release_name =""
+            end
+
+
+
 	  @sprint_plannings = SprintPlanning.where(@search).page(params[:page])
 	  resp=[]
      @sprint_plannings.each do |p| 
@@ -39,19 +42,19 @@ before_action :set_sprint, only: [:show, :edit, :update]
       else
         @project_name =""
       end
-if p.project_master_id!=nil
-      @release_planning = ReleasePlanning.where("project_master_id = #{p.project_master_id} and id = #{p.release_planning_id}").first
+      if p.project_master_id!=nil
+            @release_planning = ReleasePlanning.where("project_master_id = #{p.project_master_id} and id = #{p.release_planning_id}").first
 
-      if @release_planning!=nil and @release_planning!=""
-        @release_name =@release_planning.release_name                
-      else
-        @release_name =""
+            if @release_planning!=nil and @release_planning!=""
+              @release_name =@release_planning.release_name                
+            else
+              @release_name =""
+            end
+          end
+          else
+            release_name =""
+            puts "---------@release_name-----------"
       end
-    end
-    else
-      release_name =""
-      puts "---------@release_name-----------"
-end
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
