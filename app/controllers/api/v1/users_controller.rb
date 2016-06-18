@@ -23,19 +23,19 @@ before_action :set_user, only: [:show, :edit, :update]
       if @search_role != "" and @search_email != ""
         @search = "#{@search_role} and #{@search_email} and id != 1"
       elsif @search_role != ""
-        @search = "#{@search_role}and id != 1"
+        @search = "#{@search_role} and id != 1"
       elsif @search_email !=""
-        @search = "#{@search_email}and id != 1"
+        @search = "#{@search_email} and id != 1"
       else
-        @search = ""
+        @search = "id != 1"
       end
 
       if params[:team_id]!=nil and params[:team_id]!=""
         @search_team ="team_id = '#{params[:team_id]}'"
           if @search != ""
-            @search = "#{@search} and #{@search_team}"
+            @search = "#{@search} and #{@search_team} and id != 1"
           else
-            @search = "#{@search_team}"
+            @search = "#{@search_team} and id != 1"
           end
       end
 
