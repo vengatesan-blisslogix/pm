@@ -21,11 +21,11 @@ before_action :set_user, only: [:show, :edit, :update]
       end
 
       if @search_role != "" and @search_email != ""
-        @search = "#{@search_role} and #{@search_email}"
+        @search = "#{@search_role} and #{@search_email} and id != 1"
       elsif @search_role != ""
-        @search = "#{@search_role}"
+        @search = "#{@search_role}and id != 1"
       elsif @search_email !=""
-        @search = "#{@search_email}"
+        @search = "#{@search_email}and id != 1"
       else
         @search = ""
       end

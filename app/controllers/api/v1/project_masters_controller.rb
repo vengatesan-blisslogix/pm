@@ -30,7 +30,6 @@ def index
 
 @find_user = User.find_by_id(params[:user_id])
   if @find_user and @find_user
-
     
   end
   #search
