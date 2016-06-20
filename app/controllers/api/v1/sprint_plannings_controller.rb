@@ -35,6 +35,15 @@ puts "#{@search}"
 	  @sprint_plannings = SprintPlanning.where(@search).page(params[:page])
 	  resp=[]
      @sprint_plannings.each do |p| 
+
+
+      if p.active.to_i==1
+        @status= "active"
+      elsif p.active.to_i==2
+        @status= "active"
+      else
+        @status= "inactive"
+      end
     
  
   if @search==""
@@ -63,7 +72,7 @@ puts "#{@search}"
         'project_name' => @project_name,
         'release_name' => @release_name,
         'sprint_name' => p.sprint_name,
-        'active' => p.active,
+        'active' => @status,
         'start_date' => p.start_date,        
         'end_date' => p.end_date,
         'sprint_desc' => p.sprint_desc
