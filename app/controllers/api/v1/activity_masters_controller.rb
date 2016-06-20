@@ -49,6 +49,9 @@ def create
     if @activity.save
         @activity.active = "active"
         @activity.save
+        @role_activity = RoleActivityMapping.new
+        RoleActivityMapping.create(role_master_id: 1, activity_master_id: 1, access_value: 1, user_id: 1, active: 1)
+
       render json: { valid: true, msg:"#{@activity.activity_Name} created successfully."}
      else
         render json: { valid: false, error: @activity.errors }, status: 404
