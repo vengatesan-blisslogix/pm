@@ -93,6 +93,7 @@ puts "#{@search}"
 	    if @sprint_planning.save
         @sprint_planning.active = "active"
         @sprint_planning.save
+        SprintStatus.create(status: "active", active: 1, user_id: 1)
 		    render json: { valid: true, msg:"#{@sprint_planning.sprint_name} created successfully."}  
       #index
 		else
