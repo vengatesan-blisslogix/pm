@@ -72,6 +72,7 @@ def getadmin_acccess(act_id)
   if @sub_activity != nil and @sub_activity.size.to_i!=0
         @sub_activity.each do |a|
         sub <<  {
+          'id' => a.id,
           'menu' =>a.activity_Name,
           'href'  =>  a.href,
           'icon' => a.icon
@@ -109,6 +110,7 @@ if @act_id!=""
    @activity_all = ActivityMaster.where("id IN(#{@act_id})")
 
   @activity_all.each  do |activity1|
+    puts "#{activity1.id}"
 resp << {
            'id' => activity1.id,
            'main_menu' => activity1.activity_Name,

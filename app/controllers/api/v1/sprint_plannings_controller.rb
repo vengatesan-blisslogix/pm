@@ -45,7 +45,7 @@ puts "#{@search}"
       else
         @project_name =""
       end
-      if p.project_master_id!=nil
+      if p.project_master_id!=nil and p.release_planning_id !=nil
             @release_planning = ReleasePlanning.where("project_master_id = #{p.project_master_id} and id = #{p.release_planning_id}").first
 
             if @release_planning!=nil and @release_planning!=""
