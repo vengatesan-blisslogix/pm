@@ -37,7 +37,7 @@ before_action :set_project, only: [:show, :edit, :update]
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
-        'release_name' => @release_name,
+        #'release_name' => @release_name,
         'task_name' => p.task_name,        
         'description' => p.task_description,
         'status' => @status,
