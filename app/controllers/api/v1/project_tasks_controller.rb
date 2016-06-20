@@ -9,27 +9,30 @@ before_action :set_project, only: [:show, :edit, :update]
 
       if params[:project_master_id] 
         @search = "project_master_id = #{params[:project_master_id]}"
+      else
+        @search = ""
       end
 
 	  @project_tasks = ProjectTask.where(@search).page(params[:page])
 	  resp=[]
      @project_tasks.each do |p| 
-    
+  
 
- 
-        @project_master = ProjectMaster.find_by_id(params[:project_master_id])
-        if @project_master!=nil and @project_master!=""
-          @project_name =@project_master.project_name
-        else
-          @project_name =""
-        end      
 
-      @release_planning = ReleasePlanning.find_by(release_name: params[:release_name])
-      if @release_planning!=nil and @release_planning!=""
-        @release_name =@release_planning.release_name
+      @project_master = ProjectMaster.find_by_id(p.project_master_id)
+      if @project_master!=nil and @project_master!=""
+        @project_name =@project_master.project_name
       else
-        @release_name =""
-      end
+        @project_name =""
+      end      
+
+    #@release_planning = ReleasePlanning.find_by_id(p.release_planning_id)
+    #if @release_planning!=nil and @release_planning!=""
+     # @release_name =@release_planning.release_name
+    #else
+     # @release_name =""
+    #end
+
 
       resp << {
         'id' => p.id,
