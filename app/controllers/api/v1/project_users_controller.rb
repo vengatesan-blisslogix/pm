@@ -4,19 +4,23 @@ before_action :authenticate_user!
 before_action :set_project_user, only: [:show, :edit, :update]
 
  def index
-
    get_all_projects
 
+if params[:project_master_id] and params[:client_id]
+@search = "project_master_id=#{params[:project_master_id]} and client_id=#{params[:client_id]} and user_id!=0"
 
-if params[:project_master_id]
-  @search = "project_master_id=#{params[:project_master_id]} and user_id!=0"
+elsif params[:project_master_id]
+@search = "project_master_id=#{params[:project_master_id]}" 
+
+elsif params[:client_id]
+@search = "client_id=#{params[:client_id]}"
+
 else
-  @search = "project_master_id=#{@project_all[0].id} and user_id!=0"
+@search = "user_id!=0"
 end   
-    @project_users = ProjectUser.where("#{@search}").page(params[:page]).order(:id)
-    resp=[]
-     @project_users.each do |p|      
-     
+  @project_users = ProjectUser.where("#{@search}").page(params[:page]).order(:id)
+  resp=[]
+   @project_users.each do |p|
 
       @user = User.find_by_id(p.user_id)
       if @user!=nil and @user!=""
@@ -37,37 +41,17 @@ end
             @project_name =""
             @client_name   =""
           end
-
-          @role_master = RoleMaster.find_by_id(@user.role_master_id)
-          if @role_master!=nil and @role_master!=""
-            @role_name =@role_master.role_name
-          else
-            @role_name =""
-          end
-
-          @team_master = TeamMaster.find_by_id(@user.team_id)
-          if @team_master!=nil and @team_master!=""
-            @team_name =@team_master.team_name
-          else
-            @team_name =""
-          end
-
-
       else
         @email =""
         @role_name =""
          @team_name =""
-      end
-
-      
+      end      
 
       resp << {
         'id' => p.id,
-        'role_name' => @role_name,
         'email' => @email,
         'client_name' => @client_name,
         'project_name' => @project_name,
-        'team_name' => @team_name,
         'first_name' => @first_name,
         'last_name' => @last_name,
         'assigned_date' => p.assigned_date,        
@@ -77,7 +61,6 @@ end
         'is_billable' => p.is_billable
       }
       end
-
   
     pagination(ProjectUser,@search)
     get_all_clients
@@ -89,7 +72,6 @@ end
       'clients' => @client_resp,
       'project_users' => resp
     }
-
     render json: response
  end
 
@@ -165,9 +147,10 @@ private
              :utilization => "#{params[:utilization]}",
              :is_billable => "#{params[:is_billable]}",
              :project_master_id => "#{params[:project_master_id]}",
-             :user_id => "#{params[:user_id]}"
+             :user_id => "#{params[:user_id]}",
+             :client_id => "#{params[:client_id]}"
             }
             parameters = ActionController::Parameters.new(raw_parameters)
-            parameters.permit(:project_type_id, :assigned_date, :relieved_date, :active, :utilization, :is_billable, :project_master_id, :user_id)
+            parameters.permit(:project_type_id, :assigned_date, :relieved_date, :active, :utilization, :is_billable, :project_master_id, :user_id, :client_id)
     end 
 end
