@@ -121,10 +121,10 @@ end
 
  def update   
 
-     if @project.update(project_params)                       
-       render json: { valid: true, msg:"Project created successfully."}
+     if @project_user.update(project_params)                       
+       render json: { valid: true, msg:"Project updated successfully."}
      else
-        render json: { valid: false, error: @project.errors }, status: 404
+        render json: { valid: false, error: @project_user.errors }, status: 404
      end
   end
 
