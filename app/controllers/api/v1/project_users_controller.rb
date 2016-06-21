@@ -28,6 +28,21 @@ end
         @first_name = @user.name
         @last_name = @user.last_name          
 
+        @role_master = RoleMaster.find_by_id(@user.role_master_id)
+          if @role_master!=nil and @role_master!=""
+            @role_name =@role_master.role_name
+          else
+            @role_name =""
+          end
+
+
+          @team_master = TeamMaster.find_by_id(@user.team_id)
+          if @team_master!=nil and @team_master!=""
+            @team_name =@team_master.team_name
+          else
+            @team_name =""
+          end
+
           @project_master = ProjectMaster.find_by_id(p.project_master_id)
           if @project_master!=nil and @project_master!=""
             @project_name =@project_master.project_name

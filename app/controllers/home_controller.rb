@@ -136,7 +136,7 @@ def get_project_users
    @projects = ProjectMaster.all
    @projects.each do |p|   
       proj_resp << {
-        'id' => t.id,
+        'id' => p.id,
         'project_name' => p.project_name,
       }
     end    
