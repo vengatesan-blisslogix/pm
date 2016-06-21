@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620073106) do
+ActiveRecord::Schema.define(version: 20160621101820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,7 +222,7 @@ ActiveRecord::Schema.define(version: 20160620073106) do
     t.date     "assigned_date"
     t.date     "relieved_date"
     t.string   "active"
-    t.float    "utilization"
+    t.integer  "utilization"
     t.string   "is_billable"
     t.integer  "project_master_id"
     t.integer  "user_id"
