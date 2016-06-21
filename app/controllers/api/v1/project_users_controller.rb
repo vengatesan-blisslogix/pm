@@ -31,7 +31,7 @@ end
           @project_master = ProjectMaster.find_by_id(p.project_master_id)
           if @project_master!=nil and @project_master!=""
             @project_name =@project_master.project_name
-            @clients = Client.find_by_id(@project_master.client_id)
+            @clients = Client.find_by_id(p.client_id)
             if @clients!=nil and @clients!=""
               @client_name   =@clients.client_name 
             else
