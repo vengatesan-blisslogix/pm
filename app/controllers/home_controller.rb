@@ -19,7 +19,9 @@ class HomeController < ApplicationController
     if @role_id!=""
       @users = User.where("role_master_id IN(#{@role_id})")
       puts "--------#{@role_id}--------"
-     @users.each do |m|
+      @users.each do |m|
+        @check_u = ProjectUser.find_by_sql("select sum(utilization) from project_users where user_id=#{m.id}")
+        if @check_u.to_i < 100
       manager_resp << {
         'id' => m.id,
         'managers' => "#{m.name} #{m.last_name}"
@@ -45,7 +47,9 @@ end
     if @role_id!=""
       @users = User.where("role_master_id NOT IN(#{@role_id})")
       puts "--------#{@role_id}--------"
-     @users.each do |m|
+      @users.each do |m|
+        @check_u = ProjectUser.find_by_sql("select sum(utilization) from project_users where user_id=#{m.id}")
+        if @check_u.to_i < 100
       manager_resp << {
         'id' => m.id,
         'managers' => "#{m.name} #{m.last_name}"
