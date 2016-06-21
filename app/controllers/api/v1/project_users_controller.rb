@@ -105,6 +105,7 @@ convert_param_to_array(params[:is_billable])
       @project.is_billable = @billable[p]
       @project.project_master_id = params[:project_master_id]
       @project.user_id = user
+      @project.client_id = params[:client_id]
       @project.save!
        p=p+1
      end
