@@ -7,7 +7,7 @@ class Api::V1::TodotasklistsController < ApplicationController
  def index
   
     #@tasks = Todotasklist.where("created_by_user=#{params[:user_id]}").page(params[:page]).order(:id)    
-@tasks = Todotasklist.where("created_by_user=#{params[:user_id]}")
+@tasks = Todotasklist.where("created_by_user=#{params[:user_id]}").page(params[:page])
      resp=[]      
 		@tasks.each do |t| 
 			if t.status.to_i==1

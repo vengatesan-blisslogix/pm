@@ -5,7 +5,7 @@ before_action :set_role, only: [:show, :edit, :update]
 
  def index
   
-    @roles = RoleMaster.page(params[:page]).order(:id)    
+    @roles = RoleMaster.page(params[:page]).order(:id)   
 
      resp=[]
      @roles.each do |r| 
@@ -34,8 +34,7 @@ before_action :set_role, only: [:show, :edit, :update]
       'roles' => resp
     }
 
-    render json: response
-    
+    render json: response    
  end
 
 def show	
@@ -46,7 +45,7 @@ def show
         'description' => @role.description,
         'activity' => getaccess(@role.id)
       }
-      render json: resp
+      render json: resp      
 end
 
 def create
@@ -63,8 +62,7 @@ def create
         render json: { valid: true, msg:"#{@role.role_name} created successfully."}
      else
         render json: { valid: false, msg: @role.errors }, status: 404
-     end
-    
+     end    
 end
 
  def update   
