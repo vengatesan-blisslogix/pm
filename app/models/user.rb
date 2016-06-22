@@ -74,6 +74,7 @@ def getadmin_acccess(act_id)
         sub <<  {
           'id' => a.id,
           'menu' =>a.activity_Name,
+          'is_page' => a.is_page,
           'href'  =>  a.href,
           'icon' => a.icon
         }
