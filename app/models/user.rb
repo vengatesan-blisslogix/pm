@@ -98,7 +98,7 @@ def getaccess
   @access_value = User.find(id).role_master.role_activity_mappings.order(:id)
     @access_value.each do |access|      
     	@activity = ActivityMaster.find(access.activity_master_id)
-      if @activity.parent_id.to_i == 0 and @activity.is_page == "yes" 
+      if @activity.parent_id.to_i == 0 
          if @act_id==""
           @act_id=access.activity_master_id
          else
@@ -122,10 +122,7 @@ resp << {
            'sub_menu' => getadmin_acccess(activity1.id) 
       }
     end
-end
-
-
- 
+end 
   resp
 end
 
