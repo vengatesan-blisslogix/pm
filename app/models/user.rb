@@ -115,6 +115,7 @@ if @act_id!=""
 resp << {
            'id' => activity1.id,
            'main_menu' => activity1.activity_Name,
+           'is_page' => activity1.is_page,
            'href'  =>  activity1.href,
            'icon' => activity1.icon,
            'sub_menu_status' => getstatus(activity1.id),
