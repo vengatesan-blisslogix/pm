@@ -104,7 +104,7 @@ private
 
     def getaccess(role_id)
     resp = []
-    @access_value = ActivityMaster.all
+    @access_value = ActivityMaster.all.page(params[:page])
     @access_value.each do |access|
       @activity = RoleActivityMapping.where("role_master_id=#{role_id} and activity_master_id=#{access.id}")
       if @activity!=nil and @activity.size!=0
