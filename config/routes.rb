@@ -62,6 +62,7 @@ resources :home
       resources :timesheets
       resources :assigns
       resources :timelogs
+      resources :percentages
 
 
    end#namespace :v1 do
