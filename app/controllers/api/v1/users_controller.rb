@@ -79,6 +79,7 @@ resp_email << { 'email' => u.email }
           'first_name' => u.name,
           'last_name' => u.last_name,
           'email' => u.email,
+          'avatar' =>  u.avatar,
           'role' =>@role,
           'reporting_to' =>@reporting_to,
           'project_assigned' =>"",
