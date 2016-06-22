@@ -38,11 +38,11 @@ puts "#{@search}"
 
 
       if p.active.to_i==1
-        @status= "active"
+        @status= "open"
       elsif p.active.to_i==2
-        @status= "active"
+        @status= "ongoing"
       else
-        @status= "inactive"
+        @status= "closed"
       end
     
  
