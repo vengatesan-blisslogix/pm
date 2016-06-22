@@ -119,6 +119,16 @@ private
       }
     end
     resp
+    @search=""
+    pagination(ActivityMaster,@search)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'roles' => resp
+    }
   end
 
 end
