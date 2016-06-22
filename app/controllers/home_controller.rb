@@ -24,7 +24,7 @@ class HomeController < ApplicationController
          @check_u.each do |cu|
         @u << cu.utilization
       end     
-        if @u.sum < 100
+        if @u.sum.to_i < 100
         manager_resp << {
         'id' => m.id,
         'managers' => "#{m.name} #{m.last_name}"
