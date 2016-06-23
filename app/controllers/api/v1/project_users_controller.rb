@@ -76,7 +76,7 @@ end
  end
 
 def show  
-   render json: @project
+   render json: @project_user
 end
 
 def create
