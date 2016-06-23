@@ -67,13 +67,17 @@ before_action :set_user, only: [:show, :edit, :update]
         @branch =""
         end
 
-        if u.active.to_i==1
-        @status=true
+        if u.active ==1
+        @status="active"
         else
-        @status=false
+        @status="inactive"
         end
 resp_email << { 'email' => u.email }
+    pagination(User,@search)   
+    
+ 
         resp << {
+          'no_of_records' => @no_of_records.size,
           'id' => u.id,
           'first_name' => u.name,
           'last_name' => u.last_name,
