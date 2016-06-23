@@ -8,39 +8,38 @@ before_action :set_user, only: [:show, :edit, :update]
 
  def index
 
-      #search
-      if params[:role_id]!=nil and params[:role_id]!=""
+  #search
+      if params[:role_id]!=nil and params[:role_id]!=""and params[:role_id]!= "undefined"
         @search_role ="role_master_id = #{params[:role_id]}"
       else
         @search_role =""
       end
-      if params[:email]!=nil and params[:email]!=""
+      if params[:email]!=nil and params[:email]!="" and params[:project_id]!= "undefined"
         @search_email ="email = '#{params[:email]}'"
       else
         @search_email =""
       end
 
+
       if @search_role != "" and @search_email != ""
-        @search = "#{@search_role} and #{@search_email} and id != 1"
+        @search = "#{@search_role} and #{@search_email}"
       elsif @search_role != ""
-        @search = "#{@search_role} and id != 1"
+        @search = "#{@search_role}"
       elsif @search_email !=""
-        @search = "#{@search_email} and id != 1"
+        @search = "#{@search_email}"
       else
-        @search = "id != 1"
+        @search = ""
       end
 
-      if params[:team_id]!=nil and params[:team_id]!=""
-        @search_team ="team_id = '#{params[:team_id]}'"
-          if @search != ""
-            @search = "#{@search} and #{@search_team} and id != 1"
-          else
-            @search = "#{@search_team} and id != 1"
-          end
+      @find_user = User.find_by_id(params[:user_id])
+      if @find_user and @find_user
+        
       end
+  #search
 
-     
-      #search
+  puts "--#role---#{@search_role}------"
+  puts "--#email---#{@search_email}------"
+  puts "--#search---#{@search}------"
 
     @users = User.where("#{@search}").page(params[:page]).order(:id)
    

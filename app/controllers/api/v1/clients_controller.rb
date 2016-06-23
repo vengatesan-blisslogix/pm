@@ -8,25 +8,25 @@ before_action :set_client, only: [:show, :edit, :update]
   
 
       #search
-      if params[:client_id]!=nil and params[:client_id]!=""
-        @search_client ="id = #{params[:client_id]}"
-      else
-        @search_client =""
-      end
-      if params[:search]!=nil and params[:search]!=""
-        @search_word ="(client_name like '%#{params[:search]}%' or client_company_name like '%#{params[:search]}%' or  web_address like '%#{params[:search]}%' or client_email like '%#{params[:search]}%' or mobile like '%#{params[:search]}%' or skypke like '%#{params[:search]}%' or tag like '%#{params[:search]}%')"
-      else
-        @search_word =""
-      end
-      if @search_client != "" and @search_word != ""
-        @search = "#{@search_client} and #{@search_word}"
-      elsif @search_client != ""
-        @search = "#{@search_client}"
-      elsif @search_word !=""
-        @search = "#{@search_word}"
-      else
-        @search = ""
-      end
+        if params[:client_id]!=nil and params[:client_id]!=""
+          @search_client ="id = #{params[:client_id]}"
+        else
+          @search_client =""
+        end
+        if params[:search]!=nil and params[:search]!=""
+          @search_word ="(client_name like '%#{params[:search]}%' or client_company_name like '%#{params[:search]}%' or  web_address like '%#{params[:search]}%' or client_email like '%#{params[:search]}%' or mobile like '%#{params[:search]}%' or skypke like '%#{params[:search]}%' or tag like '%#{params[:search]}%')"
+        else
+          @search_word =""
+        end
+        if @search_client != "" and @search_word != ""
+          @search = "#{@search_client} and #{@search_word}"
+        elsif @search_client != ""
+          @search = "#{@search_client}"
+        elsif @search_word !=""
+          @search = "#{@search_word}"
+        else
+          @search = ""
+        end
       #search
 
     @clients = Client.where("#{@search}").page(params[:page]).order(:id)

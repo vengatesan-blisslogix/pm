@@ -52,9 +52,9 @@ private
     def technology_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :technology => "#{params[:technology]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}" }
+      raw_parameters = { :technology => "#{params[:technology]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}", :description => "#{params[:description]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:technology, :active, :user_id)
+      parameters.permit(:technology, :active, :description, :user_id)
     
     end
 
