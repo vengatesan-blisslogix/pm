@@ -10,10 +10,10 @@ before_action :set_role, only: [:show, :edit, :update]
      resp=[]
      @roles.each do |r| 
       @no_of_act = RoleActivityMapping.where(:role_master_id => r.id)
-      if r.active.to_i==1
-        @status=true
+      if r.active == "active"
+        @status="active"
       else
-        @status=false
+        @status="inactive"
       end
       resp << {
         'id' => r.id,
