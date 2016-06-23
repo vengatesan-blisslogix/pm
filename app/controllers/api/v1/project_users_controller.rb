@@ -49,11 +49,7 @@ end
 
       resp << {
         'id' => p.id,
-        'email' => @email,
-        'client_name' => @client_name,
         'project_name' => @project_name,
-        'first_name' => @first_name,
-        'last_name' => @last_name,
         'assigned_date' => p.assigned_date,        
         'relieved_date' => p.relieved_date,
         'status' => p.active,

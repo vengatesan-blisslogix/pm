@@ -72,12 +72,9 @@ before_action :set_user, only: [:show, :edit, :update]
         else
         @status="inactive"
         end
-resp_email << { 'email' => u.email }
-    pagination(User,@search)   
-    
+resp_email << { 'email' => u.email }    
  
         resp << {
-          'no_of_records' => @no_of_records.size,
           'id' => u.id,
           'first_name' => u.name,
           'last_name' => u.last_name,
