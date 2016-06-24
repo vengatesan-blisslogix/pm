@@ -18,11 +18,15 @@ elsif params[:client_id]
 else
 @search = "user_id!=0"
 end   
-  @project_users = ProjectUser.where("#{@search}").select(:project_master_id).uniq.page(params[:page]).order(:id)
+  @project_users = ProjectUser.where("#{@search}").page(params[:page]).order(:id)
   resp=[]
    @project_users.each do |p|
 
-        
+      @user = User.find_by_id(p.user_id)
+      if @user!=nil and @user!=""
+        @email = @user.email
+        @first_name = @user.name
+        @last_name = @user.last_name          
 
           @project_master = ProjectMaster.find_by_id(p.project_master_id)
           if @project_master!=nil and @project_master!=""
@@ -37,12 +41,20 @@ end
             @project_name =""
             @client_name   =""
           end
-        
+      else
+        @email =""
+        @role_name =""
+         @team_name =""
+      end      
 
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
-
+        'assigned_date' => p.assigned_date,        
+        'relieved_date' => p.relieved_date,
+        'status' => p.active,
+        'utilization' => p.utilization,
+        'is_billable' => p.is_billable
       }
       end
   
