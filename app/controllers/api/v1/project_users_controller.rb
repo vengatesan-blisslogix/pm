@@ -1,7 +1,7 @@
 class Api::V1::ProjectUsersController < ApplicationController
 
 before_action :authenticate_user!
-before_action :set_project_user, only: [:show, :edit, :update]
+before_action :set_project_user, only: [ :edit, :update]
 
  def index
    get_all_projects
@@ -106,7 +106,7 @@ def show
     end
 
 
-     @find_pro_user_manager = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 0")
+     @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 0")
 
 
      user_resp = []
@@ -129,8 +129,8 @@ def show
 
    response = {
      'id' => @project_master.id,
-     'start_date' => .start_date,
-     'end_date' => .end_date,
+     'start_date' => @project_master.start_date,
+     'end_date' => @project_master.end_date,
      'manager_resp' => manager_resp,
      'project_users' => user_resp
     }
