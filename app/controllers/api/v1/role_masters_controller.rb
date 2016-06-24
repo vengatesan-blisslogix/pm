@@ -70,6 +70,10 @@ end
  def update   
  
     if @role.update(role_master_params)
+      if params[:active] and params[:active]!= nil and params[:active]!= ""
+      else
+        @role.active = "active"
+      end
       if params[:activity_id] && params[:activity_id]!=""
         params[:activity_id] = params[:activity_id].gsub('"',"")
     	@all_activity = ActivityMaster.where("id IN (#{params[:activity_id]})")
