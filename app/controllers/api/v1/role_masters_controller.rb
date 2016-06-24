@@ -53,6 +53,8 @@ def create
 
     @role = RoleMaster.new(role_master_params)
     if @role.save
+          @role.active = "active"
+        @role.save
       if params[:activity_id] && params[:activity_id]!=""
         params[:activity_id] = params[:activity_id].gsub('"',"")
     	@all_activity = ActivityMaster.where("id IN (#{params[:activity_id]})")
@@ -102,15 +104,15 @@ private
       parameters.permit(:role_name, :active, :description)
     end
 
-  def getaccess(role_id)
+    def getaccess(role_id)
     resp = []
     @access_value = ActivityMaster.all.page(params[:page])
     @access_value.each do |access|
       @activity = RoleActivityMapping.where("role_master_id=#{role_id} and activity_master_id=#{access.id}")
       if @activity!=nil and @activity.size!=0
-        @selected = active
+        @selected = "active"
       else
-        @selected = inactive
+        @selected = "inactive"
       end
       resp << {
         'id' => access.id,
