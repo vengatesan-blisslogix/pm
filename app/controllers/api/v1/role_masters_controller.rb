@@ -10,17 +10,13 @@ before_action :set_role, only: [:show, :edit, :update]
      resp=[]
      @roles.each do |r| 
       @no_of_act = RoleActivityMapping.where(:role_master_id => r.id)
-      if r.active == "active"
-        @status="active"
-      else
-        @status="inactive"
-      end
+
       resp << {
         'id' => r.id,
         'role_name' => r.role_name,
         'no_of_activies' => @no_of_act.size,
         'description' => r.description,
-        'status' => @status
+        'status' => r.active
       }
       end
    @search=""
@@ -40,16 +36,12 @@ before_action :set_role, only: [:show, :edit, :update]
 
 def show	
   resp=[]
-  if @role.active.to_i == 1
-    @role_status = "active"
-  else
-    @role_status = "inactive"
-  end
+  
      resp << {
         'id' => @role.id,
         'role_name' => @role.role_name,
         'description' => @role.description,
-        'status' => @role_status,
+        'status' => @role.active,
         'activity' => getaccess(@role.id)
       }
       render json: resp
