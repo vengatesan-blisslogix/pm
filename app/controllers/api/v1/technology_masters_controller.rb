@@ -21,6 +21,8 @@ def create
 
     @technology = TechnologyMaster.new(technology_params)
     if @technology.save
+            @technology.active = "active"
+        @technology.save
     	render json: { valid: true, msg:"#{@technology.technology} created successfully."}  
       #index
     else

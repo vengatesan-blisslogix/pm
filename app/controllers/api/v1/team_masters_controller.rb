@@ -22,6 +22,8 @@ def create
 
     @team = TeamMaster.new(team_params)
     if @team.save
+      @team.active = "active"
+        @team.save
     	render json: { valid: true, msg:"#{@team.team_name} created successfully."}  
       #index
     else
