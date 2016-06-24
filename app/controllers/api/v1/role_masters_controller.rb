@@ -40,10 +40,16 @@ before_action :set_role, only: [:show, :edit, :update]
 
 def show	
   resp=[]
+  if @role.active.to_i == 1
+    @role_status = "active"
+  else
+    @role_status = "inactive"
+  end
      resp << {
         'id' => @role.id,
         'role_name' => @role.role_name,
         'description' => @role.description,
+        'status' => @role_status,
         'activity' => getaccess(@role.id)
       }
       render json: resp
@@ -110,9 +116,9 @@ private
     @access_value.each do |access|
       @activity = RoleActivityMapping.where("role_master_id=#{role_id} and activity_master_id=#{access.id}")
       if @activity!=nil and @activity.size!=0
-        @selected = "active"
+        @selected = "true"
       else
-        @selected = "inactive"
+        @selected = "false"
       end
       resp << {
         'id' => access.id,
