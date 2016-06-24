@@ -18,47 +18,57 @@ elsif params[:client_id]
 else
 @search = "user_id!=0"
 end   
-  @project_users = ProjectUser.where("#{@search}").page(params[:page]).order(:id)
+
+  @project_users = ProjectUser.where("#{@search}")
+
+if @project_users!=nil and @project_users.size!=0
+@pro_id = []
+@project_users.each do |pu|
+  @pro_id << pu.project_master_id
+end
+@pro_id=@pro_id.uniq
+@project_id = ""
+@pro_id.each do |pr|
+if @project_id==""
+@project_id = pr
+else
+@project_id = @project_id.to_s+","+pr.to_s
+end
+end
+if @project_id!=""
+@search_value ="id IN(#{@project_id})" 
+else
+  @search_value ="id IN(0)"
+  end
+else
+@search_value ="id IN(0)"
+end
+
+@project_master = ProjectMaster.where(@search_value).page(params[:page]).order(:id)
   resp=[]
-   @project_users.each do |p|
+   @project_master.each do |p|
 
-      @user = User.find_by_id(p.user_id)
-      if @user!=nil and @user!=""
-        @email = @user.email
-        @first_name = @user.name
-        @last_name = @user.last_name          
 
-          @project_master = ProjectMaster.find_by_id(p.project_master_id)
-          if @project_master!=nil and @project_master!=""
-            @project_name =@project_master.project_name
+            @project_name =p.project_name
             @clients = Client.find_by_id(p.client_id)
             if @clients!=nil and @clients!=""
               @client_name   =@clients.client_name 
             else
               @client_name   =""
             end
-          else
-            @project_name =""
-            @client_name   =""
-          end
-      else
-        @email =""
-        @role_name =""
-         @team_name =""
-      end      
+        
+        
 
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
-        'assigned_date' => p.assigned_date,        
-        'relieved_date' => p.relieved_date,
-        'status' => p.active,
-        'utilization' => p.utilization,
-        'is_billable' => p.is_billable
+        'assigned_date' => p.start_date,        
+        'relieved_date' => p.end_date,
+        'status' => p.active
       }
       end
   
-    pagination(ProjectUser,@search)
+    pagination(ProjectMaster,@search_value)
     get_all_clients
     response = {
       'no_of_records' => @no_of_records.size,
