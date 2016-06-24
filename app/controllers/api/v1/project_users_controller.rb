@@ -1,7 +1,7 @@
 class Api::V1::ProjectUsersController < ApplicationController
 
 before_action :authenticate_user!
-before_action :set_project_user, only: [ :edit, :update]
+before_action :set_project_user, only: [ :edit]
 
  def index
    get_all_projects
@@ -93,10 +93,14 @@ def show
      @find_pro_user_manager.each do |m|
 
      @find_user = User.find_by_id(m.user_id)
-
+if @find_user != nil
+      @name = @find_user.name
+    else
+      @name = "" 
+    end
      manager_resp << {
         'id' => m.id,
-        'manager_name' => @find_user.name,
+        'manager_name' => @name,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
@@ -113,10 +117,14 @@ def show
      @find_pro_user.each do |m|
 
      @find_user = User.find_by_id(m.user_id)
-
+     if @find_user != nil
+      @name = @find_user.name
+    else
+      @name = "" 
+    end
      user_resp << {
         'id' => m.id,
-        'user_name' => @find_user.name,
+        'user_name' => @name  ,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
