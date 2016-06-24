@@ -21,20 +21,20 @@ def create
 
     @technology = TechnologyMaster.new(technology_params)
     if @technology.save
-    	index
-     else
-        render json: { valid: false, error: @technology.errors }, status: 404
-     end
-    
-end
+    	render json: { valid: true, msg:"#{@technology.technology} created successfully."}  
+      #index
+    else
+      render json: { valid: false, error: @@technology.errors }, status: 404
+    end    
+  end
 
  def update   
 
     if @technology.update(technology_params)  	      
        render json: @technology
-     else
+    else
         render json: { valid: false, error: @technology.errors }, status: 404
-     end
+    end
   end
 
 

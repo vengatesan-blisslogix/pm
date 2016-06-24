@@ -82,7 +82,59 @@ end
  end
 
 def show  
-   render json: @project_user
+   #render json: @project_user
+   @project_master = ProjectMaster.find_by_id(params[:id])
+   if @project_master != nil
+
+     @find_pro_user_manager = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 1")
+
+
+     manager_resp = []
+     @find_pro_user_manager.each do |m|
+
+     @find_user = User.find_by_id(m.user_id)
+
+     manager_resp << {
+        'id' => m.id,
+        'manager_name' => @find_user.name,
+        'assigned_date'  =>m.assigned_date,
+        'relieved_date'  => m.relieved_date,
+        'status'  => m.active,
+        'utilization'  => m.utilization,
+        'is_billable'  => m.is_billable
+      }
+    end
+
+
+     @find_pro_user_manager = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 0")
+
+
+     user_resp = []
+     @find_pro_user.each do |m|
+
+     @find_user = User.find_by_id(m.user_id)
+
+     user_resp << {
+        'id' => m.id,
+        'user_name' => @find_user.name,
+        'assigned_date'  =>m.assigned_date,
+        'relieved_date'  => m.relieved_date,
+        'status'  => m.active,
+        'utilization'  => m.utilization,
+        'is_billable'  => m.is_billable
+      }
+    end
+   else
+   end
+
+   response = {
+     'id' => @project_master.id,
+     'start_date' => .start_date,
+     'end_date' => .end_date,
+     'manager_resp' => manager_resp,
+     'project_users' => user_resp
+    }
+    render json: response
 end
 
 def create
@@ -100,10 +152,63 @@ convert_param_to_array(params[:utilization])
 @utilization = @output_array
 convert_param_to_array(params[:is_billable])
 @billable = @output_array
+convert_param_to_array(params[:manager])
+@manager = @output_array
+
 
      p=0
      @s_user_id.each do |user|
       @project = ProjectUser.new
+      @project.assigned_date = @a_date[p]
+      @project.relieved_date = @r_date[p]
+      @project.active = @active[p]
+      @project.utilization = @utilization[p]
+      @project.is_billable = @billable[p]
+      @project.project_master_id = params[:project_master_id]
+      @project.user_id = user
+      @project.client_id = params[:client_id]
+      @project.manager = @manager[p]
+      @project.save!
+       p=p+1
+     end
+     
+        render json: { valid: true, msg:"created successfully."}
+      else
+        render json: { valid: false, error: "Invalid parameters" }, status: 404
+    end
+    rescue
+      render json: { valid: false, error: "Invalid parameters" }, status: 404
+    end    
+end
+
+ def update   
+
+     begin          
+if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
+convert_param_to_array(params[:selected_user_id])
+@s_user_id = @output_array
+convert_param_to_array(params[:assigned_date])
+@a_date = @output_array
+convert_param_to_array(params[:relieved_date])
+@r_date = @output_array
+convert_param_to_array(params[:active])
+@active = @output_array
+convert_param_to_array(params[:utilization])
+@utilization = @output_array
+convert_param_to_array(params[:is_billable])
+@billable = @output_array
+
+     p=0
+     @s_user_id.each do |user|
+      @find_pro_user = ProjectUser.where("project_master_id = #{params[:project_master_id]} and user_id = #{user}")
+
+      if @find_pro_user != nil and @find_pro_user.size !=0
+         @project = ProjectUser.find_by_id(@find_pro_user[0].id)
+      else
+         @project = ProjectUser.new
+      end
+     
+
       @project.assigned_date = @a_date[p]
       @project.relieved_date = @r_date[p]
       @project.active = @active[p]
@@ -122,16 +227,7 @@ convert_param_to_array(params[:is_billable])
     end
     rescue
       render json: { valid: false, error: "Invalid parameters" }, status: 404
-    end    
-end
-
- def update   
-
-     if @project_user.update(project_params)                       
-       render json: { valid: true, msg:"Project updated successfully."}
-     else
-        render json: { valid: false, error: @project_user.errors }, status: 404
-     end
+    end
   end
 
 

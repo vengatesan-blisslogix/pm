@@ -22,12 +22,12 @@ def create
 
     @team = TeamMaster.new(team_params)
     if @team.save
-    	index
-     else
-        render json: { valid: false, error: @team.errors }, status: 404
-     end
-    
-end
+    	render json: { valid: true, msg:"#{@team.team_name} created successfully."}  
+      #index
+    else
+      render json: { valid: false, error: @team.errors }, status: 404
+    end    
+  end
 
  def update   
 
