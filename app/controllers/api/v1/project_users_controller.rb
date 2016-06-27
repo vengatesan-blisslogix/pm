@@ -88,9 +88,16 @@ def show
 
      @find_pro_user_manager = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 1")
 
-
      manager_resp = []
      @find_pro_user_manager.each do |m|
+
+    @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
+
+    if @time_sheets != nil and @time_sheets.size.to_i > 6
+      @flag =  1
+    else
+      @flag = 0
+    end
 
      @find_user = User.find_by_id(m.user_id)
 if @find_user != nil
@@ -105,7 +112,8 @@ if @find_user != nil
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
         'utilization'  => m.utilization,
-        'is_billable'  => m.is_billable
+        'is_billable'  => m.is_billable,
+        'flag' => @flag
       }
     end
 
@@ -115,6 +123,14 @@ if @find_user != nil
 
      user_resp = []
      @find_pro_user.each do |m|
+
+     @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
+
+    if @time_sheets != nil and @time_sheets.size.to_i > 6
+      @flag =  1
+    else
+      @flag = 0
+    end
 
      @find_user = User.find_by_id(m.user_id)
      if @find_user != nil
@@ -129,7 +145,8 @@ if @find_user != nil
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
         'utilization'  => m.utilization,
-        'is_billable'  => m.is_billable
+        'is_billable'  => m.is_billable,
+        'flag' => @flag
       }
     end
    else
