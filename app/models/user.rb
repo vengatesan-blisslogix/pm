@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
            :omniauthable
   include DeviseTokenAuth::Concerns::User
  
-    validates :email, :name, :branch_id, :company_id, :role_master_id, presence: true
+    validates :email, :name, :employee_no, :branch_id, :company_id, :role_master_id, presence: true
     belongs_to :company
     belongs_to :role_master
     belongs_to :branch

@@ -32,9 +32,8 @@ class ApplicationController < ActionController::Base
         :last_name,
         :created_by_user,
         :reporting_to,
-        :nickname
-
-        
+        :nickname,
+        :employee_no        
       ]
     end
 

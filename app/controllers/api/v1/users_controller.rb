@@ -170,7 +170,8 @@ private
      :avatar,
      :last_name,
      :created_by_user,
-     :reporting_to)
+     :reporting_to,
+     :employee_no)
    end
 
 

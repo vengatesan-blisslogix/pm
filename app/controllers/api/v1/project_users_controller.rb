@@ -100,7 +100,7 @@ if @find_user != nil
     end
      manager_resp << {
         'id' => m.id,
-        'manager_name' => @name,
+        'managers' => @name,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
@@ -124,7 +124,7 @@ if @find_user != nil
     end
      user_resp << {
         'id' => m.id,
-        'user_name' => @name  ,
+        'users' => @name  ,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
