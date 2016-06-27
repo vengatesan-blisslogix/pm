@@ -48,7 +48,7 @@ def create
  def update   
 
     if @team.update(team_params)  	      
-       render json: @team
+       render json:{ valid: true, msg:"#{@team.team_name} updated successfully."}
      else
         render json: { valid: false, error: @team.errors }, status: 404
      end

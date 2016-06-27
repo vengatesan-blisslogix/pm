@@ -49,7 +49,7 @@ def create
  def update   
 
     if @technology.update(technology_params)  	      
-       render json: @technology
+       render json: { valid: true, msg:"#{@technology.technology} updated successfully."}
     else
         render json: { valid: false, error: @technology.errors }, status: 404
     end
