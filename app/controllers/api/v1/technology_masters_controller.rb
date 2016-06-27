@@ -3,15 +3,31 @@ class Api::V1::TechnologyMastersController < ApplicationController
 before_action :authenticate_user!
 before_action :set_tech, only: [:show, :edit, :update]
 
+def index
+   @technlogies = TechnologyMaster.page(params[:page]).order(:id)
+   resp=[]
+     @technlogies.each do |t| 
+      resp << {
+        'id' => t.id,
+        'technology' => t.technology,
+        'active' => t.active,
+        'description' => t.description
+      }
+      end
 
- def index
-	if params[:page] && params[:per]
-	  @technlogies = TechnologyMaster.page(params[:page]).per(params[:per])
-	else
-	  @technlogies = TechnologyMaster.limit(10)
-	end
-	  render json: @technlogies
- end
+    pagination(TechnologyMaster,@search_value)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'technology_resp' => resp
+
+    }
+  render json: response
+ 
+end
 
 def show	
    render json: @technology

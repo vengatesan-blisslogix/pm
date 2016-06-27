@@ -3,16 +3,30 @@ class Api::V1::TeamMastersController < ApplicationController
 before_action :authenticate_user!
 before_action :set_team, only: [:show, :edit, :update]
 
+def index
+   @teams = TeamMaster.page(params[:page]).order(:id)
+   resp=[]
+     @teams.each do |t| 
+      resp << {
+        'id' => t.id,
+        'team_name' => t.team_name,
+        'active' => t.active,
+        'description' => t.description
+      }
+      end
 
+    pagination(TeamMaster,@search_value)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'team_resp' => resp
 
- def index
-	if params[:page] && params[:per]
-	  @teams = TeamMaster.page(params[:page]).per(params[:per])
-	else
-	  @teams = TeamMaster.limit(10)
-	end
-	  render json: @teams  
- end
+    }
+  render json: response 
+end
 
 def show	
    render json: @team
