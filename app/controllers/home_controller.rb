@@ -232,7 +232,7 @@ def get_release
     end
     @project_release=[]
       @project_release << {
-         'client_project' => @client_project        
+         'project_release' => resp        
         }
       render json: @project_release
 end
