@@ -92,13 +92,12 @@ def show
      @find_pro_user_manager.each do |m|
 
     @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
-=begin
+
     if @time_sheets != nil and @time_sheets.size.to_i > 6
       @flag =  1
     else
       @flag = 0
     end
-=end
 
      @find_user = User.find_by_id(m.user_id)
 if @find_user != nil
@@ -127,13 +126,11 @@ if @find_user != nil
 
      @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
 
-=begin
     if @time_sheets != nil and @time_sheets.size.to_i > 6
       @flag =  1
     else
       @flag = 0
     end
-=end
 
      @find_user = User.find_by_id(m.user_id)
      if @find_user != nil
