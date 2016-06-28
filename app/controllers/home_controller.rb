@@ -102,7 +102,11 @@ def get_release_sprint
         'sprint_name' => s.sprint_name
       }
     end
-    render json: resp
+      @release_sprint=[]
+      @release_sprint << {
+         'release_sprint' => resp        
+        }
+      render json: @release_sprint
 end
 
 def get_sprint_task
@@ -114,7 +118,11 @@ def get_sprint_task
         'task_name' => p.task_name
       }
     end
-    render json: resp
+      @sprint_task=[]
+      @sprint_task << {
+         'sprint_task' => resp        
+        }
+      render json: @sprint_task
 end
 
 def add_sprint
