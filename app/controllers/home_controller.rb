@@ -283,7 +283,11 @@ end
          'project_name' => p.project_name      
         }
       end
-      render json: @client_project
+      @client_project1=[]
+      @client_project1 << {
+         'client_project' => @client_project        
+        }
+      render json: @client_project1
    end
 
   def forget_password
