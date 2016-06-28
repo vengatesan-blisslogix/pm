@@ -230,7 +230,11 @@ def get_release
         'release_name' => r.release_name
       }
     end
-    render json: resp
+    @project_release=[]
+      @project_release << {
+         'client_project' => @client_project        
+        }
+      render json: @project_release
 end
 
 def get_sprint   
