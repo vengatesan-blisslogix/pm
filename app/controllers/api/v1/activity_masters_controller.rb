@@ -44,18 +44,20 @@ def show
 end
 
 def create
-
     @activity = ActivityMaster.new(activity_params)
     if @activity.save
-        @activity.active = "active"
-        @activity.save
+      @activity.active = "active"
+        if params[:is_page]=="yes"
+        @activity.icon="fa fa-fw fa-tachometer"
+        end
+       @activity.save
+
         RoleActivityMapping.create(role_master_id: 1, activity_master_id: 1, access_value: 1, user_id: 1, active: 1)
 
       render json: { valid: true, msg:"#{@activity.activity_Name} created successfully."}
      else
         render json: { valid: false, error: @activity.errors }, status: 404
-     end
-    
+     end    
 end
 
  def update   
