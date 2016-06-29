@@ -15,7 +15,7 @@ def index
       }
       end
 
-    pagination(TeamMaster,@search_value)
+    pagination(Branch,@search_value)
     
     response = {
       'no_of_records' => @no_of_records.size,
