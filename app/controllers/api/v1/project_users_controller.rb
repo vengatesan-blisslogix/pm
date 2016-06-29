@@ -247,7 +247,7 @@ convert_param_to_array(params[:manager])
        p=p+1
      end
      
-        render json: { valid: true, msg:"created successfully."}
+        render json: { valid: true, msg:"updated successfully."}
       else
         render json: { valid: false, error: "Invalid parameters" }, status: 404
     end
