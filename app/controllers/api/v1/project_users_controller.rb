@@ -90,6 +90,7 @@ def show
 
      manager_resp = []
      @find_pro_user_manager.each do |m|
+if m.user_id != nil
 
     @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
 
@@ -98,7 +99,9 @@ def show
     else
       @flag = 0
     end
-
+  else
+    @flag = 0
+  end
 
      @find_user = User.find_by_id(m.user_id)
 if @find_user != nil
@@ -124,15 +127,17 @@ if @find_user != nil
 
      user_resp = []
      @find_pro_user.each do |m|
-
+if m.user_id != nil
      @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
-
-
+     
     if @time_sheets != nil and @time_sheets.size.to_i > 6
       @flag =  1
     else
       @flag = 0
     end
+  else
+    @flag = 0
+  end
 
 
      @find_user = User.find_by_id(m.user_id)
