@@ -5,7 +5,17 @@ before_action :set_branch, only: [:show, :edit, :update]
 
 
 def index
-   @branches = Branch.page(params[:page]).order(:id)
+
+      #search
+        if params[:search]!=nil and params[:search]!=""
+          @search ="(name like '%#{params[:search]}%')"
+        else
+          @search =""
+        end
+        #search
+
+    @branches = Branch.where("#{@search}").page(params[:page]).order(:id)
+
    resp=[]
      @branches.each do |b| 
       resp << {
@@ -15,7 +25,7 @@ def index
       }
       end
 
-    pagination(Branch,@search_value)
+    pagination(Branch,@search)
     
     response = {
       'no_of_records' => @no_of_records.size,
