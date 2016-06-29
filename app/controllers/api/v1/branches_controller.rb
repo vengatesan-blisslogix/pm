@@ -4,16 +4,29 @@ before_action :authenticate_user!
 before_action :set_branch, only: [:show, :edit, :update]
 
 
+def index
+   @branches = Branch.page(params[:page]).order(:id)
+   resp=[]
+     @branches.each do |b| 
+      resp << {
+        'id' => b.id,
+        'team_name' => b.name,
+        'active' => b.active,
+      }
+      end
 
- def index
-  if params[:page] && params[:per]
-    @branchs = Branch.page(params[:page]).per(params[:per])
-  else
-    @branchs = Branch.limit(10)
-  end
-     render json: @branchs 
+    pagination(TeamMaster,@search_value)
     
- end
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'branch_resp' => resp
+
+    }
+  render json: response 
+end
 
 def show	
    render json: @branch
@@ -23,21 +36,23 @@ def create
 
     @branch = Branch.new(branch_params)
     if @branch.save
-    	index
-     else
-        render json: { valid: false, error: @branch.errors }, status: 404
-     end
-    
-end
+      @branch.active = "1"
+        @branch.save
+      render json: { valid: true, msg:"#{@branch.name} created successfully."}  
+      #index
+    else
+      render json: { valid: false, error: @branch.errors }, status: 404
+    end    
+  end
 
- def update   
-
+ def update
     if @branch.update(branch_params)  	      
-       render json: @branch
+       render json: { valid: true, msg:"#{@branch.name} updated successfully."}
      else
         render json: { valid: false, error: @branch.errors }, status: 404
      end
   end
+
 private
 
     # Use callbacks to share common setup or constraints between actions.
