@@ -67,11 +67,7 @@ before_action :set_user, only: [:show, :edit, :update]
         @branch =""
         end
 
-        if u.active ==1
-        @status="active"
-        else
-        @status="inactive"
-        end
+
 resp_email << { 'email' => u.email }    
  
         resp << {
