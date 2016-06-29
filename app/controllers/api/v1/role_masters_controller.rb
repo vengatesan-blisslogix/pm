@@ -1,5 +1,5 @@
 class Api::V1::RoleMastersController < ApplicationController
-before_action :set_role, only: [:show, :edit, :update]
+  before_action :set_role, only: [:show, :edit, :update]
   before_action :authenticate_user!
 
 

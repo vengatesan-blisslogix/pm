@@ -16,6 +16,10 @@ class HomeController < ApplicationController
     end
   end
 
+  def set_holiday
+    
+  end
+
 
   def get_manager
       manager_resp = []

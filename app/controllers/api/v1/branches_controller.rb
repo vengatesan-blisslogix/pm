@@ -46,7 +46,7 @@ def create
 
     @branch = Branch.new(branch_params)
     if @branch.save
-      @branch.active = "1"
+      @branch.active = "active"
         @branch.save
       render json: { valid: true, msg:"#{@branch.name} created successfully."}  
       #index

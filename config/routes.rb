@@ -64,6 +64,7 @@ resources :home
       resources :assigns
       resources :timelogs
       resources :percentages
+      resources :holidays
 
 
    end#namespace :v1 do
