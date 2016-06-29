@@ -10,7 +10,7 @@ def index
      @branches.each do |b| 
       resp << {
         'id' => b.id,
-        'team_name' => b.name,
+        'branch_name' => b.name,
         'active' => b.active,
       }
       end
