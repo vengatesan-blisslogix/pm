@@ -144,7 +144,7 @@ puts "-----------#{@total_time}-----------"
     end
 
    def get_all_projects
-      @project_all = ProjectMaster.all.order(:id)
+      @project_all = ProjectMaster.all.order(:name)
       @project_resp=[]
       @project_all.each do |p| 
         @project_resp << {
@@ -199,7 +199,7 @@ puts "-----------#{@total_time}-----------"
     end
 
     def get_all_clients
-        @client_all = Client.all.order(:id)
+        @client_all = Client.all.order(:client_name)
         @client_resp=[]
         @client_all.each do |c| 
            @client_resp << {
@@ -210,7 +210,7 @@ puts "-----------#{@total_time}-----------"
     end 
 
       def get_all_technology
-        @technology_all = TechnologyMaster.all.order(:id)
+        @technology_all = TechnologyMaster.all.order(:technology)
         @technology_resp=[]
         @technology_all.each do |tm| 
            @technology_resp << {
@@ -221,7 +221,7 @@ puts "-----------#{@total_time}-----------"
     end   
 
       def get_all_team
-        @team_all = TeamMaster.all.order(:id)
+        @team_all = TeamMaster.all.order(:team_name)
         @team_resp=[]
         @team_all.each do |t| 
            @team_resp << {
@@ -232,7 +232,7 @@ puts "-----------#{@total_time}-----------"
     end   
 
       def get_all_branch
-        @branch_all = Branch.all.order(:id)
+        @branch_all = Branch.all.order(:name)
         @branch_resp=[]
         @branch_all.each do |b| 
            @branch_resp << {

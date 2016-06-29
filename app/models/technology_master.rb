@@ -1,6 +1,6 @@
 class TechnologyMaster < ActiveRecord::Base
 
-  default_scope { order('id DESC') }
+ # default_scope { order('id DESC') }
 
   validates :technology, presence: true, uniqueness: true
 
