@@ -48,7 +48,7 @@ def create
 
     @branch = Branch.new(branch_params)
     if @branch.save
-      @branch.active = "active"
+      @branch.active = params[:active]
         @branch.save
       render json: { valid: true, msg:"#{@branch.name} created successfully."}  
       #index
@@ -58,7 +58,9 @@ def create
   end
 
  def update
-    if @branch.update(branch_params)  	      
+    if @branch.update(branch_params)
+      @branch.active = params[:active]
+        @branch.save
        render json: { valid: true, msg:"#{@branch.name} updated successfully."}
      else
         render json: { valid: false, error: @branch.errors }, status: 404
@@ -79,7 +81,7 @@ private
     def branch_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :name => "#{params[:name]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}" }
+      raw_parameters = { :name => "#{params[:name]}", :user_id => "#{params[:user_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
       parameters.permit(:name, :active, :user_id)
     
