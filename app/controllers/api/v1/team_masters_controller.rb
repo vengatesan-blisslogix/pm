@@ -4,7 +4,15 @@ before_action :authenticate_user!
 before_action :set_team, only: [:show, :edit, :update]
 
 def index
-   @teams = TeamMaster.page(params[:page]).order(:id)
+      #search
+        if params[:search]!=nil and params[:search]!=""
+          @search ="(team_name like '%#{params[:search]}%')"
+        else
+          @search =""
+        end
+        #search
+
+    @teams = TeamMaster.where("#{@search}").page(params[:page]).order(:id)
    resp=[]
      @teams.each do |t| 
       resp << {
@@ -15,7 +23,7 @@ def index
       }
       end
 
-    pagination(TeamMaster,@search_value)
+    pagination(TeamMaster,@search)
     
     response = {
       'no_of_records' => @no_of_records.size,
