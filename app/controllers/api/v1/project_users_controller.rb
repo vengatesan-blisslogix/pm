@@ -219,6 +219,9 @@ convert_param_to_array(params[:utilization])
 @utilization = @output_array
 convert_param_to_array(params[:is_billable])
 @billable = @output_array
+convert_param_to_array(params[:manager])
+@manager = @output_array
+
 
      p=0
      @s_user_id.each do |user|
@@ -239,6 +242,7 @@ convert_param_to_array(params[:is_billable])
       @project.project_master_id = params[:project_master_id]
       @project.user_id = user
       @project.client_id = params[:client_id]
+      @project.manager = @manager[p]
       @project.save!
        p=p+1
      end
