@@ -103,15 +103,10 @@ if m.user_id != nil
     @flag = 0
   end
 
-     @find_user = User.find_by_id(m.user_id)
-if @find_user != nil
-      @name = "#{@find_user.name} #{@find_user.last_name}"
-    else
-      @name = "" 
-    end
+  
      manager_resp << {
         'id' => m.id,
-        'managers' => @name,
+        'manager_id' => m.user_id,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
@@ -139,16 +134,9 @@ if m.user_id != nil
     @flag = 0
   end
 
-
-     @find_user = User.find_by_id(m.user_id)
-     if @find_user != nil
-      @name = "#{@find_user.name} #{@find_user.last_name}"
-    else
-      @name = "" 
-    end
      user_resp << {
         'id' => m.id,
-        'users' => @name,
+        'user_id' => m.user_id,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
