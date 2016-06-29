@@ -4,8 +4,16 @@ before_action :authenticate_user!
 before_action :set_tech, only: [:show, :edit, :update]
 
 def index
-   @technlogies = TechnologyMaster.page(params[:page]).order(:id)
-   resp=[]
+#search
+        if params[:search]!=nil and params[:search]!=""
+          @search ="(technology like '%#{params[:search]}%')"
+        else
+          @search =""
+        end
+        #search
+
+    @technlogies = TechnologyMaster.where("#{@search}").page(params[:page]).order(:id)
+    resp=[]
      @technlogies.each do |t| 
       resp << {
         'id' => t.id,
@@ -15,7 +23,7 @@ def index
       }
       end
 
-    pagination(TechnologyMaster,@search_value)
+    pagination(TechnologyMaster,@search)
     
     response = {
       'no_of_records' => @no_of_records.size,
