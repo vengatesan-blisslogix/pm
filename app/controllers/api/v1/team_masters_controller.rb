@@ -6,7 +6,7 @@ before_action :set_team, only: [:show, :edit, :update]
 def index
       #search
         if params[:search]!=nil and params[:search]!=""
-          @search ="(team_name like '%#{params[:search]}%')"
+          @search ="id = #{params[:search]}"
         else
           @search =""
         end
@@ -24,12 +24,14 @@ def index
       end
 
     pagination(TeamMaster,@search)
-    
+    get_all_team
+
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'team_list' => @team_resp,
       'team_resp' => resp
 
     }

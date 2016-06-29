@@ -6,7 +6,7 @@ before_action :set_tech, only: [:show, :edit, :update]
 def index
 #search
         if params[:search]!=nil and params[:search]!=""
-          @search ="(technology like '%#{params[:search]}%')"
+          @search ="id = #{params[:search]}"
         else
           @search =""
         end
@@ -24,12 +24,13 @@ def index
       end
 
     pagination(TechnologyMaster,@search)
-    
+    get_all_technology
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'technology_list' => @technology_resp,
       'technology_resp' => resp
 
     }

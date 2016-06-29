@@ -209,6 +209,39 @@ puts "-----------#{@total_time}-----------"
         end
     end 
 
+      def get_all_technology
+        @technology_all = TechnologyMaster.all.order(:id)
+        @technology_resp=[]
+        @technology_all.each do |tm| 
+           @technology_resp << {
+          'id' => tm.id,
+          'technology_name' => tm.technology      
+        }
+        end
+    end   
+
+      def get_all_team
+        @team_all = TeamMaster.all.order(:id)
+        @team_resp=[]
+        @team_all.each do |t| 
+           @team_resp << {
+          'id' => t.id,
+          'team_name' => t.team_name      
+        }
+        end
+    end   
+
+      def get_all_branch
+        @branch_all = Branch.all.order(:id)
+        @branch_resp=[]
+        @branch_all.each do |b| 
+           @branch_resp << {
+          'id' => b.id,
+          'branch_name' => b.name      
+        }
+        end
+    end   
+
     def convert_param_to_array(value)
     value = value.gsub('"',"")
     @output_array = []

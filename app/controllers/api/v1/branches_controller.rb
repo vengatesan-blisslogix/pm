@@ -8,7 +8,7 @@ def index
 
       #search
         if params[:search]!=nil and params[:search]!=""
-          @search ="(name like '%#{params[:search]}%')"
+          @search ="id = #{params[:search]}"
         else
           @search =""
         end
@@ -26,12 +26,14 @@ def index
       end
 
     pagination(Branch,@search)
-    
+    get_all_branch
+
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'branch_list' => @branch_resp,
       'branch_resp' => resp
 
     }
