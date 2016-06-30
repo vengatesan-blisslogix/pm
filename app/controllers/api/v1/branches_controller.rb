@@ -14,7 +14,7 @@ def index
         end
         #search
 
-    @branches = Branch.where("#{@search}").page(params[:page]).order(:id)
+    @branches = Branch.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
 
    resp=[]
      @branches.each do |b| 
