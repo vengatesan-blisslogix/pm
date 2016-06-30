@@ -5,7 +5,7 @@ before_action :set_holiday, only: [:show, :edit, :update]
 
 def index
 
-    @holidays = Holiday.page(params[:page]).order(:id)
+    @holidays = Holiday.all.order(:id)
    resp=[]
      @holidays.each do |h| 
       resp << {
@@ -14,13 +14,13 @@ def index
         }
       end
 
-    pagination(Holiday,@search)
+    #pagination(Holiday,@search)
     
     response = {
-      'no_of_records' => @no_of_records.size,
-      'no_of_pages' => @no_pages,
-      'next' => @next,
-      'prev' => @prev,
+     # 'no_of_records' => @no_of_records.size,
+      #'no_of_pages' => @no_pages,
+      #'next' => @next,
+      #'prev' => @prev,
       'holiday_resp' => resp
 
     }
