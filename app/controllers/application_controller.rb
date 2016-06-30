@@ -144,7 +144,7 @@ puts "-----------#{@total_time}-----------"
     end
 
    def get_all_projects
-      @project_all = ProjectMaster.all.order(:name)
+      @project_all = ProjectMaster.all.order(:id)
       @project_resp=[]
       @project_all.each do |p| 
         @project_resp << {
@@ -199,7 +199,7 @@ puts "-----------#{@total_time}-----------"
     end
 
     def get_all_clients
-        @client_all = Client.all.order(:client_name)
+        @client_all = Client.all.order(:id)
         @client_resp=[]
         @client_all.each do |c| 
            @client_resp << {
