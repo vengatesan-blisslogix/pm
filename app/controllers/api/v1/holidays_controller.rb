@@ -5,7 +5,7 @@ before_action :set_holiday, only: [:show, :edit, :update]
 
 def index
 
-    @holidays = Holiday.all.order(:id)
+    @holidays = Holiday.all.order(:created_at => 'desc')
    resp=[]
      @holidays.each do |h| 
       resp << {

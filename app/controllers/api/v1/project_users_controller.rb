@@ -19,7 +19,7 @@ else
 @search = "user_id!=0"
 end   
 
-  @project_users = ProjectUser.where("#{@search}")
+  @project_users = ProjectUser.where("#{@search}").order(:created_at => 'desc')
 
 if @project_users!=nil and @project_users.size!=0
 @pro_id = []
@@ -44,7 +44,7 @@ else
 @search_value ="id IN(0)"
 end
 
-@project_master = ProjectMaster.where(@search_value).page(params[:page]).order(:id)
+@project_master = ProjectMaster.where(@search_value).page(params[:page]).order(:created_at => 'desc')
   resp=[]
    @project_master.each do |p|
 
