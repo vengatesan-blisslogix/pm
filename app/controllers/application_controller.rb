@@ -209,6 +209,28 @@ puts "-----------#{@total_time}-----------"
         end
     end 
 
+      def get_all_role
+        @role_all = RoleMaster.all.order(:role_name)
+        @role_resp=[]
+        @role_all.each do |rm| 
+           @role_resp << {
+          'id' => rm.id,
+          'role_name' => rm.role_name       
+        }
+        end
+    end   
+
+      def get_all_activity
+        @activity_all = ActivityMaster.all.order(:activity_Name)
+        @activity_resp=[]
+        @activity_all.each do |am| 
+           @activity_resp << {
+          'id' => am.id,
+          'activity_name' => am.activity_Name       
+        }
+        end
+    end    
+
       def get_all_technology
         @technology_all = TechnologyMaster.all.order(:technology)
         @technology_resp=[]

@@ -6,10 +6,18 @@ before_action :set_activity_params, only: [:show, :edit, :update]
 
  def index  
 
+    #search
+        if params[:search]!=nil and params[:search]!=""
+          @search ="id = #{params[:search]}"
+        else
+          @search =""
+        end
+        #search
+
   if params[:page]
-      @activities = ActivityMaster.page(params[:page]).order(:id)
+      @activities = ActivityMaster.where("#{@search}").page(params[:page]).order(:id)
   else
-      @activities = ActivityMaster.limit(10).order(:id)
+      @activities = ActivityMaster.where("#{@search}").limit(10).order(:id)
   end
    resp=[]
      @activities.each do |a| 
@@ -24,14 +32,15 @@ before_action :set_activity_params, only: [:show, :edit, :update]
       }
       #end
     end  
-@search=""
+#@search=""
     pagination(ActivityMaster,@search)
-    
+    get_all_activity
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'activity_list' => @activity_resp,
       'resp' => resp
       
 

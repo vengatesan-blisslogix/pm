@@ -4,8 +4,15 @@ class Api::V1::RoleMastersController < ApplicationController
 
 
  def index
+  #search
+        if params[:search]!=nil and params[:search]!=""
+          @search ="id = #{params[:search]}"
+        else
+          @search =""
+        end
+        #search
   
-    @roles = RoleMaster.page(params[:page]).order(:id)    
+    @roles = RoleMaster.where("#{@search}").page(params[:page]).order(:id)    
 
      resp=[]
      @roles.each do |r| 
@@ -19,14 +26,15 @@ class Api::V1::RoleMastersController < ApplicationController
         'status' => r.active
       }
       end
-   @search=""
+#   @search=""
     pagination(RoleMaster,@search)
-    
+    get_all_role
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'role_list' => @role_resp,
       'roles' => resp
     }
 
