@@ -118,8 +118,42 @@ resp_email << { 'email' => u.email }
     render json: response    
  end
 
-def show  
-   render json: @user
+def show
+  @tech_name = []  
+  @user_tech = UserTechnology.where("user_id = #{@user.id}")  
+  @user_tech.each do |ut|
+    @tech_first = TechnologyMaster.find_by_id(ut.technology_master_id)
+    @tech_name << {
+      'id' => ut.technology_master_id,
+      'technology_name' => @tech_first.technology      
+    }
+  end
+  response = {
+        'name' => @user.name,
+        'last_name' => @user.last_name,
+        'nickname' => @user.nickname,
+        'email' => @user.email,
+        'mobile_no' => @user.mobile_no,
+        'office_phone' => @user.office_phone,
+        'home_phone' => @user.home_phone,
+        'profile_photo' => @user.profile_photo,
+        'avatar_file_name' => @user.avatar_file_name,
+        'active' => @user.active,
+        'prior_experience' => @user.prior_experience,
+        'doj' => @user.doj,
+        'dob' => @user.dob,
+        'team_id' =>@user.team_id,
+        'created_by_user' => @user.created_by_user,
+        'reporting_to' => @user.reporting_to,
+        'branch_id' => @user.branch_id,
+        'company_id' => @user.company_id,
+        'role_master_id' => @user.role_master_id,
+        'original_password' => @user.original_password,
+        'password' => @user.password,        
+        'employee_no' => @user.employee_no,
+        'user_technology' => @tech_name
+    }
+   render json: response
 end
 
  def update   
