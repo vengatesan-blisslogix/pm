@@ -1,6 +1,6 @@
 class RoleMaster < ActiveRecord::Base
 
-  #default_scope { order('created_at DESC') }
+  default_scope { order('created_at DESC') }
 
    #max_paginates_per 10
    paginates_per $PER_PAGE
