@@ -13,7 +13,7 @@ before_action :set_project, only: [:show, :edit, :update]
         @search = ""
       end
 
-	  @project_tasks = ProjectTask.where(@search).page(params[:page])
+	  @project_tasks = ProjectTask.where(@search).page(params[:page]).order(:created_at => 'desc')
 	  resp=[]
      @project_tasks.each do |p| 
   

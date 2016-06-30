@@ -12,7 +12,7 @@ def index
         end
         #search
 
-    @technlogies = TechnologyMaster.where("#{@search}").page(params[:page]).order(:id)
+    @technlogies = TechnologyMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
     resp=[]
      @technlogies.each do |t| 
       resp << {

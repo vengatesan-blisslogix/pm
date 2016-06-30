@@ -33,7 +33,7 @@ def index
     
   end
   #search
-  @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:id)
+  @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
   resp=[]
   @project_masters.each do |p| 
       @pro_type = ProjectType.find_by_id(p.project_type_id)

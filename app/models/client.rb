@@ -1,6 +1,6 @@
 class Client < ActiveRecord::Base
 
-  default_scope { order('created_at DESC') }
+  #default_scope { order('created_at DESC') }
 
 
    validates :client_name,:client_email, presence: true, uniqueness: true

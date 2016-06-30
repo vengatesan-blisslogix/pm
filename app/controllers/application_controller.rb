@@ -144,7 +144,7 @@ puts "-----------#{@total_time}-----------"
     end
 
    def get_all_projects
-      @project_all = ProjectMaster.all.order(:id)
+      @project_all = ProjectMaster.all.order(:project_name)
       @project_resp=[]
       @project_all.each do |p| 
         @project_resp << {
@@ -157,7 +157,7 @@ puts "-----------#{@total_time}-----------"
    def get_all_releases(project_master_id)
      @release_resp=[]
      if project_master_id != nil && project_master_id != ""
-      @release_all = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}").order(:id)
+      @release_all = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}").order(:release_name)
        
       @release_all.each do |p| 
         @release_resp << {
@@ -176,7 +176,7 @@ puts "-----------#{@total_time}-----------"
    def get_project_sprint(project_master_id)
      @project_sprint_resp=[]
      if project_master_id != nil && project_master_id != ""
-      @release_all = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}").order(:id)
+      @release_all = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}").order(:release_name)
       
       @release_all.each do |p| 
         @project_sprint_resp << {
@@ -188,7 +188,7 @@ puts "-----------#{@total_time}-----------"
    end
 
    def get_all_sprint_status
-        @sprint_status_all = SprintStatus.all.order(:id)
+        @sprint_status_all = SprintStatus.all.order(:status)
         @sprint_status_resp=[]
         @sprint_status_all.each do |s| 
            @sprint_status_resp << {
@@ -199,7 +199,7 @@ puts "-----------#{@total_time}-----------"
     end
 
     def get_all_clients
-        @client_all = Client.all.order(:id)
+        @client_all = Client.all.order(:client_name)
         @client_resp=[]
         @client_all.each do |c| 
            @client_resp << {

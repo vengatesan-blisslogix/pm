@@ -32,7 +32,7 @@ before_action :set_sprint, only: [:show, :edit, :update]
 
 puts "#{@search}"
 
-	  @sprint_plannings = SprintPlanning.where(@search).page(params[:page])
+	  @sprint_plannings = SprintPlanning.where(@search).page(params[:page]).order(:created_at => 'desc')
 	  resp=[]
      @sprint_plannings.each do |p| 
 

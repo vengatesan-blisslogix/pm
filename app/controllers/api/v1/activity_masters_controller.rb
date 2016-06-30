@@ -7,9 +7,9 @@ before_action :set_activity_params, only: [:show, :edit, :update]
  def index  
 
   if params[:page]
-      @activities = ActivityMaster.page(params[:page])
+      @activities = ActivityMaster.page(params[:page]).order(:id)
   else
-      @activities = ActivityMaster.limit(10)
+      @activities = ActivityMaster.limit(10).order(:id)
   end
    resp=[]
      @activities.each do |a| 

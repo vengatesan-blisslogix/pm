@@ -41,7 +41,7 @@ before_action :set_user, only: [:show, :edit, :update]
   puts "--#email---#{@search_email}------"
   puts "--#search---#{@search}------"
 
-    @users = User.where("#{@search}").page(params[:page]).order(:id)
+    @users = User.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
    
     resp=[]
     resp_email = []
@@ -87,7 +87,7 @@ resp_email << { 'email' => u.email }
       
     pagination(User,@search)
     
-    @roles = RoleMaster.all.order(:id)
+    @roles = RoleMaster.all.order(:role_name)
     role_resp=[]
     @roles.each do |r| 
        role_resp << {
@@ -96,7 +96,7 @@ resp_email << { 'email' => u.email }
     }
     end
 
-     @teams = TeamMaster.all.order(:id)
+     @teams = TeamMaster.all.order(:team_name)
     team_resp=[]
     @teams.each do |t| 
        team_resp << {

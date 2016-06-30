@@ -29,7 +29,7 @@ before_action :set_client, only: [:show, :edit, :update]
         end
       #search
 
-    @clients = Client.where("#{@search}").page(params[:page]).order(:id)
+    @clients = Client.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
 
     resp=[]
      @clients.each do |c| 
