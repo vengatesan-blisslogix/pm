@@ -80,7 +80,10 @@ end
 
  def update   
 
-    if @project.update(project_params)  	      
+    if @project.update(project_params)  	
+      @project.save
+          @project.actual_duration = params[:actual_duration]
+        @project.save  
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
@@ -102,7 +105,7 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}",  :planned_duration => "#{params[:planned_duration]}",  :actual_duration => "#{params[:actual_duration]}", :project_master_id => "#{params[:project_master_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}",  :planned_duration => "#{params[:planned_duration]}", :project_master_id => "#{params[:project_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
       parameters.permit(:task_name, :task_description, :active, :priority, :planned_duration, :actual_duration, :project_master_id)
     

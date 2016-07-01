@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
  #protect_from_forgery with: :null_session
 
- $PER_PAGE = 10 #per page records
+ $PER_PAGE = 20 #per page records
  before_action :configure_permitted_parameters, if: :devise_controller?
   
   private
