@@ -13,7 +13,7 @@ before_action :set_planning, only: [:show, :edit, :update]
       @search = ""
     end
 
-    @release_plannings = ReleasePlanning.where(@search).page(params[:page])
+    @release_plannings = ReleasePlanning.where(@search).page(params[:page]).order(:created_at => 'desc')
     resp=[]
      @release_plannings.each do |t| 
     
