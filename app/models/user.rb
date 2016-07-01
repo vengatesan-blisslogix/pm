@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
       'id' => id,
       'provider' => provider,
       'uid' => uid,
+      'avatar' => avatar,
       'email' => email,      
       'Name' => name,      
       'role' => getrole,
