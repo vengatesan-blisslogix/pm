@@ -17,7 +17,7 @@ before_action :set_activity_params, only: [:show, :edit, :update]
   if params[:page]
       @activities = ActivityMaster.where("#{@search}").page(params[:page]).order(:id)
   else
-      @activities = ActivityMaster.where("#{@search}").limit(10).order(:id)
+      @activities = ActivityMaster.where("#{@search}").limit(20).order(:id)
   end
    resp=[]
      @activities.each do |a| 

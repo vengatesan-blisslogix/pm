@@ -10,7 +10,7 @@ before_action :set_usertech, only: [:show, :edit, :update]
 	if params[:page] && params[:per]
 	  @user_technologies = UserTechnology.page(params[:page]).per(params[:per])
 	else
-	  @user_technologies = UserTechnology.limit(10)
+	  @user_technologies = UserTechnology.limit(20)
 	end
 	  render json: @user_technologies     
  end

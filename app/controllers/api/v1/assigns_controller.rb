@@ -8,7 +8,7 @@ def index
   if params[:page] && params[:per]
   @assigns = Assign.page(params[:page]).per(params[:per])
   else
-  @assigns = Assign.limit(10)
+  @assigns = Assign.limit(20)
   end
   render json: @assigns
 end

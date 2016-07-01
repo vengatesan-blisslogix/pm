@@ -8,7 +8,7 @@ def index
   if params[:page] && params[:per]
 	@timelogs = Logtime.page(params[:page]).per(params[:per])
   else
-	@timelogs = Logtime.limit(10)
+	@timelogs = Logtime.limit(20)
   end
 	render json: @timelogs
 end

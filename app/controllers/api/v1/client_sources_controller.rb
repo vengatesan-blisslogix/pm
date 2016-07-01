@@ -8,7 +8,7 @@ before_action :set_client_source, only: [:show, :edit, :update]
   if params[:page] && params[:per]
     @client_sources = ClientSource.page(params[:page]).per(params[:per])
   else
-    @client_sources = ClientSource.limit(10)
+    @client_sources = ClientSource.limit(20)
   end
      render json: @client_sources 
     

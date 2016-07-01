@@ -10,7 +10,7 @@ before_action :set_company, only: [:show, :edit, :update]
   if params[:page] && params[:per]
     @companies = Company.page(params[:page]).per(params[:per])
   else
-    @companies = Company.limit(10)
+    @companies = Company.limit(20)
   end
      render json: @companies 
     
