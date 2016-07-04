@@ -65,6 +65,7 @@ resources :home
       resources :timelogs
       resources :percentages
       resources :holidays
+      resources :project_status_masters
 
 
    end#namespace :v1 do

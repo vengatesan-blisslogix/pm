@@ -11,13 +11,7 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
       
       resp << {
         'id' => p.id,
-        'task id' => p.task_id, 
-        'in progress' => p.in_progress, 
-        'development completed' => p.development_completed, 
-        'QA' => p.qa, 
-        'completed' => p.completed, 
-        'hold' => p.hold,
-        'task_name' => @task_name        
+        'status' => p.status        
       }
       end
    @search=""
@@ -42,7 +36,7 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
 	def create	  
 	  @task_status_master = TaskStatusMaster.new(task_status_master_params)
 	    if @task_status_master.save
-	      index
+	      render json: { valid: true, msg:"#{@task_status_master.status} created successfully."}  
 	    else
 	      render json: { valid: false, error: @task_status_master.errors }, status: 404
 	    end

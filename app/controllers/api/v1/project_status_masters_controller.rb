@@ -6,18 +6,13 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
  def index
    @project_status_masters = ProjectStatusMaster.page(params[:page])
     resp=[]
-     @project_status_masters.each do |p| 
+     @project_status_masters.each do |ps| 
     
       
       resp << {
-        'id' => p.id,
-        'task id' => p.task_id, 
-        'in progress' => p.in_progress, 
-        'development completed' => p.development_completed, 
-        'QA' => p.qa, 
-        'completed' => p.completed, 
-        'hold' => p.hold,
-        'task_name' => @task_name        
+        'id' => ps.id,        
+        'status' => ps.status,
+        'active' => ps.active      
       }
       end
    @search=""
@@ -40,7 +35,7 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
 	end
 
 	def create	  
-	  @project_status_master = ProjectStatusMaster.new(task_status_master_params)
+	  @project_status_master = ProjectStatusMaster.new(project_status_master_params)
 	    if @project_status_master.save
     	render json: { valid: true, msg:"#{@project_status_master.status} created successfully."}  
 	    else
