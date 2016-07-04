@@ -12,7 +12,7 @@ def index
         end
         #search
 
-    @teams = TeamMaster.where("#{@search}").page(params[:page]).order(:id)
+    @teams = TeamMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
    resp=[]
      @teams.each do |t| 
       resp << {
