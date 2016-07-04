@@ -33,7 +33,9 @@ before_action :set_project, only: [:show, :edit, :update]
      # @release_name =""
     #end
 
-
+     if p.planned_duration !=nil and @project_master!=""
+        
+    
     resp << {
         'id' => p.id,
         'project_name' => @project_name,
@@ -42,10 +44,12 @@ before_action :set_project, only: [:show, :edit, :update]
         'description' => p.task_description,
         'status' => p.active,
         'priority' => p.priority,
-        'planned_duration' => p.planned_duration
+        'planned_duration' => p.planned_duration.strftime("%I:%M %p")
+
       }
 
       end
+      end 
    @search=""
     pagination(ProjectTask,@search)
     

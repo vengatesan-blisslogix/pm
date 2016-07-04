@@ -48,11 +48,11 @@ end
   resp=[]
    @project_master.each do |p|
 
-        @find_bill = ProjectUser.all
-        resp=[]
-        @find_bill.each do |pj|
-          @billable = pj.is_billable
-        end
+        #@find_bill = ProjectUser.all
+        #resp=[]
+        #@find_bill.each do |pj|
+        #@billable = pj.is_billable
+        #end
 
             @project_name =p.project_name
             @clients = Client.find_by_id(p.client_id)
@@ -68,7 +68,7 @@ end
         'assigned_date' => p.start_date,        
         'relieved_date' => p.end_date,
         'status' => p.active,
-        'is_billable'  => @billable,
+        'is_billable'  => ,
       }
       end
   

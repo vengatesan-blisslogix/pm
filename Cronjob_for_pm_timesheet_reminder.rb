@@ -110,7 +110,8 @@ end#def send_reminder_to_all_users()
 mail_body = []
 @find_project_for_user = ProjectUser.where("user_id=#{au.id}")
 @find_project_for_user.each do |pu|
-@time_sheet_present = 0 
+
+@time_sheet_present = []
   @week_days.each do |day|
 @find_timesheet_entry = Logtime.where("project_master_id=#{pu.project_master_id} and user_id=#{au.id} and date='#{day}'") 
 if @find_timesheet_entry!=nil and @find_timesheet_entry.size!=0
@@ -118,7 +119,7 @@ if @find_timesheet_entry!=nil and @find_timesheet_entry.size!=0
 end
 end#@week_days.each do |day|
 @project = ProjectMaster.find_by_id(pu.project_master_id)
-if @time_sheet_present==0
+if @time_sheet_present.sum
 
   mail_body << "#{@project.project_name}"
 
