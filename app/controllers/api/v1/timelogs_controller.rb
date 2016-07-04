@@ -65,6 +65,4 @@ private
       parameters.permit(:date, :start_time, :end_time, :taskboard_id, :task_master_id, :project_master_id)
     
     end
-
-
 end
