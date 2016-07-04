@@ -1,13 +1,9 @@
 class Api::V1::UsersController < ApplicationController
 
-
 before_action :authenticate_user!
-before_action :set_user
-
-
+#before_action :set_user
 
  def index
-
   #search
       if params[:role_id]!=nil and params[:role_id]!=""and params[:role_id]!= "undefined"
         @search_role ="role_master_id = #{params[:role_id]}"
