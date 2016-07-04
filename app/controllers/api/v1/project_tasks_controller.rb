@@ -67,7 +67,7 @@ before_action :set_project, only: [:show, :edit, :update]
 
 def show	
 resp=[]
-       if @project.planned_duration !=nil and @project_master!=""
+       if @project.planned_duration !=nil and @project.planned_duration!=""
           @planned_duration   = @project.planned_duration.strftime("%I:%M ")
        else
           @planned_duration   =""
@@ -75,17 +75,16 @@ resp=[]
 
     resp << {
         'id' => @project.id,
-        'project_name' => @project_name,
+        'project_master_id' => @project.project_master_id,
         #'release_name' => @release_name,
         'task_name' => @project.task_name,        
-        'description' => @project.task_description,
-        'status' => @project.active,
+        'task_description' => @project.task_description,
+        'active' => @project.active,
         'priority' => @project.priority,
         'planned_duration' => @planned_duration
 
       }
       render json: resp
-
     end
 
 def create
