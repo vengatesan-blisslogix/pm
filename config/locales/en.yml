@@ -21,3 +21,9 @@
 
 en:
   hello: "Hello world"
+
+en:
+  devise:
+    failure:
+#      already_authenticated: "You are already signed in."
+      invalid: "The email address or password you entered is incorrect."

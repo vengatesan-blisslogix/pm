@@ -67,7 +67,11 @@ before_action :set_project, only: [:show, :edit, :update]
 
 def show	
 resp=[]
-       if @project.planned_duration !=nil and @@project.planned_duration!=""
+       if @project.planned_duration !=nil and @project_master!=""
+          @planned_duration ="id = #{params[:planned_duration]}"
+        else
+          @planned_duration =""
+        end
 
     resp << {
         'id' => @project.id,
