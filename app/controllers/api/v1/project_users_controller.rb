@@ -68,7 +68,7 @@ end
         'assigned_date' => p.start_date,        
         'relieved_date' => p.end_date,
         'status' => p.active,
-        'is_billable'  => p.is_billable,
+        'is_billable'  => p.is_billable
       }
       end
   
