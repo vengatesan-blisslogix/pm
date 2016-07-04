@@ -122,7 +122,7 @@ def create
 
     @user = User.new(user_params)
     if @user.save
-      render json: { valid: true, msg:"#{@user.user_name} created successfully."}  
+      render json: { valid: true, msg:"#{@user.name} created successfully."}  
       #index
     else
       render json: { valid: false, error: @user.errors }, status: 404
@@ -187,7 +187,7 @@ private
     end
     # Never trust parameters from the scary internet, only allow the white list through.
  def user_params
-     raw_parameters = { :mobile_no => "#{params[:mobile_no]}", :office_phone => "#{params[:office_phone]}", :home_phone => "#{params[:home_phone]}", :profile_photo => "#{params[:profile_photo]}",:active => "#{params[:active]}", :branch_id => "#{params[:branch_id]}", :company_id => "#{params[:company_id]}", :role_master_id => "#{params[:role_master_id]}", :name => "#{params[:name]}", :email => "#{params[:email]}", :password => "#{params[:password]}",:team_id => "#{params[:team_id]}", :prior_experience => "#{params[:prior_experience]}", :doj => "#{params[:doj]}", :dob => "#{params[:dob]}", :avatar => "#{params[:avatar]}", :last_name => "#{params[:last_name]}", :created_by_user => "#{params[:created_by_user]}", :reporting_to => "#{params[:reporting_to]}" }
+     raw_parameters = { :mobile_no => "#{params[:mobile_no]}", :office_phone => "#{params[:office_phone]}", :home_phone => "#{params[:home_phone]}", :profile_photo => "#{params[:profile_photo]}",:active => "#{params[:active]}", :branch_id => "#{params[:branch_id]}", :company_id => "#{params[:company_id]}", :role_master_id => "#{params[:role_master_id]}", :name => "#{params[:name]}", :email => "#{params[:email]}", :password => "#{params[:password]}",:team_id => "#{params[:team_id]}", :prior_experience => "#{params[:prior_experience]}", :doj => "#{params[:doj]}", :dob => "#{params[:dob]}", :avatar => "#{params[:avatar]}", :last_name => "#{params[:last_name]}", :created_by_user => "#{params[:created_by_user]}", :reporting_to => "#{params[:reporting_to]}", :employee_no => "#{params[:employee_no]}" }
 
      parameters = ActionController::Parameters.new(raw_parameters)
      parameters.permit(:mobile_no,
