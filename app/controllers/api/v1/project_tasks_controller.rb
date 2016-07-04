@@ -67,7 +67,8 @@ before_action :set_project, only: [:show, :edit, :update]
 
 def show	
 resp=[]
-  
+       if p.planned_duration !=nil and @project_master!=""
+
     resp << {
         'id' => @project.id,
         'project_name' => @project_name,
