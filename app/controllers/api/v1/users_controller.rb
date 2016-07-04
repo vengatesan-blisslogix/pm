@@ -2,7 +2,7 @@ class Api::V1::UsersController < ApplicationController
 
 
 before_action :authenticate_user!
-before_action :set_user, only: [:show, :edit, :update]
+before_action :set_user
 
 
 
@@ -166,10 +166,31 @@ def show
 end
 
  def update   
-    if @user.update_attributes(user_params)        
+    begin
+      @user.name = params[:name]
+      @user.last_name = params[:last_name]
+      @user.nickname = params[:nickname]
+      @user.email = params[:email]
+      @user.mobile_no = params[:mobile_no]
+      @user.office_phone = params[:office_phone]
+      @user.home_phone = params[:home_phone]
+      @user.avatar = params[:avatar]
+      @user.active = params[:active]
+      @user.doj = params[:doj]
+      @user.dob = params[:dob]
+      @user.prior_experience = params[:prior_experience]
+      @user.team_id = params[:team_id]
+      @user.created_by_user = params[:created_by_user]
+      @user.reporting_to = params[:reporting_to]
+      @user.branch_id = params[:branch_id]
+      @user.company_id = params[:company_id]
+      @user.role_master_id = params[:role_master_id]
+
+      @user.save
+
        render json: { valid: true, msg:"#{@user.name} updated successfully."}
-     else
-        render json: { valid: false, error: @user.errors }, status: 404
+     rescue
+      render json: { valid: false, error: "Invalid parameters" }, status: 404
      end
   end
 

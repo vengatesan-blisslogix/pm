@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
     validates_presence_of :employee_no, on: :create
 
-    validates_presence_of :password, on: :create
+    #validates_presence_of :password, on: :create
 
     validates_uniqueness_of :employee_no, on: :create
 
