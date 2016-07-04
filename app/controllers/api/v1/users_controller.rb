@@ -158,9 +158,7 @@ def show
         'reporting_to' => @user.reporting_to,
         'branch_id' => @user.branch_id,
         'company_id' => @user.company_id,
-        'role_master_id' => @user.role_master_id,
-        'original_password' => @user.original_password,
-        'password' => @user.password,        
+        'role_master_id' => @user.role_master_id,     
         'employee_no' => @user.employee_no,
         'user_technology' => @tech_name
     }
