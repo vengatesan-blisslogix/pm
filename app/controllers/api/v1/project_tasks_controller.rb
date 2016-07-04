@@ -44,7 +44,7 @@ before_action :set_project, only: [:show, :edit, :update]
         'description' => p.task_description,
         'status' => p.active,
         'priority' => p.priority,
-        'planned_duration' => p.planned_duration.strftime("%I:%M %p")
+        'planned_duration' => p.planned_duration.strftime("%I:%M ")
 
       }
 
@@ -66,8 +66,21 @@ before_action :set_project, only: [:show, :edit, :update]
  end
 
 def show	
-   render json: @project
-end
+resp=[]
+  
+    resp << {
+        'id' => @project.id,
+        'project_name' => @project_name,
+        #'release_name' => @release_name,
+        'task_name' => @project.task_name,        
+        'description' => @project.task_description,
+        'status' => @project.active,
+        'priority' => @project.priority,
+        'planned_duration' => @project.planned_duration.strftime("%I:%M ")
+
+      }
+      render json: resp
+    end
 
 def create
 

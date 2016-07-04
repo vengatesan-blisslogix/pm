@@ -12,7 +12,13 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
  
     validates :email, :name, :branch_id, :company_id, :role_master_id, presence: true
-    validates :employee_no, uniqueness: true, presence: true
+
+    validates_presence_of :employee_no, on: :create
+
+    validates_uniqueness_of :employee_no, on: :create
+
+    #validates :employee_no, uniqueness: true
+    #validates :employee_no, presence: true
 
     belongs_to :company
     belongs_to :role_master
