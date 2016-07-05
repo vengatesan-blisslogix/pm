@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
 
 before_action :authenticate_user!
-#before_action :set_user
+before_action :set_user, only: [:show]
 
  def index
   #search
@@ -158,7 +158,7 @@ def show
         'employee_no' => @user.employee_no,
         'user_technology' => @tech_name
     }
-   render json: response
+   render json: @user
 end
 
  def update   
