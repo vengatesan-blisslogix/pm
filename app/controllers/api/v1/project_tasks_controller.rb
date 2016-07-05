@@ -92,6 +92,7 @@ def create
     @project = ProjectTask.new(project_params)
     if @project.save
           @project.active = "active"
+          @project.planned_duration = params[:planned_duration].gsub(".",":")
         @project.save
     	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
      else
