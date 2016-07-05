@@ -264,6 +264,17 @@ puts "-----------#{@total_time}-----------"
         end
     end   
 
+    def get_all_domain
+        @domain_all = ProjectDomain.all.order(:domain_name)
+        @domain_resp=[]
+        @domain_all.each do |d| 
+           @domain_resp << {
+          'id' => d.id,
+          'branch_name' => d.domain_name      
+        }
+        end
+    end       
+
     def convert_param_to_array(value)
     value = value.gsub('"',"")
     @output_array = []
