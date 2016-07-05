@@ -158,7 +158,7 @@ def show
         'employee_no' => @user.employee_no,
         'user_technology' => @tech_name
     }
-   render json: @user
+   render json: response
 end
 
  def update   
