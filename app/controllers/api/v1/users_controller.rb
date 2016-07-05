@@ -161,7 +161,8 @@ def show
    render json: response
 end
 
- def update   
+ def update
+  set_user
     begin
       @user.name = params[:name]
       @user.last_name = params[:last_name]
@@ -180,6 +181,7 @@ end
       @user.reporting_to = params[:reporting_to]
       @user.branch_id = params[:branch_id]
       @user.company_id = params[:company_id]
+      @user.role_master_id = params[:role_master_id]
       @user.role_master_id = params[:role_master_id]
 
       @user.save
