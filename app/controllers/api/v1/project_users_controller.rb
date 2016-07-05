@@ -5,20 +5,34 @@ before_action :set_project_user, only: [ :edit]
 
  def index
    get_all_projects
+  
+  #search
+  if params[:client_id]!=nil and params[:client_id].length.to_i!=0 and params[:client_id]!= "undefined"
+    @search_client ="client_id = #{params[:client_id]}"
+  else
+    @search_client =""
+  end
+  puts "-----#{params[:project_master_id].strip.length}-------"
+  if params[:project_master_id]!=nil and params[:project_master_id].length.to_i!=0 and params[:project_master_id]!= "undefined"
+    @search_word ="project_master_id = #{params[:project_master_id]}"
+  else
+    @search_word =""
+  end
+  if @search_client != "" and @search_word != ""
+    @search = "#{@search_client} and #{@search_word}"
+  elsif @search_client != ""
+    @search = "#{@search_client}"
+  elsif @search_word !=""
+    @search = "#{@search_word}"
+  else
+    @search = ""
+  end
 
-if params[:project_master_id] and params[:client_id]
-@search = "project_master_id=#{params[:project_master_id]} and client_id=#{params[:client_id]} and user_id!=0"
-
-elsif params[:project_master_id]
-@search = "project_master_id=#{params[:project_master_id]}" 
-
-elsif params[:client_id]
-@search = "client_id=#{params[:client_id]}"
-
-else
-@search = "user_id!=0"
-end   
-
+@find_user = User.find_by_id(params[:user_id])
+  if @find_user and @find_user
+    
+  end
+  #search
   @project_users = ProjectUser.where("#{@search}").order(:created_at => 'desc')
 
 if @project_users!=nil and @project_users.size!=0

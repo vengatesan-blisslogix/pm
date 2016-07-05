@@ -1,5 +1,7 @@
 class Api::V1::ProjectMastersController < ApplicationController
+
 after_action :set_avatar, only: [:update, :create]
+
 before_action :authenticate_user!
 before_action :set_project_master, only: [:show, :edit, :update]
 
