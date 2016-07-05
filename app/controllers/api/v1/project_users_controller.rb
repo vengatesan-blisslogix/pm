@@ -12,7 +12,7 @@ before_action :set_project_user, only: [ :edit]
   else
     @search_client =""
   end
-  puts "-----#{params[:project_master_id].strip.length}-------"
+#  puts "-----#{params[:project_master_id].strip.length}-------"
   if params[:project_master_id]!=nil and params[:project_master_id].length.to_i!=0 and params[:project_master_id]!= "undefined"
     @search_word ="project_master_id = #{params[:project_master_id]}"
   else
