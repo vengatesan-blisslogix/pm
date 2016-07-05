@@ -34,7 +34,8 @@ u = User.create(email: 'superadmin@tvsnext.com',
                 active: 'active',
                 branch_id: b.id,
                 company_id: c.id,
-                role_master_id: r.id
+                role_master_id: r.id,
+                employee_no: 'BLT0001'
                 )
 u.save!
 
