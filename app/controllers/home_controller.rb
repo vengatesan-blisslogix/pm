@@ -16,9 +16,19 @@ class HomeController < ApplicationController
     end
   end
 
-  def set_holiday
-    
-  end
+def get_role_email
+     @role_email=[]
+     
+    @users = User.where("role_master_id = #{params[:role_master_id]}")
+      
+      @users.each do |ue| 
+        @role_email << {
+         'id' => ue.id,
+         'email' => ue.email      
+        }        
+      end
+      render json: @role_email
+end
 
 
   def get_manager

@@ -30,6 +30,7 @@ match "/api/v1/get_sprint_task", :to => "home#get_sprint_task", :via => ["get"]
 match "/api/v1/get_manager", :to => "home#get_manager", :via => ["get"]
 match "/api/v1/get_user", :to => "home#get_user", :via => ["get"]
 match "/api/v1/add_menus", :to => "home#add_menus", :via => ["get"]
+match "/api/v1/get_role_email", :to => "home#get_role_email", :via => ["get"]
 
 
 
