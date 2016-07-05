@@ -62,23 +62,21 @@ end
   resp=[]
    @project_master.each do |p|
 
-
             @project_name =p.project_name
             @clients = Client.find_by_id(p.client_id)
             if @clients!=nil and @clients!=""
               @client_name   =@clients.client_name 
             else
               @client_name   =""
-            end
-        
-        
+            end       
 
       resp << {
         'id' => p.id,
         'project_name' => @project_name,
         'assigned_date' => p.start_date,        
         'relieved_date' => p.end_date,
-        'status' => p.active
+        'status' => p.active,
+        'is_billable' => p.billable
       }
       end
   
@@ -117,7 +115,6 @@ if m.user_id != nil
     @flag = 0
   end
 
-  
      manager_resp << {
         'id' => m.id,
         'manager_id' => m.user_id,
@@ -130,9 +127,7 @@ if m.user_id != nil
       }
     end
 
-
      @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 0")
-
 
      user_resp = []
      @find_pro_user.each do |m|
@@ -147,7 +142,6 @@ if m.user_id != nil
   else
     @flag = 0
   end
-
      user_resp << {
         'id' => m.id,
         'user_id' => m.user_id,
@@ -236,7 +230,6 @@ convert_param_to_array(params[:is_billable])
 convert_param_to_array(params[:manager])
 @manager = @output_array
 
-
      p=0
      @s_user_id.each do |user|
       @find_pro_user = ProjectUser.where("project_master_id = #{params[:project_master_id]} and user_id = #{user}")
@@ -245,8 +238,7 @@ convert_param_to_array(params[:manager])
          @project = ProjectUser.find_by_id(@find_pro_user[0].id)
       else
          @project = ProjectUser.new
-      end
-     
+      end     
 
       @project.assigned_date = @a_date[p]
       @project.relieved_date = @r_date[p]
@@ -269,7 +261,6 @@ convert_param_to_array(params[:manager])
       render json: { valid: false, error: "Invalid parameters" }, status: 404
     end
   end
-
 
 private
 
