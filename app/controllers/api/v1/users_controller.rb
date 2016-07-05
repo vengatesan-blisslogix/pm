@@ -182,7 +182,7 @@ end
       @user.branch_id = params[:branch_id]
       @user.company_id = params[:company_id]
       @user.role_master_id = params[:role_master_id]
-      @user.role_master_id = params[:role_master_id]
+      @user.user_technology = params[:technology_master_id]
 
       @user.save
 
