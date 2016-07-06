@@ -162,7 +162,7 @@ def show
 end
 
  def update
-  #set_user
+  set_user
     begin
       @user.name = params[:name]
       @user.last_name = params[:last_name]
@@ -182,10 +182,10 @@ end
       @user.branch_id = params[:branch_id]
       @user.company_id = params[:company_id]
       @user.role_master_id = params[:role_master_id]
-      @user.technology_master_id = params[:technology_master_id]
+      #@user.technology_id = params[:technology_id]
 
       @user.save
-
+add_user_tech(@user.id, params[:technology_id])
        render json: { valid: true, msg:"#{@user.name} updated successfully."}
      rescue
       render json: { valid: false, error: "Invalid parameters" }, status: 404
@@ -194,6 +194,17 @@ end
 
 private
 
+def add_user_tech(user_id, technology_master_id)
+  if technology_master_id != nil and technology_master_id != ""
+    @user_technology = UserTechnology.destroy_all(:user_id => user_id)
+    technology_master_id.split(",").each do |tm|
+       @ut = UserTechnology.new
+       @ut.technology_master_id = tm
+       @ut.user_id = user_id
+       @ut.save
+    end
+  end
+end
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find_by_id(params[:id])
