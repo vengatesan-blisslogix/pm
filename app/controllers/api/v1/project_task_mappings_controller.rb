@@ -31,7 +31,7 @@ before_action :set_task_mapping, only: [:show, :edit, :update]
         'status' => @status        
       }
       end
-   @search=""
+   #@search=""
     pagination(ProjectTaskMapping,@search)
     
     response = {

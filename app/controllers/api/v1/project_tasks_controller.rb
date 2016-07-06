@@ -47,7 +47,7 @@ before_action :set_project, only: [:show, :edit, :update]
 
       
       end 
-   @search=""
+   #@search=""
     pagination(ProjectTask,@search)
     
     response = {

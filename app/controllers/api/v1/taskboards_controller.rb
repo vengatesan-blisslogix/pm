@@ -213,7 +213,7 @@ get_all_projects
         'task_name' => @task_name        
       }
       end
-   @search=""
+   #@search=""
     pagination(Taskboard,@search)
     
     response = {

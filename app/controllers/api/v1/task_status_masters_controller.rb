@@ -14,7 +14,7 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
         'status' => p.status        
       }
       end
-   @search=""
+   #@search=""
     pagination(TaskStatusMaster,@search)
     
     response = {
