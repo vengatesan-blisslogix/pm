@@ -5,11 +5,11 @@ class HomeController < ApplicationController
 
   def add_menus
     #add admin sub activity
-    href = ["home.team", "home.technology"]
-    icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
+    href = ["home.holidays","home.project_domains","home.project_status_masters","home.task_status_master"]
+    icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
     i = 0
     admin = ActivityMaster.find_by_activity_Name("Admin")
-    ["Team","Technology"].each do |ad|
+    ["Holidays", "ProjectDomains", "ProjectStatusMaster", "TaskStatusMaster"].each do |ad|
     ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
     RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
     i = i+1
