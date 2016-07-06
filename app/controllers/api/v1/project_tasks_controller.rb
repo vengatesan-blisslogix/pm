@@ -33,9 +33,6 @@ before_action :set_project, only: [:show, :edit, :update]
      # @release_name =""
     #end
 
-     if p.planned_duration !=nil and @project_master!=""
-        
-    
     resp << {
         'id' => p.id,
         'project_name' => @project_name,
@@ -44,11 +41,11 @@ before_action :set_project, only: [:show, :edit, :update]
         'description' => p.task_description,
         'status' => p.active,
         'priority' => p.priority,
-        'planned_duration' => p.planned_duration.strftime("%I:%M ")
+        'planned_duration' => p.planned
 
       }
 
-      end
+      
       end 
    @search=""
     pagination(ProjectTask,@search)
@@ -67,12 +64,6 @@ before_action :set_project, only: [:show, :edit, :update]
 
 def show	
 resp=[]
-       if @project.planned_duration !=nil and @project.planned_duration!=""
-          @planned_duration   = @project.planned_duration.strftime("%I:%M ")
-       else
-          @planned_duration   =""
-       end
-
     resp << {
         'id' => @project.id,
         'project_master_id' => @project.project_master_id,
@@ -81,7 +72,7 @@ resp=[]
         'task_description' => @project.task_description,
         'active' => @project.active,
         'priority' => @project.priority,
-        'planned_duration' => @planned_duration
+        'planned_duration' => @project.planned
 
       }
       render json: resp
@@ -92,7 +83,7 @@ def create
     @project = ProjectTask.new(project_params)
     if @project.save
           @project.active = "active"
-          @project.planned_duration = params[:planned_duration].gsub(".",":")
+          @project.planned = params[:planned_duration]
         @project.save
     	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
      else
@@ -105,7 +96,8 @@ end
 
     if @project.update(project_params)  	
       @project.save
-          @project.actual_duration = params[:actual_duration]
+          @project.planned = params[:planned_duration]
+          @project.actual = params[:actual_duration]
         @project.save  
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
@@ -128,9 +120,9 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}",  :planned_duration => "#{params[:planned_duration]}", :project_master_id => "#{params[:project_master_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority, :planned_duration, :actual_duration, :project_master_id)
+      parameters.permit(:task_name, :task_description, :active, :priority, :project_master_id)
     
     end
 
