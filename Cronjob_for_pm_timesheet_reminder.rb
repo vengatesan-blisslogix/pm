@@ -63,7 +63,22 @@ if @project_id!=""
 
 @project_all.each do |pro|
 
+@pro_task_mapping = ProjectTaskMapping.where("project_master_id=#{pro.id}")
 
+@time_sheet_present = []
+@week_days.each do |day|
+@find_timesheet_entry = Logtime.where("project_master_id=#{pro.project_master_id} and user_id=#{au.id} and date='#{day}'") 
+  if @find_timesheet_entry!=nil and @find_timesheet_entry.size!=0
+    @find_timesheet_entry.each do |logtime|
+     @time_sheet_present << logtime.task_time
+    end#@find_timesheet_entry.each do |logtime|
+  end
+end#@week_days.each do |day|
+if @time_sheet_present.sum.to_i < 40
+
+
+
+end
 #mail  part
 mail = Mail.new
   mail.sender = "yogeshblisslogix@gmail.com"

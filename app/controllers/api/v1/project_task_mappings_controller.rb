@@ -84,7 +84,7 @@ private
     def task_mapping_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :assign_date => "#{params[:assign_date]}", :completed_date => "#{params[:completed_date]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :planned_duration => "#{params[:planned_duration]}",  :actual_duration => "#{params[:actual_duration]}", :assigned_by => "#{params[:assigned_by]}", :sprint_planning_id => "#{params[:sprint_planning_id]}", :task_status_master_id => "#{params[:task_status_master_id]}", :project_task_id => "#{params[:project_task_id]}", :project_id => "#{params[:project_master_id]}", :release_planning_id => "#{params[:release_planning_id]}", :user_id => "#{params[:user_id]}" }
+      raw_parameters = { :assign_date => "#{params[:assign_date]}", :completed_date => "#{params[:completed_date]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :planned_duration => "#{params[:planned_duration]}",  :actual_duration => "#{params[:actual_duration]}", :assigned_by => "#{params[:assigned_by]}", :sprint_planning_id => "#{params[:sprint_planning_id]}", :task_status_master_id => "#{params[:task_status_master_id]}", :project_task_id => "#{params[:project_task_id]}", :project_master_id => "#{params[:project_master_id]}", :release_planning_id => "#{params[:release_planning_id]}", :user_id => "#{params[:user_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
       parameters.permit(:assign_date, :completed_date, :active, :priority, :planned_duration, :actual_duration, :assigned_by, :sprint_planning_id, :task_status_master_id, :project_task_id, :project_master_id, :release_planning_id, :user_id)
     

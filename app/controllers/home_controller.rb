@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   end
 
   def add_menus
+=begin
     #add admin sub activity
     href = ["home.holidays","home.project_domains","home.project_status_masters","home.task_status_master"]
     icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
@@ -13,6 +14,17 @@ class HomeController < ApplicationController
     ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
     RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
     i = i+1
+    end
+=end
+    if params[:percentage].to_i == 1
+      @per=5
+      while @per < 101
+         @per_new = Percentage.new
+          @per_new.value = @per
+          @per_new.save
+
+      @per = @per+5
+      end
     end
   end
 
