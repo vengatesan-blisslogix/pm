@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706052135) do
+ActiveRecord::Schema.define(version: 20160708062848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,8 +107,9 @@ ActiveRecord::Schema.define(version: 20160706052135) do
 
   create_table "holidays", force: :cascade do |t|
     t.date     "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "description"
   end
 
   create_table "logtimes", force: :cascade do |t|
@@ -124,6 +125,11 @@ ActiveRecord::Schema.define(version: 20160706052135) do
     t.float    "task_time"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "approved_by"
+    t.datetime "approved_at"
+    t.string   "rejected_by"
+    t.datetime "rejected_at"
+    t.string   "comments"
   end
 
   create_table "percentages", force: :cascade do |t|

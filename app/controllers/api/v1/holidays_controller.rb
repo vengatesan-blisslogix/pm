@@ -5,23 +5,26 @@ before_action :set_holiday, only: [:show, :edit, :update]
 
 def index
 
-    @holidays = Holiday.all.order(:created_at => 'desc')
+    @holidays = Holiday.all.page(params[:page]).order(:created_at => 'desc')
    resp=[]
      @holidays.each do |h| 
       resp << {
         'id' => h.id,
-        'date' => h.date.strftime("%m/%d/%Y"),
+        'description' => h.description,
+        'date' => h.date.strftime("%m/%d/%Y")
         }
       end
 
-    #pagination(Holiday,@search)
-    
+    pagination(Holiday,@search)
+    get_all_holiday
+
     response = {
-     # 'no_of_records' => @no_of_records.size,
-      #'no_of_pages' => @no_pages,
-      #'next' => @next,
-      #'prev' => @prev,
-      'holiday_resp' => resp
+     'no_of_records' => @no_of_records.size,
+     'no_of_pages' => @no_pages,
+     'next' => @next,
+     'prev' => @prev,
+     'holiday_list' => @holiday_resp,
+     'holiday_resp' => resp
 
     }
   render json: response 
@@ -45,7 +48,7 @@ def create
  def update   
 
     if @holiday.update(holiday_params)  	      
-       render json:{ valid: true, msg:"#{@holiday.date.strftime("%d/%m/%Y")} updated successfully."}
+       render json:{ valid: true, msg:"#{@holiday.date.strftime("%m/%d/%Y")} updated successfully."}
      else
         render json: { valid: false, error: @holiday.errors }, status: 404
      end
@@ -66,9 +69,9 @@ private
     def holiday_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :date => "#{params[:date]}"}
+      raw_parameters = { :date => "#{params[:date]}", :description => "#{params[:description]}"}
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:date)
+      parameters.permit(:date, :description)
     
     end
 

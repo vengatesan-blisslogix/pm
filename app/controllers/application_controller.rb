@@ -253,6 +253,17 @@ puts "-----------#{@total_time}-----------"
         end
     end   
 
+    def get_all_holiday
+        @holiday_all = Holiday.all.order(:date)
+        @holiday_resp=[]
+        @holiday_all.each do |h| 
+           @holiday_resp << {
+          'id' => h.id,
+          'holiday_date' => h.date.strftime("%m/%d/%Y")   
+        }
+        end
+    end   
+
       def get_all_branch
         @branch_all = Branch.all.order(:name)
         @branch_resp=[]
