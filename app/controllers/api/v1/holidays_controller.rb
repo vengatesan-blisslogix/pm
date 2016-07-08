@@ -4,8 +4,15 @@ before_action :authenticate_user!
 before_action :set_holiday, only: [:show, :edit, :update]
 
 def index
+      #search
+        if params[:search]!=nil and params[:search]!=""
+          @search ="id = #{params[:search]}"
+        else
+          @search =""
+        end
+        #search  
 
-    @holidays = Holiday.all.page(params[:page]).order(:created_at => 'desc')
+    @holidays = Holiday.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
    resp=[]
      @holidays.each do |h| 
       resp << {

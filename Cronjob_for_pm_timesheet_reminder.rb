@@ -38,10 +38,12 @@ end
 class Logtime < ActiveRecord::Base
 set_table_name ="logtimes"
 end
-
-
-
-
+class ProjectTaskMapping < ActiveRecord::Base
+set_table_name ="project_task_mappings"
+end
+class ProjectTask < ActiveRecord::Base
+set_table_name ="project_tasks"
+end
 @today = Date.today
 @week_days=["#{@today-5}","#{@today-4}","#{@today-3}","#{@today-2}","#{@today-1}"]
 @all_user = User.where("active = 'active' and id=1")
@@ -54,37 +56,105 @@ mail_body = []
 if @project_id == ""
 @project_id = pu.project_master_id
 else
-@project_id = @project_id+","+pu.project_master_id
+@project_id = @project_id.to_s+","+pu.project_master_id.to_s
 end
 end#@find_project_for_user.each do |pu|
+puts"@project_id@project_id---#{@project_id}"
 if @project_id!=""
 @project_all = ProjectMaster.where("id IN(#{@project_id})")
 
 
 @project_all.each do |pro|
 
-@pro_task_mapping = ProjectTaskMapping.where("project_master_id=#{pro.id}")
-
 @time_sheet_present = []
 @week_days.each do |day|
-@find_timesheet_entry = Logtime.where("project_master_id=#{pro.project_master_id} and user_id=#{au.id} and date='#{day}'") 
+@find_timesheet_entry = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
   if @find_timesheet_entry!=nil and @find_timesheet_entry.size!=0
     @find_timesheet_entry.each do |logtime|
      @time_sheet_present << logtime.task_time
     end#@find_timesheet_entry.each do |logtime|
   end
 end#@week_days.each do |day|
+puts"@time_sheet_present.sum----#{@time_sheet_present.sum}"
 if @time_sheet_present.sum.to_i < 40
 
+@pro_task_mapping = ProjectTaskMapping.where("project_master_id=#{pro.id}")
+
+#-------table for details --------
 
 
-end
+@thead_details= ""
+
+@week_days.each do |day|
+if @thead_details==""
+@thead_details="<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
+else
+@thead_details=@thead_details+"<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
+end # if @thead==""
+end#@week_days.each do |day|
+@task_tbody = ""
+@pro_task_mapping.each do |task_map|
+  @task_name = ProjectTask.find_by_id(task_map.project_task_id)
+  if @task_name !=nil
+@tbody_details = "<td align='center'>#{@task_name.task_name}</td>"
+@week_days.each do |day|
+@find_timesheet_log_details = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}' and task_master_id=#{task_map.project_task_id}") 
+  if @find_timesheet_log_details!=nil and @find_timesheet_log_details.size!=0
+    @log_time_details = @find_timesheet_log_details[0].task_time
+  else
+    @log_time_details = 0
+  end
+@tbody_details=@tbody_details+"<td align='center'>#{@log_time_details}</td>"
+end#@week_days.each do |day|
+@tbody_details ="<tr style='background-color: #d0dfe5;'>#{@tbody_details}</tr>"
+
+if @task_tbody==""
+@task_tbody=@tbody_details
+else
+@task_tbody=@task_tbody+@tbody_details
+end # if @thead==""
+
+end# if @task_name !=nil
+
+
+end#@pro_task_mapping.each do |task_map|
+
+
+@thead_details = "<tr style='background-color: #FFA500;'><td align='center'>Task Name</td>#{@thead_details}</tr>"
+table_cont_details = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead_details}#{@task_tbody}</table>"
+#-------table for details --------
+#-------table for summary --------
+@thead = ""
+@tbody = "<td align='center'>#{au.name}</td>"
+@week_days.each do |day|
+if @thead==""
+@thead="<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
+else
+@thead=@thead+"<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
+end # if @thead==""
+@find_timesheet_log = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
+  if @find_timesheet_log!=nil and @find_timesheet_log.size!=0
+    @log_time = @find_timesheet_log[0].task_time
+  else
+    @log_time = 0
+  end
+
+@tbody=@tbody+"<td align='center'>#{@log_time}</td>"
+
+end#@week_days.each do |day|
+@tbody ="<tr style='background-color: #d0dfe5;'>#{@tbody}</tr>"
+
+@thead = "<tr style='background-color: #FFA500;'><td align='center'>Name</td>#{@thead}</tr>"
+table_cont = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
+#-------table for summary --------
+
+
 #mail  part
 mail = Mail.new
   mail.sender = "yogeshblisslogix@gmail.com"
   #mail.to = au.email
   mail.to = "sastrayogesh@gmail.com"
-  mail.subject = "[REMINDER][Timesheet Entry]"
+  mail.subject = "[REMINDER][Timesheet Entry] - #{pro.project_name}"
   mail.content_type = "multipart/mixed"
 
   html_part = Mail::Part.new do
@@ -116,13 +186,16 @@ mail = Mail.new
     
       -->     
       </style>
-    <body link='#0000ff' dir='ltr'><table width='750' border='0' align='center' cellpadding='0' cellspacing='0'>
+    <body link='#0000ff' dir='ltr'>
 
 Dear #{au.name},<br/><br>
 
 Please enter your Timesheet for this week.<br/><br>
-
-
+Project Name : <b>#{pro.project_name}</b><br/><br>
+Summary:<br>
+#{table_cont}<br>
+Details:<br>
+#{table_cont_details}
 <br>If you have already entered, please ignore this mail.<br/><br>
 
 Thanks & Regards,<br>
@@ -139,11 +212,12 @@ Thanks & Regards,<br>
     p.text_part = text_part
   end
   mail.deliver
-
 #mail  part
 
 
 
+
+end#if @time_sheet_present.sum.to_i < 40
 end#@project_all.each do |pro|
 end#if @project_id!=""
 

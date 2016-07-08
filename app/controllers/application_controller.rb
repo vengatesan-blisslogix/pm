@@ -64,7 +64,9 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
     @total_time =  [] 
 
     @logtimes.each do |l|  
+      if l.end_time!=nil and l.start_time!=nil
     @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
+  end
     end
 puts "-----------#{@total_time}-----------"
     @hours_resp << {
@@ -81,6 +83,7 @@ puts "-----------#{@total_time}-----------"
         @project_users = ProjectUser.where("project_master_id = #{project_master_id}")
         
         @project_users.each do |pu|  
+          puts "********#{pu.user_id}******"
           @project_names = User.find_by_id(pu.user_id)
         @project_users_resp << {
           'id' => @project_names.id,

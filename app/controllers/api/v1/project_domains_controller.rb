@@ -12,13 +12,22 @@ def index
         end
         #search
 
+
     @project_domains = ProjectDomain.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
+
    resp=[]
      @project_domains.each do |pd| 
+
+      if pd.active.to_i==1
+        @status = "active"
+      else
+        @status = "inactive"
+      end
+
       resp << {
         'id' => pd.id,
         'domain_name' => pd.domain_name,
-        'active' => pd.active
+        'active' => @status
       }
       end
 
@@ -30,7 +39,7 @@ def index
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
-      'domain_list' => @team_resp,
+      'domain_list' => @domain_resp,
       'domain_resp' => resp
 
     }
@@ -38,7 +47,20 @@ def index
 end
 
 def show	
-   render json: @project_domain
+     resp=[]
+
+      if @project_domain.active.to_i==1
+        @status = "active"
+      else
+        @status = "inactive"
+      end
+
+      resp << {
+        'id' => @project_domain.id,
+        'domain_name' => @project_domain.domain_name,
+        'active' => @status
+      }
+   render json: resp
 end
 
 def create
@@ -56,7 +78,13 @@ def create
 
  def update   
 
-    if @project_domain.update(domain_params)  	      
+    if @project_domain.update(domain_params)  
+    if params[:active] == "active"
+      @project_domain.active = 1
+    else
+      @project_domain.active = 0
+    end
+    @project_domain.save
        render json:{ valid: true, msg:"#{@project_domain.domain_name} updated successfully."}
      else
         render json: { valid: false, error: @project_domain.errors }, status: 404

@@ -28,6 +28,72 @@ class HomeController < ApplicationController
     end
   end
 
+
+def utilization_report
+# Create a new Excel Workbook
+date = Time.now.strftime("%m/%d/%Y")
+date1 = Time.now.strftime("%m-%d-%Y")
+@file_name = "Utilization_Report.xls"
+workbook = WriteExcel.new("#{Rails.root}/#{@file_name}")
+
+# Add worksheet(s)
+worksheet1  = workbook.add_worksheet
+
+# Add and define a format
+
+format = workbook.add_format
+format.set_bold
+format.set_size(20)
+format.set_color('cyan')
+worksheet1.set_column('A:A', 70,format)
+worksheet1.set_column('B:B', 20,format)
+worksheet1.set_column('C:C', 30,format)
+worksheet1.set_column('D:D', 30,format)
+worksheet1.set_column('E:E', 30,format)
+
+format1 = workbook.add_format
+format1.set_size(12)
+format1.set_color('cyan')
+format1.set_text_wrap(1)
+format1.set_align('top')
+
+
+format2 = workbook.add_format
+format2.set_bold
+format2.set_size(15)
+format2.set_color('cyan')
+
+format3 = workbook.add_format
+format3.set_size(12)
+format3.set_bold
+format3.set_color('cyan')
+format3.set_text_wrap(1)
+format3.set_align('left')
+
+worksheet1.set_row(0,32)
+worksheet1.set_row(1,15)
+worksheet1.set_row(2,15)
+worksheet1.set_row(3,15)
+worksheet1.set_row(4,15)
+worksheet1.set_row(5,15)
+worksheet1.set_row(6,15)
+worksheet1.set_row(7,25)
+# write a formatted and unformatted string.
+worksheet1.write(0,0, 'PMT', format)
+
+
+workbook.close
+
+#send_file("#{@file_name}" ,
+  #    :filename     =>  "#{@file_name}",
+  #    :charset      =>  'utf-8',
+  #    :type         =>  'application/octet-stream')
+
+
+end
+
+
+
 def get_role_email
      @role_email=[]
      

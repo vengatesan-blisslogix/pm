@@ -28,6 +28,8 @@ gem 'kaminari'
 gem 'paperclip'
 gem 'aws-sdk'
 gem 'rack-cors'
+gem 'writeexcel'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

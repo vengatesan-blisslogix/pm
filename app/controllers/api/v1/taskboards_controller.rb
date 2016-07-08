@@ -12,7 +12,7 @@ get_all_projects
   #new
    task_resp =  []
    @task_board_id = ""
-   @all_task = Taskboard.where("task_master_id IS NOT NULL ") 
+   @all_task = Taskboard.where("task_master_id IS NOT NULL and project_master_id=#{params[:project_master_id]} ") 
    @all_task.each do |at|
     if @task_board_id !=""
     @task_board_id = @task_board_id+','+at.task_master_id.to_s
@@ -276,12 +276,14 @@ private
 	       :completed => "#{params[:completed]}",
 	       :hold => "#{params[:hold]}",
 	       :task_master_id => "#{params[:task_master_id]}",
+         :project_master_id => "#{params[:project_master_id]}",
+         :sprint_planning_id => "#{params[:sprint_planning_id]}",
 	       :description => "#{params[:description]}",
 	       :est_time => "#{params[:est_time]}"      
 	      }
 	      
 	      parameters = ActionController::Parameters.new(raw_parameters)
-	      parameters.permit(:task_master_id, :in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time)
+	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time)
 	    
 	end
 end
