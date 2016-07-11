@@ -138,14 +138,15 @@ puts "-----------#{@total_time}-----------"
       @prev = "page=#{current_page-1}"
       @next = "page=#{current_page+1}"
     end
-    end
+   
     if @prev == nil
     @prev = false
     end
     if @next == nil
     @next = false
     end
-
+ end
+ 
    def get_all_projects
       @project_all = ProjectMaster.all.order(:project_name)
       @project_resp=[]

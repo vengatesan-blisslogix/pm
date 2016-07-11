@@ -37,7 +37,8 @@ def index
   #search
 
   @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
-@project_users = ProjectUser.where("#{@search}").order(:created_at => 'desc')
+
+@project_users = ProjectUser.where("client_id = #{params[:client_id]} and project_master_id=#{params[:project_id]}").order(:created_at => 'desc')
  if params[:check_pu] and params[:check_pu].to_i == 1 and  @project_users!=nil  and  @project_users.size!=0
     @exist_pu = true
   else

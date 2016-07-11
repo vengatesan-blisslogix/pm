@@ -11,7 +11,8 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
       
       resp << {
         'id' => p.id,
-        'status' => p.status        
+        'status' => p.status,
+        'description' => p.description      
       }
       end
    #@search=""
@@ -64,11 +65,11 @@ private
 	def task_status_master_params           
 	    
 	      raw_parameters = { 
-	       :status => "#{params[:status]}"
+	       :status => "#{params[:status]}", :description => "#{params[:description]}"
 	      }
 	      
 	      parameters = ActionController::Parameters.new(raw_parameters)
-	      parameters.permit(:status)
+	      parameters.permit(:status, :description)
 	    
 	end
 
