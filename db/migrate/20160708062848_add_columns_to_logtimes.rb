@@ -5,5 +5,6 @@ class AddColumnsToLogtimes < ActiveRecord::Migration
     add_column :logtimes, :rejected_by, :string
     add_column :logtimes, :rejected_at, :datetime
     add_column :logtimes, :comments, :string
+    add_column :logtimes, :status, :string
   end
 end

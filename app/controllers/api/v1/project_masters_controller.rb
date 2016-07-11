@@ -35,7 +35,17 @@ def index
     
   end
   #search
+
   @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
+@project_users = ProjectUser.where("#{@search}").order(:created_at => 'desc')
+ if params[:check_pu] and params[:check_pu].to_i == 1 and  @project_users!=nil  and  @project_users.size!=0
+    @exist_pu = true
+  else
+    @exist_pu = false
+  end
+
+
+  
   resp=[]
   @project_masters.each do |p| 
       @pro_type = ProjectType.find_by_id(p.project_type_id)
@@ -92,7 +102,9 @@ def index
   'next' => @next,
   'prev' => @prev,
   'clients_list' => @client_resp,
-  'projects' => resp
+  'projects' => resp,
+  'check_pu' => @exist_pu
+
   }
   render json: response    
 end

@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 20160708062848) do
     t.string   "rejected_by"
     t.datetime "rejected_at"
     t.string   "comments"
+    t.string   "status"
   end
 
   create_table "percentages", force: :cascade do |t|

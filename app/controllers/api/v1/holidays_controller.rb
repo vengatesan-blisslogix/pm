@@ -10,7 +10,7 @@ def index
         else
           @search =""
         end
-        #search  
+      #search  
 
     @holidays = Holiday.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
    resp=[]
