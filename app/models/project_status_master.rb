@@ -4,5 +4,7 @@ class ProjectStatusMaster < ActiveRecord::Base
 
      paginates_per $PER_PAGE
 
+   validates :status, presence: true, uniqueness: true
+
 
 end

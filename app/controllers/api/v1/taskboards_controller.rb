@@ -54,7 +54,7 @@ get_all_projects
         @project_users_resp = ""
         @task_name =""
       end     
-    get_assigne(tp.id, "new")
+    get_assigne(tp.task_master_id, "new")
 
       new_task << {
         'taskboard_id' => tp.id,
@@ -78,7 +78,7 @@ get_all_projects
         @task_name =""
       end     
       get_task_board(@project_task.project_master_id)
-      get_assigne(tp.id, "in_progress")
+      get_assigne(tp.task_master_id, "in_progress")
       in_progress << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
@@ -103,7 +103,7 @@ get_all_projects
       else
         @task_name =""
       end        
-      get_assigne(td.id, "development_completed")
+      get_assigne(td.task_master_id, "development_completed")
 
       development_completed << {
         'taskboard_id' => td.id,
@@ -127,7 +127,7 @@ get_all_projects
         else
           @task_name =""
         end        
-        get_assigne(tq.id, "qa")
+        get_assigne(tq.task_master_id, "qa")
 
         qa << {
           'taskboard_id' => tq.id,
@@ -152,7 +152,7 @@ get_all_projects
           @task_name =""
         end       
 
-        get_assigne(tc.id, "completed")
+        get_assigne(tc.task_master_id, "completed")
 
         accepted << {
           'taskboard_id' => tc.id,
@@ -178,7 +178,7 @@ get_all_projects
         @task_name =""
       end     
   
-   get_assigne(th.id, "hold")
+   get_assigne(th.task_master_id, "hold")
 
       hold << {
         'taskboard_id' => th.id,
@@ -240,7 +240,7 @@ get_all_projects
 	end
 
 	def create	  
-	  @taskboard = Taskboard.new(taskboards_params)
+	  @taskboard = Taskboard.new(taskboards_params)      
 	    if @taskboard.save
 	      render json: { valid: true, msg: "taskboard created successfully"}
 	    else

@@ -2,7 +2,7 @@ class Api::V1::AssignsController < ApplicationController
 
 
 before_action :authenticate_user!
-before_action :set_assign, only: [:show, :edit, :update]
+before_action :set_assign, only: [:show]
 
 def index
   if params[:page] && params[:per]
@@ -18,23 +18,47 @@ def show
 end
 
 def create
-
-    @assign = Assign.new(assign_params)
-    if @assign.save
-    	render json: { valid: true, msg:"assign created successfully."}
-     else
-        render json: { valid: false, error: @assign.errors }, status: 404
+  begin    
+    if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
+      convert_param_to_array(params[:assigned_user_id])
+      @assigned_user_id = @output_array
+           p=0
+      @assigned_user_id.each do |user|
+      @assign = Assign.new
+      @assign.taskboard_id = params[:taskboard_id]
+      @assign.assigned_user_id = user
+      @assign.save!
+       p=p+1
      end
+    end
+    	render json: { valid: true, msg:"assign created successfully."}
+    rescue
+      render json: { valid: false, error: "Invalid parameters" }, status: 404
+    end
     
 end
 
  def update   
 
-    if @assign.update(assign_params)  	      
-       render json: { valid: true, msg:"assign updated successfully."}
-     else
-        render json: { valid: false, error: @assign.errors }, status: 404
+    begin    
+    if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
+
+      Assign.destroy_all(:taskboard_id => params[:taskboard_id])
+      convert_param_to_array(params[:assigned_user_id])
+      @assigned_user_id = @output_array
+           p=0
+      @assigned_user_id.each do |user|
+      @assign = Assign.new
+      @assign.taskboard_id = params[:taskboard_id]
+      @assign.assigned_user_id = user
+      @assign.save!
+       p=p+1
      end
+    end
+      render json: { valid: true, msg:"assign updated successfully."}
+    rescue
+      render json: { valid: false, error: "Invalid parameters" }, status: 404
+    end
   end
 
 def destroy
