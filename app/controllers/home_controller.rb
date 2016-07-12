@@ -30,10 +30,71 @@ class HomeController < ApplicationController
   end
 =end
 
+
+def timesheet_summary
+  
+  @timesheet_summ = Logtime.where("user_id = #{params[:user_id]}").page(params[:page]).order(:created_at => 'desc')
+  resp = []
+  @timesheet_summ.each do |ts| 
+    @project_name = ProjectMaster.find_by_id(ts.project_master_id)
+    if @project_name != nil
+      @proj_name = @project_name.project_name
+    else
+      @proj_name = ""
+    end
+
+    @resource_name = User.find_by_id(ts.user_id)
+    if @resource_name != nil
+      @res_name = @resource_name.name
+    else
+      @res_name = ""
+    end
+
+    if ts.status != nil
+      @status = ts.status
+    else
+      @status = "pending"
+    end
+
+    if ts.comments != nil
+      @comments = ts.comments
+    else
+      @comments = ""
+    end
+
+    pagination(Logtime,@search)
+
+      resp << {
+        'id' => ts.id,
+        'project_name' => @proj_name,
+        'resource_name' => @res_name,
+        'date' => ts.date,
+        'no_of_hours' => ts.task_time,
+        'status' => @status,
+        'comments' => @comments
+      }
+
+      end            
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'timesheet_summary' => resp
+
+    }
+  render json: response 
+end
+
+
 def utilization_report
 # Create a new Excel Workbook
 date = Time.now.strftime("%m/%d/%Y")
 date1 = Time.now.strftime("%m-%d-%Y")
+
+@end_date = Date.today
+@start_date = @end_date-5
+
 @file_name = "Utilization_Report.xls"
 workbook = WriteExcel.new("#{Rails.root}/#{@file_name}")
 
@@ -44,43 +105,121 @@ worksheet1  = workbook.add_worksheet
 
 format = workbook.add_format
 format.set_bold
-format.set_size(20)
-format.set_color('cyan')
-worksheet1.set_column('A:A', 70,format)
-worksheet1.set_column('B:B', 20,format)
-worksheet1.set_column('C:C', 30,format)
-worksheet1.set_column('D:D', 30,format)
-worksheet1.set_column('E:E', 30,format)
+format.set_size(10)
+format.set_bg_color('cyan')
+format.set_color('black')
+format.set_border(1)
+
+
+
 
 format1 = workbook.add_format
-format1.set_size(12)
-format1.set_color('cyan')
+format1.set_size(10)
+format1.set_color('black')
 format1.set_text_wrap(1)
 format1.set_align('top')
 
 
-format2 = workbook.add_format
-format2.set_bold
-format2.set_size(15)
-format2.set_color('cyan')
 
-format3 = workbook.add_format
-format3.set_size(12)
-format3.set_bold
-format3.set_color('cyan')
-format3.set_text_wrap(1)
-format3.set_align('left')
 
-worksheet1.set_row(0,32)
-worksheet1.set_row(1,15)
-worksheet1.set_row(2,15)
-worksheet1.set_row(3,15)
-worksheet1.set_row(4,15)
-worksheet1.set_row(5,15)
-worksheet1.set_row(6,15)
-worksheet1.set_row(7,25)
+worksheet1.set_column('A:A', 20,format1)
+worksheet1.set_column('B:B', 25,format1)
+worksheet1.set_column('C:C', 25,format1)
+worksheet1.set_column('D:D', 25,format1)
+worksheet1.set_column('E:E', 25,format1)
+worksheet1.set_column('F:F', 25,format1)
+worksheet1.set_column('G:G', 25,format1)
+worksheet1.set_column('H:H', 25,format1)
+worksheet1.set_column('I:I', 25,format1)
+worksheet1.set_column('J:J', 25,format1)
+worksheet1.set_column('K:K', 25,format1)
+worksheet1.set_column('L:L', 25,format1)
+worksheet1.set_column('M:M', 25,format1)
+
+
+worksheet1.set_row(0,20)
+
 # write a formatted and unformatted string.
-worksheet1.write(0,0, 'PMT', format)
+worksheet1.write(0,0, 'No', format)
+worksheet1.write(0,1, 'Team Member', format)
+worksheet1.write(0,2, 'Team Name', format)
+worksheet1.write(0,3, 'Start Date', format)
+worksheet1.write(0,4, 'Project', format)
+worksheet1.write(0,5, 'Status', format)
+worksheet1.write(0,6, 'Weekly Hours', format)
+worksheet1.write(0,7, 'Project category', format)
+worksheet1.write(0,8, 'Unit', format)
+worksheet1.write(0,9, 'Skill Set', format)
+worksheet1.write(0,10, 'Account', format)
+worksheet1.write(0,11, 'Emp Type', format)
+worksheet1.write(0,12, 'Comments', format)
+
+row=1
+@user_all = User.all
+
+@user_all.each do |u|
+worksheet1.write(row,0, "#{u.employee_no}", format1)
+worksheet1.write(row,1, "#{u.name}", format1)
+@team = TeamMaster.find_by_id(u.team_id)
+if @team != nil
+  @team_name = @team.team_name
+else
+  @team_name = "-"
+end
+worksheet1.write(row,2, "#{@team_name}", format1)
+
+
+@find_project_for_user = ProjectUser.where("user_id=#{u.id}")
+@project_id = ""
+@find_project_for_user.each do |pu|
+if @project_id == ""
+@project_id = pu.project_master_id
+else
+@project_id = @project_id.to_s+","+pu.project_master_id.to_s
+end
+end#@find_project_for_user.each do |pu|
+
+if @project_id!=""
+@project_all = ProjectMaster.where("id IN(#{@project_id})")
+@pro_name=""
+@project_all.each do |pro|
+if @pro_name == ""
+@pro_name = pro.project_name
+else
+@pro_name = @pro_name+", "+pro.project_name
+end
+end#@project_all.each do |pro|
+else
+  @pro_name="-"
+end
+
+worksheet1.write(row,4, "#{@pro_name}", format1)
+
+@skill_set = TechnologyMaster.where("user_id = #{u.id}")
+@technology_name=""
+@skill_set.each do |tec|
+if @technology_name == ""
+@technology_name = tec.technology
+else
+@technology_name = @technology_name+", "+tec.technology
+end
+end#@skill_set.each do |tec|
+if @technology_name != ""
+  @tech_name = @technology_name
+else
+  @tech_name = "-"
+end
+
+
+worksheet1.write(row,9, "#{@tech_name}", format1)
+
+
+row += 1
+end
+
+
+
+
 
 
 workbook.close

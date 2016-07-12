@@ -33,6 +33,7 @@ match "/api/v1/add_menus", :to => "home#add_menus", :via => ["get"]
 match "/api/v1/get_role_email", :to => "home#get_role_email", :via => ["get"]
 match "/api/v1/utilization_report", :to => "home#utilization_report", :via => ["get"]
 
+match "/api/v1/timesheet_summary", :to => "home#timesheet_summary", :via => ["get"]
 
 
 
@@ -41,7 +42,8 @@ resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
    namespace :v1 do
-  
+
+
       resources :role_masters
       resources :branches
       resources :users
@@ -71,7 +73,7 @@ resources :home
       resources :holidays
       resources :project_status_masters
       resources :project_domains
-
+      resources :billable_types
 
    end#namespace :v1 do
   end#namespace :api do

@@ -4,7 +4,15 @@ before_action :authenticate_user!
 before_action :set_task_status_master, only: [:show, :edit, :update]
 
  def index
-   @task_status_masters = TaskStatusMaster.page(params[:page])
+	#search
+        if params[:search]!=nil and params[:search]!=""
+          @search ="id = #{params[:search]}"
+        else
+          @search =""
+        end
+     #search
+
+   @task_status_masters = TaskStatusMaster.where("#{@search}").page(params[:page])
     resp=[]
      @task_status_masters.each do |p| 
     

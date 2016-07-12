@@ -1,0 +1,11 @@
+class CreateBillableTypes < ActiveRecord::Migration
+  def change
+    create_table :billable_types do |t|
+      t.string :name
+      t.string :description
+      t.string :active
+
+      t.timestamps null: false
+    end
+  end
+end
