@@ -55,8 +55,9 @@ before_action :set_project_status_master, only: [:show, :edit, :update]
 
       resp << {
         'id' => @project_status_master.id,
-        'domain_name' => @project_status_master.domain_name,
-        'active' => @status
+        'status' => @project_status_master.status,
+        'active' => @project_status_master.active,
+        'description' => @project_status_master.description
       }
    render json: resp
 	  #render json: @project_status_master

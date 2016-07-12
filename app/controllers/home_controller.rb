@@ -33,7 +33,26 @@ class HomeController < ApplicationController
 
 def timesheet_summary
   
-  @timesheet_summ = Logtime.where("user_id = #{params[:user_id]}").page(params[:page]).order(:created_at => 'desc')
+
+@find_report_user = User.where("reporting_to='#{params[:user_id]}'")
+if @find_report_user !=nil  and @find_report_user !="" and @find_report_user.size!=0
+  @report_id =""
+  @find_report_user.each do |ru|
+  if @report_id!=""
+  @report_id = @report_id.to_s+","+ru.id.to_s
+  else
+  @report_id = ru.id.to_s
+  end
+  end
+  @enable_approve_button=true
+else
+  @report_id = params[:user_id]
+  @enable_approve_button=false
+end
+@search = "user_id IN(#{@report_id})"
+
+
+  @timesheet_summ = Logtime.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
   resp = []
   @timesheet_summ.each do |ts| 
     @project_name = ProjectMaster.find_by_id(ts.project_master_id)
@@ -62,7 +81,7 @@ def timesheet_summary
       @comments = ""
     end
 
-    pagination(Logtime,@search)
+  
 
       resp << {
         'id' => ts.id,
@@ -74,12 +93,14 @@ def timesheet_summary
         'comments' => @comments
       }
 
-      end            
+      end   
+        pagination(Logtime,@search)         
     response = {
       'no_of_records' => @no_of_records.size,
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
+      'show_approve' =>@enable_approve_button,
       'timesheet_summary' => resp
 
     }
