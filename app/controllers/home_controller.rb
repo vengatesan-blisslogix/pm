@@ -30,6 +30,31 @@ class HomeController < ApplicationController
   end
 =end
 
+def timesheet_approval
+  @assigns = Logtime.find_by_id(params[:id])
+
+puts "----------#{params[:id]}------------"
+  if @assigns != nil
+    if params[:approve] and params[:approve].to_i==1
+      @assigns.rejected_by = nil
+      @assigns.rejected_at = nil
+      @assigns.comments = nil
+      @assigns.approved_by = params[:approve_by]
+      @assigns.approved_at = Time.now
+      @assigns.save!
+    elsif params[:approve] and params[:approve].to_i==2
+      @assigns.approved_by = nil
+      @assigns.approved_at = nil
+      @assigns.rejected_by = params[:approve_by]
+      @assigns.rejected_at = Time.now
+      @assigns.comments = params[:comments]
+      @assigns.save!
+    end
+  end  
+        render json: { valid: true, msg:"updated successfully."}
+
+end
+
 
 def timesheet_summary
   

@@ -22,7 +22,7 @@ end
       resp << {
         'id' => h.id,
         'description' => h.description,
-        'date' => h.date.strftime("%m/%d/%Y")
+        'date' => h.date.strftime("%d/%m/%Y")
         }
       end
 
@@ -83,7 +83,7 @@ def create
 
     @holiday = Holiday.new(holiday_params)
     if @holiday.save
-      	render json: { valid: true, msg:"#{@holiday.date.strftime("%m/%d/%Y")} created successfully."}  
+      	render json: { valid: true, msg:"#{@holiday.date.strftime("%d/%m/%Y")} created successfully."}  
       #index
     else
       render json: { valid: false, error: @holiday.errors }, status: 404
@@ -93,7 +93,7 @@ def create
  def update   
 
     if @holiday.update(holiday_params)  	      
-       render json:{ valid: true, msg:"#{@holiday.date.strftime("%m/%d/%Y")} updated successfully."}
+       render json:{ valid: true, msg:"#{@holiday.date.strftime("%d/%m/%Y")} updated successfully."}
      else
         render json: { valid: false, error: @holiday.errors }, status: 404
      end

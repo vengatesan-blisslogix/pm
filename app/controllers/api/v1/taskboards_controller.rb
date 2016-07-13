@@ -242,6 +242,8 @@ get_all_projects
 	def create	  
 	  @taskboard = Taskboard.new(taskboards_params)      
 	    if @taskboard.save
+        @taskboard.new = true
+        @taskboard.save
 	      render json: { valid: true, msg: "taskboard created successfully"}
 	    else
 	      render json: { valid: false, error: @taskboard.errors }, status: 404
@@ -270,7 +272,8 @@ private
 	def taskboards_params           
 	    
 	      raw_parameters = { 
-	       :in_progress => "#{params[:in_progress]}",
+	       :new => "#{params[:new]}",
+         :in_progress => "#{params[:in_progress]}",
 	       :development_completed => "#{params[:development_completed]}",
 	       :qa => "#{params[:qa]}",
 	       :completed => "#{params[:completed]}",
@@ -283,7 +286,7 @@ private
 	      }
 	      
 	      parameters = ActionController::Parameters.new(raw_parameters)
-	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time)
+	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:new , :in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time)
 	    
 	end
 end

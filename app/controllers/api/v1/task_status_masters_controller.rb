@@ -54,7 +54,7 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
 
 	def update
 	  if @task_status_master.update(task_status_master_params)  	      
-	    render json: @task_status_master
+	    render json:{ valid: true, msg:"#{@task_status_master.status} updated successfully."}
 	  else
 	    render json: { valid: false, error: @task_status_master.errors }, status: 404
 	  end

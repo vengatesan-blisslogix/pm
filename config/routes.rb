@@ -34,7 +34,7 @@ match "/api/v1/get_role_email", :to => "home#get_role_email", :via => ["get"]
 match "/api/v1/utilization_report", :to => "home#utilization_report", :via => ["get"]
 
 match "/api/v1/timesheet_summary", :to => "home#timesheet_summary", :via => ["get"]
-
+match "/api/v1/timesheet_approval/:id", :to => "home#timesheet_approval", :via => ["post"]
 
 
 
