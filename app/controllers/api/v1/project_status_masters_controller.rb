@@ -12,7 +12,7 @@ before_action :set_project_status_master, only: [:show, :edit, :update]
         end
      #search
 
-   @project_status_masters = ProjectStatusMaster.where("#{@search}").page(params[:page])
+   @project_status_masters = ProjectStatusMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
     resp=[]
      @project_status_masters.each do |ps| 
     

@@ -2,7 +2,7 @@ class Api::V1::AssignsController < ApplicationController
 
 
 before_action :authenticate_user!
-before_action :set_assign, only: [:show]
+#before_action :set_assign, only: [:show]
 
 def index
   if params[:page] && params[:per]

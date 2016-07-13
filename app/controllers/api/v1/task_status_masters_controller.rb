@@ -12,7 +12,7 @@ before_action :set_task_status_master, only: [:show, :edit, :update]
         end
      #search
 
-   @task_status_masters = TaskStatusMaster.where("#{@search}").page(params[:page])
+   @task_status_masters = TaskStatusMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
     resp=[]
      @task_status_masters.each do |p| 
     
