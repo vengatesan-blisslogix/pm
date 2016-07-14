@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
     i = i+1
     end
-  end
+  
 
     if params[:delete_activity].to_i == 1        
       am = ActivityMaster.where("id  > 23" )
