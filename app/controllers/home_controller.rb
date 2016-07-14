@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   end
 
   def add_menus
-=begin
+
     #add admin sub activity
     href = ["home.timesheet_summary"]
     icon = ["fa fa-fw fa-tachometer"]
@@ -16,7 +16,7 @@ class HomeController < ApplicationController
     i = i+1
     end
   end
-=end
+
     if params[:delete_activity].to_i == 1        
       am = ActivityMaster.where("id  > 23" )
       am.each do |a|
