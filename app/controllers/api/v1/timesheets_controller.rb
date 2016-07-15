@@ -32,8 +32,13 @@ def create
             @timesheet = Logtime.new
             @timesheet.task_date = @t_date[p]
             @timesheet.task_time = @t_time[p]
+            @timesheet.start_time  = params[:start_time]
+            @timesheet.end_time  = params[:end_time]
+            @timesheet.date  = params[:date]
             @timesheet.task_master_id  = params[:project_task_id]
             @timesheet.project_master_id = params[:project_master_id]
+            #@timesheet.taskboard_id = params[:taskboard_id]
+            @timesheet.sprint_planning_id = params[:sprint_planning_id]
             @timesheet.user_id = params[:user_id]
 
           
@@ -70,9 +75,9 @@ private
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_params
-        raw_parameters = { :project_master_id => "#{params[:project_master_id]}", :task_master_id  => "#{params[:project_task_id]}", :user_id => "#{params[:user_id]}", :task_date => "#{params[:task_date]}", :task_time => "#{params[:task_time]}" }
+        raw_parameters = { :project_master_id => "#{params[:project_master_id]}", :task_master_id  => "#{params[:project_task_id]}", :sprint_planning_id => "#{params[:sprint_planning_id]}", :user_id => "#{params[:user_id]}", :task_date => "#{params[:task_date]}", :task_time => "#{params[:task_time]}", :start_time => "#{params[:start_time]}", :end_time => "#{params[:end_time]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:project_master_id, :task_master_id, :user_id, :task_date, :task_time)
+      parameters.permit( :sprint_planning_id, :project_master_id, :task_master_id, :user_id, :task_date, :task_time, :start_time, :end_time)
     
     end
 

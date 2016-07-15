@@ -22,7 +22,7 @@ end
       resp << {
         'id' => h.id,
         'description' => h.description,
-        'date' => h.date.strftime("%d/%m/%Y")
+        'date' => h.date.strftime("%m/%d/%Y")
         }
       end
 
