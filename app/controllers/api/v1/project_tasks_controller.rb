@@ -10,7 +10,11 @@ before_action :set_project, only: [:show, :edit, :update]
       if params[:project_master_id] 
         @search = "project_master_id = #{params[:project_master_id]}"
       else
+        if @search_all_pro==""
         @search = ""
+      else
+        @search = @search_all_pro
+      end
       end
 
 	  @project_tasks = ProjectTask.where(@search).page(params[:page]).order(:created_at => 'desc')

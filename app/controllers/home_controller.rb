@@ -6,11 +6,11 @@ class HomeController < ApplicationController
   def add_menus
 
     #add admin sub activity
-    href = ["home.timesheet_summary"]
-    icon = ["fa fa-fw fa-tachometer"]
+    href = ["home.business_units","home.project_locations","home.engagement_types", "home.project_payments" ]
+    icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
     i = 0
     admin = ActivityMaster.find_by_activity_Name("Admin")
-    ["TimesheetSummary"].each do |ad|
+    ["Business Units", "Project Locations", "Engagement Types", "Project Payments"].each do |ad|
     ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
     RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
     i = i+1
@@ -59,84 +59,76 @@ puts "----------#{params[:id]}------------"
     end
   end  
         render json: { valid: true, msg:"updated successfully."}
-
 end
 
 
 def timesheet_summary
-  
 
-@find_report_user = User.where("reporting_to='#{params[:user_id]}'")
-if @find_report_user !=nil  and @find_report_user !="" and @find_report_user.size!=0
-  @report_id =""
-  @find_report_user.each do |ru|
-  if @report_id!=""
-  @report_id = @report_id.to_s+","+ru.id.to_s
-  else
-  @report_id = ru.id.to_s
-  end
-  end
-  @enable_approve_button=true
-else
-  @report_id = params[:user_id]
-  @enable_approve_button=false
+  @start_date = Date.today.at_beginning_of_week
+  @end_date =  @start_date + 5
+
+
+@search="task_date between '#{@start_date}' and '#{@end_date}'"
+    @timesheet_summ = Logtime.where("#{@search}").select(:project_master_id).uniq
+    resp = []    
+ @timesheet_summ.each do |lts|
+  if lts.project_master_id!=nil  and  lts.project_master_id!=""
+  @project_name = ProjectMaster.find_by_id(lts.project_master_id)
+      if @project_name != nil
+        @proj_name = @project_name.project_name
+      else
+        @proj_name = ""
+      end
+@timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
+@timesheet_summ_user.each do |tsu|
+@timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}").sum(:task_time)
+@timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}")
+      @resource_name = User.find_by_id(tsu.user_id)
+      if @resource_name != nil
+        @res_name = @resource_name.name
+      else
+        @res_name = ""
+      end
+
+ if @timesheet_summ_id[0].status != nil
+        @status = @timesheet_summ_id[0].status
+      else
+        @status = "pending"
+      end
+
+      if @timesheet_summ_id[0].comments != nil
+        @comments = @timesheet_summ_id[0].comments
+      else
+        @comments = ""
+      end 
+
+
+ resp << {
+          'id' => @timesheet_summ_id[0].id,
+          'project_name' => @proj_name,
+          'resource_name' => @res_name,
+          'start_date' => @start_date,
+          'end_date' => @end_date,
+          'no_of_hours' => @timesheet_summ_user_time,
+          'status' => @status,
+          'comments' => @comments
+        }
+
+end#@timesheet_summ_user.each do |tsu|
+
 end
-@search = "user_id IN(#{@report_id})"
+end#@timesheet_summ.each do |lts|
 
-
-  @timesheet_summ = Logtime.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
-  resp = []
-  @timesheet_summ.each do |ts| 
-    @project_name = ProjectMaster.find_by_id(ts.project_master_id)
-    if @project_name != nil
-      @proj_name = @project_name.project_name
-    else
-      @proj_name = ""
-    end
-
-    @resource_name = User.find_by_id(ts.user_id)
-    if @resource_name != nil
-      @res_name = @resource_name.name
-    else
-      @res_name = ""
-    end
-
-    if ts.status != nil
-      @status = ts.status
-    else
-      @status = "pending"
-    end
-
-    if ts.comments != nil
-      @comments = ts.comments
-    else
-      @comments = ""
-    end
-
-  
-
-      resp << {
-        'id' => ts.id,
-        'project_name' => @proj_name,
-        'resource_name' => @res_name,
-        'date' => ts.date,
-        'no_of_hours' => ts.task_time,
-        'status' => @status,
-        'comments' => @comments
+          pagination(Logtime,@search)         
+      response = {
+        'no_of_records' => @no_of_records.size,
+        'no_of_pages' => @no_pages,
+        'next' => @next,
+        'prev' => @prev,
+        'show_approve' =>@enable_approve_button,
+        'timesheet_summary' => resp
       }
-
-      end   
-        pagination(Logtime,@search)         
-    response = {
-      'no_of_records' => @no_of_records.size,
-      'no_of_pages' => @no_pages,
-      'next' => @next,
-      'prev' => @prev,
-      'show_approve' =>@enable_approve_button,
-      'timesheet_summary' => resp
-
-    }
-  render json: response 
+    render json: response 
 end
 
 
@@ -396,6 +388,7 @@ end
 
 def get_sprint_task
       resp =  []
+           
    @project_tasks = ProjectTask.where("project_master_id = #{params[:sprint_planning_id]}")
    @project_tasks.each do |p|      
       resp << {
@@ -550,7 +543,7 @@ end
 def get_task_project
 
  resp = []
-    @project_task_mappings = ProjectTaskMapping.where("project_master_id = #{params[:project_master_id]}")
+    @project_task_mappings = ProjectTaskMapping.where("project_master_id = #{params[:project_master_id]} and user_id = #{params[:user_id]}")
     @project_task_mappings.each do |v|    
     @project_task_name = ProjectTask.find_by_id(v.project_task_id)
 

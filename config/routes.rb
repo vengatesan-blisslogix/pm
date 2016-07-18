@@ -74,6 +74,10 @@ resources :home
       resources :project_status_masters
       resources :project_domains
       resources :billable_types
+      resources :business_units
+      resources :project_locations
+      resources :engagement_types
+      resources :project_payments
 
    end#namespace :v1 do
   end#namespace :api do

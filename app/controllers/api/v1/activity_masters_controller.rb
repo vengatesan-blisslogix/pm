@@ -1,7 +1,6 @@
 class Api::V1::ActivityMastersController < ApplicationController
 
 before_action :authenticate_user!
-before_action :authenticate_user!
 before_action :set_activity_params, only: [:show, :edit, :update]
 
  def index  

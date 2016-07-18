@@ -148,7 +148,27 @@ puts "-----------#{@total_time}-----------"
  end
  
    def get_all_projects
-      @project_all = ProjectMaster.all.order(:project_name)
+  
+if current_user.role_master_id==1
+@search_all_pro=""
+else
+  @find_pro = ProjectUser.where("user_id=#{current_user.id}").select(:project_master_id).uniq
+  @search_all_pro_id=""
+  @find_pro.each do |fp|
+  if @search_all_pro_id==""
+    @search_all_pro_id=fp.project_master_id
+  else
+    @search_all_pro_id=@search_all_pro_id.to_s+","+fp.project_master_id.to_s
+  end
+  end
+  if @search_all_pro_id==""
+    @search_all_pro="id IN(0)"
+  else
+    @search_all_pro="id IN(#{@search_all_pro_id})"
+  end
+
+end
+      @project_all = ProjectMaster.where("#{@search_all_pro}").order(:project_name)
       @project_resp=[]
       @project_all.each do |p| 
         @project_resp << {
@@ -289,6 +309,50 @@ puts "-----------#{@total_time}-----------"
         }
         end
     end       
+
+    def get_all_business
+        @business_all = BusinessUnit.all.order(:name)
+        @business_resp=[]
+        @business_all.each do |bu| 
+           @business_resp << {
+          'id' => bu.id,
+          'business_name' => bu.name      
+        }
+        end
+    end    
+
+    def get_all_location
+        @location_all = ProjectLocation.all.order(:name)
+        @location_resp=[]
+        @location_all.each do |pl| 
+           @location_resp << {
+          'id' => pl.id,
+          'location_name' => pl.name      
+        }
+      end
+    end
+
+    def get_all_engagement
+        @engagement_all = EngagementType.all.order(:name)
+        @engagement_resp=[]
+        @engagement_all.each do |et| 
+           @engagement_resp << {
+          'id' => et.id,
+          'location_name' => et.name      
+        }
+      end
+    end
+
+    def get_all_payment
+        @payment_all = ProjectPayment.all.order(:name)
+        @payment_resp=[]
+        @payment_all.each do |pp| 
+           @payment_resp << {
+          'id' => pp.id,
+          'location_name' => pp.name      
+        }
+      end
+    end
 
     def convert_param_to_array(value)
     value = value.gsub('"',"")

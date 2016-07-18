@@ -1,0 +1,12 @@
+class CreateProjectPayments < ActiveRecord::Migration
+  def change
+    create_table :project_payments do |t|
+      t.string :name
+      t.string :description
+      t.string :active
+      t.integer :user_id
+
+      t.timestamps null: false
+    end
+  end
+end

@@ -51,7 +51,7 @@ def create
     	render json: { valid: true, msg:"#{@technology.technology} created successfully."}  
       #index
     else
-      render json: { valid: false, error: @@technology.errors }, status: 404
+      render json: { valid: false, error: @technology.errors }, status: 404
     end    
   end
 
