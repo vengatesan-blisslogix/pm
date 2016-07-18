@@ -151,6 +151,7 @@ puts "-----------#{@total_time}-----------"
   
 if current_user.role_master_id==1
 @search_all_pro=""
+@search_all_pro_id=""
 else
   @find_pro = ProjectUser.where("user_id=#{current_user.id}").select(:project_master_id).uniq
   @search_all_pro_id=""
