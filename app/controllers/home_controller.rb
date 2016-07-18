@@ -3,6 +3,31 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+  def user_tech
+  @skill_set = UserTechnology.where("user_id = #{params[:user_id]}")
+    @technology_name=""
+    @skill_set.each do |tech|
+tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+      if @technology_name == ""
+      @technology_name = tec.technology
+      else
+      @technology_name = @technology_name+", "+tec.technology
+      end
+    end#@skill_set.each do |tec|
+    if @technology_name != ""
+      @tech_name = @technology_name
+    else
+      @tech_name = "-"
+    end
+    resp=[]
+        resp << {
+            'technology' => @tech_name
+            }
+            render json: resp
+
+end
+
+
   def add_menus
 
     #add admin sub activity
@@ -240,20 +265,27 @@ end
 
 worksheet1.write(row,4, "#{@pro_name}", format1)
 
-@skill_set = TechnologyMaster.where("user_id = #{u.id}")
-@technology_name=""
-@skill_set.each do |tec|
-if @technology_name == ""
-@technology_name = tec.technology
-else
-@technology_name = @technology_name+", "+tec.technology
-end
-end#@skill_set.each do |tec|
-if @technology_name != ""
-  @tech_name = @technology_name
-else
-  @tech_name = "-"
-end
+@skill_set = UserTechnology.where("user_id = #{params[:user_id]}")
+    @technology_name=""
+    @skill_set.each do |tech|
+tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+      if @technology_name == ""
+      @technology_name = tec.technology
+      else
+      @technology_name = @technology_name+", "+tec.technology
+      end
+    end#@skill_set.each do |tec|
+    if @technology_name != ""
+      @tech_name = @technology_name
+    else
+      @tech_name = "-"
+    end
+    resp=[]
+        resp << {
+            'technology' => @tech_name
+            }
+            render json: resp
+
 
 
 worksheet1.write(row,9, "#{@tech_name}", format1)
@@ -307,7 +339,7 @@ end
     end
 
     if @role_id!=""
-      @users = User.where("role_master_id IN(#{@role_id})")     
+      @users = User.where("role_master_id IN(#{@role_id}) and active = 'active'")     
       @users.each do |m|
         @check_u = ProjectUser.where("user_id=#{m.id}")
         @u = []
@@ -339,7 +371,7 @@ end
     end
 
     if @role_id!=""
-      @users = User.where("role_master_id NOT IN(#{@role_id})")
+      @users = User.where("role_master_id NOT IN(#{@role_id}) and active = 'active'")
       @users.each do |m|
         @check_u = ProjectUser.where("user_id=#{m.id}")
         @u = []
@@ -389,18 +421,41 @@ end
 def get_sprint_task
       resp =  []
            
-   @project_tasks = ProjectTask.where("project_master_id = #{params[:sprint_planning_id]}")
-   @project_tasks.each do |p|      
+   @project_tasks = Taskboard.where("sprint_planning_id = #{params[:sprint_planning_id]}")
+   @project_tasks.each do |p|    
+   @project_ta = ProjectTask.find_by_id(p.task_master_id)  
+   if @project_ta  != nil
       resp << {
-        'id' => p.id,
-        'task_name' => p.task_name
+        'id' => @project_ta.id,
+        'task_name' => @project_ta.task_name
       }
+    end
     end
       @sprint_task=[]
       @sprint_task << {
          'sprint_task' => resp        
         }
       render json: @sprint_task
+end
+
+def get_task_user
+   resp =  []
+           
+   @task_user = Taskboard.where("task_master_id = #{params[:task_master_id]}")
+   @task_user.each do |p|    
+   @task_users = User.find_by_id(p.task_master_id)  
+   if @task_users  != nil
+      resp << {
+        'id' => @task_users.id,
+        'resource_name' => @task_users.name
+      }
+    end
+    end
+      @task_user=[]
+      @task_user << {
+         'task_user' => resp        
+        }
+      render json: @task_user
 end
 
 def add_sprint
@@ -743,6 +798,8 @@ def gettech
     end
     resp
 end
+
+
 
 def getproject_type
   resp = []

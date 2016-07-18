@@ -35,6 +35,8 @@ match "/api/v1/utilization_report", :to => "home#utilization_report", :via => ["
 
 match "/api/v1/timesheet_summary", :to => "home#timesheet_summary", :via => ["get"]
 match "/api/v1/timesheet_approval/:id", :to => "home#timesheet_approval", :via => ["post"]
+match "/api/v1/user_tech", :to => "home#user_tech", :via => ["get"]
+match "/api/v1/get_task_user", :to => "home#get_task_user", :via => ["get"]
 
 
 

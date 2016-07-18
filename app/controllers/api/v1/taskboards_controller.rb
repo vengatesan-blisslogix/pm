@@ -48,6 +48,7 @@ get_all_projects
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
       if @project_task!=nil and @project_task!=""
         get_task_board(@project_task.project_master_id)
+        @planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
        else
@@ -61,6 +62,7 @@ get_all_projects
         'task_id' => @task_id,
         'task_name' => @task_name,
         'assign_params' => @assigned,
+        'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -72,6 +74,7 @@ get_all_projects
    @progress.each do |tp|      
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
       if @project_task!=nil and @project_task!=""
+        @planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
        else
@@ -84,6 +87,7 @@ get_all_projects
         'task_id' => @task_id,
         'task_name' => @task_name,        
         'assign_params' => @assigned,
+        'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -98,6 +102,7 @@ get_all_projects
    @development.each do |td|      
      @project_task = ProjectTask.find_by_id(td.task_master_id)
       if @project_task!=nil and @project_task!=""
+        @planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
       else
@@ -110,6 +115,7 @@ get_all_projects
         'task_id' => @task_id,
         'task_name' => @task_name,
         'assign_params' => @assigned,
+        'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -122,6 +128,7 @@ get_all_projects
      @qa.each do |tq|      
        @project_task = ProjectTask.find_by_id(tq.task_master_id)
         if @project_task!=nil and @project_task!=""
+        @planned_duration=@project_task.planned          
           @task_name =@project_task.task_name
           @task_id =@project_task.id
         else
@@ -134,6 +141,7 @@ get_all_projects
           'task_id' => @task_id,
           'task_name' => @task_name,
           'assign_params' => @assigned,
+          'planned_duration' => @planned_duration,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
         }
@@ -146,6 +154,7 @@ get_all_projects
      @accepted.each do |tc|      
        @project_task = ProjectTask.find_by_id(tc.task_master_id)
         if @project_task!=nil and @project_task!=""
+        @planned_duration=@project_task.planned          
           @task_name =@project_task.task_name
           @task_id =@project_task.id
         else
@@ -159,6 +168,7 @@ get_all_projects
           'task_id' => @task_id,
           'task_name' => @task_name,
           'assign_params' => @assigned,
+          'planned_duration' => @planned_duration,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
         }
@@ -172,6 +182,7 @@ get_all_projects
    @hold.each do |th|      
      @project_task = ProjectTask.find_by_id(th.task_master_id)
       if @project_task!=nil and @project_task!=""
+        @planned_duration=@project_task.planned        
         @task_name =@project_task.task_name
         @task_id =@project_task.id
       else
@@ -185,6 +196,7 @@ get_all_projects
         'task_id' => @task_id,
         'task_name' => @task_name,
         'assign_params' => @assigned,
+        'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
