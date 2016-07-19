@@ -12,7 +12,7 @@ get_all_projects
   #new
    task_resp =  []
    @task_board_id = ""
-   @all_task = Taskboard.where("task_master_id IS NOT NULL and project_master_id=#{params[:project_master_id]} ") 
+   @all_task = Taskboard.where("task_master_id IS NOT NULL") 
    @all_task.each do |at|
     if @task_board_id !=""
     @task_board_id = @task_board_id+','+at.task_master_id.to_s
@@ -21,9 +21,9 @@ get_all_projects
     end
    end
    if @task_board_id == ""
-    @unassigned = "project_master_id = #{params[:project_master_id]}"
+    @unassigned = ""
    else
-    @unassigned = "id NOT IN(#{@task_board_id}) and project_master_id = #{params[:project_master_id]} "
+    @unassigned = "id NOT IN(#{@task_board_id})"
    end
    @task_masters = ProjectTask.where("#{@unassigned}")
    @task_masters.each do |t| 
