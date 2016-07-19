@@ -80,6 +80,7 @@ resources :home
       resources :project_locations
       resources :engagement_types
       resources :project_payments
+      resources :checklists
 
    end#namespace :v1 do
   end#namespace :api do

@@ -355,6 +355,17 @@ end
       end
     end
 
+    def get_all_checklist
+        @checklist_all = Checklist.all.order(:name)
+        @checklist_resp=[]
+        @checklist_all.each do |cl| 
+           @checklist_resp << {
+          'id' => cl.id,
+          'checklist_name' => cl.name      
+        }
+        end
+    end        
+
     def convert_param_to_array(value)
     value = value.gsub('"',"")
     @output_array = []
