@@ -2,11 +2,8 @@ class Api::V1::ClientsController < ApplicationController
 before_action :authenticate_user!
 before_action :set_client, only: [:show, :edit, :update]
 
-
-
- def index
-  
-
+ def index  
+  get_all_clients
       #search
         if params[:client_id]!=nil and params[:client_id]!=""
           @search_client ="id = #{params[:client_id]}"
@@ -27,6 +24,19 @@ before_action :set_client, only: [:show, :edit, :update]
         else
           @search = ""
         end
+
+if @search_all_pro==""
+  @search = @search
+else
+    if @search!=""
+    @search = @search + "and "+@client_find 
+    else
+    @search = @client_find 
+    end
+end
+
+
+
       #search
 
     @clients = Client.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
