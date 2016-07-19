@@ -175,9 +175,9 @@ puts "-----------#{@total_time}-----------"
       @client_id = ""
       @project_all.each do |p| 
         if @client_id==""
-          @client_id=fp.client_id
+          @client_id=p.client_id
         else
-          @client_id=@client_id.to_s+","+fp.client_id.to_s
+          @client_id=@client_id.to_s+","+p.client_id.to_s
         end
         @project_resp << {
          'id' => p.id,
