@@ -149,29 +149,36 @@ puts "-----------#{@total_time}-----------"
  
    def get_all_projects
   
-if current_user.role_master_id==1
-@search_all_pro=""
-@search_all_pro_id=""
-else
-  @find_pro = ProjectUser.where("user_id=#{current_user.id}").select(:project_master_id).uniq
-  @search_all_pro_id=""
-  @find_pro.each do |fp|
-  if @search_all_pro_id==""
-    @search_all_pro_id=fp.project_master_id
-  else
-    @search_all_pro_id=@search_all_pro_id.to_s+","+fp.project_master_id.to_s
-  end
-  end
-  if @search_all_pro_id==""
-    @search_all_pro="id IN(0)"
-  else
-    @search_all_pro="id IN(#{@search_all_pro_id})"
-  end
+      if current_user.role_master_id==1
+      @search_all_pro=""
+      @search_all_pro_id=""
+      @client_id = ""
+      else
+        @find_pro = ProjectUser.where("user_id=#{current_user.id}").select(:project_master_id).uniq
+        @search_all_pro_id=""
+        @find_pro.each do |fp|
+        if @search_all_pro_id==""
+          @search_all_pro_id=fp.project_master_id
+        else
+          @search_all_pro_id=@search_all_pro_id.to_s+","+fp.project_master_id.to_s
+        end
+        end
+        if @search_all_pro_id==""
+          @search_all_pro="id IN(0)"
+        else
+          @search_all_pro="id IN(#{@search_all_pro_id})"
+        end
 
-end
+      end
       @project_all = ProjectMaster.where("#{@search_all_pro}").order(:project_name)
       @project_resp=[]
+      @client_id = ""
       @project_all.each do |p| 
+        if @client_id==""
+          @client_id=fp.client_id
+        else
+          @client_id=@client_id.to_s+","+fp.client_id.to_s
+        end
         @project_resp << {
          'id' => p.id,
          'project_name' => p.project_name      
@@ -224,7 +231,18 @@ end
     end
 
     def get_all_clients
+      get_all_projects
+      if @search_all_pro==""
         @client_all = Client.all.order(:client_name)
+      else
+if @client_id==""
+@client_find = "id IN(0)"
+else
+@client_find = "id IN(#{@client_id})"
+end
+@client_all = Client.where("#{@client_find}").order(:client_name)
+      end
+        
         @client_resp=[]
         @client_all.each do |c| 
            @client_resp << {
@@ -232,6 +250,7 @@ end
           'client_name' => c.client_name      
         }
         end
+
     end 
 
       def get_all_role
