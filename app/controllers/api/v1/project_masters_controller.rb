@@ -8,6 +8,7 @@ before_action :set_project_master, only: [:show, :edit, :update]
 
 
 def index  
+  get_all_projects
   #search
   if params[:client_id]!=nil and params[:client_id]!="" and params[:client_id]!= "undefined"
     @search_client ="client_id = #{params[:client_id]}"
@@ -30,10 +31,15 @@ def index
     @search = ""
   end
 
-@find_user = User.find_by_id(params[:user_id])
-  if @find_user and @find_user
-    
+if @search_all_pro==""
+@search = @search
+else
+  if @search!=""
+    @search = @search + "and "+@search_all_pro 
+  else
+  @search = @search_all_pro 
   end
+end
   #search
 
   @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
@@ -95,7 +101,7 @@ def index
   end
 
   pagination(ProjectMaster,@search)        
-  get_all_projects
+  
   get_all_clients
   response = {
   'no_of_records' => @no_of_records.size,
