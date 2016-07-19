@@ -60,6 +60,8 @@ get_all_projects
       new_task << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
+        'project_master_id' => tp.project_master_id,
+        'sprint_planning_id' => tp.sprint_planning_id,
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'planned_duration' => @planned_duration,
@@ -85,6 +87,8 @@ get_all_projects
       in_progress << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
+        'project_master_id' => tp.project_master_id,
+        'sprint_planning_id' => tp.sprint_planning_id,
         'task_name' => @task_name,        
         'assign_params' => @assigned,
         'planned_duration' => @planned_duration,
@@ -113,6 +117,8 @@ get_all_projects
       development_completed << {
         'taskboard_id' => td.id,
         'task_id' => @task_id,
+        'project_master_id' => td.project_master_id,
+        'sprint_planning_id' => td.sprint_planning_id,        
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'planned_duration' => @planned_duration,
@@ -139,6 +145,8 @@ get_all_projects
         qa << {
           'taskboard_id' => tq.id,
           'task_id' => @task_id,
+          'project_master_id' => tq.project_master_id,
+          'sprint_planning_id' => tq.sprint_planning_id,          
           'task_name' => @task_name,
           'assign_params' => @assigned,
           'planned_duration' => @planned_duration,
@@ -166,6 +174,8 @@ get_all_projects
         accepted << {
           'taskboard_id' => tc.id,
           'task_id' => @task_id,
+          'project_master_id' => tc.project_master_id,
+          'sprint_planning_id' => tc.sprint_planning_id,
           'task_name' => @task_name,
           'assign_params' => @assigned,
           'planned_duration' => @planned_duration,
@@ -194,6 +204,8 @@ get_all_projects
       hold << {
         'taskboard_id' => th.id,
         'task_id' => @task_id,
+        'project_master_id' => th.project_master_id,
+        'sprint_planning_id' => th.sprint_planning_id,
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'planned_duration' => @planned_duration,

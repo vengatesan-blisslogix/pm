@@ -141,14 +141,14 @@ if m.user_id != nil
     end
   else
     @flag = 0
-  end
+  end   
      user_resp << {
         'id' => m.id,
         'user_id' => m.user_id,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
-        'utilization'  => m.utilization,
+        'utilization'  => m.utilization,        
         'is_billable'  => m.is_billable,
         'flag' => @flag
       }

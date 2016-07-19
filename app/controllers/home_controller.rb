@@ -6,6 +6,16 @@ class HomeController < ApplicationController
   def user_tech
   @skill_set = UserTechnology.where("user_id = #{params[:user_id]}")
     @technology_name=""
+    @user_projects = ProjectUser.where("user_id = #{params[:user_id]}")
+    userr_proj =[]
+    @user_projects.each do |up|
+      @proj_na = ProjectMaster.find_by_id(up.project_master_id) 
+      userr_proj << {
+            'utilization' => up.utilization,
+            'project_name' => @proj_na.project_name
+            }
+    end
+
     @skill_set.each do |tech|
 tec = TechnologyMaster.find_by_id(tech.technology_master_id)
       if @technology_name == ""
@@ -21,7 +31,8 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
     end
     resp=[]
         resp << {
-            'technology' => @tech_name
+            'technology' => @tech_name,
+            'user_utilization' => userr_proj
             }
             render json: resp
 
@@ -156,6 +167,16 @@ end#@timesheet_summ.each do |lts|
     render json: response 
 end
 
+
+def edit_summary
+  @summary = Logtime.find_by_id(params[:id])
+  resp = []
+  @all_summary = Logtime.where("user_id = #{@summary.user_id} and project_master_id = #{@summary.project_master_id}")
+  @all_summary.each do |as|
+    #'task_name' => ,
+    #'task_user' => ,
+  end
+end
 
 def utilization_report
 # Create a new Excel Workbook
