@@ -50,9 +50,9 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
           puts"-============ @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
 
           @assigned << {
-          'assign_id' => a.id,#id
-          'id' => a.assigned_user_id,#assignee_user_id
-          'assigned' => true
+          #'assign_id' => a.id,#id
+          'id' => a.assigned_user_id#assignee_user_id
+          #'assigned' => true
           }         
        end
      end
@@ -68,7 +68,7 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
     @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
   end
     end
-puts "-----------#{@total_time}-----------"
+puts "------task_master_idtask_master_id--#{task_master_id}---#{@total_time}-----------"
     @hours_resp << {
         'total_hours' => @total_time.sum
       }
@@ -298,12 +298,12 @@ end
     end   
 
     def get_all_holiday
-        @holiday_all = Holiday.all.order(:date)
+        @holiday_all = Holiday.all.order(:description)
         @holiday_resp=[]
         @holiday_all.each do |h| 
            @holiday_resp << {
           'id' => h.id,
-          'holiday_date' => h.date.strftime("%m/%d/%Y")   
+          'holiday_date' => h.description
         }
         end
     end   

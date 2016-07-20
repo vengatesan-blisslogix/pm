@@ -56,7 +56,7 @@ get_all_projects
         @task_name =""
       end     
     get_assigne(tp.task_master_id, "new")
-
+get_hours(tp.task_master_id)
       new_task << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,

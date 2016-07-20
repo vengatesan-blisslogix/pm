@@ -20,7 +20,8 @@ def index
         'name' => cl.name,
         'active' => cl.active,
         'description' => cl.description,
-        'stage' => cl.stage
+        'stage' => cl.stage,
+        'stage_value' => cl.stage_value
       }
       end
 
@@ -80,9 +81,9 @@ private
     def checklist_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :name => "#{params[:name]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}", :description => "#{params[:description]}", :stage => "#{params[:stage]}" }
+      raw_parameters = { :name => "#{params[:name]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}", :description => "#{params[:description]}", :stage => "#{params[:stage]}", :stage_value => "#{params[:stage_value]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:name, :active, :description, :user_id, :stage)
+      parameters.permit(:name, :active, :description, :user_id, :stage, :stage_value)
     
     end
 
