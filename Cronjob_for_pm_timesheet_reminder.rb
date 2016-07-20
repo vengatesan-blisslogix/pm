@@ -153,7 +153,7 @@ table_cont = "<table width='750' border='1' align='center' cellpadding='0' cells
 mail = Mail.new
   mail.sender = "yogeshblisslogix@gmail.com"
   #mail.to = au.email
-  mail.to = "manickavelu@blisslogix.com "
+  mail.to = "sastrayogesh@gmail.com"
   mail.subject = "[REMINDER][Timesheet Entry] - #{pro.project_name}"
   mail.content_type = "multipart/mixed"
 

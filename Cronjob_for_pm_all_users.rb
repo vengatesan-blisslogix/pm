@@ -35,7 +35,7 @@ def send_reminder_to_all_users(to,name)
   mail = Mail.new
 	mail.sender = "yogeshblisslogix@gmail.com"
 	#mail.to = to
-	mail.to = "manickavelu@blisslogix.com"
+	mail.to = "sastrayogesh@gmail.com"
 	mail.subject = "[REMINDER][Timesheet Entry]"
 	mail.content_type = "multipart/mixed"
 
