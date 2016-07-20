@@ -50,9 +50,9 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
           puts"-============ @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
 
           @assigned << {
-          #'assign_id' => a.id,#id
+          'assign_id' => a.id,#id
           'id' => a.assigned_user_id#assignee_user_id
-          #'assigned' => true
+          'assigned' => true
           }         
        end
      end

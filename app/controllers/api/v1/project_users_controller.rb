@@ -191,7 +191,7 @@ convert_param_to_array(params[:manager])
       @project = ProjectUser.new
       @project.assigned_date = @a_date[p]
       @project.relieved_date = @r_date[p]
-      @project.active = @active[p]
+      @project.active = 'active'
       @project.utilization = @utilization[p]
       @project.is_billable = @billable[p]
       @project.project_master_id = params[:project_master_id]
