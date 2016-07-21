@@ -115,6 +115,23 @@ if m.user_id != nil
     @flag = 0
   end
 
+  @skill_set = UserTechnology.where("user_id = #{m.user_id}")
+    @technology_name=""
+
+      @skill_set.each do |tech|
+tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+      if @technology_name == ""
+      @technology_name = tec.technology
+      else
+      @technology_name = @technology_name+", "+tec.technology
+      end
+    end#@skill_set.each do |tec|
+    if @technology_name != ""
+      @tech_name = @technology_name
+    else
+      @tech_name = "-"
+    end
+
      manager_resp << {
         'id' => m.id,
         'manager_id' => m.user_id,
@@ -122,6 +139,7 @@ if m.user_id != nil
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
         'utilization'  => m.utilization,
+        'technology' => @tech_name,
         'is_billable'  => m.is_billable,
         'flag' => @flag
       }
@@ -142,12 +160,31 @@ if m.user_id != nil
   else
     @flag = 0
   end   
+
+   @skill_set = UserTechnology.where("user_id = #{m.user_id}")
+    @technology_name=""
+
+      @skill_set.each do |tech|
+tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+      if @technology_name == ""
+      @technology_name = tec.technology
+      else
+      @technology_name = @technology_name+", "+tec.technology
+      end
+    end#@skill_set.each do |tec|
+    if @technology_name != ""
+      @tech_name = @technology_name
+    else
+      @tech_name = "-"
+    end
+
      user_resp << {
         'id' => m.id,
         'user_id' => m.user_id,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
+        'technology' => @tech_name,
         'utilization'  => m.utilization,        
         'is_billable'  => m.is_billable,
         'flag' => @flag
@@ -176,8 +213,8 @@ convert_param_to_array(params[:assigned_date])
 @a_date = @output_array
 convert_param_to_array(params[:relieved_date])
 @r_date = @output_array
-convert_param_to_array(params[:active])
-@active = @output_array
+#convert_param_to_array(params[:active])
+#@active = @output_array
 convert_param_to_array(params[:utilization])
 @utilization = @output_array
 convert_param_to_array(params[:is_billable])
@@ -191,7 +228,7 @@ convert_param_to_array(params[:manager])
       @project = ProjectUser.new
       @project.assigned_date = @a_date[p]
       @project.relieved_date = @r_date[p]
-      @project.active = 'active'
+      @project.active = '1'
       @project.utilization = @utilization[p]
       @project.is_billable = @billable[p]
       @project.project_master_id = params[:project_master_id]

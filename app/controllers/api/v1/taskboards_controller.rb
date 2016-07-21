@@ -263,16 +263,48 @@ get_hours(tp.task_master_id)
 	  render json: @taskboard
 	end
 
-	def create	  
-	  @taskboard = Taskboard.new(taskboards_params)      
-	    if @taskboard.save
+ def create    
+    @taskboard = Taskboard.new(taskboards_params)      
+      if @taskboard.save
         @taskboard.new = true
         @taskboard.save
-	      render json: { valid: true, msg: "taskboard created successfully"}
-	    else
-	      render json: { valid: false, error: @taskboard.errors }, status: 404
-	    end
-	end
+
+       new_task = []
+   @progress = @taskboard
+     @project_task = ProjectTask.find_by_id(@progress.task_master_id)
+      if @project_task!=nil and @project_task!=""
+        get_task_board(@project_task.project_master_id)
+        @planned_duration=@project_task.planned
+        @task_name =@project_task.task_name
+        @task_id =@project_task.id
+       else
+        @project_users_resp = ""
+        @task_name =""
+      end     
+    get_assigne(@progress.task_master_id, "new")
+get_hours(@progress.task_master_id)
+      new_task << {
+        'taskboard_id' => @progress.id,
+        'task_id' => @task_id,
+        'project_master_id' => @progress.project_master_id,
+        'sprint_planning_id' => @progress.sprint_planning_id,
+        'task_name' => @task_name,
+        'assign_params' => @assigned,
+        'planned_duration' => @planned_duration,
+        'worked_hours' => @hours_resp,
+        'project_users' => @project_users_resp
+      }
+    new_task={
+          'valid' => true, 
+          'new_task' => new_task,
+          'msg' => "created successfully"
+          }
+
+        render json: new_task
+      else
+        render json: { valid: false, error: @taskboard.errors }, status: 404
+      end
+  end
 
 
 	def update
