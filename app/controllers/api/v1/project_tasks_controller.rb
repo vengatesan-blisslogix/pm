@@ -30,6 +30,13 @@ before_action :set_project, only: [:show, :edit, :update]
         @project_name =""
       end      
 
+      @task_status_master = TaskStatusMaster.find_by_id(p.task_status_master_id)
+      if @task_status_master!=nil and @task_status_master!=""
+        @status_name =@task_status_master.status
+      else
+        @status_name =""
+      end      
+
     #@release_planning = ReleasePlanning.find_by_id(p.release_planning_id)
     #if @release_planning!=nil and @release_planning!=""
      # @release_name =@release_planning.release_name
@@ -45,7 +52,8 @@ before_action :set_project, only: [:show, :edit, :update]
         'description' => p.task_description,
         'status' => p.active,
         'priority' => p.priority,
-        'planned_duration' => p.planned
+        'planned_duration' => p.planned,
+        'status_name' => @status_name
 
       }
 
@@ -76,7 +84,8 @@ resp=[]
         'task_description' => @project.task_description,
         'active' => @project.active,
         'priority' => @project.priority,
-        'planned_duration' => @project.planned
+        'planned_duration' => @project.planned,
+        'status_id' =>@project.task_status_master_id
 
       }
       render json: resp
@@ -124,9 +133,9 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_master_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_master_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority, :project_master_id)
+      parameters.permit(:task_name, :task_description, :active, :priority, :project_master_id, :task_status_master_id )
     
     end
 

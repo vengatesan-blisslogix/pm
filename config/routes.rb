@@ -38,6 +38,9 @@ match "/api/v1/timesheet_approval/:id", :to => "home#timesheet_approval", :via =
 match "/api/v1/user_tech", :to => "home#user_tech", :via => ["get"]
 match "/api/v1/get_task_user", :to => "home#get_task_user", :via => ["get"]
 match "/api/v1/edit_summary", :to => "home#edit_summary", :via => ["get"]
+match "/api/v1/get_task_status", :to => "home#get_task_status", :via => ["get"]
+
+
 
 
 

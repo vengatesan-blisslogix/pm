@@ -10,10 +10,12 @@ class HomeController < ApplicationController
     userr_proj =[]
     @user_projects.each do |up|
       @proj_na = ProjectMaster.find_by_id(up.project_master_id) 
+      if @proj_na != nil
       userr_proj << {
             'utilization' => up.utilization,
             'project_name' => @proj_na.project_name
             }
+          end
     end
 
     @skill_set.each do |tech|
@@ -169,7 +171,7 @@ end
 
 
 def edit_summary
-  begin
+  #begin
   @summary = Logtime.find_by_id(params[:id])
   resp = []
   @find_summary = Logtime.where("user_id = #{@summary.user_id} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
@@ -177,8 +179,10 @@ def edit_summary
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
  @all_summary = Logtime.where("user_id = #{@find_summary[0].user_id} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@find_summary[0].task_master_id}")
 @task_time = []
+@task_time_hour = []
 @all_summary.each do |as|
-    @task_time << {"#{as.task_date}" => as.task_time}
+    @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}
+    
 end
 @project_task_name = ProjectTask.find_by_id(@find_summary[0].task_master_id)
 @project_master_id = ProjectMaster.find_by_id(@find_summary[0].project_master_id)
@@ -206,10 +210,24 @@ resp = {
   
   end
   render json: resp
-rescue
-  render json: { valid: false, msg: "Invalid Parameters."} 
-end
+#rescue
+#  render json: { valid: false, msg: "Invalid Parameters."} 
+#end
   
+end
+
+def get_task_status
+   @task_all = TaskStatusMaster.all.order(:status)
+      @task_resp=[]
+      @client_id = ""
+      @task_all.each do |tsm| 
+
+        @task_resp << {
+         'id' => tsm.id,
+         'status_name' => tsm.status      
+        }
+      end
+      render json: @task_resp
 end
 
 def utilization_report
@@ -462,7 +480,7 @@ def get_release_sprint
    @sprint_plannings = SprintPlanning.where("release_planning_id = #{params[:release_planning_id]}")
    @sprint_plannings.each do |s|      
       resp << {
-        'id' => s.project_master_id,
+        'id' => s.id,
         'sprint_name' => s.sprint_name
       }
     end

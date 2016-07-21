@@ -26,7 +26,7 @@ def create
 
           @timelog.user_id = params[:user_id]
        @timelog.save
-    	render json: { valid: true, msg:"timelog created successfully."}
+    	render json: { valid: true, msg:"@timelog.task_time created successfully."}
      else
         render json: { valid: false, error: @timelog.errors }, status: 404
      end

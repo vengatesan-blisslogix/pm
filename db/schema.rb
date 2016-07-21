@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160720132248) do
+ActiveRecord::Schema.define(version: 20160721124749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -269,10 +269,11 @@ ActiveRecord::Schema.define(version: 20160720132248) do
     t.time     "planned_duration"
     t.time     "actual_duration"
     t.integer  "project_master_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.float    "planned"
     t.float    "actual"
+    t.integer  "task_status_master_id"
   end
 
   create_table "project_time_sheets", force: :cascade do |t|
