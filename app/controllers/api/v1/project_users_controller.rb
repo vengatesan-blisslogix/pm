@@ -249,7 +249,7 @@ convert_param_to_array(params[:manager])
 end
 
  def update   
-ProjectUser.destroy_all(:project_master_id => params[project_master_id])
+ProjectUser.destroy_all(:project_master_id => params[:project_master_id])
 
      begin          
 if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
