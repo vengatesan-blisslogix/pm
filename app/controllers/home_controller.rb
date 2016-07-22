@@ -75,6 +75,20 @@ end
     end
   end
 
+
+def show_checklist
+  @find_checklist = Checklist.where("stage_value = #{params[:stage_value]}")
+  @checklist_resp = []
+  @find_checklist.each do |cl|
+    @checklist_resp << {
+      'id' => cl.id,
+      'checklist_name' => cl.name
+    }
+  end
+    render json: @checklist_resp
+end
+
+
 def timesheet_approval
   @assigns = Logtime.find_by_id(params[:id])
 
@@ -204,7 +218,6 @@ resp = {
   'task_id'=> @find_summary[0].task_master_id,
   'task_name'=>@project_task_name.task_name,
   'date'=>@task_time
-
 
 }
   

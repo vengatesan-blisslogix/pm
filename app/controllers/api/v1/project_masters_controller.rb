@@ -96,7 +96,10 @@ end
         'tag_keywords' => p.tag_keywords,
         'kickstart_date' => p.kickstart_date,        
         'status' => p.active,
-        'avatar' => p.avatar
+        'avatar' => p.avatar,
+        'sow_number' => p.sow_number,
+        'account_manager' => p.account_manager,
+        'project_manager' => p.project_manager
       }
   end
 
@@ -188,10 +191,18 @@ private
        :approved_by_user_id => "#{params[:approved_by_user_id]}",
        :approved_date_time => "#{params[:approved_date_time]}",
        :assigned_to_user_id => "#{params[:assigned_to_user_id]}",
-       :kickstart_date => "#{params[:kickstart_date]}"
+       :kickstart_date => "#{params[:kickstart_date]}",
+       :sow_number => "#{params[:sow_number]}",
+       :account_manager => "#{params[:account_manager]}",
+       :project_manager => "#{params[:project_manager]}",
+       :business_unit_id => "#{params[:business_unit_id]}",
+       :project_location_id => "#{params[:project_location_id]}",
+       :engagement_type_id => "#{params[:engagement_type_id]}",
+       :project_payment_id => "#{params[:project_payment_id]}"
+ 
    }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:project_type_id, :billable, :project_name, :description, :project_image, :domain_id, :client_id, :created_by_user_id, :start_date, :end_date, :project_status_master_id, :website, :facebook_page, :twitter_page, :star_rating, :active, :tag_keywords, :flag_id, :approved, :approved_by_user_id, :approved_date_time, :assigned_to_user_id, :kickstart_date)
+      parameters.permit(:project_type_id, :billable, :project_name, :description, :project_image, :domain_id, :client_id, :created_by_user_id, :start_date, :end_date, :project_status_master_id, :website, :facebook_page, :twitter_page, :star_rating, :active, :tag_keywords, :flag_id, :approved, :approved_by_user_id, :approved_date_time, :assigned_to_user_id, :kickstart_date, :sow_number, :account_manager, :project_manager, :business_unit_id, :project_location_id, :engagement_type_id, :project_payment_id)
     
     end
 end
