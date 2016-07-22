@@ -186,6 +186,18 @@ puts "------task_master_idtask_master_id--#{task_master_id}---#{@total_time}----
       end
    end
 
+   def get_all_project_task_status
+     @task_status_master = TaskStatusMaster.all
+      @project_task_status = []
+            @task_status_master.each do |tsm| 
+
+      @project_task_status << {
+         'id' => tsm.id,
+         'status_name' => tsm.status      
+        }
+      end
+   end
+
    def get_all_releases(project_master_id)
      @release_resp=[]
      if project_master_id != nil && project_master_id != ""

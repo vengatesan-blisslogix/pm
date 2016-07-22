@@ -249,6 +249,7 @@ convert_param_to_array(params[:manager])
 end
 
  def update   
+ProjectUser.destroy_all(:project_master_id => params[project_master_id])
 
      begin          
 if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
@@ -258,8 +259,6 @@ convert_param_to_array(params[:assigned_date])
 @a_date = @output_array
 convert_param_to_array(params[:relieved_date])
 @r_date = @output_array
-convert_param_to_array(params[:active])
-@active = @output_array
 convert_param_to_array(params[:utilization])
 @utilization = @output_array
 convert_param_to_array(params[:is_billable])
@@ -279,7 +278,7 @@ convert_param_to_array(params[:manager])
 
       @project.assigned_date = @a_date[p]
       @project.relieved_date = @r_date[p]
-      @project.active = @active[p]
+      @project.active = '1'
       @project.utilization = @utilization[p]
       @project.is_billable = @billable[p]
       @project.project_master_id = params[:project_master_id]

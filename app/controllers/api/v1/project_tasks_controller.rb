@@ -6,6 +6,7 @@ before_action :set_project, only: [:show, :edit, :update]
  def index
 
   get_all_projects
+  get_all_project_task_status
 
       if params[:project_master_id] 
         @search = "project_master_id = #{params[:project_master_id]}"
@@ -68,7 +69,8 @@ before_action :set_project, only: [:show, :edit, :update]
       'next' => @next,
       'prev' => @prev,
       'project_list' => @project_resp,
-      'project_tasks' => resp
+      'project_tasks' => resp,
+      'status' => @project_task_status
     }
 
     render json: response
