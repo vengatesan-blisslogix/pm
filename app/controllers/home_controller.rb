@@ -44,11 +44,11 @@ end
   def add_menus
 
     #add admin sub activity
-    href = ["home.checklist" ]
+    href = ["home.timesheet_summary" ]
     icon = ["fa fa-fw fa-tachometer"]
     i = 0
     admin = ActivityMaster.find_by_activity_Name("Admin")
-    ["Checklist"].each do |ad|
+    ["TimesheetSummary"].each do |ad|
     ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
     RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
     i = i+1
@@ -142,6 +142,13 @@ def timesheet_summary
         @res_name = ""
       end
 
+#@task_na = Taskboard.find_by_id(tsu.project_task_id)
+      if @task_na != nil
+        @task_name = @task_na.task_name
+      else
+        @task_name = ""
+      end
+
  if @timesheet_summ_id[0].status != nil
         @status = @timesheet_summ_id[0].status
       else
@@ -159,6 +166,7 @@ def timesheet_summary
           'id' => @timesheet_summ_id[0].id,
           'project_name' => @proj_name,
           'resource_name' => @res_name,
+          'task_name' => @task_name,
           'start_date' => @start_date,
           'end_date' => @end_date,
           'no_of_hours' => @timesheet_summ_user_time,

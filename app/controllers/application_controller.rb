@@ -244,6 +244,9 @@ puts "------task_master_idtask_master_id--#{task_master_id}---#{@total_time}----
 
     def get_all_clients
       get_all_projects
+      if current_user.role_master_id==1
+              @client_all = Client.all.order(:client_name)
+      else
       if @search_all_pro==""
         @client_all = Client.all.order(:client_name)
       else
@@ -254,7 +257,9 @@ else
 end
 @client_all = Client.where("#{@client_find}").order(:client_name)
       end
-        
+  
+
+        end
         @client_resp=[]
         @client_all.each do |c| 
            @client_resp << {

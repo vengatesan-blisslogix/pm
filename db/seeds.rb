@@ -69,11 +69,11 @@ i = i+1
 end
 
 #add admin sub activity
-href = ["home.users", "home.roles", "home.activity","home.branch","home.technology","home.team","home.holidays","home.project_domains","home.project_status_masters","home.task_status_master"]
-icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
+href = ["home.users", "home.roles", "home.activity","home.branch","home.technology","home.team","home.holidays","home.project_domains","home.project_status_masters","home.task_status_master", "home.business_units","home.project_locations","home.engagement_types", "home.project_payments", "home.checklist"]
+icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
 i = 0
 admin = ActivityMaster.find_by_activity_Name("Admin")
-["Users","Roles","Activity","Branch","Technology","Team", "Holidays", "ProjectDomains", "ProjectStatusMaster", "TaskStatusMaster"].each do |ad|
+["Users","Roles","Activity","Branch","Technology","Team", "Holidays", "ProjectDomains", "ProjectStatus", "TaskStatus", "Business Units", "Project Locations", "Engagement Types", "Project Payment", "Checklist"].each do |ad|
 ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: ad.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
