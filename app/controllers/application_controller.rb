@@ -320,7 +320,7 @@ end
         @holiday_all.each do |h| 
            @holiday_resp << {
           'id' => h.id,
-          'holiday_date' => h.description
+          'holiday_description' => h.description
         }
         end
     end   
