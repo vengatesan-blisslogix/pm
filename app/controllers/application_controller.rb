@@ -187,7 +187,7 @@ puts "------task_master_idtask_master_id--#{task_master_id}---#{@total_time}----
    end
 
    def get_all_project_task_status
-     @task_status_master = TaskStatusMaster.all
+     @task_status_master = TaskStatusMaster.all.order(:status)
       @project_task_status = []
             @task_status_master.each do |tsm| 
 

@@ -87,7 +87,8 @@ resp=[]
         'active' => @project.active,
         'priority' => @project.priority,
         'planned_duration' => @project.planned,
-        'status_id' =>@project.task_status_master_id
+        'status_id' =>@project.task_status_master_id,
+        'status' => @project_task_status
 
       }
       render json: resp
