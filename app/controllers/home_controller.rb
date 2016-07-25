@@ -811,7 +811,11 @@ def add_new_project
         'project_type' => getproject_type,
         'domain_name' => getdomain_name,
         'client_name' => getclient_name,
-        'project_status' => getproject_status
+        'project_status' => getproject_status,
+        'business' => getbusiness,
+        'project_location' => getprojectlocation,
+        'engagement_type' => getengagementtype,
+        'project_payment' => getprojectpayment
             
       }
      
@@ -828,6 +832,54 @@ def getcompany
       resp << {
         'id' => v.id,
         'company_name' => v.company_name
+      }
+    end
+    resp
+end
+
+def getbusiness
+  resp = []
+    @value = BusinessUnit.all.order(:id)
+    @value.each do |bu|      
+      resp << {
+        'id' => bu.id,
+        'business_name' => bu.name
+      }
+    end
+    resp
+end
+
+def getengagementtype
+  resp = []
+    @value = EngagementType.all.order(:id)
+    @value.each do |et|      
+      resp << {
+        'id' => et.id,
+        'engagement_name' => et.name
+      }
+    end
+    resp
+end
+
+def getprojectpayment
+  resp = []
+    @value = ProjectPayment.all.order(:id)
+    @value.each do |pp|      
+      resp << {
+        'id' => pp.id,
+        'payment_name' => pp.name
+      }
+    end
+    resp
+end
+
+def getprojectlocation
+  resp = []
+    @value = ProjectLocation.all.order(:id)
+    @value.each do |pl|      
+      resp << {
+        'id' => pl.id,
+        'location_name' => pl.name
       }
     end
     resp
