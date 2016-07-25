@@ -142,7 +142,7 @@ def timesheet_summary
         @res_name = ""
       end
 
-#@task_na = Taskboard.find_by_id(tsu.project_task_id)
+@task_na = ProjectTask.find_by_id(@timesheet_summ_id[0].task_master_id)
       if @task_na != nil
         @task_name = @task_na.task_name
       else
