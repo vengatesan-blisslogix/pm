@@ -4,4 +4,6 @@ class SprintPlanning < ActiveRecord::Base
 
   paginates_per $PER_PAGE
 
+  validates :sprint_name, presence: true, uniqueness: true
+
 end
