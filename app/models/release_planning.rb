@@ -6,5 +6,5 @@ class ReleasePlanning < ActiveRecord::Base
 	paginates_per $PER_PAGE
 	
 	belongs_to :project_master
-    validates :release_name, presence: true, uniqueness: true
+    validates :release_name, presence: true
 end
