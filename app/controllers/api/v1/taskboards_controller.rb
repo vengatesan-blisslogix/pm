@@ -84,6 +84,8 @@ get_hours(tp.task_master_id)
       end     
       get_task_board(@project_task.project_master_id)
       get_assigne(tp.task_master_id, "in_progress")
+      get_hours(tp.task_master_id)
+
       in_progress << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
@@ -113,6 +115,7 @@ get_hours(tp.task_master_id)
         @task_name =""
       end        
       get_assigne(td.task_master_id, "development_completed")
+      get_hours(td.task_master_id)
 
       development_completed << {
         'taskboard_id' => td.id,
@@ -141,6 +144,7 @@ get_hours(tp.task_master_id)
           @task_name =""
         end        
         get_assigne(tq.task_master_id, "qa")
+        get_hours(tq.task_master_id)
 
         qa << {
           'taskboard_id' => tq.id,
@@ -170,6 +174,7 @@ get_hours(tp.task_master_id)
         end       
 
         get_assigne(tc.task_master_id, "completed")
+        get_hours(tc.task_master_id)
 
         accepted << {
           'taskboard_id' => tc.id,
@@ -200,6 +205,7 @@ get_hours(tp.task_master_id)
       end     
   
    get_assigne(th.task_master_id, "hold")
+   get_hours(th.task_master_id)
 
       hold << {
         'taskboard_id' => th.id,
