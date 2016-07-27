@@ -55,8 +55,9 @@ get_all_projects
         @project_users_resp = ""
         @task_name =""
       end     
+    get_task_board(@project_task.project_master_id)
     get_assigne(tp.task_master_id, "new")
-get_hours(tp.task_master_id)
+    get_hours(tp.task_master_id)
       new_task << {
         'taskboard_id' => tp.id,
         'task_id' => @task_id,
@@ -114,6 +115,7 @@ get_hours(tp.task_master_id)
       else
         @task_name =""
       end        
+      get_task_board(@project_task.project_master_id)
       get_assigne(td.task_master_id, "development_completed")
       get_hours(td.task_master_id)
 
@@ -142,7 +144,8 @@ get_hours(tp.task_master_id)
           @task_id =@project_task.id
         else
           @task_name =""
-        end        
+        end       
+      get_task_board(@project_task.project_master_id)      
         get_assigne(tq.task_master_id, "qa")
         get_hours(tq.task_master_id)
 
@@ -172,7 +175,7 @@ get_hours(tp.task_master_id)
         else
           @task_name =""
         end       
-
+        get_task_board(@project_task.project_master_id)
         get_assigne(tc.task_master_id, "completed")
         get_hours(tc.task_master_id)
 
@@ -203,7 +206,7 @@ get_hours(tp.task_master_id)
       else
         @task_name =""
       end     
-  
+   get_task_board(@project_task.project_master_id)
    get_assigne(th.task_master_id, "hold")
    get_hours(th.task_master_id)
 
