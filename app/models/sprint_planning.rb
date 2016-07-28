@@ -4,4 +4,6 @@ class SprintPlanning < ActiveRecord::Base
 
   paginates_per $PER_PAGE
 
+  validates :sprint_name, uniqueness: { scope: [:release_planning_id] }
+
 end

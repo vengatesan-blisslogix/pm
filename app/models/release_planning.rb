@@ -7,4 +7,7 @@ class ReleasePlanning < ActiveRecord::Base
 	
 	belongs_to :project_master
     validates :release_name, presence: true
+
+    validates :release_name, uniqueness: { scope: [:project_master_id] }
+
 end
