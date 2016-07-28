@@ -179,7 +179,14 @@ end#@timesheet_summ_user.each do |tsu|
 end
 end#@timesheet_summ.each do |lts|
 
-          pagination(Logtime,@search)         
+          pagination(Logtime,@search)   
+
+      if current_user.role_master_id == 1
+      @enable_approve_button = true
+      else
+        @enable_approve_button=false
+      end
+
       response = {
         'no_of_records' => @no_of_records.size,
         'no_of_pages' => @no_pages,
