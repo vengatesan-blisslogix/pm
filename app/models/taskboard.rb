@@ -3,7 +3,7 @@ class Taskboard < ActiveRecord::Base
 #default_scope { order('created_at DESC') }
 
 
-default_scope { where(active: "active")}
+default_scope { where(status: "active")}
 
 	
 	belongs_to :project_master
