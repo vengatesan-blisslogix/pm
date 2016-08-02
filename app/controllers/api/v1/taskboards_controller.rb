@@ -8,6 +8,11 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 
 get_all_projects
 
+if params[:project_master_id] and params[:sprint_planning_id]
+@search = "AND project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
+else
+@search = ""
+end
 
   #new
    task_resp =  []
@@ -42,7 +47,7 @@ get_all_projects
 
 
    new_task = []
-   @progress = Taskboard.where(:new =>  true)
+   @progress = Taskboard.where("new = ? #{@search}", true)
    @progress.each do |tp|  
    puts tp.task_master_id    
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
