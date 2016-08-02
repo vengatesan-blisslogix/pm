@@ -354,11 +354,12 @@ private
          :project_master_id => "#{params[:project_master_id]}",
          :sprint_planning_id => "#{params[:sprint_planning_id]}",
 	       :description => "#{params[:description]}",
-	       :est_time => "#{params[:est_time]}"      
+	       :est_time => "#{params[:est_time]}",
+         :status => "#{params[:status]}"         
 	      }
 	      
 	      parameters = ActionController::Parameters.new(raw_parameters)
-	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:new , :in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time)
+	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:new , :in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time, :status)
 	    
 	end
 end
