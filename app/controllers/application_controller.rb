@@ -53,10 +53,7 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
           'assign_id' => a.id,#id
           'id' => a.assigned_user_id,#assignee_user_id
           'assigned' => true
-          }       
-          @assignee_user <<{
-            'assign_user' => a.assignee_user_id.name
-          }  
+          }         
        end
      end
   end

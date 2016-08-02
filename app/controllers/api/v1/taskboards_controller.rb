@@ -40,8 +40,7 @@ end
         'id' => t.id,
         'task_name' => t.task_name,
         'assign_params' => @assigned,
-        'worked_hours' => @hours_resp,
-        'assigned_user' => @assignee_user
+        'worked_hours' => @hours_resp
       }
     end
     #new
@@ -354,12 +353,11 @@ private
          :project_master_id => "#{params[:project_master_id]}",
          :sprint_planning_id => "#{params[:sprint_planning_id]}",
 	       :description => "#{params[:description]}",
-	       :est_time => "#{params[:est_time]}",
-         :status => "#{params[:status]}"         
+	       :est_time => "#{params[:est_time]}"      
 	      }
 	      
 	      parameters = ActionController::Parameters.new(raw_parameters)
-	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:new , :in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time, :status)
+	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:new , :in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time)
 	    
 	end
 end
