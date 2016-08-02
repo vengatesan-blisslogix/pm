@@ -292,17 +292,11 @@ format.set_bg_color('cyan')
 format.set_color('black')
 format.set_border(1)
 
-
-
-
 format1 = workbook.add_format
 format1.set_size(10)
 format1.set_color('black')
 format1.set_text_wrap(1)
 format1.set_align('top')
-
-
-
 
 worksheet1.set_column('A:A', 20,format1)
 worksheet1.set_column('B:B', 25,format1)
@@ -317,7 +311,6 @@ worksheet1.set_column('J:J', 25,format1)
 worksheet1.set_column('K:K', 25,format1)
 worksheet1.set_column('L:L', 25,format1)
 worksheet1.set_column('M:M', 25,format1)
-
 
 worksheet1.set_row(0,20)
 
@@ -349,7 +342,6 @@ else
   @team_name = "-"
 end
 worksheet1.write(row,2, "#{@team_name}", format1)
-
 
 @find_project_for_user = ProjectUser.where("user_id=#{u.id}")
 @project_id = ""
@@ -398,18 +390,10 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
             }
             render json: resp
 
-
-
 worksheet1.write(row,9, "#{@tech_name}", format1)
-
 
 row += 1
 end
-
-
-
-
-
 
 workbook.close
 
@@ -417,7 +401,6 @@ workbook.close
   #    :filename     =>  "#{@file_name}",
   #    :charset      =>  'utf-8',
   #    :type         =>  'application/octet-stream')
-
 
 end
 

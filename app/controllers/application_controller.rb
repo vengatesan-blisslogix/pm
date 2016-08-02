@@ -42,13 +42,21 @@ class ApplicationController < ActionController::Base
 puts "-----------------#{task_master_id}----#{stage}-------------------"
 
     @assigned = []
-        @assigned_user = []
+        @assignee_user = []
 
          @assigne = Taskboard.where("#{stage} = ? and task_master_id = #{task_master_id}", true).first
          if @assigne!=nil
          @find_assigne =  Assign.where("taskboard_id=#{@assigne.id}")
 
          @find_assigne.each do |a|
+
+            @users = User.find_by_id(a.assigned_user_id)
+            if @users!=nil and @users!=""
+              @user_name   =@users.name + " " +@users.last_name
+            else
+              @user_name   =""
+            end
+
           puts"-============ @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
 
           @assigned << {
@@ -57,8 +65,9 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
           'assigned' => true
           } 
 
+
           @assignee_user << {
-          'assigned_user' => a.assignee_user_id.name
+          'assigned_user' => @user_name
           }     
 
        end
@@ -94,7 +103,7 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
           @project_names = User.find_by_id(pu.user_id)
         @project_users_resp << {
           'id' => @project_names.id,
-          'username' => @project_names.name
+          'username' => "#{@project_names.name} #{@project_names.last_name}"
         }
         end
 
