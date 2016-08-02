@@ -184,6 +184,7 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
+        'reporting_to' => m.reporting_to,
         'technology' => @tech_name,
         'utilization'  => m.utilization,        
         'is_billable'  => m.is_billable,

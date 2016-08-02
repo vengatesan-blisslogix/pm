@@ -72,10 +72,10 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
 
     @logtimes.each do |l|  
       if l.end_time!=nil and l.start_time!=nil
-    @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
-  end
+         @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
+      end
     end
-puts "------task_master_idtask_master_id--#{task_master_id}---#{@total_time}-----------"
+    
     @hours_resp << {
         'total_hours' => @total_time.sum
       }
