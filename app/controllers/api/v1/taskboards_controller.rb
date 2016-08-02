@@ -40,6 +40,7 @@ end
         'id' => t.id,
         'task_name' => t.task_name,
         'assign_params' => @assigned,
+        'assign_name' => @assignee_user,
         'worked_hours' => @hours_resp
       }
     end
@@ -70,6 +71,7 @@ end
         'sprint_planning_id' => tp.sprint_planning_id,
         'task_name' => @task_name,
         'assign_params' => @assigned,
+        'assign_name' => @assignee_user,
         'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
@@ -99,6 +101,7 @@ end
         'sprint_planning_id' => tp.sprint_planning_id,
         'task_name' => @task_name,        
         'assign_params' => @assigned,
+        'assign_name' => @assignee_user,
         'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
@@ -131,6 +134,7 @@ end
         'sprint_planning_id' => td.sprint_planning_id,        
         'task_name' => @task_name,
         'assign_params' => @assigned,
+        'assign_name' => @assignee_user,
         'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
@@ -161,6 +165,7 @@ end
           'sprint_planning_id' => tq.sprint_planning_id,          
           'task_name' => @task_name,
           'assign_params' => @assigned,
+          'assign_name' => @assignee_user,
           'planned_duration' => @planned_duration,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
@@ -191,6 +196,7 @@ end
           'sprint_planning_id' => tc.sprint_planning_id,
           'task_name' => @task_name,
           'assign_params' => @assigned,
+          'assign_name' => @assignee_user,
           'planned_duration' => @planned_duration,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
@@ -222,6 +228,7 @@ end
         'sprint_planning_id' => th.sprint_planning_id,
         'task_name' => @task_name,
         'assign_params' => @assigned,
+        'assign_name' => @assignee_user,
         'planned_duration' => @planned_duration,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
