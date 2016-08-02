@@ -40,7 +40,8 @@ end
         'id' => t.id,
         'task_name' => t.task_name,
         'assign_params' => @assigned,
-        'worked_hours' => @hours_resp
+        'worked_hours' => @hours_resp,
+        'assigned_user' => @assignee_user
       }
     end
     #new
@@ -281,6 +282,7 @@ end
     @taskboard = Taskboard.new(taskboards_params)      
       if @taskboard.save
         @taskboard.new = true
+         @taskboard.status = "active"
         @taskboard.save
 
        new_task = []
