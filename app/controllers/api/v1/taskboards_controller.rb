@@ -78,7 +78,7 @@ end
 
    #in_progress
    in_progress = []
-   @progress = Taskboard.where(:in_progress =>  true)
+   @progress = Taskboard.where("in_progress = ? #{@search_val}", true)
    @progress.each do |tp|      
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
       if @project_task!=nil and @project_task!=""
@@ -110,7 +110,7 @@ end
  
    #development_completed
    development_completed = []
-   @development = Taskboard.where(:development_completed =>  true)
+   @development = Taskboard.where("development_completed = ? #{@search_val}", true)
    @development.each do |td|      
      @project_task = ProjectTask.find_by_id(td.task_master_id)
       if @project_task!=nil and @project_task!=""
@@ -140,7 +140,7 @@ end
 
     #qa
      qa = []
-     @qa = Taskboard.where(:qa =>  true)
+     @qa = Taskboard.where("qa = ? #{@search_val}", true)
      @qa.each do |tq|      
        @project_task = ProjectTask.find_by_id(tq.task_master_id)
         if @project_task!=nil and @project_task!=""
@@ -170,7 +170,7 @@ end
 
      #accepted
      accepted = []
-     @accepted = Taskboard.where(:completed =>  true)
+     @accepted = Taskboard.where("completed = ? #{@search_val}", true)
      @accepted.each do |tc|      
        @project_task = ProjectTask.find_by_id(tc.task_master_id)
         if @project_task!=nil and @project_task!=""
@@ -201,7 +201,7 @@ end
 
    #hold
    hold = []
-   @hold = Taskboard.where(:hold =>  true)
+   @hold = Taskboard.where("hold = ? #{@search_val}", true)
    @hold.each do |th|      
      @project_task = ProjectTask.find_by_id(th.task_master_id)
       if @project_task!=nil and @project_task!=""

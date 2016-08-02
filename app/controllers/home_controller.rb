@@ -100,12 +100,14 @@ puts "----------#{params[:id]}------------"
       @assigns.comments = nil
       @assigns.approved_by = params[:approve_by]
       @assigns.approved_at = Time.now
+      @assigns.status = "approved"
       @assigns.save!
     elsif params[:approve] and params[:approve].to_i==2
       @assigns.approved_by = nil
       @assigns.approved_at = nil
       @assigns.rejected_by = params[:approve_by]
       @assigns.rejected_at = Time.now
+      @assigns.status = "pending"
       @assigns.comments = params[:comments]
       @assigns.save!
     end
@@ -160,6 +162,15 @@ def timesheet_summary
       else
         @comments = ""
       end 
+
+      @project_user = ProjectUser.where("manager = 1 and user_id=#{current_user.id}")
+
+    if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
+     @enable_approve_button = true
+     else
+       @enable_approve_button=false
+     end
+
 
 
  resp << {
