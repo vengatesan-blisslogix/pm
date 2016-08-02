@@ -221,6 +221,8 @@ convert_param_to_array(params[:is_billable])
 @billable = @output_array
 convert_param_to_array(params[:manager])
 @manager = @output_array
+convert_param_to_array(params[:reporting_to])
+@reporting_to = @output_array
 
 
      p=0
@@ -235,7 +237,12 @@ convert_param_to_array(params[:manager])
       @project.user_id = user
       @project.client_id = params[:client_id]
       @project.manager = @manager[p]
+      @project.reporting_to = @reporting_to[p]      
+
       @project.save!
+      @find_user = User.find_by_id(user)
+      @find_user.reporting_to  = @reporting_to[p]
+      @find_user.save
        p=p+1
      end
      
@@ -265,6 +272,10 @@ convert_param_to_array(params[:is_billable])
 @billable = @output_array
 convert_param_to_array(params[:manager])
 @manager = @output_array
+convert_param_to_array(params[:reporting_to])
+@reporting_to = @output_array
+
+
 
      p=0
      @s_user_id.each do |user|
@@ -286,6 +297,9 @@ convert_param_to_array(params[:manager])
       @project.client_id = params[:client_id]
       @project.manager = @manager[p]
       @project.save!
+      @find_user = User.find_by_id(user)
+      @find_user.reporting_to  = @reporting_to[p]
+      @find_user.save
        p=p+1
      end
      
@@ -318,9 +332,10 @@ private
              :is_billable => "#{params[:is_billable]}",
              :project_master_id => "#{params[:project_master_id]}",
              :user_id => "#{params[:user_id]}",
-             :client_id => "#{params[:client_id]}"
+             :client_id => "#{params[:client_id]}",
+             :reporting_to => "#{params[:reporting_to]}"
             }
             parameters = ActionController::Parameters.new(raw_parameters)
-            parameters.permit(:project_type_id, :assigned_date, :relieved_date, :active, :utilization, :is_billable, :project_master_id, :user_id, :client_id)
+            parameters.permit(:project_type_id, :assigned_date, :relieved_date, :active, :utilization, :is_billable, :project_master_id, :user_id, :client_id, :reporting_to)
     end 
 end
