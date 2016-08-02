@@ -9,10 +9,16 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 get_all_projects
 
 if params[:project_master_id] and params[:sprint_planning_id]
-@search_val = "AND project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
+@search_res = "AND project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
 else
-@search_val = ""
+@search_res = ""
 end
+
+  if @search_res != "" and @search_res != ""
+    @search_val = "#{@search_res}"
+  else
+    @search_val = ""
+  end
 
   #new
    task_resp =  []
