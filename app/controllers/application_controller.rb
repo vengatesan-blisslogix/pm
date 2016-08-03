@@ -38,68 +38,51 @@ class ApplicationController < ActionController::Base
     end
 
 
-def get_assigne(task_master_id, stage)
+  def get_assigne(task_master_id, stage)
 puts "-----------------#{task_master_id}----#{stage}-------------------"
 
-<<<<<<< HEAD
-   @assigned = []
-       @assignee_user = []
-=======
     @assigned = []
-        @assignee_user = []
->>>>>>> 56e0cb841a6ea5ebbd5170767ab1d8e66d2d7e18
+        @assigned_user = []
 
-        @assigne = Taskboard.where("#{stage} = ? and task_master_id = #{task_master_id}", true).first
-        if @assigne!=nil
-        @find_assigne =  Assign.where("taskboard_id=#{@assigne.id}")
+         @assigne = Taskboard.where("#{stage} = ? and task_master_id = #{task_master_id}", true).first
+         if @assigne!=nil
+         @find_assigne =  Assign.where("taskboard_id=#{@assigne.id}")
 
-<<<<<<< HEAD
-        @find_assigne.each do |a|
-=======
          @find_assigne.each do |a|
-
-            @users = User.find_by_id(a.assigned_user_id)
-            if @users!=nil and @users!=""
-              @user_name   =@users.name + " " +@users.last_name
-            else
-              @user_name   =""
-            end
-
-          puts"-============ @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
->>>>>>> 56e0cb841a6ea5ebbd5170767ab1d8e66d2d7e18
-
-           @users = User.find_by_id(a.assigned_user_id)
+         
+          @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
              @user_name   =@users.name + " " +@users.last_name
            else
              @user_name   =""
            end
 
-<<<<<<< HEAD
-         puts"-============ @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
+          puts"-============ @find_assigne @find_assigne---#{a.id}---#{@find_assigne}"   
 
-         @assigned << {
-         'assign_id' => a.id,#id
-         'id' => a.assigned_user_id,#assignee_user_id
-         'assigned' => true
-         } 
-=======
+          @assigned << {
+          'assign_id' => a.id,#id
+          'id' => a.assigned_user_id,#assignee_user_id
+          'assigned' => true
+          } 
 
           @assignee_user << {
           'assigned_user' => @user_name
           }     
->>>>>>> 56e0cb841a6ea5ebbd5170767ab1d8e66d2d7e18
 
+       end
+     end
+  end
 
-         @assignee_user << {
-         'assigned_user' => @user_name
-         }     
+  def get_hours(task_master_id)
+    @hours_resp =  []
+    @logtimes = Logtime.where("task_master_id = #{task_master_id}")
+    @total_time =  [] 
 
+    @logtimes.each do |l|  
+      if l.end_time!=nil and l.start_time!=nil
+         @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
       end
     end
-<<<<<<< HEAD
- end
-=======
     
     @hours_resp << {
         'total_hours' => @total_time.sum
@@ -122,52 +105,20 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
           'username' => "#{@project_names.name} #{@project_names.last_name}"
         }
         end
->>>>>>> 56e0cb841a6ea5ebbd5170767ab1d8e66d2d7e18
 
- def get_hours(task_master_id)
-   @hours_resp =  []
-   @logtimes = Logtime.where("task_master_id = #{task_master_id}")
-   @total_time =  [] 
+        @taskboard = Taskboard.where("project_master_id = #{project_master_id}")
+        @project_task_resp = []
+        @taskboard.each do |tb| 
+         @task_users = ProjectTask.find_by_id(tb.task_master_id)
 
-   @logtimes.each do |l|  
-     if l.end_time!=nil and l.start_time!=nil
-        @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
-     end
-   end
-   
-   @hours_resp << {
-       'total_hours' => @total_time.sum
-     }
+         @project_task_resp << {
+          'id' => tb.id,
+          'task_name' => @task_users.task_name
+        }
+        end
+      end#@project_task.project_master_id != nil      
+    end
 
- end
-
-   def get_task_board(project_master_id)
-   @project_users_resp = []
-     #@project_task.project_master_id != nil
-      if project_master_id != nil
-       @project_users = ProjectUser.where("project_master_id = #{project_master_id}")
-       
-       @project_users.each do |pu|  
-         puts "********#{pu.user_id}******"
-         @project_names = User.find_by_id(pu.user_id)
-       @project_users_resp << {
-         'id' => @project_names.id,
-         'username' => "#{@project_names.name} #{@project_names.last_name}"
-       }
-       end
-
-       @taskboard = Taskboard.where("project_master_id = #{project_master_id}")
-       @project_task_resp = []
-       @taskboard.each do |tb| 
-        @task_users = ProjectTask.find_by_id(tb.task_master_id)
-
-        @project_task_resp << {
-         'id' => tb.id,
-         'task_name' => @task_users.task_name
-       }
-       end
-     end#@project_task.project_master_id != nil      
-   end
 
     def current_user
       if params[:user_id]
