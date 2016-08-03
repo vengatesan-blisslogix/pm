@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 puts "-----------------#{task_master_id}----#{stage}-------------------"
 
     @assigned = []
-        @assigned_user = []
+        @assignee_user = []
 
          @assigne = Taskboard.where("#{stage} = ? and task_master_id = #{task_master_id}", true).first
          if @assigne!=nil
