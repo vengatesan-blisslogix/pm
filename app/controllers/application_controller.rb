@@ -80,9 +80,9 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
 
     @logtimes.each do |l|  
       if l.end_time!=nil and l.start_time!=nil
-         l.task_time <<  ((l.end_time - l.start_time) / 1.hour).round
+         @task_time <<  ((l.end_time - l.start_time) / 1.hour).round
       else
-        l.task_time = params[:task_time] 
+        @task_time = params[:task_time] 
       end
     end
     
