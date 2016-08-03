@@ -55,7 +55,7 @@ end
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
       if @project_task!=nil and @project_task!=""
         get_task_board(@project_task.project_master_id)
-        @planned_duration=@project_task.planned
+        #@planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
        else
@@ -73,7 +73,7 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => @planned_duration,
+        'planned_duration' => tp.est_time,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -85,7 +85,7 @@ end
    @progress.each do |tp|      
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
       if @project_task!=nil and @project_task!=""
-        @planned_duration=@project_task.planned
+        #@planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
        else
@@ -103,7 +103,7 @@ end
         'task_name' => @task_name,        
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => @planned_duration,
+        'planned_duration' => tp.est_time,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -118,7 +118,7 @@ end
    @development.each do |td|      
      @project_task = ProjectTask.find_by_id(td.task_master_id)
       if @project_task!=nil and @project_task!=""
-        @planned_duration=@project_task.planned
+        #@planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
       else
@@ -136,7 +136,7 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => @planned_duration,
+        'planned_duration' => tp.est_time,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -149,7 +149,7 @@ end
      @qa.each do |tq|      
        @project_task = ProjectTask.find_by_id(tq.task_master_id)
         if @project_task!=nil and @project_task!=""
-        @planned_duration=@project_task.planned          
+        #@planned_duration=@project_task.planned          
           @task_name =@project_task.task_name
           @task_id =@project_task.id
         else
@@ -167,7 +167,7 @@ end
           'task_name' => @task_name,
           'assign_params' => @assigned,
           'assign_name' => @assignee_user,
-          'planned_duration' => @planned_duration,
+          'planned_duration' => tp.est_time,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
         }
@@ -180,7 +180,7 @@ end
      @accepted.each do |tc|      
        @project_task = ProjectTask.find_by_id(tc.task_master_id)
         if @project_task!=nil and @project_task!=""
-        @planned_duration=@project_task.planned          
+        #@planned_duration=@project_task.planned          
           @task_name =@project_task.task_name
           @task_id =@project_task.id
         else
@@ -198,7 +198,7 @@ end
           'task_name' => @task_name,
           'assign_params' => @assigned,
           'assign_name' => @assignee_user,
-          'planned_duration' => @planned_duration,
+          'planned_duration' => tp.est_time,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
         }
@@ -212,7 +212,7 @@ end
    @hold.each do |th|      
      @project_task = ProjectTask.find_by_id(th.task_master_id)
       if @project_task!=nil and @project_task!=""
-        @planned_duration=@project_task.planned        
+        #@planned_duration=@project_task.planned        
         @task_name =@project_task.task_name
         @task_id =@project_task.id
       else
@@ -230,7 +230,7 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => @planned_duration,
+        'planned_duration' => tp.est_time,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
