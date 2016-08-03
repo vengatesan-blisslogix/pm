@@ -269,6 +269,7 @@ def get_task_status
       render json: @task_resp
 end
 
+
 def utilization_report
 # Create a new Excel Workbook
 date = Time.now.strftime("%m/%d/%Y")
@@ -487,15 +488,13 @@ end
 
 def add_taskboard
   get_all_projects
-  get_project_sprint(params[:project_master_id])
-  resp = []
-  resp << {
-        'project_list' => @project_resp,
-        'project_sprint'  => @project_sprint_resp
+  resp = {
+        'project' => @project_resp
       }
   
       render json: resp
 end
+
 
 def get_release_sprint
     resp =  []
