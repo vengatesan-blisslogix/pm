@@ -76,18 +76,18 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
   def get_hours(task_master_id)
     @hours_resp =  []
     @logtimes = Logtime.where("task_master_id = #{task_master_id}")
-    @task_time =  [] 
+    @total_time =  [] 
 
     @logtimes.each do |l|  
       if l.end_time!=nil and l.start_time!=nil
-         @task_time <<  ((l.end_time - l.start_time) / 1.hour).round
+         @total_time <<  ((l.end_time - l.start_time) / 1.hour).round
       else
-        @task_time = params[:task_time] 
+         @total_time << l.task_time
       end
     end
     
     @hours_resp << {
-        'total_hours' => @task_time
+        'total_hours' => @total_time.sum
       }
 
   end
