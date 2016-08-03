@@ -31,7 +31,7 @@ end
    else
     @unassigned = "id NOT IN(#{@task_board_id}) AND project_master_id = #{params[:project_master_id]}"
    end
-   @task_masters = ProjectTask.where("#{@unassigned} ")
+   @task_masters = ProjectTask.where("#{@unassigned} AND project_master_id = #{params[:project_master_id]}")
    @task_masters.each do |t| 
     puts "----111---#{t.id}-------111---"
        
