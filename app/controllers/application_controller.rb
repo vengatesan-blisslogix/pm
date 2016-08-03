@@ -87,7 +87,7 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
     end
     
     @hours_resp << {
-        'total_hours' => @task_time.sum
+        'total_hours' => @task_time
       }
 
   end
