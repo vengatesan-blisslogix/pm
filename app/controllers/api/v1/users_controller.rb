@@ -76,7 +76,8 @@ resp_email << { 'email' => u.email }
           'reporting_to' =>@reporting_to,
           'project_assigned' =>"",
           'branch' =>@branch,
-          'status' =>u.active
+          'status' =>u.active,
+          'employee_no' => u.employee_no
 
         }
     end
