@@ -90,34 +90,27 @@ end
 
 
 def timesheet_approval
-  @assign = Logtime.find_by_id(params[:id])
- @start_date = Date.today.at_beginning_of_week
-  @end_date =  @start_date + 5
-
-
+  @assigns = Logtime.find_by_id(params[:id])
 
 puts "----------#{params[:id]}------------"
   if @assigns != nil
-    @timesheet_summ_id = Logtime.where("sprint_planning_id=#{@assign.sprint_planning_id} and project_master_id=#{@assign.project_master_id} and user_id=#{@assign.user_id}")
-    @timesheet_summ_id.each do |@assigns|
     if params[:approve] and params[:approve].to_i==1
       @assigns.rejected_by = nil
       @assigns.rejected_at = nil
       @assigns.comments = nil
-      @assigns.approved_by = params[:approved_by]
+      @assigns.approved_by = params[:approve_by]
       @assigns.approved_at = Time.now
       @assigns.status = "approved"
       @assigns.save!
     elsif params[:approve] and params[:approve].to_i==2
       @assigns.approved_by = nil
       @assigns.approved_at = nil
-      @assigns.rejected_by = params[:approved_by]
+      @assigns.rejected_by = params[:approve_by]
       @assigns.rejected_at = Time.now
-      @assigns.status = "rejected"
+      @assigns.status = "pending"
       @assigns.comments = params[:comments]
       @assigns.save!
     end
-  end
   end  
         render json: { valid: true, msg:"updated successfully."}
 end
