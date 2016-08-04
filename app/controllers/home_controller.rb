@@ -224,8 +224,8 @@ def edit_summary
   @find_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
 
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
- @all_summary = Logtime.where("#{@search} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@summary.task_master_id}")
- @sum_time = Logtime.where("#{@search} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@summary.task_master_id}").sum(:task_time)
+ @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}")
+ @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").sum(:task_time)
 @task_time = []
 @task_time_hour = []
 @all_summary.each do |as|
