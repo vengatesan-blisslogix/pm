@@ -218,11 +218,11 @@ def edit_summary
 
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
  @all_summary = Logtime.where("user_id = #{@find_summary[0].user_id} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@find_summary[0].task_master_id}")
+ @sum_time = Logtime.where("user_id = #{@find_summary[0].user_id} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@find_summary[0].task_master_id}").sum(:task_time)
 @task_time = []
 @task_time_hour = []
 @all_summary.each do |as|
-    @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}
-    
+    @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
 end
 @project_task_name = ProjectTask.find_by_id(@find_summary[0].task_master_id)
 @project_master_id = ProjectMaster.find_by_id(@find_summary[0].project_master_id)
@@ -243,7 +243,8 @@ resp = {
   'resource_name' => @user_id.name,
   'task_id'=> @find_summary[0].task_master_id,
   'task_name'=>@project_task_name.task_name,
-  'date'=>@task_time
+  'date'=>@task_time,
+  'worked' => @sum_time
 
 }
   
