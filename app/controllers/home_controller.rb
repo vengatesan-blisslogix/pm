@@ -154,7 +154,7 @@ def timesheet_summary
  if @timesheet_summ_id[0].status != nil
         @status = @timesheet_summ_id[0].status
       else
-        @status = "rejected"
+        @status = "pending"
       end
 
       if @timesheet_summ_id[0].comments != nil
