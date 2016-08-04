@@ -212,9 +212,16 @@ end
 
 def edit_summary
   #begin
+  @start_date = Date.today.at_beginning_of_week
+  @end_date =  @start_date + 5
+
+
+
+
   @summary = Logtime.find_by_id(params[:id])
   resp = []
-  @find_summary = Logtime.where("user_id = #{@summary.user_id} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
+  @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{@summary.user_id}"
+  @find_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
 
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
  @all_summary = Logtime.where("user_id = #{@find_summary[0].user_id} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@find_summary[0].task_master_id}")
