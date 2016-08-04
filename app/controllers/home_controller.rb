@@ -224,31 +224,31 @@ def edit_summary
   @find_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
 
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
- @all_summary = Logtime.where("user_id = #{@find_summary[0].user_id} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@find_summary[0].task_master_id}")
- @sum_time = Logtime.where("user_id = #{@find_summary[0].user_id} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@find_summary[0].task_master_id}").sum(:task_time)
+ @all_summary = Logtime.where("#{@search} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@summary.task_master_id}")
+ @sum_time = Logtime.where("#{@search} and project_master_id = #{@find_summary[0].project_master_id} and task_master_id=#{@summary.task_master_id}").sum(:task_time)
 @task_time = []
 @task_time_hour = []
 @all_summary.each do |as|
     @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
 end
-@project_task_name = ProjectTask.find_by_id(@find_summary[0].task_master_id)
-@project_master_id = ProjectMaster.find_by_id(@find_summary[0].project_master_id)
+@project_task_name = ProjectTask.find_by_id(@summary.task_master_id)
+@project_master_id = ProjectMaster.find_by_id(@summary.project_master_id)
 @client_id = Client.find_by_id(@project_master_id.client_id)
-@sprint_planning_id = SprintPlanning.find_by_id(@find_summary[0].sprint_planning_id)
+@sprint_planning_id = SprintPlanning.find_by_id(@summary.sprint_planning_id)
 @release_planning_id = ReleasePlanning.find_by_id(@sprint_planning_id.release_planning_id)
 @user_id = User.find_by_id(@summary.user_id)
 
 resp = {
   'client_id' => @client_id.id ,
   'client_name' => @client_id.client_name,
-  'project_id'=>@find_summary[0].project_master_id,
+  'project_id'=>@summary.project_master_id,
   'project_name' =>@project_master_id.project_name, 
   'sprint_id' => @sprint_planning_id.id, 
   'sprint_name' => @sprint_planning_id.sprint_name,
   'release_id'=> @sprint_planning_id.release_planning_id,
   'release_name'=>@release_planning_id.release_name,
   'resource_name' => @user_id.name,
-  'task_id'=> @find_summary[0].task_master_id,
+  'task_id'=> @summary.task_master_id,
   'task_name'=>@project_task_name.task_name,
   'date'=>@task_time,
   'worked' => @sum_time
