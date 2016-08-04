@@ -137,7 +137,7 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
      manager_resp << {
         'id' => m.id,
         'manager_id' => m.user_id,
-        'employee_id' => @employee_id.employee_id,
+        'employee_id' => @employee_id.employee_no,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
@@ -187,7 +187,7 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
      user_resp << {
         'id' => m.id,
         'user_id' => m.user_id,
-        'employee_id' => @employee_id.employee_id,
+        'employee_id' => @employee_id.employee_no,
         'assigned_date'  =>m.assigned_date,
         'relieved_date'  => m.relieved_date,
         'status'  => m.active,
