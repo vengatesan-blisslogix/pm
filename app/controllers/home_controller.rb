@@ -171,8 +171,6 @@ def timesheet_summary
        @enable_approve_button=false
      end
 
-
-
  resp << {
           'id' => @timesheet_summ_id[0].id,
           'project_name' => @proj_name,
@@ -214,8 +212,6 @@ def edit_summary
   #begin
   @start_date = Date.today.at_beginning_of_week
   @end_date =  @start_date + 5
-
-
 
 
   @summary = Logtime.find_by_id(params[:id])
@@ -262,6 +258,7 @@ resp = {
 #end
   
 end
+
 
 def get_task_status
    @task_all = TaskStatusMaster.all.order(:status)
@@ -491,6 +488,14 @@ end
     #end
   end
     render json: manager_resp
+end
+
+
+def task_completed
+  @taskboard = Taskboard.find_by_id(params[:id])
+  @taskboard.task_complete = 1
+  @taskboard.save
+      render json: { valid: true, success: 'Taskboard Accepted!' }, status: 200
 end
 
 
