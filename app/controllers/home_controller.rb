@@ -107,7 +107,7 @@ puts "----------#{params[:id]}------------"
       @assigns.approved_at = nil
       @assigns.rejected_by = params[:approve_by]
       @assigns.rejected_at = Time.now
-      @assigns.status = "pending"
+      @assigns.status = "rejected"
       @assigns.comments = params[:comments]
       @assigns.save!
     end
