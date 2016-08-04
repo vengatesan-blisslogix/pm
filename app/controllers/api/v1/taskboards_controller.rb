@@ -34,6 +34,7 @@ end
    @task_masters = ProjectTask.where("#{@unassigned} AND project_master_id = #{params[:project_master_id]}")
    @task_masters.each do |t| 
     puts "----111---#{t.id}-------111---"
+    puts "----planned---#{t.planned}-------hours---"
        
     get_assigne(t.id, "new")
      get_hours(t.id)
@@ -42,7 +43,8 @@ end
         'task_name' => t.task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'worked_hours' => @hours_resp
+        'worked_hours' => @hours_resp,
+        'planned' => t.planned
       }
     end
     #new

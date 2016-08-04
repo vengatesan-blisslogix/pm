@@ -238,12 +238,15 @@ convert_param_to_array(params[:reporting_to])
       @project.user_id = user
       @project.client_id = params[:client_id]
       @project.manager = @manager[p]
-      @project.reporting_to = @reporting_to[p]      
-
+      if @reporting_to[p].to_i != 0
+        @project.reporting_to = @reporting_to[p]      
+      end
       @project.save!
-      @find_user = User.find_by_id(user)
-      @find_user.reporting_to  = @reporting_to[p]
-      @find_user.save
+      if @reporting_to[p].to_i != 0
+        @find_user = User.find_by_id(user)
+        @find_user.reporting_to  = @reporting_to[p]
+        @find_user.save
+      end
        p=p+1
      end
      
