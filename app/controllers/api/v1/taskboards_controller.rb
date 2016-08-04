@@ -29,9 +29,9 @@ end
    if @task_board_id == ""
     @unassigned = ""
    else
-    @unassigned = "id NOT IN(#{@task_board_id})"
+    @unassigned = "AND id NOT IN(#{@task_board_id})"
    end
-   @task_masters = ProjectTask.where("#{@unassigned} AND project_master_id = #{params[:project_master_id]}")
+   @task_masters = ProjectTask.where("#{@unassigned} project_master_id = #{params[:project_master_id]}")
    @task_masters.each do |t| 
     puts "----111---#{t.id}-------111---"
     puts "----planned---#{t.planned}-------hours---"
