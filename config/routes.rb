@@ -41,6 +41,7 @@ match "/api/v1/edit_summary", :to => "home#edit_summary", :via => ["get"]
 match "/api/v1/get_task_status", :to => "home#get_task_status", :via => ["get"]
 match "/api/v1/show_checklist", :to => "home#show_checklist", :via => ["get"]
 match "/api/v1/task_completed", :to => "home#task_completed", :via => ["get"]
+match "/api/v1/log_hours", :to => "home#log_hours", :via => ["get"]
 
 
 

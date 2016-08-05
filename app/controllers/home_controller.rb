@@ -40,6 +40,24 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
 
 end
 
+def log_hours
+  @start_date = Date.today.at_beginning_of_week
+  @end_date =  @start_date + 5
+ @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]} and   project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]} and task_master_id = #{params[:task_master_id]}"
+ 
+  resp = []
+  @find_summary = Logtime.where("#{@search}")
+  @find_summary.each do |fs|
+    resp << {
+    'date' => fs.task_date,
+    'hours' => fs.task_time
+    }
+  end
+  response = {
+      'date' => resp
+      }
+    render json: response 
+  end
 
   def add_menus
 
@@ -121,12 +139,17 @@ def timesheet_summary
   @start_date = Date.today.at_beginning_of_week
   @end_date =  @start_date + 5
 
+@role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PMANDBA% 'or role_name like '%BA%' or role_name like '%PM%'")
+    @role_id=[]
+    @role_masters.each do |r|   
+    @role_id << r.id    
+    end
+
+
 if current_user.role_master_id == 1 
   @search="task_date between '#{@start_date}' and '#{@end_date}'"
-elsif current_user.reporting_to!=nil
-@search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]}"
-else
-  @find_reporting_to = User.where("reporting_to='#{current_user.id}'")
+elsif @role_id.include?("#{current_user.role_master_id}")
+@find_reporting_to = User.where("reporting_to='#{current_user.id}'")
   @ruser=""
   @find_reporting_to.each do |ru|
     if @ruser==""
@@ -140,6 +163,9 @@ else
   else
    @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id IN (#{@ruser})"
   end
+else
+  @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]}"
+  
  
 end
 
