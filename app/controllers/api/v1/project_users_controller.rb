@@ -7,22 +7,32 @@ before_action :set_project_user, only: [ :edit]
    get_all_projects
   
   #search
+=begin  
   if params[:client_id]!=nil and params[:client_id].length.to_i!=0 and params[:client_id]!= "undefined"
     @search_client ="client_id = #{params[:client_id]}"
   else
     @search_client =""
   end
+=end  
 #  puts "-----#{params[:project_master_id].strip.length}-------"
   if params[:project_master_id]!=nil and params[:project_master_id].length.to_i!=0 and params[:project_master_id]!= "undefined"
     @search_word ="project_master_id = #{params[:project_master_id]}"
   else
     @search_word =""
   end
+=begin  
   if @search_client != "" and @search_word != ""
     @search = "#{@search_client} and #{@search_word}"
   elsif @search_client != ""
     @search = "#{@search_client}"
   elsif @search_word !=""
+    @search = "#{@search_word}"
+  else
+    @search = ""
+  end
+=end  
+
+if @search_word !=""
     @search = "#{@search_word}"
   else
     @search = ""
@@ -87,7 +97,7 @@ end
       'no_of_pages' => @no_pages,
       'next' => @next,
       'prev' => @prev,
-      'clients' => @client_resp,
+      #'clients' => @client_resp,
       'project_users' => resp
     }
     render json: response
