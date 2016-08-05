@@ -145,6 +145,7 @@ def timesheet_summary
     @role_id << r.id    
     end
 
+puts "*****************#{@role_id}*************",@role_id.include?("#{current_user.role_master_id}")
 
 if current_user.role_master_id == 1 
   @search="task_date between '#{@start_date}' and '#{@end_date}'"
