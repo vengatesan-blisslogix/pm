@@ -139,7 +139,7 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => tp.est_time,
+        'planned_duration' => td.est_time,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -201,7 +201,7 @@ end
           'task_name' => @task_name,
           'assign_params' => @assigned,
           'assign_name' => @assignee_user,
-          'planned_duration' => tp.est_time,
+          'planned_duration' => tc.est_time,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
         }
@@ -233,7 +233,7 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => tp.est_time,
+        'planned_duration' => th.est_time,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
