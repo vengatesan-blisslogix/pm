@@ -121,8 +121,28 @@ def timesheet_summary
   @start_date = Date.today.at_beginning_of_week
   @end_date =  @start_date + 5
 
-
+if current_user.role_master_id == 1 
+  @search="task_date between '#{@start_date}' and '#{@end_date}'"
+elsif current_user.reporting_to!=nil
 @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]}"
+else
+  @find_reporting_to = User.where("reporting_to='#{current_user.id}'")
+  @ruser=""
+  @find_reporting_to.each do |ru|
+    if @ruser==""
+    @ruser=ru.id.to_s
+    else
+      @ruser=@ruser+","+ru.id.to_s
+    end
+  end
+  if @ruser==""
+    @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]} and  id IN(0)"
+  else
+   @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id IN (#{@ruser})"
+  end
+ 
+end
+
     @timesheet_summ = Logtime.where("#{@search}").select(:project_master_id).uniq
     resp = []    
  @timesheet_summ.each do |lts|
