@@ -145,11 +145,11 @@ def timesheet_summary
     @role_id << r.id    
     end
 
-puts "*****************#{@role_id}*************",@role_id.include?("#{current_user.role_master_id}")
+puts "*****************#{@role_id}********#{current_user.role_master_id}*****",@role_id.include?(current_user.role_master_id)
 
 if current_user.role_master_id == 1 
   @search="task_date between '#{@start_date}' and '#{@end_date}'"
-elsif @role_id.include?("#{current_user.role_master_id}")
+elsif @role_id.include?(current_user.role_master_id)
 @find_reporting_to = User.where("reporting_to='#{current_user.id}'")
   @ruser=""
   @find_reporting_to.each do |ru|
