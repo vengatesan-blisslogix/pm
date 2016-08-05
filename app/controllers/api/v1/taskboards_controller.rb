@@ -64,8 +64,7 @@ end
         @project_users_resp = ""
         @task_name =""
       end     
-    #get_task_board(@project_task.project_master_id)undefined method `project_master_id' for nil:NilClass
-
+    get_task_board(@project_task.project_master_id)
     get_assigne(tp.task_master_id, "new")
     get_hours(tp.task_master_id)
       new_task << {
