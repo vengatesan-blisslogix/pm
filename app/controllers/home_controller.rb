@@ -49,7 +49,7 @@ def log_hours
   @find_summary = Logtime.where("#{@search}")
   @find_summary.each do |fs|
     resp << {
-    'date' => fs.task_date,
+    'date' => fs.task_date.strftime("%d/%m/%Y"),
     'hours' => fs.task_time
     }
   end
