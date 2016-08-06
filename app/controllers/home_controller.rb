@@ -299,6 +299,7 @@ resp = {
   'resource_name' => @user_id.name,
   'task_id'=> @summary.task_master_id,
   'task_name'=>@project_task_name.task_name,
+  'status' => @summary.status,
   'date'=>@task_time,
   'worked' => @sum_time
 
