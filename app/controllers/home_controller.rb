@@ -49,15 +49,21 @@ def log_hours
   @find_summary = Logtime.where("#{@search}")
   @find_summary.each do |fs|
     resp << {
-    'date' => fs.task_date.strftime("%d/%m/%Y"),
+    'date' => fs.task_date.strftime("%m/%d/%Y"),
     'hours' => fs.task_time
     }
   end
+
+  pagination(Logtime,@search)
   response = {
+      'no_of_records' => @no_of_records.size,
       'date' => resp
       }
     render json: response 
   end
+ 
+
+
 
   def add_menus
 

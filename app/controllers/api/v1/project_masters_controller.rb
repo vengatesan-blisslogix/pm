@@ -44,7 +44,7 @@ end
 
   @project_masters = ProjectMaster.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
 
-@project_users = ProjectUser.where("client_id = #{params[:client_id]} and project_master_id=#{params[:project_id]}").order(:created_at => 'desc')
+@project_users = ProjectUser.where("project_master_id=#{params[:project_id]}").order(:created_at => 'desc')
  if params[:check_pu] and params[:check_pu].to_i == 1 and  @project_users!=nil  and  @project_users.size!=0
     @exist_pu = true
   else
@@ -88,6 +88,7 @@ end
         'project_type' => @pro_type,
         'project_name' => p.project_name,
         'domain_name' => @domain,
+        'client_id' => p.client_id,
         'client_name' => @client,
         'billable' => p.billable,
         'assign_start_date' => p.start_date,
@@ -111,7 +112,7 @@ end
   'no_of_pages' => @no_pages,
   'next' => @next,
   'prev' => @prev,
-  'clients_list' => @client_resp,
+  #'clients_list' => @client_resp,
   'projects' => resp,
   'check_pu' => @exist_pu
 
