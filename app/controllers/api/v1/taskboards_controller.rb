@@ -64,7 +64,7 @@ end
         @project_users_resp = ""
         @task_name =""
       end     
-    get_task_board(@project_task.project_master_id)
+    #get_task_board(@project_task.project_master_id)
     get_assigne(tp.task_master_id, "new")
     get_hours(tp.task_master_id)
       new_task << {
@@ -87,13 +87,14 @@ end
    @progress.each do |tp|      
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
       if @project_task!=nil and @project_task!=""
+        get_task_board(@project_task.project_master_id)
         #@planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
        else
         @task_name =""
       end     
-      get_task_board(@project_task.project_master_id)
+     # get_task_board(@project_task.project_master_id)
       get_assigne(tp.task_master_id, "in_progress")
       get_hours(tp.task_master_id)
 
@@ -120,13 +121,14 @@ end
    @development.each do |td|      
      @project_task = ProjectTask.find_by_id(td.task_master_id)
       if @project_task!=nil and @project_task!=""
+        get_task_board(@project_task.project_master_id)
         #@planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
       else
         @task_name =""
       end        
-      get_task_board(@project_task.project_master_id)
+      #get_task_board(@project_task.project_master_id)
       get_assigne(td.task_master_id, "development_completed")
       get_hours(td.task_master_id)
 
@@ -151,13 +153,14 @@ end
      @qa.each do |tq|      
        @project_task = ProjectTask.find_by_id(tq.task_master_id)
         if @project_task!=nil and @project_task!=""
+        get_task_board(@project_task.project_master_id)
         #@planned_duration=@project_task.planned          
           @task_name =@project_task.task_name
           @task_id =@project_task.id
         else
           @task_name =""
         end       
-      get_task_board(@project_task.project_master_id)      
+      #get_task_board(@project_task.project_master_id)      
         get_assigne(tq.task_master_id, "qa")
         get_hours(tq.task_master_id)
 
@@ -182,13 +185,14 @@ end
      @accepted.each do |tc|      
        @project_task = ProjectTask.find_by_id(tc.task_master_id)
         if @project_task!=nil and @project_task!=""
+        get_task_board(@project_task.project_master_id)
         #@planned_duration=@project_task.planned          
           @task_name =@project_task.task_name
           @task_id =@project_task.id
         else
           @task_name =""
         end       
-        get_task_board(@project_task.project_master_id)
+        #get_task_board(@project_task.project_master_id)
         get_assigne(tc.task_master_id, "completed")
         get_hours(tc.task_master_id)
 
@@ -214,13 +218,14 @@ end
    @hold.each do |th|      
      @project_task = ProjectTask.find_by_id(th.task_master_id)
       if @project_task!=nil and @project_task!=""
+        get_task_board(@project_task.project_master_id)
         #@planned_duration=@project_task.planned        
         @task_name =@project_task.task_name
         @task_id =@project_task.id
       else
         @task_name =""
       end     
-   get_task_board(@project_task.project_master_id)
+   #get_task_board(@project_task.project_master_id)
    get_assigne(th.task_master_id, "hold")
    get_hours(th.task_master_id)
 
