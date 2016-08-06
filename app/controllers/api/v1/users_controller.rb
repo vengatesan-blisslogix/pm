@@ -184,7 +184,6 @@ end
       @user.company_id = params[:company_id]
       @user.role_master_id = params[:role_master_id]      
       @user.employee_no = params[:employee_no]
-      @user.avatar = params[:avatar]
       #@user.technology_id = params[:technology_id]
 
       @user.save
