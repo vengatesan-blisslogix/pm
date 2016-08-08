@@ -62,7 +62,51 @@ def log_hours
     render json: response 
   end
  
+def role_mapping
 
+  def getaccess(role_id)
+    resp = []
+    @access_value = ActivityMaster.all
+    @access_value.each do |access|
+      @activity = RoleActivityMapping.where("role_master_id=#{role_id} and activity_master_id=#{access.id}")
+      if @activity!=nil and @activity.size!=0
+        @selected = true
+      else
+        @selected = false
+      end
+      resp << {
+        'id' => access.id,
+        'action' => access.activity_Name,
+        'selected' => @selected
+      }
+    end
+    resp
+    pagination(ActivityMaster,@search)
+    
+    response = {
+      'no_of_records' => @no_of_records.size,
+      'no_of_pages' => @no_pages,
+      'next' => @next,
+      'prev' => @prev,
+      'roles' => resp
+    }
+  end   
+
+  resp=[]
+  @role = RoleMaster.where("id = #{params[:id]}").first
+  
+          #puts "********#{@role.id}******"
+
+     resp << {
+        'id' => @role.id,
+        'role_name' => @role.role_name,
+        'description' => @role.description,
+        'status' => @role.active,
+        'activity' => getaccess(@role.id)
+      }
+      render json: resp
+ 
+end
 
 
   def add_menus
