@@ -145,7 +145,7 @@ def show
         'office_phone' => @user.office_phone,
         'home_phone' => @user.home_phone,
         'profile_photo' => @user.profile_photo,
-        'avatar_file_name' => @user.avatar_file_name,
+        'avatar_file_name' => @user.avatar,
         'active' => @user.active,
         'prior_experience' => @user.prior_experience,
         'doj' => @user.doj,

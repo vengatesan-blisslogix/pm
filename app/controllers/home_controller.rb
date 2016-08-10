@@ -108,6 +108,25 @@ def role_mapping
  
 end
 
+ def user_profile
+  @user = User.find_by_id(params[:id])
+
+    begin
+      @user.name = params[:name]
+      @user.last_name = params[:last_name]
+      @user.email = params[:email]
+      @user.mobile_no = params[:mobile_no]
+      @user.avatar = params[:avatar]
+      @user.active = params[:active]
+      @user.employee_no = params[:employee_no]
+      
+      @user.save
+       render json: { valid: true, msg:"#{@user.name} updated successfully."}
+     rescue
+      render json: { valid: false, error: "Invalid parameters" }, status: 404
+     end
+  end
+
 
   def add_menus
 

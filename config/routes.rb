@@ -44,6 +44,8 @@ match "/api/v1/task_completed", :to => "home#task_completed", :via => ["get"]
 match "/api/v1/log_hours", :to => "home#log_hours", :via => ["get"]
 match "/api/v1/role_mapping/:id", :to => "home#role_mapping", :via => ["get"]
 
+match "/api/v1/user_profile/:id", :to => "home#user_profile", :via => ["put"]
+
 
 
 resources :home
