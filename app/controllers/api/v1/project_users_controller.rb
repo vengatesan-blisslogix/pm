@@ -98,6 +98,7 @@ end
       'next' => @next,
       'prev' => @prev,
       #'clients' => @client_resp,
+      'projects' =>@project_resp,
       'project_users' => resp
     }
     render json: response
