@@ -112,7 +112,7 @@ end
   'no_of_pages' => @no_pages,
   'next' => @next,
   'prev' => @prev,
-  #'clients_list' => @client_resp,
+  'clients_list' => @client_resp,
   'projects' => resp,
   'check_pu' => @exist_pu
 
