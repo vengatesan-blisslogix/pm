@@ -113,6 +113,8 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
         @taskboard.each do |tb| 
          @task_users = ProjectTask.find_by_id(tb.task_master_id)
 
+puts "-------tb--------#{tb.id}------------tb--------------"
+
          @project_task_resp << {
           'id' => tb.id,
           'task_name' => @task_users.task_name
