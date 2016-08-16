@@ -52,7 +52,7 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
          
           @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
-             @user_name   =@users.name + " " +@users.last_name
+             @user_name   ="#{@users.name} #{@users.last_name}"
            else
              @user_name   =""
            end
@@ -86,6 +86,8 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
       end
     end
     
+puts "----ttime-----#{@total_time}----------"
+
     @hours_resp << {
         'total_hours' => @total_time.sum
       }
@@ -113,7 +115,7 @@ puts "-----------------#{task_master_id}----#{stage}-------------------"
         @taskboard.each do |tb| 
          @task_users = ProjectTask.find_by_id(tb.task_master_id)
 
-puts "-------tb--------#{tb.id}------------tb--------------"
+          puts "$$$$$$$$#{@task_users.task_name}$$$$$$$$"
 
          @project_task_resp << {
           'id' => tb.id,
