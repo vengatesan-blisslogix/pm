@@ -350,6 +350,9 @@ end
 @release_planning_id = ReleasePlanning.find_by_id(@sprint_planning_id.release_planning_id)
 @user_id = User.find_by_id(@summary.user_id)
 
+
+get_all_holiday
+
 resp = {
   'client_id' => @client_id.id ,
   'client_name' => @client_id.client_name,
@@ -363,6 +366,7 @@ resp = {
   'task_id'=> @summary.task_master_id,
   'task_name'=>@project_task_name.task_name,
   'status' => @summary.status,
+  'list_of_holidays' => @holiday_resp,
   'date'=>@task_time,
   'worked' => @sum_time
 
