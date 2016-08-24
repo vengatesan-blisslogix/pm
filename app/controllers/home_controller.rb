@@ -197,6 +197,13 @@ puts "----------#{params[:id]}------------"
       @assigns.status = "rejected"
       @assigns.comments = params[:comments]
       @assigns.save!
+    elsif params[:approve] and params[:approve].to_i==0
+      @assigns.approved_by = nil
+      @assigns.approved_at = nil
+      @assigns.rejected_by = nil
+      @assigns.rejected_at = nil      
+      @assigns.status = "pending"
+      @assigns.save!  
     end
   end  
         render json: { valid: true, msg:"updated successfully."}
@@ -350,8 +357,14 @@ end
 @release_planning_id = ReleasePlanning.find_by_id(@sprint_planning_id.release_planning_id)
 @user_id = User.find_by_id(@summary.user_id)
 
-
-get_all_holiday
+ @holiday_all = Holiday.all.order(:date)
+        @holiday_resp=[]
+        @holiday_all.each do |h| 
+           @holiday_resp << {
+          'id' => h.id,
+          'holiday' => h.date
+        }
+        end
 
 resp = {
   'client_id' => @client_id.id ,

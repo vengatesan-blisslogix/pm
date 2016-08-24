@@ -40,6 +40,7 @@ def create
             #@timesheet.taskboard_id = params[:taskboard_id]
             @timesheet.sprint_planning_id = params[:sprint_planning_id]
             @timesheet.user_id = params[:user_id]
+            @timesheet.status = "pending"
 
           
             @timesheet.save!
