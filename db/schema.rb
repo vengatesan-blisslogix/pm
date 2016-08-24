@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160804113523) do
+ActiveRecord::Schema.define(version: 20160824090456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -386,7 +386,7 @@ ActiveRecord::Schema.define(version: 20160804113523) do
   create_table "taskboards", force: :cascade do |t|
     t.integer  "task_master_id"
     t.string   "status"
-    t.boolean  "new",                   default: false
+    t.boolean  "new",                   default: true
     t.boolean  "in_progress",           default: false
     t.boolean  "development_completed", default: false
     t.boolean  "qa",                    default: false
@@ -491,7 +491,7 @@ ActiveRecord::Schema.define(version: 20160804113523) do
     t.string   "home_phone"
     t.string   "profile_photo"
     t.string   "active"
-    t.integer  "prior_experience"
+    t.float    "prior_experience"
     t.date     "doj"
     t.date     "dob"
     t.integer  "team_id"
@@ -509,6 +509,8 @@ ActiveRecord::Schema.define(version: 20160804113523) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "employee_no"
+    t.float    "tvs_experience"
+    t.float    "total_experience"
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
