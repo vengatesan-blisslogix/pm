@@ -177,9 +177,9 @@ end
 
 
 def timesheet_approval
-  @assigns = Logtime.find_by_id(params[:id])
-
-puts "----------#{params[:id]}------------"
+  #@assigns = Logtime.find_by_id(params[:id])
+  @assigns = Logtime.find_by(id: params[:id], project_master_id: params[:project_master_id], task_master_id: params[:task_master_id])
+puts "----------#{params[:id]}---#{params[:project_master_id]}---#{params[:task_master_id]}--------"
   if @assigns != nil
     if params[:approve] and params[:approve].to_i==1
       @assigns.rejected_by = nil
@@ -379,6 +379,7 @@ resp = {
   'task_id'=> @summary.task_master_id,
   'task_name'=>@project_task_name.task_name,
   'status' => @summary.status,
+  'comments' => @summary.comments,
   'list_of_holidays' => @holiday_resp,
   'date'=>@task_time,
   'worked' => @sum_time
