@@ -175,40 +175,44 @@ def show_checklist
     render json: @checklist_resp
 end
 
-
 def timesheet_approval
-  #@assigns = Logtime.find_by_id(params[:id])
-  @assigns = Logtime.find_by(id: params[:id], project_master_id: params[:project_master_id], task_master_id: params[:task_master_id])
+#@assigns = Logtime.find_by_id(params[:id])
+#@assigns = Logtime.find_by(id: params[:id], project_master_id: params[:project_master_id], task_master_id: params[:task_master_id])
+@assigns_val = Logtime.where("project_master_id=#{params[:project_master_id]} and approved_by IS NULL")
 puts "----------#{params[:id]}---#{params[:project_master_id]}---#{params[:task_master_id]}--------"
-  if @assigns != nil
-    if params[:approve] and params[:approve].to_i==1
-      @assigns.rejected_by = nil
-      @assigns.rejected_at = nil
-      @assigns.comments = nil
-      @assigns.approved_by = params[:approve_by]
-      @assigns.approved_at = Time.now
-      @assigns.status = "approved"
-      @assigns.save!
-    elsif params[:approve] and params[:approve].to_i==2
-      @assigns.approved_by = nil
-      @assigns.approved_at = nil
-      @assigns.rejected_by = params[:approve_by]
-      @assigns.rejected_at = Time.now
-      @assigns.status = "rejected"
-      @assigns.comments = params[:comments]
-      @assigns.save!
-    elsif params[:approve] and params[:approve].to_i==0
-      @assigns.approved_by = nil
-      @assigns.approved_at = nil
-      @assigns.rejected_by = nil
-      @assigns.rejected_at = nil      
-      @assigns.status = "pending"
-      @assigns.save!  
-    end
-  end  
-        render json: { valid: true, msg:"updated successfully."}
-end
+if @assigns_val != nil and @assigns_val.size.to_i!=0
 
+@assigns_val.each do |assign|
+  if params[:approve] and params[:approve].to_i==1
+    assign.rejected_by = nil
+    assign.rejected_at = nil
+    assign.comments = nil
+    assign.approved_by = params[:approve_by]
+    assign.approved_at = Time.now
+    assign.status = "approved"
+    assign.save!
+  elsif params[:approve] and params[:approve].to_i==2
+    assign.approved_by = nil
+    assign.approved_at = nil
+    assign.rejected_by = params[:approve_by]
+    assign.rejected_at = Time.now
+    assign.status = "rejected"
+    assign.comments = params[:comments]
+    assign.save!
+  elsif params[:approve] and params[:approve].to_i==0
+    assign.approved_by = nil
+    assign.approved_at = nil
+    assign.rejected_by = nil
+    assign.rejected_at = nil      
+    assign.status = "pending"
+    assign.save!  
+  end
+end#@assigns_val.each do |@assigns|
+
+
+end#if @assigns_val != nil and @assigns_val.size.to_i!=0  
+      render json: { valid: true, msg:"updated successfully."}
+end
 
 def timesheet_summary
 
