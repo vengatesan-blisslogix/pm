@@ -177,7 +177,6 @@ end
 
 def timesheet_approval
 #@assigns = Logtime.find_by_id(params[:id])
-#@assigns = Logtime.find_by(id: params[:id], project_master_id: params[:project_master_id], task_master_id: params[:task_master_id])
 @assigns_val = Logtime.where("project_master_id=#{params[:project_master_id]} and approved_by IS NULL")
 puts "----------#{params[:id]}---#{params[:project_master_id]}---#{params[:task_master_id]}--------"
 if @assigns_val != nil and @assigns_val.size.to_i!=0
@@ -300,8 +299,10 @@ end
 
  resp << {
           'id' => @timesheet_summ_id[0].id,
+          'project_id' => lts.project_master_id,
           'project_name' => @proj_name,
           'resource_name' => @res_name,
+          'task_id' => @timesheet_summ_id[0].task_master_id,
           'task_name' => @task_name,
           'start_date' => @start_date,
           'end_date' => @end_date,
