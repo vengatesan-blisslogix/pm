@@ -110,7 +110,6 @@ end
 
  def user_profile
   @user = User.find_by_id(params[:id])
-
     begin
       @user.name = params[:name]
       @user.last_name = params[:last_name]
@@ -126,6 +125,29 @@ end
       render json: { valid: false, error: "Invalid parameters" }, status: 404
      end
   end
+
+ def view_user_profile
+    resp=[]
+
+    if @user = User.find_by_id(params[:id])
+       # @user.each do |up| 
+
+          resp << {
+              'name' => @user.name,
+              'last_name' => @user.last_name,
+              'email' => @user.email,
+              'mobile_no' => @user.mobile_no,
+              'avatar_file_name' => @user.avatar,
+              'active' => @user.active,
+              'employee_no' => @user.employee_no,
+          }
+      end
+    #end
+          render json: resp
+
+  end
+
+
 
 
   def add_menus
