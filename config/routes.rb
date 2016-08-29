@@ -47,6 +47,9 @@ match "/api/v1/user_profile/:id", :to => "home#user_profile", :via => ["put"]
 match "/api/v1/view_user_profile/:id", :to => "home#view_user_profile", :via => ["get"]
 
 
+match "/api/v1/report_1", :to => "home#report_1", :via => ["get"]
+
+
 
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'

@@ -3,6 +3,86 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+
+def report_1
+# Create a new Excel Workbook
+date = Time.now.strftime("%m/%d/%Y")
+date1 = Time.now.strftime("%m-%d-%Y")
+
+@end_date = Date.today
+@start_date = @end_date-5
+
+@file_name = "Projectwise_Resource_Report.xls"
+workbook = WriteExcel.new("#{Rails.root}/#{@file_name}")
+
+# Add worksheet(s)
+worksheet1  = workbook.add_worksheet
+
+# Add and define a format
+
+format = workbook.add_format
+format.set_bold
+format.set_size(10)
+format.set_bg_color('cyan')
+format.set_color('black')
+format.set_border(1)
+
+format1 = workbook.add_format
+format1.set_size(10)
+format1.set_color('black')
+format1.set_text_wrap(1)
+format1.set_align('top')
+
+worksheet1.set_column('A:A', 10,format1)
+worksheet1.set_column('B:B', 25,format1)
+worksheet1.set_column('C:C', 25,format1)
+worksheet1.set_column('D:D', 25,format1)
+worksheet1.set_column('E:E', 25,format1)
+worksheet1.set_column('F:F', 25,format1)
+worksheet1.set_column('G:G', 25,format1)
+
+
+worksheet1.set_row(4,20)
+
+# write a formatted and unformatted string.
+worksheet1.write(4,0, 'No', format)
+worksheet1.write(4,1, 'Project Name', format)
+worksheet1.write(4,2, 'User Name', format)
+worksheet1.write(4,3, 'Sprint Name', format)
+worksheet1.write(4,4, 'Billable hour', format)
+worksheet1.write(4,5, 'Non-Billable hour', format)
+worksheet1.write(4,6, 'Total hour', format)
+
+row=5
+serial=1
+
+@project_masters=ProjectMaster.where("project_status_master_id != 6")
+@project_masters.each do |pm|
+  worksheet1.write(row,0, serial, format1)
+  worksheet1.write(row,1, "#{pm.project_name}", format1)
+
+@project_user = ProjectUser.where("project_master_id = #{pm.id}")
+
+@project_user.each do |pu|
+@user_name = User.find_by_id(pu.user_id)
+worksheet1.write(row,2, "#{@user_name.name}#{@user_name.last_name}", format1)
+
+  row = row +1
+end
+  serial = serial + 1
+end
+
+
+
+workbook.close
+
+#send_file("#{@file_name}" ,
+  #    :filename     =>  "#{@file_name}",
+  #    :charset      =>  'utf-8',
+  #    :type         =>  'application/octet-stream')
+
+end
+
   def user_tech
   @skill_set = UserTechnology.where("user_id = #{params[:user_id]}")
     @technology_name=""
@@ -133,6 +213,7 @@ end
        # @user.each do |up| 
 
           resp << {
+              'id' => @user.id,
               'name' => @user.name,
               'last_name' => @user.last_name,
               'email' => @user.email,
