@@ -48,6 +48,7 @@ match "/api/v1/view_user_profile/:id", :to => "home#view_user_profile", :via => 
 
 
 match "/api/v1/report_1", :to => "home#report_1", :via => ["get"]
+match "/api/v1/report_2", :to => "home#report_2", :via => ["get"]
 
 
 
