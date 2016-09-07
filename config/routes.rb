@@ -93,6 +93,8 @@ resources :home
       resources :engagement_types
       resources :project_payments
       resources :checklists
+      resources :checklist_rejects
+
 
    end#namespace :v1 do
   end#namespace :api do
