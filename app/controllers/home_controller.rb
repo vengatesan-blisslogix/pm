@@ -180,7 +180,7 @@ serial=1
       @project_user = ProjectUser.where("user_id = #{u.id}")
 
         @project_user.each do |pu|
-          @project_name = ProjectMaster.find_by_id(pu.user_id)
+          @project_name = ProjectMaster.find_by_id(pu.project_master_id)
             worksheet1.write(row,2, "#{@project_name.project_name}", format1)
          @find_assign = Assign.where("assigned_user_id =#{pu.user_id}")
             @sprint_id = ""

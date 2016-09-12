@@ -39,51 +39,15 @@ worksheet1.set_column('F:F', 25,format1)
 worksheet1.set_row(0,20)
 
 # write a formatted and unformatted string.
-worksheet1.write(0,0, 'No', format)
-worksheet1.write(0,1, 'Billable Type', format)
-worksheet1.write(0,2, 'Project Name', format)
-worksheet1.write(0,3, 'Billable hour', format)
-worksheet1.write(0,4, 'Non-Billable hour', format)
-worksheet1.write(0,5, 'Total hour', format)
+worksheet1.write(4,0, 'No', format)
+worksheet1.write(4,1, 'Billable Type', format)
+worksheet1.write(4,2, 'Project Name', format)
+worksheet1.write(4,3, 'Billable hour', format)
+worksheet1.write(4,4, 'Non-Billable hour', format)
+worksheet1.write(4,5, 'Total hour', format)
 
 
 row=1
-@user_all = User.all
-
-@user_all.each do |u|
-worksheet1.write(row,1, "#{u.name}", format1)
-@team = TeamMaster.find_by_id(u.team_id)
-if @team != nil
-  @team_name = @team.team_name
-else
-  @team_name = "-"
-end
-worksheet1.write(row,2, "#{@team_name}", format1)
-
-@find_project_for_user = ProjectUser.where("user_id=#{u.id}")
-@project_id = ""
-@find_project_for_user.each do |pu|
-if @project_id == ""
-@project_id = pu.project_master_id
-else
-@project_id = @project_id.to_s+","+pu.project_master_id.to_s
-end
-end#@find_project_for_user.each do |pu|
-
-if @project_id!=""
-@project_all = ProjectMaster.where("id IN(#{@project_id})")
-@pro_name=""
-@project_all.each do |pro|
-if @pro_name == ""
-@pro_name = pro.project_name
-else
-@pro_name = @pro_name+", "+pro.project_name
-end
-end#@project_all.each do |pro|
-else
-  @pro_name="-"
-end
-
 
 workbook.close
 
