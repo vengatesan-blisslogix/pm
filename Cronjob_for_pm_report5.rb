@@ -1,5 +1,5 @@
 
-def report_3
+def report_5
 # Create a new Excel Workbook
 date = Time.now.strftime("%m/%d/%Y")
 date1 = Time.now.strftime("%m-%d-%Y")
@@ -7,7 +7,9 @@ date1 = Time.now.strftime("%m-%d-%Y")
 @end_date = Date.today
 @start_date = @end_date-5
 
-@file_name = "Projectwise_sprint_Report.xls"
+d = DateTime.now
+
+@file_name = "Projectwise_sprint_Report_#{d}.xls"
 workbook = WriteExcel.new("#{Rails.root}/#{@file_name}")
 
 # Add worksheet(s)
