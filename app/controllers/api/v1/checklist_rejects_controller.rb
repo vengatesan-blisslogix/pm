@@ -49,24 +49,24 @@ end
 def create
 
     params[:_json].each do |p|
-      if p['reason'] != nil and p['reason'] != ""
+      if p[:reason] != nil and p[:reason] != ""
           @checklist_reject = ChecklistReject.new
-          @checklist_reject.taskboard_id = params[:_json][0]['taskboard_id']
-          @checklist_reject.reason = p['reason']
-          @checklist_reject.date = p['date']
-          @checklist_reject.stage_name = p['stage_name']
-          @checklist_reject.checklist_id = p['checklist_id']
+          @checklist_reject.taskboard_id = params[:_json][0][:taskboard_id]
+          @checklist_reject.reason = p[:reason]
+          @checklist_reject.date = p[:date]
+          @checklist_reject.stage_name = p[:stage_name]
+          @checklist_reject.checklist_id = p[:checklist_id]
           @checklist_reject.user_id = params[:user_id]
     @checklist_reject.save 
   end
 
-      puts "...........#{p['reason']}"
+      puts "...........#{p[:reason]}"
 
-      puts "...........#{p['date']}"
+      puts "...........#{p[:date]}"
 
-      puts "...........#{p['stage_name']}"
+      puts "...........#{p[:stage_name]}"
 
-      puts "...........#{p['checklist_id']}"
+      puts "...........#{p[:checklist_id]}"
 
       puts "...........#{params[:user_id]}"
 
