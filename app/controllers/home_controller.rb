@@ -563,9 +563,6 @@ workbook.close
 
 end
 
-
-
-
   def user_tech
   @skill_set = UserTechnology.where("user_id = #{params[:user_id]}")
     @technology_name=""
@@ -711,9 +708,6 @@ end
 
   end
 
-
-
-
   def add_menus
 
     #add admin sub activity
@@ -725,8 +719,7 @@ end
     ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
     RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
     i = i+1
-    end
-  
+    end  
 
     if params[:delete_activity].to_i == 1        
       am = ActivityMaster.where("id  > 23" )
@@ -1233,43 +1226,6 @@ def add_taskboard
       render json: resp
 end
 
-
-def get_release_sprint
-    resp =  []
-   @sprint_plannings = SprintPlanning.where("release_planning_id = #{params[:release_planning_id]}")
-   @sprint_plannings.each do |s|      
-      resp << {
-        'id' => s.id,
-        'sprint_name' => s.sprint_name
-      }
-    end
-      @release_sprint=[]
-      @release_sprint << {
-         'release_sprint' => resp        
-        }
-      render json: @release_sprint
-end
-
-def get_sprint_task
-      resp =  []
-           
-   @project_tasks = Taskboard.where("sprint_planning_id = #{params[:sprint_planning_id]}")
-   @project_tasks.each do |p|    
-   @project_ta = ProjectTask.find_by_id(p.task_master_id)  
-   if @project_ta  != nil
-      resp << {
-        'id' => @project_ta.id,
-        'task_name' => @project_ta.task_name
-      }
-    end
-    end
-      @sprint_task=[]
-      @sprint_task << {
-         'sprint_task' => resp        
-        }
-      render json: @sprint_task
-end
-
 def get_task_user
    resp =  []
            
@@ -1394,22 +1350,6 @@ def get_project_users
 end
 
 
-def get_release
-  resp =  []
-   @release_plannings = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}")
-   @release_plannings.each do |r|      
-      resp << {
-        'id' => r.id,
-        'release_name' => r.release_name
-      }
-    end
-    @project_release=[]
-      @project_release << {
-         'project_release' => resp        
-        }
-      render json: @project_release
-end
-
 def get_sprint   
    resp = []
     @sprint_plannings = SprintPlanning.where("project_master_id = #{params[:project_master_id]}")
@@ -1467,6 +1407,135 @@ end
       render json: @client_project1
    end
 
+    def get_release
+      resp =  []
+       @release_plannings = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}")
+       @release_plannings.each do |r|      
+          resp << {
+            'id' => r.id,
+            'release_name' => r.release_name
+          }
+        end
+        @project_release=[]
+          @project_release << {
+             'project_release' => resp        
+            }
+          render json: @project_release
+    end
+
+    def get_release_sprint
+      resp =  []
+     @sprint_plannings = SprintPlanning.where("release_planning_id = #{params[:release_planning_id]}")
+     @sprint_plannings.each do |s|      
+        resp << {
+          'id' => s.id,
+          'sprint_name' => s.sprint_name
+        }
+      end
+        @release_sprint=[]
+        @release_sprint << {
+           'release_sprint' => resp        
+          }
+        render json: @release_sprint
+  end
+
+  def get_sprint_task
+        resp =  []
+             
+     @project_tasks = Taskboard.where("sprint_planning_id = #{params[:sprint_planning_id]}")
+     @project_tasks.each do |p|    
+     @project_ta = ProjectTask.find_by_id(p.task_master_id)  
+     if @project_ta  != nil
+        resp << {
+          'id' => @project_ta.id,
+          'task_name' => @project_ta.task_name
+        }
+      end
+      end
+        @sprint_task=[]
+        @sprint_task << {
+           'sprint_task' => resp        
+          }
+        render json: @sprint_task
+  end
+#-----------------timesheets---  
+  def add_timesheets
+puts"ssssssssssss------------#{params[:id]}"
+    resp =  []
+if params[:id]!=nil and params[:id]!=""
+#convert_param_to_array(params[:id])
+@project_master_id_array = params[:id]
+@project_master_id_array.each do |pro_id|
+      @project_master = ProjectMaster.find_by_id(pro_id)
+      get_release_project(@project_master.id)
+      resp << {
+                 'ProjectName' => @project_master.project_name,
+                 'ProjectId'    => @project_master.id,
+                 'Release'   => @resp_rel, 
+                }
+end
+end
+          render json: resp
+  end
+
+  def get_release_project(project_id)
+  @resp_rel =  []
+
+         @release_plannings = ReleasePlanning.where("project_master_id = #{project_id}")
+         @release_plannings.each do |r|  
+         get_sprint_release(r.id)    
+            @resp_rel << {
+              'id' => r.id,
+              'ReleaseName' => r.release_name,
+              'Sprints' => @resp_sprint
+            }
+          end  
+  end
+
+  def get_sprint_release(release_id)
+     @resp_sprint =  []
+       @sprint_plannings = SprintPlanning.where("release_planning_id = #{release_id}")
+       @sprint_plannings.each do |s|    
+       get_task_release(s.id)  
+          @resp_sprint << {
+            'id' => s.id,
+            'SprintName' => s.sprint_name,
+            'Tasks' => @resp_task
+          }
+        end        
+  end
+
+  def get_task_release(sprint_id)
+     @resp_task =  [] 
+     @project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id}")            
+       #@project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id}")
+       @project_tasks.each do |p|    
+       @project_ta = ProjectTask.find_by_id(p.task_master_id)  
+       if @project_ta  != nil
+        timesheets_records(p.task_master_id, sprint_id)
+          @resp_task << {
+            'id' => @project_ta.id,
+            'TaskName' => @project_ta.task_name,
+            'Timesheet' => @task_time
+          }
+        end
+        end
+  end
+
+  def timesheets_records(task_master_id, sprint_id)
+
+  @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id}")
+ @task_time = []
+      if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
+       
+
+        @find_summary.each do |as|
+        @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
+        end
+      end     
+  end
+
+#-----------------timesheets---
   def forget_password
 
      user = User.find_by(email: params[:email]) 

@@ -54,6 +54,9 @@ match "/api/v1/report_4", :to => "home#report_4", :via => ["get"]
 match "/api/v1/report_5", :to => "home#report_5", :via => ["get"]
 
 
+match "/api/v1/add_timesheets", :to => "home#add_timesheets", :via => ["post"]
+
+
 
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
