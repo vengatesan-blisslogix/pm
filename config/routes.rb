@@ -56,6 +56,8 @@ match "/api/v1/report_5", :to => "home#report_5", :via => ["get"]
 
 match "/api/v1/add_timesheets", :to => "home#add_timesheets", :via => ["post"]
 
+match "/api/v1/past_summary", :to => "home#past_summary", :via => ["post"]
+
 
 
 resources :home

@@ -914,6 +914,42 @@ end#@timesheet_summ.each do |lts|
     render json: response 
 end
 
+=begin
+def past_summary
+  @start_date = params[:date][0].to_date.at_beginning_of_week
+  @end_date =  @start_date + 5
+  resp = []
+if params[:project_id] and params[:project_id]!=nil
+  params[:project_id].each do |pro_id|
+
+@search="task_date between '#{@start_date}' and '#{@end_date}' "
+  @find_summary = Logtime.where("#{@search} and project_master_id = #{pro_id}").order("id desc").limit(1)
+
+  if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
+     @all_summary = Logtime.where("#{@search} and project_master_id = #{pro_id}")
+     @sum_time = Logtime.where("#{@search} and project_master_id = #{pro_id}").sum(:task_time)
+    @task_time = []
+    @task_time_hour = []
+    @all_summary.each do |as|
+        @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
+  end
+#@project_task_name = ProjectTask.find_by_id(@summary.task_master_id)
+@project_master_id = ProjectMaster.find_by_id(pro_id)
+
+resp = {
+  
+  'project_id'=>pro_id,
+  'project_name' =>@project_master_id.project_name,
+  'date'=>@task_time,
+  'worked' => @sum_time
+
+}  
+  end
+  end
+end  
+  render json: resp
+end
+=end
 
 def edit_summary
   #begin
@@ -1461,7 +1497,18 @@ end
 #-----------------timesheets---  
   def add_timesheets
 puts"ssssssssssss------------#{params[:id]}"
+
     resp =  []
+    if params[:date] and params[:date]!=nil
+      @start_date = params[:date][0].to_date.at_beginning_of_week
+      @end_date =  @start_date + 5
+      @search="and task_date between '#{@start_date}' and '#{@end_date}' "
+      session[:search_task] =@search
+    else
+      session[:search_task] =""
+    end
+
+
 if params[:id]!=nil and params[:id]!=""
 #convert_param_to_array(params[:id])
 @project_master_id_array = params[:id]
@@ -1507,7 +1554,8 @@ end
 
   def get_task_release(sprint_id)
      @resp_task =  [] 
-     @project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id}")            
+     
+     @project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
        #@project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id}")
        @project_tasks.each do |p|    
        @project_ta = ProjectTask.find_by_id(p.task_master_id)  
@@ -1524,7 +1572,7 @@ end
 
   def timesheets_records(task_master_id, sprint_id)
 
-  @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id}")
+  @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id} #{session[:search_task]}")
  @task_time = []
       if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
        
