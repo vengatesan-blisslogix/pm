@@ -42,12 +42,12 @@ u.save!
 
 
 
-href = ["home.dashboard", "home.clients", "home.projects", "home.projectUsers", "home.releasePlanning", "home.sprintPlanning", "home.tasks",  "home.taskBoard", "home.timesheets", "home.reports", "home.admin"]
+href = ["home.dashboard", "home.clients", "home.projects", "home.projectMembers", "home.releasePlanning", "home.sprintPlanning", "home.productBacklog",  "home.taskBoard", "home.timesheets", "home.reports", "home.admin", "home.masters"]
 
-icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
+icon = ["fa fa-fw fa-windows", "fa fa-fw fa-bullseye", "fa fa-fw fa-tachometer", "fa fa-fw fa-users", "fa fa-fw fa-life-ring", "fa fa-fw fa-leaf", "fa fa-fw fa-arrows", "fa fa-fw fa-paper-plane", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle"]
 i = 0
 
-["Dashboard", "Clients", "Projects", "Project Users", "Release Planning", "Sprint Planning", "Tasks", "Task Board", "TimeSheets", "Reports", "Admin"].each do |al|
+["Dashboard", "Clients", "Projects", "Project Members", "Release Planning", "Sprint Planning", "Product Backlog", "Task Board", "Timesheet", "Reports", "Admin", "Masters"].each do |al|
 a = ActivityMaster.create(activity_Name: "#{al}", active: "active", is_page: "yes", parent_id:0, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: a.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
@@ -69,11 +69,26 @@ i = i+1
 end
 
 #add admin sub activity
-href = ["home.users", "home.roles", "home.activity","home.branch","home.technology","home.team","home.holidays","home.project_domains","home.project_status_masters","home.task_status_master", "home.business_units","home.project_locations","home.engagement_types", "home.project_payments", "home.checklist"]
-icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
+href = ["home.users", "home.roles", "home.activity","home.branch","home.technology","home.team","home.holidays"]
+
+icon = ["fa fa-fw fa-user", "fa fa-fw fa-shield", "fa fa-fw fa-check-square", "fa fa-fw fa-code-fork", "fa fa-fw fa-laptop", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"
 i = 0
 admin = ActivityMaster.find_by_activity_Name("Admin")
-["Users","Roles","Activity","Branch","Technology","Team", "Holidays", "ProjectDomains", "ProjectStatus", "TaskStatus", "Business Units", "Project Locations", "Engagement Types", "Project Payment", "Checklist"].each do |ad|
+["Users","Roles","Activity","Branch","Technology","Team", "Holidays"].each do |ad|
+ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
+RoleActivityMapping.create(role_master_id: r.id, activity_master_id: ad.id, access_value: 1, user_id: u.id, active: 1)
+i = i+1
+end
+
+
+#add master sub activity
+
+href = ["home.project_domains","home.project_status_masters","home.task_status_master", "home.business_units","home.project_locations","home.engagement_types", "home.project_payments", "home.checklist"]
+
+icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
+i = 0
+admin = ActivityMaster.find_by_activity_Name("Masters")
+["ProjectDomains", "ProjectStatus", "TaskStatus", "Business Units", "Project Locations", "Engagement Types", "Project Payment", "Checklist"].each do |ad|
 ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: ad.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
