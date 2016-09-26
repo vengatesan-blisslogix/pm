@@ -22,49 +22,48 @@ def create
     if params[:project_master_id]!=nil and params[:project_master_id]!=""
       convert_param_to_array(params[:project_master_id])
       @pm_id = @output_array
-      #convert_param_to_array(params[:task_date])
-      #@t_date = @output_array
-      #convert_param_to_array(params[:task_time])
-      #@t_time = @output_array
+      convert_param_to_array(params[:sprint_planning_id])
+      @sp_id = @output_array
       convert_param_to_array(params[:task_master_id])
       @proj_task = @output_array
-
+puts"@pm_id---------#{@pm_id}"
           p=0
-          @proj_task.each do |task|
+          @pm_id.each do |pid|
+        puts"@pm_id---pidpidpid------#{pid}"               
 
-if params[:task_date] and params[:task_time]
-@task_d = params[:task_date].split("//")[p]
-convert_param_to_array(@task_d)
-@t_date = @output_array
-@task_t = params[:task_time].split("//")[p]
-convert_param_to_array(@task_t)
-@t_time = @output_array
-t=0
-@t_date.each do |td|
+                if params[:task_date] and params[:task_time]
+                @task_d = params[:task_date].split("//")[p]
+                convert_param_to_array(@task_d)
+                @t_date = @output_array
+                @task_t = params[:task_time].split("//")[p]
+                convert_param_to_array(@task_t)
+                @t_time = @output_array
+                t=0
 
+                @t_date.each do |td|
 
-@timesheet = Logtime.new
-@timesheet.start_time  = params[:start_time]
-@timesheet.end_time  = params[:end_time]
-@timesheet.date  = params[:date]
-@timesheet.task_master_id  = task
-@timesheet.project_master_id = params[:project_master_id]
-#@timesheet.taskboard_id = params[:taskboard_id]
-@timesheet.sprint_planning_id = params[:sprint_planning_id]
-@timesheet.user_id = params[:user_id]
-@timesheet.status = "pending"
-@timesheet.task_date = @t_date[t]
-@timesheet.task_time = @t_time[t]                 
-@timesheet.save!
+                  @timesheet = Logtime.new
+                  @timesheet.start_time  = params[:start_time]
+                  @timesheet.end_time  = params[:end_time]
+                  @timesheet.date  = params[:date]
+                  @timesheet.task_master_id  = @proj_task[p]
+                  @timesheet.project_master_id = pid
+                  @timesheet.sprint_planning_id = @sp_id[p]
 
+                  #@timesheet.taskboard_id = params[:taskboard_id]
+                  @timesheet.user_id = params[:user_id]
+                  @timesheet.status = "pending"
+                  @timesheet.task_date = @t_date[t]
+                  @timesheet.task_time = @t_time[t]                 
+                  @timesheet.save!
 
-
-t=t+1
-end#@t_date.each do |td|
-end#if params[:task_date] and params[:task_time]
-p=p+1
-end#@proj_task.each do |task|
-
+                  t=t+1
+                end#@t_date.each do |td|
+              end#if params[:task_date] and params[:task_time]
+              p=p+1
+             
+           
+          end#@pm_id.each do |pid|
 
       render json: { valid: true, msg: "timesheet created successfully."}
     else
