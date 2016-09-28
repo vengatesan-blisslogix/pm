@@ -397,7 +397,7 @@ ActiveRecord::Schema.define(version: 20160907113346) do
   create_table "taskboards", force: :cascade do |t|
     t.integer  "task_master_id"
     t.string   "status"
-    t.boolean  "new",                   default: true
+    t.boolean  "new",                   default: false
     t.boolean  "in_progress",           default: false
     t.boolean  "development_completed", default: false
     t.boolean  "qa",                    default: false

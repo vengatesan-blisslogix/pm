@@ -709,8 +709,8 @@ end
   end
 
   def add_menus
-
-    #add admin sub activity
+=begin
+    #add timesheet sub activity
     href = ["home.timesheets" ]
     icon = ["fa fa-fw fa-tachometer"]
     i = 0
@@ -720,7 +720,7 @@ end
     RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
     i = i+1
     end  
-
+=end
     if params[:delete_activity].to_i == 1        
       am = ActivityMaster.where("id  > 23" )
       am.each do |a|
@@ -795,7 +795,7 @@ end
 def timesheet_summary
 
   @start_date = Date.today.at_beginning_of_week
-  @end_date =  @start_date + 5
+  @end_date =  Date.today.at_end_of_week
 
 @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PM AND BA% 'or role_name like '%BA%' or role_name like '%PM%'")
     @role_id=[]
@@ -803,7 +803,7 @@ def timesheet_summary
     @role_id << r.id    
     end
 
-puts "*****************#{@role_id}********#{current_user.role_master_id}*****",@role_id.include?(current_user.role_master_id)
+puts "*****#{@start_date}************#{@role_id}********#{current_user.role_master_id}*****",@role_id.include?(current_user.role_master_id)
 
 if current_user.role_master_id == 1 
   @search="task_date between '#{@start_date}' and '#{@end_date}'"
@@ -827,7 +827,7 @@ else
   
  
 end
-
+puts "===========#{@search}============="
     @timesheet_summ = Logtime.where("#{@search}").select(:project_master_id).uniq
     resp = []    
  @timesheet_summ.each do |lts|
@@ -1501,7 +1501,7 @@ puts"ssssssssssss------------#{params[:id]}"
     resp =  []
     if params[:date] and params[:date]!=nil
       @start_date = params[:date][0].to_date.at_beginning_of_week
-      @end_date =  @start_date + 5
+      @end_date =  params[:date][0].to_date.at_end_of_week
       @search="and task_date between '#{@start_date}' and '#{@end_date}' "
       session[:search_task] =@search
     else
@@ -1555,8 +1555,8 @@ end
   def get_task_release(sprint_id)
      @resp_task =  [] 
      
-     @project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
-       #@project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id}")
+     #@project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
+       @project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id}")
        @project_tasks.each do |p|    
        @project_ta = ProjectTask.find_by_id(p.task_master_id)  
        if @project_ta  != nil

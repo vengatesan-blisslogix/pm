@@ -42,7 +42,7 @@ u.save!
 
 
 
-href = ["home.dashboard", "home.clients", "home.projects", "home.projectMembers", "home.releasePlanning", "home.sprintPlanning", "home.productBacklog",  "home.taskBoard", "home.timesheets", "home.reports", "home.admin", "home.masters"]
+href = ["home.dashboard", "home.clients", "home.projects", "home.projectMembers", "home.releasePlanning", "home.sprintPlanning", "home.productBacklog",  "home.taskBoard", "home.timesheet", "home.reports", "home.admin", "home.masters"]
 
 icon = ["fa fa-fw fa-windows", "fa fa-fw fa-bullseye", "fa fa-fw fa-tachometer", "fa fa-fw fa-users", "fa fa-fw fa-life-ring", "fa fa-fw fa-leaf", "fa fa-fw fa-arrows", "fa fa-fw fa-paper-plane", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle"]
 i = 0
@@ -57,6 +57,7 @@ end
 #project = ActivityMaster.find_by_activity_Name("Projects")
 #pro = ActivityMaster.create(activity_Name: "Project Users", active: 1, parent_id: project.id, href: "home.projectUsers", icon: "fa fa-fw fa-tachometer")
 #RoleActivityMapping.create(role_master_id: r.id, activity_master_id: pro.id, access_value: 1, user_id: u.id, active: 1)
+
 #Add Report sub activity
 report = ActivityMaster.find_by_activity_Name("Reports")
 href = ["home.report1", "home.report2"]
@@ -71,7 +72,7 @@ end
 #add admin sub activity
 href = ["home.users", "home.roles", "home.activity","home.branch","home.technology","home.team","home.holidays"]
 
-icon = ["fa fa-fw fa-user", "fa fa-fw fa-shield", "fa fa-fw fa-check-square", "fa fa-fw fa-code-fork", "fa fa-fw fa-laptop", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"
+icon = ["fa fa-fw fa-user", "fa fa-fw fa-shield", "fa fa-fw fa-check-square", "fa fa-fw fa-code-fork", "fa fa-fw fa-laptop", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
 i = 0
 admin = ActivityMaster.find_by_activity_Name("Admin")
 ["Users","Roles","Activity","Branch","Technology","Team", "Holidays"].each do |ad|
@@ -80,9 +81,18 @@ RoleActivityMapping.create(role_master_id: r.id, activity_master_id: ad.id, acce
 i = i+1
 end
 
+#add timesheet sub activity
+    href = ["home.timesheets", "home.timesheetsSummary" ]
+    icon = ["fa fa-fw fa-tachometer","fa fa-fw fa-tachometer"]
+    i = 0
+    admin = ActivityMaster.find_by_activity_Name("Timesheet")
+    ["Timesheets","Timesheet Summary" ].each do |ad|
+    ad = ActivityMaster.create(activity_Name: "#{ad}", active: "active",  is_page: "yes", parent_id: admin.id, href: href[i],  icon: icon[i])
+    RoleActivityMapping.create(role_master_id: 1, activity_master_id: ad.id, access_value: 1, user_id: 1, active: 1)
+    i = i+1
+    end  
 
 #add master sub activity
-
 href = ["home.project_domains","home.project_status_masters","home.task_status_master", "home.business_units","home.project_locations","home.engagement_types", "home.project_payments", "home.checklist"]
 
 icon = ["fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer", "fa fa-fw fa-tachometer"]
