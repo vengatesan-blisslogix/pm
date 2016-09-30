@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   private
 
     def configure_permitted_parameters
-      devise_parameter_sanitizer.for(:sign_up) << [
+       devise_parameter_sanitizer.permit(:sign_up, keys: [
         :mobile_no,
         :office_phone,
         :home_phone,
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
         :branch_id,
         :company_id,
         :role_master_id,
-        :name,     
+        :name,
         :password,
         :team_id,
         :prior_experience,
@@ -33,8 +33,8 @@ class ApplicationController < ActionController::Base
         :created_by_user,
         :reporting_to,
         :nickname,
-        :employee_no        
-      ]
+        :employee_no
+      ])
     end
 
 
@@ -102,6 +102,7 @@ puts "----ttime-----#{@total_time}----------"
         @project_users = ProjectUser.where("project_master_id = #{project_master_id}")
         
         @project_users.each do |pu|  
+          if pu.user_id != nil and pu.user_id != ""
           puts "********#{pu.user_id}******"
           @project_names = User.find_by_id(pu.user_id)
         @project_users_resp << {
@@ -109,6 +110,7 @@ puts "----ttime-----#{@total_time}----------"
           'username' => "#{@project_names.name} #{@project_names.last_name}"
         }
         end
+      end
 
         @taskboard = Taskboard.where("project_master_id = #{project_master_id}")
         @project_task_resp = []

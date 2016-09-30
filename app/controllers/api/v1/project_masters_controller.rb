@@ -64,7 +64,7 @@ end
       @domain = ProjectDomain.find_by_id(p.domain_id)
       #@domain = ProjectDomain.where("project_domain_id = #{p.domain_id} and active = 1")
       if @domain!=nil && @domain!="" and @domain
-      @domain =@domain[0].domain_name
+      @domain =@domain.domain_name
       else
       @domain=""
       end
