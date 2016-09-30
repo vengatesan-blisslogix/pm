@@ -1682,7 +1682,7 @@ private
 
 def getcompany
   resp = []
-    @value = Company.all.order(:id)
+    @value = Company.where("active = 'active'").order(:id)
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1694,7 +1694,7 @@ end
 
 def getbusiness
   resp = []
-    @value = BusinessUnit.all.order(:id)
+    @value = BusinessUnit.where("active = 'active'").order("id")
     @value.each do |bu|      
       resp << {
         'id' => bu.id,
@@ -1706,7 +1706,7 @@ end
 
 def getengagementtype
   resp = []
-    @value = EngagementType.all.order(:id)
+    @value = EngagementType.where("active = 'active'").order("id")
     @value.each do |et|      
       resp << {
         'id' => et.id,
@@ -1718,7 +1718,7 @@ end
 
 def getprojectpayment
   resp = []
-    @value = ProjectPayment.all.order(:id)
+    @value = ProjectPayment.where("active = 'active'").order("id")
     @value.each do |pp|      
       resp << {
         'id' => pp.id,
@@ -1730,7 +1730,7 @@ end
 
 def getprojectlocation
   resp = []
-    @value = ProjectLocation.all.order(:id)
+    @value = ProjectLocation.where("active = 'active'").order("id")
     @value.each do |pl|      
       resp << {
         'id' => pl.id,
@@ -1742,7 +1742,7 @@ end
 
 def getrole
   resp = []
-    @value = RoleMaster.all.order(:id)
+    @value = RoleMaster.where("active = 'active'").order(:id)
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1754,7 +1754,7 @@ end
 
 def getbranch
   resp = []
-    @value = Branch.all.order(:id)
+    @value = Branch.where("active = 'active'").order(:id)
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1778,7 +1778,7 @@ end
 
 def getteam
   resp = []
-    @value = TeamMaster.all.order(:id)
+    @value = TeamMaster.where("active = 'active'").order(:id)
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1790,7 +1790,7 @@ end
 
 def gettech
   resp = []
-    @value = TechnologyMaster.all.order(:id)
+    @value = TechnologyMaster.where("active = 'active'").order(:id)
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1804,7 +1804,7 @@ end
 
 def getproject_type
   resp = []
-    @value = ProjectType.all.order(:id)
+    @value = ProjectType.where("active = 1").order("id")
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1816,7 +1816,7 @@ end
 
 def getdomain_name
   resp = []
-    @value = ProjectDomain.all.order(:id)
+    @value = ProjectDomain.where("active = 1").order("id")
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1828,7 +1828,7 @@ end
 
 def getclient_name
   resp = []
-    @value = Client.all.order(:id)
+    @value = Client.where("active = 'active'").order("id")
     @value.each do |v|      
       resp << {
         'id' => v.id,
@@ -1840,7 +1840,7 @@ end
 
 def getproject_status
   resp = []
-    @value = ProjectStatusMaster.all.order(:id)
+    @value = ProjectStatusMaster.where("active = 1").order("id")
     @value.each do |v|      
       resp << {
         'id' => v.id,
