@@ -98,6 +98,7 @@ GEM
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
+    mysql2 (0.4.4)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     omniauth (1.2.2)
@@ -110,7 +111,6 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
-    pg (0.18.4)
     rack (1.6.4)
     rack-cors (0.4.0)
     rack-test (0.6.3)
@@ -192,9 +192,9 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   kaminari
+  mysql2
   omniauth
   paperclip
-  pg (~> 0.15)
   rack-cors
   rails (= 4.2.6)
   rails_12factor
@@ -206,4 +206,4 @@ DEPENDENCIES
   writeexcel
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

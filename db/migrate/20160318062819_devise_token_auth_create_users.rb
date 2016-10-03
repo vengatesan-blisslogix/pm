@@ -39,11 +39,14 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration
       t.string :image
       t.string :email
 
-      ## Tokens
-      t.json :tokens
+       ## Tokens
+      #t.text :tokens
+
+      t.text :tokens
 
       t.timestamps
     end
+
 
     add_index :users, :email
     add_index :users, [:uid, :provider],     :unique => true

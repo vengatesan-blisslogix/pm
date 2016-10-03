@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   private
 
     def configure_permitted_parameters
-       devise_parameter_sanitizer.permit(:sign_up, keys: [
+       devise_parameter_sanitizer.for(:sign_up) << [
         :mobile_no,
         :office_phone,
         :home_phone,
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
         :branch_id,
         :company_id,
         :role_master_id,
-        :name,
+        :name,     
         :password,
         :team_id,
         :prior_experience,
@@ -33,8 +33,8 @@ class ApplicationController < ActionController::Base
         :created_by_user,
         :reporting_to,
         :nickname,
-        :employee_no
-      ])
+        :employee_no        
+      ]
     end
 
 

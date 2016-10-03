@@ -1,11 +1,17 @@
 
 default: &default
-  adapter   : postgresql
-  pool      : 5
-  timeout   : 5000
-  user      : postgres  
-  password  : postgres
-  host      : localhost
+  #adapter   : postgresql
+  #pool      : 5
+  #timeout   : 5000
+  #user      : postgres  
+  #password  : postgres
+  #host      : localhost
+
+  adapter    : mysql2
+  encoding   : utf8
+  username   : root
+  password   : tvsnext
+  host       : localhost
 
 development:
   <<: *default
