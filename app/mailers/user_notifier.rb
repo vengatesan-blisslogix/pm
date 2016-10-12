@@ -1,11 +1,11 @@
 class UserNotifier < ApplicationMailer
-  default :from => 'admin@tvsnext.com'
+  default :from => 'marketing@tvsnext.io'
 
   # send a signup email to the user, pass in the user object that   contains the user's email address
   def send_signup_email(user)
     @user = user
     mail( :to => @user.email,
-    :subject => 'Thanks for signing up for our amazing app' )
+    :subject => 'Thanks for signing up with our app' )
   end
 
   def forget_password_otp_send(user)

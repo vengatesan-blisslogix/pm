@@ -49,7 +49,6 @@ end
     end
     #new
 
-
    new_task = []
    @progress = Taskboard.where("new = ? #{@search_val}", true)
    @progress.each do |tp|  
@@ -75,7 +74,8 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => tp.est_time,
+        #'planned_duration' => tp.est_time,
+        'planned_duration' => @project_task.planned,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -106,7 +106,8 @@ end
         'task_name' => @task_name,        
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => tp.est_time,
+        #'planned_duration' => tp.est_time,
+        'planned_duration' => @project_task.planned,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -140,7 +141,8 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => td.est_time,
+        #'planned_duration' => td.est_time,
+        'planned_duration' => @project_task.planned,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }
@@ -172,7 +174,8 @@ end
           'task_name' => @task_name,
           'assign_params' => @assigned,
           'assign_name' => @assignee_user,
-          'planned_duration' => tq.est_time,
+          #'planned_duration' => tq.est_time,
+          'planned_duration' => @project_task.planned,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
         }
@@ -204,7 +207,8 @@ end
           'task_name' => @task_name,
           'assign_params' => @assigned,
           'assign_name' => @assignee_user,
-          'planned_duration' => tc.est_time,
+          #'planned_duration' => tc.est_time,
+          'planned_duration' => @project_task.planned,
           'worked_hours' => @hours_resp,
           'project_users' => @project_users_resp
         }
@@ -237,7 +241,8 @@ end
         'task_name' => @task_name,
         'assign_params' => @assigned,
         'assign_name' => @assignee_user,
-        'planned_duration' => th.est_time,
+        #'planned_duration' => th.est_time,
+        'planned_duration' => @project_task.planned,
         'worked_hours' => @hours_resp,
         'project_users' => @project_users_resp
       }

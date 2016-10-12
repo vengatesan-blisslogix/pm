@@ -29,6 +29,7 @@ def create
           end  
   
           @timelog.user_id = params[:user_id]
+          @timelog.status = "pending"
        @timelog.save
     	
 log_values = []
