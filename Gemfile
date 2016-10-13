@@ -44,6 +44,8 @@ gem 'writeexcel'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'web-console', '~> 2.0'
+
   gem 'byebug'
 end
 
@@ -54,6 +56,8 @@ group :development do
   gem 'spring'
 end
 group :production do
+    gem 'web-console', '~> 2.0'
+
   gem 'rails_12factor'
 end
 

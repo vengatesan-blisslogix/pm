@@ -25,6 +25,7 @@ module BlissPm
 config.assets.initialize_on_precompile = false
     config.active_record.raise_in_transactional_callbacks = true
    config.web_console.whiny_requests = false
+   config.web_console.development_only = false
   # SUPER INSECURE NEEDS TO BE FIXED
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
