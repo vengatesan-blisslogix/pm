@@ -148,11 +148,21 @@ end#@week_days.each do |day|
 table_cont = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
 #-------table for summary --------
 
+@find_manager_for_user = ProjectUser.where("user_id=#{au.id} and project_master_id ={au.project_master_id}")
+
+if @find_manager_for_user != nil and @find_manager_for_user.size != 0
+
+if @find_manager_for_user[0].reporting_to != nil
+
+  @find_manager_email = User.find_by_id(@find_manager_for_user[0].reporting_to.to_i)
+else
+  @find_manager_email = User.find_by_id(au.reporting_to.to_i)
+end
 
 #mail  part
 mail = Mail.new
   mail.sender = "pmo@tvsnext.io"
-  mail.to = au.email
+  mail.to = @find_manager_email.email
   #mail.to = "sastrayogesh@gmail.com"
   mail.subject = "[REMINDER][Timesheet Entry] - #{pro.project_name}"
   mail.content_type = "multipart/mixed"
@@ -188,15 +198,15 @@ mail = Mail.new
       </style>
     <body link='#0000ff' dir='ltr'>
 
-Dear #{au.name},<br/><br>
+Dear #{},<br/><br>
 
-Oops !!, Did you forget to enter your timesheets<br/><br>
+Hey Seems #{} has not entered the timesheets for this week. You may have to check
+<br/><br>
 Project Name : <b>#{pro.project_name}</b><br/><br>
 Summary:<br>
 #{table_cont}<br>
 Details:<br>
 #{table_cont_details}
-<br>We seriously don't mind even if you have already entered, again just a reminder.
 <br/><br>
 
 Thanks<br>
@@ -216,7 +226,7 @@ Linchpin Team
   mail.deliver
 #mail  part
 
-
+end
 
 
 end#if @time_sheet_present.sum.to_i < 40

@@ -21,8 +21,8 @@ delivery_method :smtp, {
          :domain => "gmail.com",
          :enable_starttls_auto => true,
          :authentication => :login,
-         :user_name => "yogeshblisslogix@gmail.com",
-         :password => "Krish@bliss"
+         :user_name => "pmo@tvsnext.io",
+         :password => "pmo#123$"
 }
 end
 
@@ -33,9 +33,9 @@ end
 
 def send_reminder_to_all_users(to,name)
   mail = Mail.new
-	mail.sender = "yogeshblisslogix@gmail.com"
-	#mail.to = to
-	mail.to = "sastrayogesh@gmail.com"
+	mail.sender = "pmo@tvsnext.io"
+	mail.to = to
+	#mail.to = "sastrayogesh@gmail.com"
 	mail.subject = "[REMINDER][Timesheet Entry]"
 	mail.content_type = "multipart/mixed"
 
@@ -72,11 +72,12 @@ def send_reminder_to_all_users(to,name)
 
 Dear #{name},<br/><br>
 
-Please enter your Timesheet for this week.<br/><br>
+Hope you will fill your timesheets. This is just a reminder.
 
-<br>If you have already entered, please ignore this mail.<br/><br>
+We seriously don't mind even if you have already entered, again just a reminder
 
-Thanks & Regards,<br>
+Thanks
+Linchpin Team<br>
 <img src = 'http://tvsnext.io/wp-content/uploads/2016/04/logo.png'>
 
     </body>
