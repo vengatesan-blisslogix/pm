@@ -58,6 +58,8 @@ match "/api/v1/add_timesheets", :to => "home#add_timesheets", :via => ["post"]
 
 match "/api/v1/past_summary", :to => "home#past_summary", :via => ["post"]
 
+match "/api/v1/user_eldap", :to => "home#user_eldap", :via => ["post"]
+
 
 
 resources :home
