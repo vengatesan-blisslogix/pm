@@ -11,19 +11,19 @@ class User < ActiveRecord::Base
            :omniauthable
   include DeviseTokenAuth::Concerns::User
  
-    validates :email, :name, presence: true
+    #validates :email, :name, presence: true
 
-    validates_presence_of :branch_id, on: :create   
+    #validates_presence_of :branch_id, on: :create   
 
-    validates_presence_of :company_id, on: :create
+    #validates_presence_of :company_id, on: :create
 
-    validates_presence_of :role_master_id, on: :create
+    #validates_presence_of :role_master_id, on: :create
 
-    validates_presence_of :employee_no, on: :create
+    #validates_presence_of :employee_no, on: :create
 
     #validates_presence_of :password, on: :create
 
-    validates_uniqueness_of :employee_no, on: :create
+    #validates_uniqueness_of :employee_no, on: :create
 
     #validates :employee_no, uniqueness: true
     #validates :employee_no, presence: true

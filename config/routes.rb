@@ -60,6 +60,10 @@ match "/api/v1/past_summary", :to => "home#past_summary", :via => ["post"]
 
 match "/api/v1/user_eldap", :to => "home#user_eldap", :via => ["post"]
 
+match "/api/v1/manager_master", :to => "home#manager_master", :via => ["get"]
+
+match "/api/v1/employee_master", :to => "home#employee_master", :via => ["get"]
+
 
 
 resources :home

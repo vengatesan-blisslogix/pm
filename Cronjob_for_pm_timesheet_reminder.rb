@@ -1,7 +1,7 @@
-require "rubygems"
-require "active_record"
-require "mail"
-require "action_mailer"
+#require "rubygems"
+#require "active_record"
+#require "mail"
+#require "action_mailer"
 
 
 ActiveRecord::Base.establish_connection({
