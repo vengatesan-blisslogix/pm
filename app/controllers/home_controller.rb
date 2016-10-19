@@ -786,14 +786,14 @@ end
     sheet1.each do |row|
       puts row[7] # looks like it calls "to_s" on each cell's Value
       @user = User.find_by_email(row[9])#User.new
-      @user.employee_no = row[0]
-      @user.name = row[1]
-      @user.last_name = row[2]
-      @user.doj = row[3]
-      @user.active = row[4]
-      @user.prior_experience = row[6]
-      @user.email = row[9]
-      @user.password = row[10]
+      #@user.employee_no = row[0]
+      #@user.name = row[1]
+      #@user.last_name = row[2]
+      #@user.doj = row[3]
+      #@user.active = row[4]
+      #@user.prior_experience = row[6]
+      #@user.email = row[9]
+      #@user.password = row[10]
 
       @user.branch_id = 2
       @user.company_id = 1
