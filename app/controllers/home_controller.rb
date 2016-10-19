@@ -787,6 +787,9 @@ end
       puts row[7] # looks like it calls "to_s" on each cell's Value
       @user = User.find_by_email(row[9])
       puts "#{row[9]}-----#{@user}---"
+      if @user != nil 
+        
+      
       #User.new
       #@user.employee_no = row[0]
       #@user.name = row[1]
@@ -836,7 +839,7 @@ end
         @technology_master_id = @find_tech
         @user_id = @user.id
       end
-    
+    end
           
       #@user.prior_experience = row[6]
       #@user.reporting_to = row[7]
