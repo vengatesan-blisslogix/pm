@@ -785,7 +785,9 @@ end
     sheet1 = user.worksheet('Employee Details') # can use an index or worksheet name
     sheet1.each do |row|
       puts row[7] # looks like it calls "to_s" on each cell's Value
-      @user = User.find_by_email(row[9])#User.new
+      @user = User.find_by_email(row[9])
+      puts "#{row[9]}-----#{@user}---"
+      #User.new
       #@user.employee_no = row[0]
       #@user.name = row[1]
       #@user.last_name = row[2]
