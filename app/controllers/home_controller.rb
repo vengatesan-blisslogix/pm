@@ -791,7 +791,7 @@ end
         
       
       else
-        User.new
+        @user = User.new
         @user.employee_no = row[0]
         @user.name = row[1]
         @user.last_name = row[2]
