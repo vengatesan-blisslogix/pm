@@ -790,16 +790,18 @@ end
       if @user != nil 
         
       
-      #User.new
-      #@user.employee_no = row[0]
-      #@user.name = row[1]
-      #@user.last_name = row[2]
-      #@user.doj = row[3]
-      #@user.active = row[4]
-      #@user.prior_experience = row[6]
-      #@user.email = row[9]
-      #@user.password = row[10]
-
+      else
+        User.new
+        @user.employee_no = row[0]
+        @user.name = row[1]
+        @user.last_name = row[2]
+        @user.doj = row[3]
+        @user.active = row[4]
+        @user.prior_experience = row[6]
+        @user.email = row[9]
+        @user.password = row[10]
+      end
+      @user.active = "Active"
       @user.branch_id = 2
       @user.company_id = 1
       @user.role_master_id = 2
@@ -839,7 +841,7 @@ end
         @technology_master_id = @find_tech
         @user_id = @user.id
       end
-    end
+    
           
       #@user.prior_experience = row[6]
       #@user.reporting_to = row[7]
