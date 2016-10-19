@@ -785,7 +785,7 @@ end
     sheet1 = user.worksheet('Employee Details') # can use an index or worksheet name
     sheet1.each do |row|
       puts row[7] # looks like it calls "to_s" on each cell's Value
-      @user = User.new
+      @user = User.find_by_email(row[9])#User.new
       @user.employee_no = row[0]
       @user.name = row[1]
       @user.last_name = row[2]
@@ -794,7 +794,47 @@ end
       @user.prior_experience = row[6]
       @user.email = row[9]
       @user.password = row[10]
-    @user.save
+
+      @user.branch_id = 2
+      @user.company_id = 1
+      @user.role_master_id = 2
+
+      @find_reporting_to = User.find_by_email(row[7])
+      if @find_reporting_to != nil 
+        @user.reporting_to =  @find_reporting_to.id
+      end
+
+      @team_name = ""
+      if row[5].to_s == "IOS"
+        @team_name = "IOS"
+      elsif  row[5].to_s == "ROR" or row[5].to_s ==".NET" or row[5].to_s == "PHP"
+        @team_name = "Backend"
+      elsif row[5].to_s == "HTML5" or row[5].to_s =="Angular JS" or row[5].to_s == "UI/UX"
+        @team_name = "UI/UX"
+      elsif row[5].to_s == "Mobile Dev" or row[5].to_s == "Android"
+        @team_name = "Android"
+      elsif row[5].to_s == "Business Analyst"
+        @team_name = "Functional"
+      elsif row[5].to_s == "IOT"
+        @team_name = "IOT"
+      elsif row[5].to_s == "Testing" or row[5].to_s == "QA"
+        @team_name = "Testing"
+      end
+      if @team_name != ""
+        @team_id = TeamMaster.find_by_team_name(@team_name)
+        if @team_id != nil
+          @user.team_id = @team_id.id   
+        end
+      end
+      @user.save
+
+      @find_tech = TechnologyMaster.find_by_technology(row[5])
+      if @find_tech != nil
+        @user_tech = UserTechnology.new()
+        @technology_master_id = @find_tech
+        @user_id = @user.id
+      end
+    
           
       #@user.prior_experience = row[6]
       #@user.reporting_to = row[7]
