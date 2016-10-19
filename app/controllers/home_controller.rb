@@ -801,7 +801,7 @@ end
         @user.email = row[9]
         @user.password = row[10]
       end
-      @user.active = "Active"
+      @user.active = "active"
       @user.branch_id = 2
       @user.company_id = 1
       @user.role_master_id = 2
