@@ -773,6 +773,8 @@ end
       @user.prior_experience = row[6]
       @user.email = row[8]
       @user.password = row[9]
+      @user.active = "active"
+
     @user.save
 
       #@user.prior_experience = row[6]
