@@ -804,9 +804,9 @@ end
         @user.password = row[10]
       end
       @user.active = "active"
-      @user.branch_id = 2
+      @user.branch_id = 1
       @user.company_id = 1
-      @user.role_master_id = 2
+      @user.role_master_id = 2#role_master = user
 
       @find_reporting_to = User.find_by_email(row[7])
       if @find_reporting_to != nil 
@@ -835,6 +835,7 @@ end
           @user.team_id = @team_id.id   
         end
       end
+      puts "-------#{}-----------"
       @user.save
 
       @find_tech = TechnologyMaster.find_by_technology(row[5])
