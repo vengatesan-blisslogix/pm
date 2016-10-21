@@ -35,7 +35,8 @@ def user_eldap
     if @user_search.include? "@"
       search_filter = Net::LDAP::Filter.eq("mail",@user_search +"*")
     else 
-      search_filter = Net::LDAP::Filter.eq("mail","*")
+      search_filter = Net::LDAP::Filter.eq("mail",@user_search + "*")
+      #search_filter = Net::LDAP::Filter.eq("mail",@user_search + "*@tvsnext.io") If tvsnext present
     end
       
     puts search_filter
