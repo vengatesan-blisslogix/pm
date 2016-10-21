@@ -6,9 +6,10 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+
 def user_eldap
   resp = []
-  if params[:email]
+  if params[:userTag]
     
   
     ldap = Net::LDAP.new :host => "10.91.19.110",
@@ -26,23 +27,34 @@ def user_eldap
     puts is_authorized
     #puts ldap.search(:filter => "sAMAccountName=yogesh.s1").first
 
-    search_param = params[:email]
-    result_attrs = ["sAMAccountName", "displayName", "mail", "employeeID", "department"]
+   # search_param = params[:email]
+    result_attrs = ["l", "mail", "employeeId", "givenName", "sn", "extensionAttribute1", "extensionAttribute3", "mobile", "manager", "department", ]
 
     # Build filter
-    search_filter = Net::LDAP::Filter.eq("mail", search_param)
-
+    @user_search = params[:userTag]
+    if @user_search.include? "@"
+      search_filter = Net::LDAP::Filter.eq("mail",@user_search +"*")
+    else 
+      search_filter = Net::LDAP::Filter.eq("mail","*")
+    end
+      
     puts search_filter
     # Execute search
-    puts ldap.search(:base => "DC=TVSi,DC=local", :filter => search_filter, :attributes => result_attrs) { |item| 
-      begin
+    puts ldap.search(:base => "DC=TVSi,DC=local", :filter => search_filter) { |item| 
+      begin      
+      
       resp << {
-        'Account_Name' => item.sAMAccountName.first,
-        'Display_Name' => item.displayName.first,
-        'Mail' => item.mail.first,
-        'Employee_ID' => item.employeeID.first,
-        'Department' => item.department.first
-      }  
+        :branch_id => item.l.first,
+        :email => item.mail.first,
+        :employee_no => item.employeeID.first,
+        :name => item.givenName.first,
+        :last_name => item.sn.first,
+        :dob => item.extensionAttribute1.first,
+        :doj => item.extensionAttribute3.first,
+        :mobile_no => item.mobile.first,
+        :reporting_to => item.manager.first[3..-1].split(' ')[0],
+        :team_id => item.department.first
+      } 
       rescue Exception => e
        resp << e 
       end
@@ -54,6 +66,8 @@ def user_eldap
     render :json => resp
   end
 end
+
+
 
 def report_1
 # Create a new Excel Workbook
