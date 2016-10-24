@@ -9,63 +9,75 @@ class HomeController < ApplicationController
 
 def user_eldap
   resp = []
-  if params[:userTag]
-    
   
-    ldap = Net::LDAP.new :host => "10.91.19.110",
-       :port => 389,
-       :auth => {
-             :method => :simple,
-             :base  =>       "DC=TVSi,DC=local",
-             :username => "administrator@tvsi.local",
-             :password => "@dm1n@969"
-       }
+    
+    if params[:userTag] 
+    
+      ldap = Net::LDAP.new :host => "10.91.19.110",
+         :port => 389,
+         :auth => {
+               :method => :simple,
+               :base  =>       "DC=TVSi,DC=local",
+               :username => "administrator@tvsi.local",
+               :password => "@dm1n@969"
+         }
 
-    is_authorized = ldap.bind # returns true if auth works, false otherwise (or throws error if it can't connect to the server)
+      is_authorized = ldap.bind # returns true if auth works, false otherwise (or throws error if it can't connect to the server)
 
-    attrs = []
-    puts is_authorized
-    #puts ldap.search(:filter => "sAMAccountName=yogesh.s1").first
+      attrs = []
+      puts is_authorized
+      #puts ldap.search(:filter => "sAMAccountName=yogesh.s1").first
 
-   # search_param = params[:email]
-    result_attrs = ["l", "mail", "employeeId", "givenName", "sn", "extensionAttribute1", "extensionAttribute3", "mobile", "manager", "department", ]
+     # search_param = params[:email]
+      result_attrs = ["l", "mail", "employeeId", "givenName", "sn", "extensionAttribute1", "extensionAttribute3", "mobile", "manager", "department", ]
 
-    # Build filter
-    @user_search = params[:userTag]
-    if @user_search.include? "@"
-      search_filter = Net::LDAP::Filter.eq("mail",@user_search +"*")
-    else 
-      search_filter = Net::LDAP::Filter.eq("mail",@user_search + "*")
-      #search_filter = Net::LDAP::Filter.eq("mail",@user_search + "*@tvsnext.io") If tvsnext present
-    end
-      
-    puts search_filter
-    # Execute search
-    puts ldap.search(:base => "DC=TVSi,DC=local", :filter => search_filter) { |item| 
-      begin      
-      
-      resp << {
-        :branch_id => item.l.first,
-        :email => item.mail.first,
-        :employee_no => item.employeeID.first,
-        :name => item.givenName.first,
-        :last_name => item.sn.first,
-        :dob => item.extensionAttribute1.first,
-        :doj => item.extensionAttribute3.first,
-        :mobile_no => item.mobile.first,
-        :reporting_to => item.manager.first[3..-1].split(' ')[0],
-        :team_id => item.department.first
-      } 
-      rescue Exception => e
-       resp << e 
+      # Build filter
+      @user_search = params[:userTag]
+      if @user_search.include? "@"
+        search_filter = Net::LDAP::Filter.eq("mail",@user_search +"*")
+      else 
+        search_filter = Net::LDAP::Filter.eq("mail",@user_search + "*")
+        #search_filter = Net::LDAP::Filter.eq("mail",@user_search + "*@tvsnext.io") If tvsnext present
       end
-      #{}"#{item.sAMAccountName.first}: #{item.displayName.first} (#{item.mail.first})" 
+        
+      puts search_filter
+      puts params[:email]
+      # Execute search
+      puts ldap.search(:base => "DC=TVSi,DC=local", :filter => search_filter) { |item| 
+        begin      
+        
+      if params[:email].to_i != 1
+        puts item.mail.first
+        resp << {
+          :branch_id => item.l.first,
+          :email => item.mail.first,
+          :employee_no => item.employeeID.first,
+          :name => item.givenName.first,
+          :last_name => item.sn.first,
+          :dob => item.extensionAttribute1.first,
+          :doj => item.extensionAttribute3.first,
+          :mobile_no => item.mobile.first,
+          :reporting_to => item.manager.first[3..-1].split(' ')[0].gsub("\\",""),
+          :team_id => item.department.first
+        } 
       
-    }
-    render :json => resp
-  else
-    render :json => resp
-  end
+      else
+        puts item.mail.first
+        resp << {
+          :email => item.mail.first
+        }
+      end
+        rescue Exception => e
+         #resp << e 
+        end
+        #{}"#{item.sAMAccountName.first}: #{item.displayName.first} (#{item.mail.first})" 
+        
+      }
+     #else
+      #render :json => resp
+    end
+   render :json => resp
+    
 end
 
 
@@ -952,8 +964,11 @@ end
 
 def timesheet_summary
 
-  @start_date = Date.today.at_beginning_of_week
-  @end_date =  Date.today.at_end_of_week
+  #@start_date = Date.today.at_beginning_of_week
+  #@end_date =  Date.today.at_end_of_week
+
+  @start_date = params[:start_date] 
+  @end_date = params[:start_date].to_date.at_end_of_week
 
 @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PM AND BA% 'or role_name like '%BA%' or role_name like '%PM%'")
     @role_id=[]
