@@ -963,58 +963,59 @@ end#if @assigns_val != nil and @assigns_val.size.to_i!=0
 end
 
 def timesheet_summary
-
-  #@start_date = Date.today.at_beginning_of_week
-  #@end_date =  Date.today.at_end_of_week
-
-  @start_date = params[:start_date] 
-  @end_date = params[:start_date].to_date.at_end_of_week
-
-@role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PM AND BA% 'or role_name like '%BA%' or role_name like '%PM%'")
-    @role_id=[]
-    @role_masters.each do |r|   
-    @role_id << r.id    
-    end
-
-puts "*****#{@start_date}************#{@role_id}********#{current_user.role_master_id}*****",@role_id.include?(current_user.role_master_id)
-
-if current_user.role_master_id == 1 
-  @search="task_date between '#{@start_date}' and '#{@end_date}'"
-elsif @role_id.include?(current_user.role_master_id)
-@find_reporting_to = User.where("reporting_to='#{current_user.id}'")
-  @ruser=""
-  @find_reporting_to.each do |ru|
-    if @ruser==""
-    @ruser=ru.id.to_s
+    if params[:start_date]
+      @start_date = params[:start_date] 
+      @end_date = params[:start_date].to_date.at_end_of_week
     else
-      @ruser=@ruser+","+ru.id.to_s
+      @start_date = Date.today.at_beginning_of_week
+      @end_date =  Date.today.at_end_of_week
+    end#if
+
+    @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PM AND BA% 'or role_name like '%BA%' or role_name like '%PM%'")
+        @role_id=[]
+        @role_masters.each do |r|   
+        @role_id << r.id    
+        end
+
+    puts "*****#{@start_date}************#{@role_id}********#{current_user.role_master_id}*****",@role_id.include?(current_user.role_master_id)
+
+    if current_user.role_master_id == 1 
+      @search="task_date between '#{@start_date}' and '#{@end_date}'"
+    elsif @role_id.include?(current_user.role_master_id)
+    @find_reporting_to = User.where("reporting_to='#{current_user.id}'")
+      @ruser=""
+      @find_reporting_to.each do |ru|
+        if @ruser==""
+        @ruser=ru.id.to_s
+        else
+          @ruser=@ruser+","+ru.id.to_s
+        end
+      end
+      if @ruser==""
+        @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]} and  id IN(0)"
+      else
+       @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id IN (#{@ruser})"
+      end
+    else
+      @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]}"
+      
+     
     end
-  end
-  if @ruser==""
-    @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]} and  id IN(0)"
-  else
-   @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id IN (#{@ruser})"
-  end
-else
-  @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]}"
-  
- 
-end
-puts "===========#{@search}============="
+      puts "===========#{@search}============="
     @timesheet_summ = Logtime.where("#{@search}").select(:project_master_id).uniq
     resp = []    
- @timesheet_summ.each do |lts|
-  if lts.project_master_id!=nil  and  lts.project_master_id!=""
-  @project_name = ProjectMaster.find_by_id(lts.project_master_id)
-      if @project_name != nil
-        @proj_name = @project_name.project_name
-      else
-        @proj_name = ""
-      end
-@timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
-@timesheet_summ_user.each do |tsu|
-@timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}").sum(:task_time)
-@timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}")
+     @timesheet_summ.each do |lts|
+      if lts.project_master_id!=nil  and  lts.project_master_id!=""
+      @project_name = ProjectMaster.find_by_id(lts.project_master_id)
+          if @project_name != nil
+            @proj_name = @project_name.project_name
+          else
+            @proj_name = ""
+          end
+            @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
+            @timesheet_summ_user.each do |tsu|
+            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}").sum(:task_time)
+            @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}")
       @resource_name = User.find_by_id(tsu.user_id)
       if @resource_name != nil
         @res_name = @resource_name.name
@@ -1022,14 +1023,14 @@ puts "===========#{@search}============="
         @res_name = ""
       end
 
-@task_na = ProjectTask.find_by_id(@timesheet_summ_id[0].task_master_id)
+      @task_na = ProjectTask.find_by_id(@timesheet_summ_id[0].task_master_id)
       if @task_na != nil
         @task_name = @task_na.task_name
       else
         @task_name = ""
       end
 
- if @timesheet_summ_id[0].status != nil
+      if @timesheet_summ_id[0].status != nil
         @status = @timesheet_summ_id[0].status
       else
         @status = "pending"
@@ -1043,30 +1044,29 @@ puts "===========#{@search}============="
 
       @project_user = ProjectUser.where("manager = 1 and user_id=#{current_user.id}")
 
-    if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
-     @enable_approve_button = true
-     else
+      if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
+        @enable_approve_button = true
+      else
        @enable_approve_button=false
-     end
+      end
 
- resp << {
-          'id' => @timesheet_summ_id[0].id,
-          'project_id' => lts.project_master_id,
-          'project_name' => @proj_name,
-          'resource_name' => @res_name,
-          'task_id' => @timesheet_summ_id[0].task_master_id,
-          'task_name' => @task_name,
-          'start_date' => @start_date,
-          'end_date' => @end_date,
-          'no_of_hours' => @timesheet_summ_user_time,
-          'status' => @status,
-          'comments' => @comments
-        }
+     resp << {
+              'id' => @timesheet_summ_id[0].id,
+              'project_id' => lts.project_master_id,
+              'project_name' => @proj_name,
+              'resource_name' => @res_name,
+              'task_id' => @timesheet_summ_id[0].task_master_id,
+              'task_name' => @task_name,
+              'start_date' => @start_date,
+              'end_date' => @end_date,
+              'no_of_hours' => @timesheet_summ_user_time,
+              'status' => @status,
+              'comments' => @comments
+            }
 
-end#@timesheet_summ_user.each do |tsu|
-
-end
-end#@timesheet_summ.each do |lts|
+      end#@timesheet_summ_user.each do |tsu|
+    end
+  end#@timesheet_summ.each do |lts|
 
           pagination(Logtime,@search)   
 
