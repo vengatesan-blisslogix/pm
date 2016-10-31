@@ -7,9 +7,49 @@ class HomeController < ApplicationController
   end
 
 
+def search_user
+        resp=[]
+
+  if params[:search] != nil
+    @su = User.where("name like '#{params[:search]}%'")
+    @su.each do |search|
+        resp << {
+            'name' => search.name,
+            'employee_no' => search.employee_no,
+            'email' => search.email
+            }
+          end
+  elsif params[:email] != nil
+    @user = User.find_by_email(params[:email])
+        resp << {
+        'name' => @user.name,
+        'last_name' => @user.last_name,
+        'nickname' => @user.nickname,
+        'email' => @user.email,
+        'mobile_no' => @user.mobile_no,
+        'office_phone' => @user.office_phone,
+        'home_phone' => @user.home_phone,
+        'profile_photo' => @user.profile_photo,
+        'avatar_file_name' => @user.avatar,
+        'active' => @user.active,
+        'prior_experience' => @user.prior_experience,
+        'doj' => @user.doj,
+        'dob' => @user.dob,
+        'team_id' =>@user.team_id,
+        'created_by_user' => @user.created_by_user,
+        'reporting_to' => @user.reporting_to,
+        'branch_id' => @user.branch_id,
+        'company_id' => @user.company_id,
+        'role_master_id' => @user.role_master_id,     
+        'employee_no' => @user.employee_no,
+        'user_technology' => @tech_name
+    }
+  end
+     render json: resp
+end
+
 def user_eldap
-  resp = []
-  
+  resp = [] 
     
     if params[:userTag] 
     

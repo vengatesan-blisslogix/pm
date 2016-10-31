@@ -64,6 +64,8 @@ match "/api/v1/manager_master", :to => "home#manager_master", :via => ["get"]
 
 match "/api/v1/employee_master", :to => "home#employee_master", :via => ["get"]
 
+match "/api/v1/search_user", :to => "home#search_user", :via => ["post"]
+
 
 
 resources :home
