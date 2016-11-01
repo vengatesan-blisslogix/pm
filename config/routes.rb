@@ -31,13 +31,11 @@ match "/api/v1/get_manager", :to => "home#get_manager", :via => ["get"]
 match "/api/v1/get_user", :to => "home#get_user", :via => ["get"]
 match "/api/v1/add_menus", :to => "home#add_menus", :via => ["get"]
 match "/api/v1/get_role_email", :to => "home#get_role_email", :via => ["get"]
-match "/api/v1/utilization_report", :to => "home#utilization_report", :via => ["get"]
 
-match "/api/v1/timesheet_summary", :to => "home#timesheet_summary", :via => ["get"]
-match "/api/v1/timesheet_approval/:id", :to => "home#timesheet_approval", :via => ["post"]
+
+
 match "/api/v1/user_tech", :to => "home#user_tech", :via => ["get"]
 match "/api/v1/get_task_user", :to => "home#get_task_user", :via => ["get"]
-match "/api/v1/edit_summary", :to => "home#edit_summary", :via => ["get"]
 match "/api/v1/get_task_status", :to => "home#get_task_status", :via => ["get"]
 match "/api/v1/show_checklist", :to => "home#show_checklist", :via => ["get"]
 match "/api/v1/task_completed", :to => "home#task_completed", :via => ["get"]
@@ -47,6 +45,7 @@ match "/api/v1/user_profile/:id", :to => "home#user_profile", :via => ["put"]
 match "/api/v1/view_user_profile/:id", :to => "home#view_user_profile", :via => ["get"]
 
 
+match "/api/v1/utilization_report", :to => "home#utilization_report", :via => ["get"]
 match "/api/v1/report_1", :to => "home#report_1", :via => ["get"]
 match "/api/v1/report_2", :to => "home#report_2", :via => ["get"]
 match "/api/v1/report_3", :to => "home#report_3", :via => ["get"]
@@ -54,14 +53,15 @@ match "/api/v1/report_4", :to => "home#report_4", :via => ["get"]
 match "/api/v1/report_5", :to => "home#report_5", :via => ["get"]
 
 
-match "/api/v1/add_timesheets", :to => "home#add_timesheets", :via => ["post"]
-
+match "/api/v1/timesheet_summary", :to => "home#timesheet_summary", :via => ["get"]
+match "/api/v1/edit_summary", :to => "home#edit_summary", :via => ["get"]
 match "/api/v1/past_summary", :to => "home#past_summary", :via => ["post"]
+match "/api/v1/add_timesheets", :to => "home#add_timesheets", :via => ["post"]
+match "/api/v1/timesheet_approval/:id", :to => "home#timesheet_approval", :via => ["post"]
 
 match "/api/v1/user_eldap", :to => "home#user_eldap", :via => ["post"]
 
 match "/api/v1/manager_master", :to => "home#manager_master", :via => ["get"]
-
 match "/api/v1/employee_master", :to => "home#employee_master", :via => ["get"]
 
 match "/api/v1/search_user", :to => "home#search_user", :via => ["post"]
