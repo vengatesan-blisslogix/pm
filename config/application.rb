@@ -27,7 +27,7 @@ module BlissPm
     config.web_console.whiny_requests = false
     config.web_console.development_only = false
   
-    #  config.force_ssl = true
+     config.force_ssl = false
 
 
   # SUPER INSECURE NEEDS TO BE FIXED
