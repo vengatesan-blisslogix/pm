@@ -11,8 +11,34 @@ class ApplicationController < ActionController::Base
  before_action :configure_permitted_parameters, if: :devise_controller?
   
   private
+  
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [
+        :mobile_no,
+        :office_phone,
+        :home_phone,
+        :profile_photo,
+        :active,
+        :branch_id,
+        :company_id,
+        :role_master_id,
+        :name,     
+        :password,
+        :team_id,
+        :prior_experience,
+        :doj,
+        :dob,
+        :avatar,
+        :last_name,
+        :created_by_user,
+        :reporting_to,
+        :nickname,
+        :employee_no        
+      ])
+  end
 
-    def configure_permitted_parameters
+=begin    
+  def configure_permitted_parameters
        devise_parameter_sanitizer.for(:sign_up) << [
         :mobile_no,
         :office_phone,
@@ -36,7 +62,7 @@ class ApplicationController < ActionController::Base
         :employee_no        
       ]
     end
-
+=end
 
   def get_assigne(task_master_id, stage)
 puts "-----------------#{task_master_id}----#{stage}-------------------"
