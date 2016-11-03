@@ -1193,8 +1193,9 @@ end
 
 def edit_summary
   #begin
-  @start_date = Date.today.at_beginning_of_week
-  @end_date =  @start_date + 5
+   @start_date = params[:start_date] 
+      @end_date = params[:start_date].to_date.at_end_of_week
+    
 
 
   @summary = Logtime.find_by_id(params[:id])
