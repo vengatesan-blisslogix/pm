@@ -66,7 +66,7 @@ match "/api/v1/employee_master", :to => "home#employee_master", :via => ["get"]
 
 match "/api/v1/search_user", :to => "home#search_user", :via => ["post"]
 
-
+match "/api/v1/user_ldap_auth", :to => "home#user_ldap_auth", :via => ["post"]
 
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'

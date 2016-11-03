@@ -7,6 +7,33 @@ class HomeController < ApplicationController
   end
 
 
+  def user_ldap_auth
+    resp = []
+    puts"====#{params[:password]}----#{params[:username]}---------"
+  if params[:username] and params[:password]
+    
+  
+    ldap = Net::LDAP.new :host => "10.91.19.110",
+       :port => 389,
+       :auth => {
+             :method => :simple,
+             :base  =>       "DC=TVSi,DC=local",
+             :username => "tvsi" + "\\" +params[:username],
+             :password => params[:password]
+       }
+
+    is_authorized = ldap.bind # returns true if auth works, false otherwise (or throws error if it can't connect to the server)
+
+    attrs = []
+    puts is_authorized
+
+render :json => is_authorized
+  else
+    render :json => resp
+  end
+  end
+
+
 def search_user
         resp=[]
 
