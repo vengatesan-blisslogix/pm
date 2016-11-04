@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907113346) do
+ActiveRecord::Schema.define(version: 20161104054757) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -519,6 +519,7 @@ ActiveRecord::Schema.define(version: 20160907113346) do
     t.string   "employee_no",            limit: 255
     t.float    "tvs_experience",         limit: 24
     t.float    "total_experience",       limit: 24
+    t.integer  "delivery",               limit: 4
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree

@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     belongs_to :role_master
     belongs_to :branch
     belongs_to :team_master
-    after_create :send_welcome_email
+ #   after_create :send_welcome_email
 
 
     has_attached_file :avatar,
@@ -146,7 +146,9 @@ end
 def send_welcome_email
   #@user_welcome = User.find(id)
   #puts"--@user_welcome----#{email}---#{password}----#{name}--"
-  UserNotifier.welcome_email(email,name,password).deliver_now
+  if delivery.to_i == 1 
+    UserNotifier.welcome_email(email,name,password).deliver_now
+  end#if
 end#def send_welcome_email
 
 end
