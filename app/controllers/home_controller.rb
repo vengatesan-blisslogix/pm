@@ -931,6 +931,8 @@ end
         @team_name = "IOT"
       elsif row[5].to_s == "Testing" or row[5].to_s == "QA"
         @team_name = "Testing"
+      elsif row[5].to_s == "Scala"
+        @team_name = "Backend"
       end
       if @team_name != ""
         @team_id = TeamMaster.find_by_team_name(@team_name)
