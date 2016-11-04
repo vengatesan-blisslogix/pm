@@ -854,7 +854,7 @@ end
   end
 
   def manager_master
-    user = Spreadsheet.open('PMT01.xls')
+    user = Spreadsheet.open('PMT.xls')
     sheet1 = user.worksheet('RM Details') # can use an index or worksheet name
     sheet1.each do |row|
       puts row[7] # looks like it calls "to_s" on each cell's Value
@@ -885,7 +885,7 @@ end
   end
 
   def employee_master
-    user = Spreadsheet.open('PMT01.xls')
+    user = Spreadsheet.open('PMT.xls')
     sheet1 = user.worksheet('Employee Details') # can use an index or worksheet name
     sheet1.each do |row|
       puts row[7] # looks like it calls "to_s" on each cell's Value
