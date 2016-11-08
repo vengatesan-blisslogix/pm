@@ -10,8 +10,8 @@ class UserNotifier < ApplicationMailer
 
   def forget_password_otp_send(user)
   	@user = user
-  	mail( :to => @user.email,
-   :subject => 'OTP for Linchpin' )
+  	  mail( :to => @user.email,
+      :subject => 'OTP for Linchpin' )
   end
   
   def welcome_email(email,name,password)
@@ -20,5 +20,17 @@ class UserNotifier < ApplicationMailer
     @email = email
       mail( :to => email,
       :subject => 'Welcome to Linchpin' )
+  end
+  def welcome_manager(email,name)
+    @name = name
+    @email = email
+      mail( :to => email,
+      :subject => 'Welcome Manager' )
+  end
+  def welcome_user(email,name)
+    @name = name
+    @email = email
+      mail( :to => email,
+      :subject => 'Welcome User' )
   end
 end
