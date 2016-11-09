@@ -27,11 +27,15 @@ class UserNotifier < ApplicationMailer
       mail( :to => email,
       :subject => 'Welcome Manager' )
   end
+
+=begin
   def welcome_user(email,name)
     @name = name
     @email = email
-    @manager_mail = "jjj"
+    @manager_mail = "manager"
       mail( :to => email,
       :subject => 'Welcome User' )
   end
+=end
+
 end
