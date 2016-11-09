@@ -1914,6 +1914,7 @@ def add_new_client
 
 def add_new_project
       resp = []
+      
       resp << {
         'project_type' => getproject_type,
         'domain_name' => getdomain_name,
@@ -1922,7 +1923,8 @@ def add_new_project
         'business' => getbusiness,
         'project_location' => getprojectlocation,
         'engagement_type' => getengagementtype,
-        'project_payment' => getprojectpayment
+        'project_payment' => getprojectpayment,
+        'project_manager' => getmanager
             
       }
      
@@ -1931,6 +1933,28 @@ end
 
 
 private
+
+def getmanager
+  resp = []
+  @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PMANDBA% 'or role_name like '%BA%' or role_name like '%PM%'")
+    @role_id=""
+    @role_masters.each do |r|
+    if @role_id==""
+    @role_id = r.id
+    else
+    @role_id = @role_id.to_s+","+r.id.to_s
+    end
+    end
+    @value = User.where("role_master_id IN(#{@role_id}) and active = 'active'").order(name: :asc)
+
+    @value.each do |v|      
+      resp << {
+        'id' => v.id,
+        'manager_name' => "#{v.name} #{v.last_name}"
+      }
+    end
+    resp
+end
 
 def getcompany
   resp = []
@@ -2022,7 +2046,7 @@ def getreporting_to
     @value.each do |v|      
       resp << {
         'id' => v.id,
-        'reporting_name' => v.name
+        'reporting_name' => "#{v.name} #{v.last_name}"
       }
     end
     resp

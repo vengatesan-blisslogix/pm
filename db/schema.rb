@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104054757) do
+ActiveRecord::Schema.define(version: 20161109123420) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -238,6 +238,8 @@ ActiveRecord::Schema.define(version: 20161104054757) do
     t.string   "project_location_id",      limit: 255
     t.string   "engagement_type_id",       limit: 255
     t.string   "project_payment_id",       limit: 255
+    t.integer  "account_manager_id",       limit: 4
+    t.integer  "project_manager_id",       limit: 4
   end
 
   create_table "project_payments", force: :cascade do |t|
@@ -324,6 +326,7 @@ ActiveRecord::Schema.define(version: 20161104054757) do
     t.integer  "client_id",         limit: 4
     t.integer  "manager",           limit: 4
     t.string   "reporting_to",      limit: 255
+    t.integer  "allocate",          limit: 4
   end
 
   create_table "release_plannings", force: :cascade do |t|

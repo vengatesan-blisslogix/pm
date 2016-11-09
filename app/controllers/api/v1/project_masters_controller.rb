@@ -100,7 +100,9 @@ end
         'status' => p.active,
         'avatar' => p.avatar,
         'sow_number' => p.sow_number,
+        'account_manager_id' => p.account_manager_id,
         'account_manager' => p.account_manager,
+        'project_manager_id'=> p.project_manager_id,
         'project_manager' => p.project_manager
       }
   end
@@ -200,11 +202,13 @@ private
        :business_unit_id => "#{params[:business_unit_id]}",
        :project_location_id => "#{params[:project_location_id]}",
        :engagement_type_id => "#{params[:engagement_type_id]}",
-       :project_payment_id => "#{params[:project_payment_id]}"
+       :project_payment_id => "#{params[:project_payment_id]}",
+       #:account_manager_id => "#{params[:account_manager_id]}",
+       :project_manager_id => "#{params[:project_manager_id]}"
  
    }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:project_type_id, :billable, :project_name, :description, :project_image, :domain_id, :client_id, :created_by_user_id, :start_date, :end_date, :project_status_master_id, :website, :facebook_page, :twitter_page, :star_rating, :active, :tag_keywords, :flag_id, :approved, :approved_by_user_id, :approved_date_time, :assigned_to_user_id, :kickstart_date, :sow_number, :account_manager, :project_manager, :business_unit_id, :project_location_id, :engagement_type_id, :project_payment_id)
+      parameters.permit(:project_type_id, :billable, :project_name, :description, :project_image, :domain_id, :client_id, :created_by_user_id, :start_date, :end_date, :project_status_master_id, :website, :facebook_page, :twitter_page, :star_rating, :active, :tag_keywords, :flag_id, :approved, :approved_by_user_id, :approved_date_time, :assigned_to_user_id, :kickstart_date, :sow_number, :account_manager, :project_manager, :business_unit_id, :project_location_id, :engagement_type_id, :project_payment_id, :project_manager_id)
     
     end
 end
