@@ -30,6 +30,7 @@ class UserNotifier < ApplicationMailer
   def welcome_user(email,name)
     @name = name
     @email = email
+    @manager_mail = "jjj"
       mail( :to => email,
       :subject => 'Welcome User' )
   end
