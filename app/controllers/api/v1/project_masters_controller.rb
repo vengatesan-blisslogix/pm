@@ -142,7 +142,8 @@ end
 
  def update   
 
-    if @project_master.update(project_master_params)  	      
+    if @project_master.update(project_master_params)  	
+    puts "---------#{@project_master.project_master_id}------------"      
        render json: { valid: true, msg:"#{@project_master.project_name} updated successfully."}
      else
         render json: { valid: false, error: @project_master.errors }, status: 404
