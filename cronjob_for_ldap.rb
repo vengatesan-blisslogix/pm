@@ -27,8 +27,13 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
         if u['leftOrg'] == false and u['email'] != nil
         p "-----------#{u['email']}----#{u['reportingTo']}"
 	       @find_user = User.find_by_email(u['email'])
-	       if @find_user != nil
-		    @user = User.find_by_email(u['email'])
+			if @find_user != nil
+			@user = User.find_by_email(u['email'])
+				if @user!=nil and u['reportingTo'] != nil
+				p "------aaa---------#{u['reportingTo']}-------"
+				@user.reporting_to = u['reportingTo'].split("(")[0].strip
+				@user.save
+				end
 		   else
 		    @user = User.new
 	   		@user.employee_no 		= u['empNo']
@@ -54,12 +59,7 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 	      @user.save
 		   end
 		else
-			if @user!=nil and u['reportingTo'] != nil
-				p "------aaa---------#{u['reportingTo']}-------"
 
-			@user.reporting_to = u['reportingTo'].split("(")[0].strip
-			@user.save
-		end
 			       p "$$$$$$$$$#{u['email']}"
 
 		end
