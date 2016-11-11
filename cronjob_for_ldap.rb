@@ -25,19 +25,24 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
     result.each do |u|
        #p u['reporting_to']
         if u['leftOrg'] == false and u['email'] != nil
-        p "-----------#{u['email']}----#{u['reportingTo']}"
+        p "----11--#{u['name']}--#{u['empNo']}---#{u['email']}----#{u['reportingTo']}"
 	       @find_user = User.find_by_email(u['email'])
 			if @find_user != nil
 			@user = User.find_by_email(u['email'])
+			@user.nickname = u['name']+" "+"(#{u['empNo']})"
+			@user.save
 				if @user!=nil and u['reportingTo'] != nil
-				p "------aaa---------#{u['reportingTo']}-------"
+				p "--22----aaa---------#{u['reportingTo']}-------"
 				@repo = u['reportingTo'].split("(")[0].strip
+				@repo1 = @repo.split(" ")[1]
 				@repo = @repo.split(" ")[0]
+				
 				if @repo !=nil
-				@find_repo = User.find_by_name(@repo)
-                  if @find_repo != nil
-                  	@user.reporting_to_id= @find_repo.id
-                  	@user.save
+				@find_repo = User.where("nickname='#{u['reportingTo']}'")
+				puts"-333u['email']-----#{@repo}---#{@repo1}-------------------"
+                  if @find_repo != nil and @find_repo.size!=0
+                  	@user.reporting_to_id= @find_repo[0].id
+                  	#@user.save
                   end
 			    end
 				#@user.reporting_to = u['reportingTo'].split("(")[0].strip
