@@ -29,8 +29,8 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 	       @find_user = User.find_by_email(u['email'])
 			if @find_user != nil
 			@user = User.find_by_email(u['email'])
-			@user.nickname = u['name']+" "+"(#{u['empNo']})"
-			@user.save
+			#@user.nickname = u['name']+" "+"(#{u['empNo']})"
+			#@user.save #reporting_to run no 2
 				if @user!=nil and u['reportingTo'] != nil
 				p "--22----aaa---------#{u['reportingTo']}-------"
 				@repo = u['reportingTo'].split("(")[0].strip
@@ -42,7 +42,7 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 				puts"-333u['email']-----#{@repo}---#{@repo1}-------------------"
                   if @find_repo != nil and @find_repo.size!=0
                   	@user.reporting_to_id= @find_repo[0].id
-                  	#@user.save
+                  	@user.save#reporting_to run no 2
                   end
 			    end
 				#@user.reporting_to = u['reportingTo'].split("(")[0].strip
