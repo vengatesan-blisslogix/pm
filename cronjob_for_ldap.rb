@@ -54,9 +54,10 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 	      @user.save
 		   end
 		else
-			p "------aaa---------#{u['reportingTo']}-------"
 			if @user!=nil and u['reportingTo'] != nil
-			@user.reporting_to		= u['reportingTo'].split("(")[0].strip
+				p "------aaa---------#{u['reportingTo']}-------"
+
+			@user.reporting_to = u['reportingTo'].split("(")[0].strip
 			@user.save
 		end
 			       p "$$$$$$$$$#{u['email']}"
