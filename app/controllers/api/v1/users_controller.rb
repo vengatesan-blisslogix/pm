@@ -49,12 +49,13 @@ before_action :set_user, only: [:show]
         @role =""
         end
 
-        @reporting_to = User.find_by_id(u.reporting_to)
-        if @reporting_to!=nil and @reporting_to!=""
-        @reporting_to = @reporting_to.name
-        else
-        @reporting_to =""
-        end
+        #@reporting_to = User.find_by_name(u.reporting_to)
+        #if @reporting_to!=nil and @reporting_to!=""
+        #@reporting_to = @reporting_to.name
+        #else
+        #@reporting_to =""
+        #end
+        @reporting_to = u.reporting_to
 
         @branch = Branch.find_by_id(u.branch_id)
         if @branch!=nil and @branch!=""
