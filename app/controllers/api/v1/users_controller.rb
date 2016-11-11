@@ -55,7 +55,7 @@ before_action :set_user, only: [:show]
         #else
         #@reporting_to =""
         #end
-        @reporting_to = u.reporting_to
+        #@reporting_to = u.reporting_to
 
         @branch = Branch.find_by_id(u.branch_id)
         if @branch!=nil and @branch!=""
@@ -74,7 +74,8 @@ resp_email << { 'email' => u.email }
           'email' => u.email,
           'avatar' =>  u.avatar,
           'role' =>@role,
-          'reporting_to' =>@reporting_to,
+          'reporting_to_id' => u.reporting_to_id,
+          'reporting_to' =>u.reporting_to,
           'project_assigned' =>"",
           'branch' =>@branch,
           'status' =>u.active,
@@ -154,7 +155,7 @@ def show
         'dob' => @user.dob,
         'team_id' =>@user.team_id,
         'created_by_user' => @user.created_by_user,        
-        'reporting_id' => @user.reporting_to_id,
+        'reporting_to_id' => @user.reporting_to_id,
         'reporting_to' => @user.reporting_to,
         'branch_id' => @user.branch_id,
         'company_id' => @user.company_id,
