@@ -278,7 +278,7 @@ convert_param_to_array(params[:reporting_to])
        p=p+1
      end
      
-     
+
         render json: { valid: true, msg:"created successfully."}
       else
         render json: { valid: false, error: "Invalid parameters" }, status: 404
@@ -328,6 +328,8 @@ convert_param_to_array(params[:reporting_to])
       @project.client_id = params[:client_id]
       @project.manager = @manager[p]
       @project.save!
+
+     
 
       @user = User.find_by_id(user)
       if @user != nil
