@@ -2046,7 +2046,7 @@ def getreporting_to
     @value.each do |v|      
       resp << {
         'id' => v.id,
-        'reporting_name' => "#{v.name} #{v.last_name}"
+        'reporting_to' => "#{v.name} #{v.last_name}"
       }
     end
     resp
