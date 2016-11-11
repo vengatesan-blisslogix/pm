@@ -2042,7 +2042,7 @@ end
 
 def getreporting_to
   resp = []
-    @value = User.all.order(:id)
+    @value = User.all.order(:name => 'asc')
     @value.each do |v|      
       resp << {
         'id' => v.id,

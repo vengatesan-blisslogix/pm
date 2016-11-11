@@ -136,7 +136,7 @@ def show
       'technology_name' => @tech_first.technology      
     }
   end
-  puts "-----------#{@user.reporting_to.split("(")[0].strip}--------------"
+  #puts "-----------#{@user.reporting_to.split("(")[0].strip}--------------"
   response = {
         'name' => @user.name,
         'last_name' => @user.last_name,
@@ -153,7 +153,7 @@ def show
         'dob' => @user.dob,
         'team_id' =>@user.team_id,
         'created_by_user' => @user.created_by_user,
-        'reporting_to' => @user.reporting_to.split("(")[0].strip,
+        'reporting_to' => @user.reporting_to,
         'branch_id' => @user.branch_id,
         'company_id' => @user.company_id,
         'role_master_id' => @user.role_master_id,     
