@@ -141,33 +141,6 @@ ActiveRecord::Schema.define(version: 20161110095242) do
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "cron_intranet", id: false, force: :cascade do |t|
-    t.integer  "emp_id",           limit: 4,     null: false
-    t.string   "emp_codes",        limit: 15,    null: false
-    t.string   "emp_name",         limit: 160,   null: false
-    t.string   "emp_gender",       limit: 1,     null: false
-    t.date     "emp_doj",                        null: false
-    t.string   "emp_status",       limit: 60,    null: false
-    t.string   "emp_reporting_to", limit: 160
-    t.string   "emp_department",   limit: 120
-    t.string   "emp_location",     limit: 60
-    t.string   "emp_company",      limit: 120,   null: false
-    t.float    "emp_current_exp",  limit: 24
-    t.float    "emp_previous_exp", limit: 24
-    t.float    "emp_total_exp",    limit: 24
-    t.boolean  "emp_left_org",                   null: false
-    t.date     "emp_dob",                        null: false
-    t.date     "emp_dow"
-    t.string   "emp_blood_group",  limit: 30
-    t.integer  "emp_phone",        limit: 4
-    t.integer  "emp_mobile",       limit: 4
-    t.string   "emp_email",        limit: 120,   null: false
-    t.text     "emp_photo",        limit: 65535
-    t.datetime "create_on",                      null: false
-  end
-
-  add_index "cron_intranet", ["emp_codes"], name: "emp_codes", unique: true, using: :btree
-
   create_table "cron_intranets", force: :cascade do |t|
     t.string   "emp_codes",        limit: 255
     t.string   "emp_name",         limit: 255
