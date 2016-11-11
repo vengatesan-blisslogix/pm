@@ -260,7 +260,16 @@ convert_param_to_array(params[:reporting_to])
         @project.reporting_to = @reporting_to[p]      
       end
       @project.save!
-                
+      
+      @user = User.find_by_id(user)
+      if @user != nil
+        if @manager[p].to_i  == 1
+          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
+        elsif @manager[p].to_i  == 0
+          UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+        end
+      end                
+      
       if @reporting_to[p].to_i != 0
         @find_user = User.find_by_id(user)
         @find_user.reporting_to  = @reporting_to[p]
