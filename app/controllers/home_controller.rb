@@ -1433,6 +1433,7 @@ def get_role_email
 end
 
 
+=begin
   def get_manager
       manager_resp = []
       @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PMANDBA% 'or role_name like '%BA%' or role_name like '%PM%'")
@@ -1463,7 +1464,19 @@ end
   end
     render json: manager_resp
 end
+=end
 
+  def get_manager
+    manager_resp = []
+    @manager = CronReporting.all.order(reporting_name: :asc)
+    @manager.each do |m|
+     manager_resp << {
+        'id' => m.id,
+        'managers' => m.reporting_name
+      }
+    end
+    render json: manager_resp
+  end
 
   def get_user
       manager_resp = []
@@ -1935,6 +1948,17 @@ end
 private
 
 def getmanager
+  manager_resp = []
+    @manager = CronReporting.all.order(reporting_name: :asc)
+    @manager.each do |m|
+     manager_resp << {
+        'id' => m.id,
+        'manager_name' => m.reporting_name
+      }
+    end
+ manager_resp
+
+=begin  
   resp = []
   @role_masters = RoleMaster.where("role_name like '%PMO%' or role_name like '%PMANDBA% 'or role_name like '%BA%' or role_name like '%PM%'")
     @role_id=""
@@ -1954,6 +1978,7 @@ def getmanager
       }
     end
     resp
+=end    
 end
 
 def getcompany

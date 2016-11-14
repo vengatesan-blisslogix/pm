@@ -269,12 +269,14 @@ convert_param_to_array(params[:reporting_to])
           UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
         end
       end                
-      
+
+=begin      
       if @reporting_to[p].to_i != 0
         @find_user = User.find_by_id(user)
         @find_user.reporting_to  = @reporting_to[p]
         @find_user.save
       end
+=end      
        p=p+1
      end
      
@@ -334,15 +336,16 @@ convert_param_to_array(params[:reporting_to])
       @user = User.find_by_id(user)
       if @user != nil
         if @manager[p].to_i  == 1
-          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
+          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
         elsif @manager[p].to_i  == 0
-          UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
         end
       end
-
+=begin
       @find_user = User.find_by_id(user)
       @find_user.reporting_to  = @reporting_to[p]
       @find_user.save
+=end      
        p=p+1
      end
      
