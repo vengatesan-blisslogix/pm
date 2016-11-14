@@ -2042,11 +2042,12 @@ end
 
 def getreporting_to
   resp = []
-    @value = User.all.order(:name => 'asc')
+    @value = CronReporting.all.order(:reporting_name => 'asc')
     @value.each do |v|      
       resp << {
-        'id' => v.id,
-        'reporting_name' => "#{v.name} #{v.last_name}"
+        'reporting_id' => v.id,
+        'reporting_name' => v.reporting_name
+        #'reporting_name' => "#{v.name} #{v.last_name}"
       }
     end
     resp

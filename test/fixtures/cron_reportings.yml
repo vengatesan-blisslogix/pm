@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reporting_id: 1
+  reporting_name: MyString
+
+two:
+  reporting_id: 1
+  reporting_name: MyString

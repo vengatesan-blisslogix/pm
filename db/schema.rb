@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111105545) do
+ActiveRecord::Schema.define(version: 20161114050152) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -191,6 +191,17 @@ ActiveRecord::Schema.define(version: 20161111105545) do
     t.string   "emp_photo",        limit: 255
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+  end
+
+  create_table "cron_managers", force: :cascade do |t|
+    t.string "reportee_name", limit: 200
+  end
+
+  create_table "cron_reportings", force: :cascade do |t|
+    t.integer  "reporting_id",   limit: 4
+    t.string   "reporting_name", limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "engagement_types", force: :cascade do |t|
