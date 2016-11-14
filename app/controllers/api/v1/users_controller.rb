@@ -138,6 +138,14 @@ def show
       'technology_name' => @tech_first.technology      
     }
   end
+
+  @reporting_manager =[]
+  @reporting_manager << {
+      'reporting_id' => @user.reporting_to_id,
+        'reporting_name' => @user.reporting_to
+      }
+
+
     #puts "-----------#{@user.reporting_to.split("(")[0].strip}--------------"
   response = {
         'name' => @user.name,
@@ -155,8 +163,7 @@ def show
         'dob' => @user.dob,
         'team_id' =>@user.team_id,
         'created_by_user' => @user.created_by_user,        
-        'reporting_id' => @user.reporting_to_id,
-        'reporting_name' => @user.reporting_to,
+        'reporting_manager' => @reporting_manager,
         'branch_id' => @user.branch_id,
         'company_id' => @user.company_id,
         'role_master_id' => @user.role_master_id,     
@@ -184,6 +191,7 @@ end
       @user.team_id = params[:team_id]
       @user.created_by_user = params[:created_by_user]
       @user.reporting_to = params[:reporting_to]
+      @user.reporting_to_id = params[:reporting_to_id]
       @user.branch_id = params[:branch_id]
       @user.company_id = params[:company_id]
       @user.role_master_id = params[:role_master_id]      
