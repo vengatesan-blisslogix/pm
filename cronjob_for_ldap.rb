@@ -17,6 +17,11 @@ ActiveRecord::Base.establish_connection({
 	  set_table_name ="users"
 	end
 
+	class CronReporting < ActiveRecord::Base
+	  set_table_name ="cron_reportings"
+	end
+
+
 client = TinyTds::Client.new username: 'pmpuser', password: 'pmp#123$', host: '10.91.19.245', database: 'HRIS'
 
 result = client.execute("SELECT * FROM empBasicViewForApp")
@@ -33,18 +38,16 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 			#@user.save #reporting_to run no 2
 				if @user!=nil and u['reportingTo'] != nil
 				p "--22----aaa---------#{u['reportingTo']}-------"
-				@repo = u['reportingTo'].split("(")[0].strip
-				@repo1 = @repo.split(" ")[1]
-				@repo = @repo.split(" ")[0]
-				
-				if @repo !=nil
-				@find_repo = User.where("nickname='#{u['reportingTo']}'")
-				puts"-333u['email']-----#{@repo}---#{@repo1}-------------------"
+			
+				@find_repo = CronReporting.where("reporting_name ='#{u['reportingTo']}'")
+				puts"-333u['email']-----#{@find_repo }--------------------"
                   if @find_repo != nil and @find_repo.size!=0
-                  	@user.reporting_to_id= @find_repo[0].id
+                  	@user.reporting_to_id= @find_repo[0].reporting_id
+                  	@user.reporting_to= @find_repo[0].reporting_name
+                  	@user.reporting_id= @find_repo[0].reporting_id.to_s+"|"+@find_repo[0].reporting_name
                   	@user.save#reporting_to run no 2
                   end
-			    end
+			   
 				#@user.reporting_to = u['reportingTo'].split("(")[0].strip
 				@user.save
 				end
