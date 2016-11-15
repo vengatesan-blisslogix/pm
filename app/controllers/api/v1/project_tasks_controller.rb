@@ -12,7 +12,7 @@ before_action :set_project, only: [:show, :edit, :update]
         @search = "project_master_id = #{params[:project_master_id]}"
       else
         if @search_all_pro_id==""
-        @search = "project_master_id IN(0)"
+        @search = ""
       else
         @search = "project_master_id IN(#{@search_all_pro_id})"
       end
