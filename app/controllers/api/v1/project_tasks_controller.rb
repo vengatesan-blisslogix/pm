@@ -11,8 +11,8 @@ before_action :set_project, only: [:show, :edit, :update]
       if params[:project_master_id] 
         @search = "project_master_id = #{params[:project_master_id]}"
       else
-        if @search_all_pro_id==""
-        @search = ""
+        if @search_all_pro_id=="" and current_user.role_master_id==1
+        @search = "project_master_id IN(0)"
       else
         @search = "project_master_id IN(#{@search_all_pro_id})"
       end
