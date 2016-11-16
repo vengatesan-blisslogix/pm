@@ -229,7 +229,7 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
 end
 
 def create
- begin          
+ #begin          
 if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
 convert_param_to_array(params[:selected_user_id])
 @s_user_id = @output_array
@@ -251,14 +251,27 @@ convert_param_to_array(params[:reporting_to])
 
      p=0
      @s_user_id.each do |user|
-      @project = ProjectUser.new
+      @find_pro_user = ProjectUser.where("project_master_id = #{params[:project_master_id]} and user_id = #{user}")
+
+      if @find_pro_user != nil and @find_pro_user.size !=0
+         @project = ProjectUser.find_by_id(@find_pro_user[0].id)
+      else
+         @project = ProjectUser.new
+      end     
+     
       @project.assigned_date = @a_date[p]
       @project.relieved_date = @r_date[p]
       @project.active = '1'
       @project.utilization = @utilization[p]
       @project.is_billable = @billable[p]
       @project.project_master_id = params[:project_master_id]
-      @project.user_id = user
+      if @project.user_id ==user
+        @mail_send=0
+      else
+        @project.user_id = user
+        @mail_send=1
+      end
+      
       @project.client_id = params[:client_id]
       @project.manager = @manager[p]
       if @reporting_to[p].to_i != 0
@@ -267,8 +280,8 @@ convert_param_to_array(params[:reporting_to])
       @project.save!
       
       @user = User.find_by_id(user)
-      puts "-------------#{user}"
-      if @user != nil
+      puts "--AAA-----------#{user}"
+      if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
           UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
         elsif @manager[p].to_i  == 0
@@ -291,15 +304,13 @@ convert_param_to_array(params[:reporting_to])
       else
         render json: { valid: false, error: "Invalid parameters" }, status: 404
     end
-    rescue
-      render json: { valid: false, error: "Invalid parameters" }, status: 404
-    end    
+    #rescue
+      #render json: { valid: false, error: "Invalid parameters" }, status: 404
+    #end    
 end
 
  def update   
-ProjectUser.destroy_all(:project_master_id => params[:project_master_id])
-
-     begin          
+ begin          
 if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
 convert_param_to_array(params[:selected_user_id])
 @s_user_id = @output_array
@@ -307,6 +318,8 @@ convert_param_to_array(params[:assigned_date])
 @a_date = @output_array
 convert_param_to_array(params[:relieved_date])
 @r_date = @output_array
+#convert_param_to_array(params[:active])
+#@active = @output_array
 convert_param_to_array(params[:utilization])
 @utilization = @output_array
 convert_param_to_array(params[:is_billable])
@@ -315,6 +328,7 @@ convert_param_to_array(params[:manager])
 @manager = @output_array
 convert_param_to_array(params[:reporting_to])
 @reporting_to = @output_array
+
 
      p=0
      @s_user_id.each do |user|
@@ -325,37 +339,49 @@ convert_param_to_array(params[:reporting_to])
       else
          @project = ProjectUser.new
       end     
-
+     
       @project.assigned_date = @a_date[p]
       @project.relieved_date = @r_date[p]
       @project.active = '1'
       @project.utilization = @utilization[p]
       @project.is_billable = @billable[p]
       @project.project_master_id = params[:project_master_id]
-      @project.user_id = user
+      if @project.user_id ==user
+        @mail_send=0
+      else
+        @project.user_id = user
+        @mail_send=1
+      end
+      
       @project.client_id = params[:client_id]
       @project.manager = @manager[p]
-      @project.save!
-
-     
-
-      @user = User.find_by_id(user)
-      if @user != nil
-        if @manager[p].to_i  == 1
-          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
-        elsif @manager[p].to_i  == 0
-          UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
-        end
+      if @reporting_to[p].to_i != 0
+        @project.reporting_to = @reporting_to[p]      
       end
-=begin
-      @find_user = User.find_by_id(user)
-      @find_user.reporting_to  = @reporting_to[p]
-      @find_user.save
+      @project.save!
+      
+      @user = User.find_by_id(user)
+      puts "-------------#{user}"
+      if @user != nil and @mail_send.to_i==1
+        if @manager[p].to_i  == 1
+          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
+        elsif @manager[p].to_i  == 0
+          UserNotifier.welcome_user(@user.email, @user.name).deliver_now
+        end
+      end                
+
+=begin      
+      if @reporting_to[p].to_i != 0
+        @find_user = User.find_by_id(user)
+        @find_user.reporting_to  = @reporting_to[p]
+        @find_user.save
+      end
 =end      
        p=p+1
      end
      
-        render json: { valid: true, msg:"updated successfully."}
+
+        render json: { valid: true, msg:"created successfully."}
       else
         render json: { valid: false, error: "Invalid parameters" }, status: 404
     end
