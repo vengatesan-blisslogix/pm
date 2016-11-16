@@ -1484,7 +1484,7 @@ end
     @manager = CronReporting.all.order(reporting_name: :asc)
     @manager.each do |m|
      manager_resp << {
-        'id' => m.id,
+        'id' => m.reporting_id,
         'managers' => m.reporting_name
       }
     end
@@ -1965,7 +1965,7 @@ def getmanager
     @manager = CronReporting.all.order(reporting_name: :asc)
     @manager.each do |m|
      manager_resp << {
-        'id' => m.id,
+        'id' => m.reporting_id,
         'manager_name' => m.reporting_name
       }
     end
@@ -2083,7 +2083,7 @@ def getreporting_to
     @value = CronReporting.all.order(:reporting_name => 'asc')
     @value.each do |v|      
       resp << {
-        'reporting_id' => v.id,
+        'reporting_id' => v.reporting_id,
         'reporting_name' => v.reporting_name
         #'reporting_name' => "#{v.name} #{v.last_name}"
       }
