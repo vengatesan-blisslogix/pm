@@ -408,7 +408,11 @@ rescue
       #render json: { valid: false, error: "Invalid parameters" }, status: 404
     #end
   end
-
+def destroy
+    @project = ProjectUser.find(params[:id])
+    @project.destroy
+    render json: { valid: true, msg:"deleted successfully."}
+end
 private
 
     # Use callbacks to share common setup or constraints between actions.
