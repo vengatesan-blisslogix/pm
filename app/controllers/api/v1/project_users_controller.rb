@@ -346,7 +346,7 @@ convert_param_to_array(params[:reporting_to])
       @project.utilization = @utilization[p]
       @project.is_billable = @billable[p]
       @project.project_master_id = params[:project_master_id]
-      if @project.user_id ==user
+      if @project.user_id == user.to_i
         @mail_send=0
       else
         @project.user_id = user
@@ -361,7 +361,7 @@ convert_param_to_array(params[:reporting_to])
       @project.save!
       
       @user = User.find_by_id(user)
-      puts "-------------#{user}"
+      puts "-------------#{user}---BBB---#{@mail_send}"
       if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
           UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
