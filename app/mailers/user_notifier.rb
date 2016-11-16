@@ -25,7 +25,7 @@ class UserNotifier < ApplicationMailer
     @name = name
     @email = email
     puts "--------man-----#{@email}-------------"
-      mail( :to => "vengat.r@tvsnext.io",
+      mail( :to => email,
       :subject => 'Welcome Manager' )
   end
   def welcome_user(email,name)
@@ -33,7 +33,7 @@ class UserNotifier < ApplicationMailer
     @email = email
     puts "--------usr-----#{@email}-------------"
     @manager_mail = "manager"
-      mail( :to => "yogesh.s1@tvsnext.io",
+      mail( :to => email,
       :subject => 'Welcome User' )
   end
 end
