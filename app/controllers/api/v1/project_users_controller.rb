@@ -35,7 +35,12 @@ before_action :set_project_user, only: [ :edit]
 if @search_word !=""
     @search = "#{@search_word}"
   else
+
+    if current_user.role_master_id==1
+      @search = ""
+      else
     @search = "user_id = #{current_user.id}"
+  end
   end
 
 @find_user = User.find_by_id(params[:user_id])
