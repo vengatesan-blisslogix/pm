@@ -331,6 +331,8 @@ convert_param_to_array(params[:reporting_to])
 
 
      p=0
+     @mail_user=[]
+     @mail_send_who = []
      @s_user_id.each do |user|
       @find_pro_user = ProjectUser.where("project_master_id = #{params[:project_master_id]} and user_id = #{user}")
 
@@ -364,9 +366,13 @@ convert_param_to_array(params[:reporting_to])
       puts "-------------#{user}---BBB---#{@mail_send}"
       if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
-          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
+@mail_send_who << 1
+@mail_user << user
+          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
         elsif @manager[p].to_i  == 0
-          UserNotifier.welcome_user(@user.email, @user.name).deliver_now
+          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+          @mail_send_who << 0
+@mail_user << user
         end
       end                
 
@@ -379,7 +385,20 @@ convert_param_to_array(params[:reporting_to])
 =end      
        p=p+1
      end
-     
+     begin
+     mail=0
+@mail_send_who.each do |m|
+@user = User.find_by_id(@mail_user[mail])
+  if m.to_i==1
+    UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
+    else
+      UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+    end
+    mail=mail+1
+end
+rescue
+  end
+
 
         render json: { valid: true, msg:"created successfully."}
       else
