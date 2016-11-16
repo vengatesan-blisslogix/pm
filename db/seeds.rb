@@ -19,15 +19,15 @@ end
 #Add super admin Role
 r = RoleMaster.create(role_name: "Super Admin", active: "active")
 #Add branch 
-b = Branch.create(name: 'Main Branch', active:"active")
+b = Branch.create(name: 'Chennai', active:"active")
 #Add company
-c = Company.create(company_name: 'TVS next',
-	            email: 'user@tvsnext.com',                
-                mobile: '044-77777777'                
+c = Company.create(company_name: 'TVS Next Pvt Ltd.,',
+	            email: 'pmo@tvsnext.io',                
+                mobile: '+91 44 49098874'                
                 )
 c.save!
 #add super admin
-u = User.create(email: 'superadmin@tvsnext.com',
+u = User.create(email: 'pmo@tvsnext.io',
                 name: 'Admin',                
                 password: 'password',
                 password_confirmation: 'password',
@@ -35,7 +35,7 @@ u = User.create(email: 'superadmin@tvsnext.com',
                 branch_id: b.id,
                 company_id: c.id,
                 role_master_id: r.id,
-                employee_no: 'BLT0001'
+                employee_no: 'NXT0001'
                 )
 u.save!
 

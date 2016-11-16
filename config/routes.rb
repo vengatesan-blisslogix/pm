@@ -68,6 +68,9 @@ match "/api/v1/search_user", :to => "home#search_user", :via => ["post"]
 
 match "/api/v1/user_ldap_auth", :to => "home#user_ldap_auth", :via => ["post"]
 
+match "/api/v1/get_regions", :to => "home#get_regions", :via => ["get"]
+
+
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do

@@ -6,6 +6,19 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+def get_regions
+   @region_all = Region.all.order(:name)
+      @region_resp=[]
+      @region_all.each do |r| 
+
+        @region_resp << {
+         'id' => r.id,
+         'region_name' => r.name,
+         'region_code' => r.code
+        }
+      end
+      render json: @region_resp
+end
 
   def user_ldap_auth
     resp = []
