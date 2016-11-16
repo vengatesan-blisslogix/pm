@@ -310,7 +310,7 @@ convert_param_to_array(params[:reporting_to])
 end
 
  def update   
- begin          
+ #begin          
 if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
 convert_param_to_array(params[:selected_user_id])
 @s_user_id = @output_array
@@ -385,9 +385,9 @@ convert_param_to_array(params[:reporting_to])
       else
         render json: { valid: false, error: "Invalid parameters" }, status: 404
     end
-    rescue
-      render json: { valid: false, error: "Invalid parameters" }, status: 404
-    end
+    #rescue
+      #render json: { valid: false, error: "Invalid parameters" }, status: 404
+    #end
   end
 
 private
