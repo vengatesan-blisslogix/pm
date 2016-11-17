@@ -282,9 +282,9 @@ convert_param_to_array(params[:reporting_to])
       puts "--AAA-----------#{user}"
       if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
-          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
+          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
         elsif @manager[p].to_i  == 0
-          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now
+          UserNotifier.welcome_user(@user.email, @user.name).deliver_now
         end
       end                
 
@@ -367,9 +367,9 @@ convert_param_to_array(params[:reporting_to])
         if @manager[p].to_i  == 1
           @mail_send_who << 1
           @mail_user << user
-          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
+          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
         elsif @manager[p].to_i  == 0
-          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+          UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
           @mail_send_who << 0
           @mail_user << user
         end
