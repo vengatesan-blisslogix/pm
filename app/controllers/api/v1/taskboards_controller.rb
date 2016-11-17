@@ -331,7 +331,7 @@ get_hours(@progress.task_master_id)
       }
     new_task={
           'valid' => true, 
-          'new_task' => new_task,
+          #'new_task' => new_task,
           'msg' => "created successfully"
           }
 

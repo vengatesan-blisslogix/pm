@@ -32,46 +32,45 @@ before_action :set_project_user, only: [ :edit]
   end
 =end  
 
-if @search_word !=""
+  if @search_word !=""
     @search = "#{@search_word}"
   else
-
     if current_user.role_master_id==1
       @search = ""
-      else
-    @search = "user_id = #{current_user.id}"
-  end
+    else
+      @search = "user_id = #{current_user.id}"
+    end
   end
 
-@find_user = User.find_by_id(params[:user_id])
+  @find_user = User.find_by_id(params[:user_id])
   if @find_user and @find_user
     
   end
   #search
   @project_users = ProjectUser.where("#{@search}").order(:created_at => 'desc')
 
-if @project_users!=nil and @project_users.size!=0
-@pro_id = []
-@project_users.each do |pu|
-  @pro_id << pu.project_master_id
-end
-@pro_id=@pro_id.uniq
-@project_id = ""
-@pro_id.each do |pr|
-if @project_id==""
-@project_id = pr
-else
-@project_id = @project_id.to_s+","+pr.to_s
-end
-end
-if @project_id!=""
-@search_value ="id IN(#{@project_id})" 
-else
+  if @project_users!=nil and @project_users.size!=0
+    @pro_id = []
+    @project_users.each do |pu|
+      @pro_id << pu.project_master_id
+  end
+    @pro_id=@pro_id.uniq
+    @project_id = ""
+    @pro_id.each do |pr|
+    if @project_id==""
+      @project_id = pr
+    else
+      @project_id = @project_id.to_s+","+pr.to_s
+    end
+    end
+  if @project_id!=""
+  @search_value ="id IN(#{@project_id})" 
+  else
+    @search_value ="id IN(0)"
+    end
+  else
   @search_value ="id IN(0)"
   end
-else
-@search_value ="id IN(0)"
-end
 
 @project_master = ProjectMaster.where(@search_value).page(params[:page]).order(:created_at => 'desc')
   resp=[]
@@ -283,9 +282,9 @@ convert_param_to_array(params[:reporting_to])
       puts "--AAA-----------#{user}"
       if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
-          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
+          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
         elsif @manager[p].to_i  == 0
-          UserNotifier.welcome_user(@user.email, @user.name).deliver_now
+          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now
         end
       end                
 
@@ -366,13 +365,13 @@ convert_param_to_array(params[:reporting_to])
       puts "-------------#{user}---BBB---#{@mail_send}"
       if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
-@mail_send_who << 1
-@mail_user << user
+          @mail_send_who << 1
+          @mail_user << user
           #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
         elsif @manager[p].to_i  == 0
           #UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
           @mail_send_who << 0
-@mail_user << user
+          @mail_user << user
         end
       end                
 
@@ -385,25 +384,23 @@ convert_param_to_array(params[:reporting_to])
 =end      
        p=p+1
      end
-     begin
+  begin
      mail=0
-@mail_send_who.each do |m|
-@user = User.find_by_id(@mail_user[mail])
-  if m.to_i==1
-    UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
-    else
-      UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
-    end
-    mail=mail+1
-end
-rescue
-  end
-
-
+      @mail_send_who.each do |m|
+      @user = User.find_by_id(@mail_user[mail])
+          if m.to_i==1
+          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
+        else
+          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+        end
+          mail=mail+1
+      end
+  rescue
+      end
         render json: { valid: true, msg:"created successfully."}
       else
         render json: { valid: false, error: "Invalid parameters" }, status: 404
-    end
+  end
     #rescue
       #render json: { valid: false, error: "Invalid parameters" }, status: 404
     #end
