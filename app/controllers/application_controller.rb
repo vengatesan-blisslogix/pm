@@ -236,7 +236,7 @@ puts "----ttime-----#{@total_time}----------"
    end
 
    def get_all_project_task_status
-    if current_user.role_master_id==1
+    #if current_user.role_master_id==1
      @task_status_master = TaskStatusMaster.all.order(:status)
       @project_task_status = []
             @task_status_master.each do |tsm| 
@@ -245,7 +245,7 @@ puts "----ttime-----#{@total_time}----------"
          'id' => tsm.id,
          'status_name' => tsm.status      
         }
-      end
+     # end
     end
    end
 
