@@ -245,8 +245,8 @@ puts "----ttime-----#{@total_time}----------"
          'id' => tsm.id,
          'status_name' => tsm.status      
         }
-     # end
-    end
+      end
+    #end
    end
 
    def get_all_releases(project_master_id)
