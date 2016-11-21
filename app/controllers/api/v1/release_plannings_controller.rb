@@ -7,7 +7,6 @@ before_action :set_planning, only: [:show, :edit, :update]
 
   get_all_projects
 
-  if current_user.role_master_id==1
     if params[:project_master_id] and params[:release_planning_id]
       @search = "project_master_id = #{params[:project_master_id]} and id = #{params[:release_planning_id]}"
     else
@@ -19,7 +18,7 @@ before_action :set_planning, only: [:show, :edit, :update]
      @release_plannings.each do |t| 
     
 
-   if @search==""
+  if @search==""
 
     @project_master = ProjectMaster.find_by_id(t.project_master_id)
       if @project_master!=nil and @project_master!=""
@@ -29,7 +28,7 @@ before_action :set_planning, only: [:show, :edit, :update]
       end
     else
       @project_name = ProjectMaster.find_by_id(params[:project_master_id]).project_name
-   end    
+      
   end
 
        resp << {
