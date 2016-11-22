@@ -1093,9 +1093,12 @@ def timesheet_summary
      
     end
       puts "===========#{@search}============="
-    @timesheet_summ = Logtime.where("#{@search}").select(:project_master_id).uniq
+    @timesheet_summ = Logtime.where("#{@search}")
     resp = []    
+    @task_id_uniq=[]
      @timesheet_summ.each do |lts|
+if @task_id_uniq.include?(lts.task_master_id)
+else
       if lts.project_master_id!=nil  and  lts.project_master_id!=""
       @project_name = ProjectMaster.find_by_id(lts.project_master_id)
           if @project_name != nil
@@ -1105,7 +1108,7 @@ def timesheet_summary
           end
             @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
             @timesheet_summ_user.each do |tsu|
-            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}").sum(:task_time)
+            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}").sum(:task_time)
             @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}")
       @resource_name = User.find_by_id(tsu.user_id)
       if @resource_name != nil
@@ -1114,7 +1117,7 @@ def timesheet_summary
         @res_name = ""
       end
 
-      @task_na = ProjectTask.find_by_id(@timesheet_summ_id[0].task_master_id)
+      @task_na = ProjectTask.find_by_id(lts.task_master_id)
       if @task_na != nil
         @task_name = @task_na.task_name
       else
@@ -1157,8 +1160,10 @@ def timesheet_summary
 
       end#@timesheet_summ_user.each do |tsu|
     end
+    @task_id_uniq << lts.task_master_id
+  end
   end#@timesheet_summ.each do |lts|
-
+puts"======#{@task_id_uniq}"
           pagination(Logtime,@search)   
 
       if current_user.role_master_id == 1
@@ -1229,7 +1234,7 @@ def edit_summary
 
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
  @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}")
- @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").sum(:task_time)
+ @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id}").sum(:task_time)
 @task_time = []
 @task_time_hour = []
 @all_summary.each do |as|
