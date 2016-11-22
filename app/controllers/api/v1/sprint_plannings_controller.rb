@@ -50,7 +50,7 @@ puts "#{@search}"
       end
     
  
-  if @search==""
+  if p.project_master_id!=nil
     puts "#{@search}"
       @project_master = ProjectMaster.find_by_id(p.project_master_id)
       if @project_master!=nil and @project_master!=""
