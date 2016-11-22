@@ -26,7 +26,11 @@ before_action :set_sprint, only: [:show, :edit, :update]
             end
 
     else
-      @search = ""
+ if @search_all_pro_id==""
+          @search ="id IN(0)"
+        else
+          @search ="project_master_id IN(#{@search_all_pro_id})"
+        end
     end
 
 
