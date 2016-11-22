@@ -1238,7 +1238,7 @@ def edit_summary
 @task_time = []
 @task_time_hour = []
 @all_summary.each do |as|
-    @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
+    @task_time << {'id' => as.id,'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
 end
 @project_task_name = ProjectTask.find_by_id(@summary.task_master_id)
 @project_master_id = ProjectMaster.find_by_id(@summary.project_master_id)

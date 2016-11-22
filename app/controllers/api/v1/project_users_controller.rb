@@ -309,24 +309,24 @@ convert_param_to_array(params[:reporting_to])
 end
 
  def update   
- #begin          
-if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
-convert_param_to_array(params[:selected_user_id])
-@s_user_id = @output_array
-convert_param_to_array(params[:assigned_date])
-@a_date = @output_array
-convert_param_to_array(params[:relieved_date])
-@r_date = @output_array
-#convert_param_to_array(params[:active])
-#@active = @output_array
-convert_param_to_array(params[:utilization])
-@utilization = @output_array
-convert_param_to_array(params[:is_billable])
-@billable = @output_array
-convert_param_to_array(params[:manager])
-@manager = @output_array
-convert_param_to_array(params[:reporting_to])
-@reporting_to = @output_array
+   #begin          
+  if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
+  convert_param_to_array(params[:selected_user_id])
+  @s_user_id = @output_array
+  convert_param_to_array(params[:assigned_date])
+  @a_date = @output_array
+  convert_param_to_array(params[:relieved_date])
+  @r_date = @output_array
+  #convert_param_to_array(params[:active])
+  #@active = @output_array
+  convert_param_to_array(params[:utilization])
+  @utilization = @output_array
+  convert_param_to_array(params[:is_billable])
+  @billable = @output_array
+  convert_param_to_array(params[:manager])
+  @manager = @output_array
+  convert_param_to_array(params[:reporting_to])
+  @reporting_to = @output_array
 
 
      p=0
