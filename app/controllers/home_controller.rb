@@ -1109,7 +1109,7 @@ else
             @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
             @timesheet_summ_user.each do |tsu|
             @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}").sum(:task_time)
-            @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id}")
+            @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}")
       @resource_name = User.find_by_id(tsu.user_id)
       if @resource_name != nil
         @res_name = @resource_name.name
@@ -1233,7 +1233,7 @@ def edit_summary
   @find_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
 
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
- @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}")
+ @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id}")
  @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id}").sum(:task_time)
 @task_time = []
 @task_time_hour = []
