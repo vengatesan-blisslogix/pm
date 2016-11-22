@@ -11,6 +11,12 @@ before_action :set_planning, only: [:show, :edit, :update]
       @search = "project_master_id = #{params[:project_master_id]} and id = #{params[:release_planning_id]}"
     else
       @search = ""
+
+      if @search_all_pro_id==""
+          @search ="id IN(0)"
+        else
+          @search ="project_master_id IN(#{@search_all_pro_id})"
+        end
     end
 
     @release_plannings = ReleasePlanning.where(@search).page(params[:page]).order(:created_at => 'desc')
