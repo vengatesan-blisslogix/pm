@@ -22,7 +22,7 @@ before_action :set_planning, only: [:show, :edit, :update]
      @release_plannings.each do |t| 
     
 
-  if @search==""
+  if t.project_master_id!=nil
 
     @project_master = ProjectMaster.find_by_id(t.project_master_id)
       if @project_master!=nil and @project_master!=""
