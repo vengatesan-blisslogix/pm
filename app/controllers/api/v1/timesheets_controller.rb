@@ -127,6 +127,7 @@ end
    if params[:log].to_i == 1
 
   json = params[:_json].to_s.gsub("=>",":")
+  
 
     # Parse the JSON
     hash1 = JSON.parse(json)
