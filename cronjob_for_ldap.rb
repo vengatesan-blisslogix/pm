@@ -58,7 +58,11 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 			@user.name 				= u['name'].split(" ")[0]
 			@user.last_name 		= u['name'].split(" ")[1]
 			@test_doj 				= Date.parse(u['doj'])
-			@user.doj          = @test_doj.to_date
+			@user.doj         		= @test_doj.to_date
+
+			@test_dob 				= Date.parse(u['dob'])
+			@user.dob          		= @test_dob.to_date
+
 			@user.prior_experience 	= u['previousExperience']
 			@user.email 			= u['email']
 			@user.password 			= u['email'][0..2]+"#123$"
