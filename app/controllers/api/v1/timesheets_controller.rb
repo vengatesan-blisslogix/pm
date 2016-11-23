@@ -127,7 +127,7 @@ end
    if params[:log].to_i == 1
 
   json = params[:_json].to_s.gsub("=>",":")
-  
+
 
     # Parse the JSON
     hash1 = JSON.parse(json)
@@ -154,7 +154,14 @@ end
         @task_date = h['Date']
         @task_time = h['hour'] 
 
-        @timesheet = Logtime.find_by_id(params[:id])
+
+        @timesheet = Logtime.find_by(task_master_id: @task_id, task_date: @task_date.to_date)
+       if @timesheet != nil 
+
+       else
+        @timesheet = Logtime.new
+       end
+
         @timesheet.task_master_id  = @task_id
         @timesheet.project_master_id = @project_id
         @timesheet.sprint_planning_id = @sprint_id
