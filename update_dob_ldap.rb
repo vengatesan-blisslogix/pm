@@ -31,7 +31,7 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 	       @find_user = User.find_by_email(u['email'])
 			if @find_user != nil		
 			  @find_user.dob          	= u['dob'].to_date
-			  puts "-------#{@find_user}-----------dob----------"
+			  puts "-------#{@find_user.dob}-----------dob----------"
 			  @find_user.save!
 			end
 		end
