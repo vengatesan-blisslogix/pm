@@ -32,6 +32,7 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
 			if @find_user != nil			   
 			  @test_dob 				= Date.parse(u['dob'])
 			  @find_user.dob          	= @test_dob.to_date
+			  @find_user.save!
 			end
 		end
     end
