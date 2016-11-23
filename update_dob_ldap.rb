@@ -29,9 +29,8 @@ result = client.execute("SELECT * FROM empBasicViewForApp")
        #p u['reporting_to']
         if u['leftOrg'] == false and u['email'] != nil
 	       @find_user = User.find_by_email(u['email'])
-			if @find_user != nil			   
-			  @test_dob 				= Date.parse(u['dob'])
-			  @find_user.dob          	= @test_dob.to_date
+			if @find_user != nil		
+			  @find_user.dob          	= u['dob'].to_date
 			  @find_user.save!
 			end
 		end
