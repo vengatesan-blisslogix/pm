@@ -313,18 +313,24 @@ worksheet1.set_column('D:D', 25,format1)
 worksheet1.set_column('E:E', 25,format1)
 worksheet1.set_column('F:F', 25,format1)
 worksheet1.set_column('G:G', 25,format1)
+worksheet1.set_column('H:H', 25,format1)
+worksheet1.set_column('I:I', 25,format1)
+worksheet1.set_column('J:J', 25,format1)
 
 
 worksheet1.set_row(4,20)
 
 # write a formatted and unformatted string.
 worksheet1.write(4,0, 'No', format)
-worksheet1.write(4,1, 'User Name', format)
-worksheet1.write(4,2, 'Project Name', format)
-worksheet1.write(4,3, 'Sprint Name', format)
-worksheet1.write(4,4, 'Billable hour', format)
-worksheet1.write(4,5, 'Non-Billable hour', format)
-worksheet1.write(4,6, 'Total hour', format)
+worksheet1.write(4,1, 'Employee Code', format)
+worksheet1.write(4,2, 'User Name', format)
+worksheet1.write(4,3, 'Project Name', format)
+worksheet1.write(4,4, 'Task Name', format)
+worksheet1.write(4,5, 'Skill Set', format)
+worksheet1.write(4,6, 'Overall Experience', format)
+worksheet1.write(4,7, 'Billable hour', format)
+worksheet1.write(4,8, 'Non-Billable hour', format)
+worksheet1.write(4,9, 'Total hour', format)
 
 
 row=5
@@ -333,13 +339,14 @@ serial=1
   @users=User.all
   @users.each do |u|
     worksheet1.write(row,0, serial, format1)
-    worksheet1.write(row,1, "#{u.name}#{u.last_name}", format1)
+    worksheet1.write(row,1, "#{u.employee_no}", format1)
+    worksheet1.write(row,2, "#{u.name}#{u.last_name}", format1)
 
       @project_user = ProjectUser.where("user_id = #{u.id}")
 
         @project_user.each do |pu|
           @project_name = ProjectMaster.find_by_id(pu.project_master_id)
-            worksheet1.write(row,2, "#{@project_name.project_name}", format1)
+            worksheet1.write(row,3, "#{@project_name.project_name}", format1)
          @find_assign = Assign.where("assigned_user_id =#{pu.user_id}")
             @sprint_id = ""
             @find_assign.each do |fa|
@@ -356,17 +363,32 @@ serial=1
                 if @sprint_id != ""
                   @sprint_planning = SprintPlanning.where("id IN(#{@sprint_id})")
                   @sprint_planning.each do |sp|
-                  @sprint_name = sp.sprint_name
-                  worksheet1.write(row,3, "#{@sprint_name}", format1)
+
+                  @skill_set = UserTechnology.where("user_id = #{u.id}")
+                  @technology_name=""
+                  @skill_set.each do |tech|
+                  tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+                    if @technology_name == ""
+                    @technology_name = tec.technology
+                    else
+                    @technology_name = @technology_name+", "+tec.technology
+                    end
+                  end#@skill_set.each do |tec|
+                  if @technology_name != ""
+                    @tech_name = @technology_name
+                  else
+                    @tech_name = "-"
+                  end
+                  worksheet1.write(row,5, "#{@tech_name}", format1)
 
 
             @timesheet_summ_user_time = Logtime.where("sprint_planning_id=#{sp.id} and project_master_id=#{pu.id} and user_id=#{pu.user_id}").sum(:task_time)
                     if pu.is_billable == 'yes'
-                                worksheet1.write(row,4, "#{@timesheet_summ_user_time}", format1)
+                                worksheet1.write(row,7, "#{@timesheet_summ_user_time}", format1)
                     else
-                        worksheet1.write(row,5, "#{@timesheet_summ_user_time}", format1)
+                        worksheet1.write(row,8, "#{@timesheet_summ_user_time}", format1)
                     end
-                        worksheet1.write(row,6, "#{@timesheet_summ_user_time}", format1)
+                        worksheet1.write(row,9, "#{@timesheet_summ_user_time}", format1)
 
                     row = row +1
                 end
