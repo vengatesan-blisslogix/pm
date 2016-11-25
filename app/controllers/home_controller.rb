@@ -1538,10 +1538,16 @@ end
          @check_u.each do |cu|
         @u << cu.utilization
       end     
+      if m.nickname!="" and m.nickname!=nil
+        @name = m.nickname
+      else
+        @name = "#{m.name} #{m.last_name}"
+      end
         #if @u.sum.to_i < 100
         manager_resp << {
         'id' => m.id,
-        'users' => "#{m.name} #{m.last_name}"
+        'users' => @name
+        
       }
        end
     #end
