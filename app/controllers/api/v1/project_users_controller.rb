@@ -163,7 +163,7 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
       }
     end
 
-     @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 0")
+     @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} ")
 
      user_resp = []
      @find_pro_user.each do |m|
