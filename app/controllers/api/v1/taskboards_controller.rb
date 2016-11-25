@@ -91,26 +91,27 @@ end
         #@planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
+        # get_task_board(@project_task.project_master_id)
+        get_assigne(tp.task_master_id, "in_progress")
+        get_hours(tp.task_master_id)
+
+        in_progress << {
+          'taskboard_id' => tp.id,
+          'task_id' => @task_id,
+          'project_master_id' => tp.project_master_id,
+          'sprint_planning_id' => tp.sprint_planning_id,
+          'task_name' => @task_name,        
+          'assign_params' => @assigned,
+          'assign_name' => @assignee_user,
+          #'planned_duration' => tp.est_time,
+          'planned_duration' => @project_task.planned,
+          'worked_hours' => @hours_resp,
+          'project_users' => @project_users_resp
+        }
        else
         @task_name =""
       end     
-     # get_task_board(@project_task.project_master_id)
-      get_assigne(tp.task_master_id, "in_progress")
-      get_hours(tp.task_master_id)
-
-      in_progress << {
-        'taskboard_id' => tp.id,
-        'task_id' => @task_id,
-        'project_master_id' => tp.project_master_id,
-        'sprint_planning_id' => tp.sprint_planning_id,
-        'task_name' => @task_name,        
-        'assign_params' => @assigned,
-        'assign_name' => @assignee_user,
-        #'planned_duration' => tp.est_time,
-        'planned_duration' => @project_task.planned,
-        'worked_hours' => @hours_resp,
-        'project_users' => @project_users_resp
-      }
+     
     end
     #in_progress
 
