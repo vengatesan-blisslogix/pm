@@ -341,12 +341,49 @@ serial=1
     worksheet1.write(row,0, serial, format1)
     worksheet1.write(row,1, "#{u.employee_no}", format1)
     worksheet1.write(row,2, "#{u.name}#{u.last_name}", format1)
+    @skill_set = UserTechnology.where("user_id = #{u.id}")
+                  @technology_name=""
+                  @skill_set.each do |tech|
+                  tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+                    if @technology_name == ""
+                    @technology_name = tec.technology
+                    else
+                    @technology_name = @technology_name+", "+tec.technology
+                    end
+                  end#@skill_set.each do |tec|
+                  if @technology_name != ""
+                    @tech_name = @technology_name
+                  else
+                    @tech_name = "-"
+                  end
+                  worksheet1.write(row,5, "#{@tech_name}", format1)
+                  @current_exp = ((Date.today - u.doj)/365)
+
+                  worksheet1.write(row,6, "#{u.prior_experience}", format1)
 
       @project_user = ProjectUser.where("user_id = #{u.id}")
 
         @project_user.each do |pu|
           @project_name = ProjectMaster.find_by_id(pu.project_master_id)
             worksheet1.write(row,3, "#{@project_name.project_name}", format1)
+        
+          @project_task = Assign.where("assigned_user_id =#{pu.user_id}")
+
+          @task_name = ""
+          @project_task.each do |pjt|
+          @pf = Taskboard.find_by_id(pjt.taskboard_id)
+          if @pf!=nil and @pf.project_master_id == pu.project_master_id
+                      @pt_name = ProjectTask.find_by_id(@pf.task_master_id)
+                      if @task_name==""
+                                @task_name=@pt_name.task_name
+                              else
+                                @task_name=@task_name.to_s+","+@pt_name.task_name
+                              end   
+          end
+          end
+          worksheet1.write(row,4, "#{@task_name}", format1)
+
+
          @find_assign = Assign.where("assigned_user_id =#{pu.user_id}")
             @sprint_id = ""
             @find_assign.each do |fa|
@@ -364,24 +401,6 @@ serial=1
                   @sprint_planning = SprintPlanning.where("id IN(#{@sprint_id})")
                   @sprint_planning.each do |sp|
 
-                  @skill_set = UserTechnology.where("user_id = #{u.id}")
-                  @technology_name=""
-                  @skill_set.each do |tech|
-                  tec = TechnologyMaster.find_by_id(tech.technology_master_id)
-                    if @technology_name == ""
-                    @technology_name = tec.technology
-                    else
-                    @technology_name = @technology_name+", "+tec.technology
-                    end
-                  end#@skill_set.each do |tec|
-                  if @technology_name != ""
-                    @tech_name = @technology_name
-                  else
-                    @tech_name = "-"
-                  end
-                  worksheet1.write(row,5, "#{@tech_name}", format1)
-
-
             @timesheet_summ_user_time = Logtime.where("sprint_planning_id=#{sp.id} and project_master_id=#{pu.id} and user_id=#{pu.user_id}").sum(:task_time)
                     if pu.is_billable == 'yes'
                                 worksheet1.write(row,7, "#{@timesheet_summ_user_time}", format1)
@@ -397,17 +416,17 @@ serial=1
 
             row = row +1
           end
-      end
-  serial = serial + 1
-end
-workbook.close
+        end
+    serial = serial + 1
+  end
+  workbook.close
 
-#send_file("#{@file_name}" ,
-  #    :filename     =>  "#{@file_name}",
-  #    :charset      =>  'utf-8',
-  #    :type         =>  'application/octet-stream')
+  #send_file("#{@file_name}" ,
+    #    :filename     =>  "#{@file_name}",
+    #    :charset      =>  'utf-8',
+    #    :type         =>  'application/octet-stream')
 
-end
+  end
 
 
 def report_3
