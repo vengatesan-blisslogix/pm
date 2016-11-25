@@ -131,8 +131,45 @@ def create
 
     @project_master = ProjectMaster.new(project_master_params)
     if @project_master.save
-        @project_master.active = "active"
+        @project_master.active                  = "active"
         @project_master.save
+        
+        if @project_master.project_type_id      == 7
+           @release_planning = ReleasePlanning.new
+           @release_planning.active             = "active"
+           @release_planning.release_name       = @project_master.project_name+"release"
+           @release_planning.start_date         = @project_master.start_date
+           @release_planning.end_date           = @project_master.end_date
+           @release_planning.flag_name          = "open"
+           @release_planning.user_id            = @project_master.project_manager_id
+           @release_planning.project_master_id  = @project_master.id    
+
+        @release_planning.save
+
+           @sprint_planning = SprintPlanning.new
+           @sprint_planning.active              = "1"
+           @sprint_planning.start_date          = @project_master.start_date
+           @sprint_planning.end_date            = @project_master.end_date
+           @sprint_planning.sprint_name         = @project_master.project_name+"sprint"
+           @sprint_planning.sprint_status_id    = 1
+           @sprint_planning.project_master_id   = @project_master.id
+           @sprint_planning.release_planning_id = @release_planning.id
+           
+
+        @sprint_planning.save
+
+           @task = ProjectTask.new   
+           @task.active                         = "active"
+           @task.planned                        = "#{@project_master.end_date - @project_master.start_date}" *8
+           puts "-------------#{@task.planned}--------------------"
+           @task.task_name                      = @project_master.project_name+"task"
+           @task.task_description               = "Staffing Task"
+           @task.priority                       = 2
+           @task.project_master_id              = @project_master.id
+           @task.task_status_master_id          = 3
+          
+        @task.save
+        end
     	render json: { valid: true, msg:"#{@project_master.project_name} created successfully."}
      else
         render json: { valid: false, error: @project_master.errors }, status: 404
