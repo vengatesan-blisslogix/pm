@@ -203,7 +203,9 @@ puts "----ttime-----#{@total_time}----------"
       @search_all_pro=""
       @search_all_pro_id=""
       @client_id = ""
+      @admin =1
       else
+        @admin =0
         @find_pro = ProjectUser.where("user_id=#{current_user.id}").select(:project_master_id).uniq
         @search_all_pro_id=""
         @find_pro.each do |fp|
