@@ -134,7 +134,7 @@ if m.user_id != nil
     @technology_name=""
 
       @skill_set.each do |tech|
-tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+  tec = TechnologyMaster.find_by_id(tech.technology_master_id)
       if @technology_name == ""
       @technology_name = tec.technology
       else
@@ -163,11 +163,11 @@ tec = TechnologyMaster.find_by_id(tech.technology_master_id)
       }
     end
 
-     @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} ")
+     @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} and manager != 1 ")
 
      user_resp = []
      @find_pro_user.each do |m|
-if m.user_id != nil
+      if m.user_id != nil
      @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
      
     if @time_sheets != nil and @time_sheets.size.to_i >= 1
@@ -183,7 +183,7 @@ if m.user_id != nil
     @technology_name=""
 
       @skill_set.each do |tech|
-tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+      tec = TechnologyMaster.find_by_id(tech.technology_master_id)
       if @technology_name == ""
       @technology_name = tec.technology
       else
@@ -282,9 +282,9 @@ convert_param_to_array(params[:reporting_to])
       puts "--AAA-----------#{user}"
       if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
-          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
+          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
         elsif @manager[p].to_i  == 0
-          UserNotifier.welcome_user(@user.email, @user.name).deliver_now
+          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now
         end
       end                
 
@@ -367,9 +367,9 @@ end
         if @manager[p].to_i  == 1
           @mail_send_who << 1
           @mail_user << user
-          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
+          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
         elsif @manager[p].to_i  == 0
-          UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
           @mail_send_who << 0
           @mail_user << user
         end

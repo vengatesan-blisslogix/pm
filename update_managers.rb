@@ -9,12 +9,12 @@ ActiveRecord::Base.establish_connection({
   :adapter => 'mysql2',
   :user => 'root',
   :password => 'tvsnext',
-  :database => 'pm_development',
+  :database => 'pm_production',
   :host => 'localhost'
 })
 
 	class CronReporting < ActiveRecord::Base
-	  set_table_name ="cront_reportings"
+	  set_table_name ="cron_reportings"
 	end
 
 	class User < ActiveRecord::Base

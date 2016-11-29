@@ -9,12 +9,12 @@ ActiveRecord::Base.establish_connection({
   :adapter => 'mysql2',
   :user => 'root',
   :password => 'tvsnext',
-  :database => 'pm_development',
+  :database => 'pm_production',
   :host => 'localhost'
 })
 
 	class CronIntranet < ActiveRecord::Base
-	  set_table_name ="cront_intranets"
+	  set_table_name ="cron_intranets"
 	end
 
 client = TinyTds::Client.new username: 'pmpuser', password: 'pmp#123$', host: '10.91.19.245', database: 'HRIS'
