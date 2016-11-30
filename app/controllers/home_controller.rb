@@ -1550,7 +1550,8 @@ end
     end
 
     if @role_id!=""
-      @users = User.where("role_master_id NOT IN(#{@role_id}) and active = 'active'").order(name: :asc)
+     # @users = User.where("role_master_id NOT IN(#{@role_id}) and active = 'active'").order(name: :asc)
+     @users = User.where("active = 'active'").order(name: :asc)
       @users.each do |m|
         @check_u = ProjectUser.where("user_id=#{m.id}")
         @u = []

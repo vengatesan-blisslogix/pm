@@ -72,180 +72,183 @@ before_action :set_project_user, only: [ :edit]
   @search_value ="id IN(0)"
   end
 
-@project_master = ProjectMaster.where(@search_value).page(params[:page]).order(:created_at => 'desc')
-  resp=[]
-   @project_master.each do |p|
+  @project_master = ProjectMaster.where(@search_value).page(params[:page]).order(:created_at => 'desc')
+    resp=[]
+     @project_master.each do |p|
 
-            @project_name =p.project_name
-            @clients = Client.find_by_id(p.client_id)
-            if @clients!=nil and @clients!=""
-              @client_name   =@clients.client_name 
-            else
-              @client_name   =""
-            end       
+              @project_name =p.project_name
+              @clients = Client.find_by_id(p.client_id)
+              if @clients!=nil and @clients!=""
+                @client_name   =@clients.client_name 
+              else
+                @client_name   =""
+              end       
 
-      resp << {
-        'id' => p.id,
-        'project_name' => @project_name,
-        'assigned_date' => p.start_date,        
-        'relieved_date' => p.end_date,
-        'status' => p.active,
-        'is_billable' => p.billable
+        resp << {
+          'id' => p.id,
+          'project_name' => @project_name,
+          'assigned_date' => p.start_date,        
+          'relieved_date' => p.end_date,
+          'status' => p.active,
+          'is_billable' => p.billable
+        }
+        end
+    
+      pagination(ProjectMaster,@search_value)
+      get_all_clients
+      response = {
+        'no_of_records' => @no_of_records.size,
+        'no_of_pages' => @no_pages,
+        'next' => @next,
+        'prev' => @prev,
+        #'clients' => @client_resp,
+        'projects' =>@project_resp,
+        'project_users' => resp
       }
-      end
-  
-    pagination(ProjectMaster,@search_value)
-    get_all_clients
-    response = {
-      'no_of_records' => @no_of_records.size,
-      'no_of_pages' => @no_pages,
-      'next' => @next,
-      'prev' => @prev,
-      #'clients' => @client_resp,
-      'projects' =>@project_resp,
-      'project_users' => resp
-    }
-    render json: response
- end
-
-def show  
-   #render json: @project_user
-   @project_master = ProjectMaster.find_by_id(params[:id])
-   if @project_master != nil
-
-     @find_pro_user_manager = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 1")
-
-     manager_resp = []
-     @find_pro_user_manager.each do |m|
-if m.user_id != nil
-
-    @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
-
-    if @time_sheets != nil and @time_sheets.size.to_i >= 1
-      @flag =  1
-    else
-      @flag = 0
-    end
-  else
-    @flag = 0
-  end
-
-  @skill_set = UserTechnology.where("user_id = #{m.user_id}")
-    @technology_name=""
-
-      @skill_set.each do |tech|
-  tec = TechnologyMaster.find_by_id(tech.technology_master_id)
-      if @technology_name == ""
-      @technology_name = tec.technology
-      else
-      @technology_name = @technology_name+", "+tec.technology
-      end
-    end#@skill_set.each do |tec|
-    if @technology_name != ""
-      @tech_name = @technology_name
-    else
-      @tech_name = "-"
-    end
-
-    @employee_id = User.find_by_id(m.user_id)
-
-     manager_resp << {
-        'id' => m.id,
-        'manager_id' => m.user_id,
-        'employee_id' => @employee_id.employee_no,
-        'assigned_date'  =>m.assigned_date,
-        'relieved_date'  => m.relieved_date,
-        'status'  => m.active,
-        'utilization'  => m.utilization,
-        'technology' => @tech_name,
-        'is_billable'  => m.is_billable,
-        'flag' => @flag
-      }
-    end
-
-     @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} and manager != 1 ")
-
-     user_resp = []
-     @find_pro_user.each do |m|
-      if m.user_id != nil
-     @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
-     
-    if @time_sheets != nil and @time_sheets.size.to_i >= 1
-      @flag =  1
-    else
-      @flag = 0
-    end
-  else
-    @flag = 0
-  end   
-
-   @skill_set = UserTechnology.where("user_id = #{m.user_id}")
-    @technology_name=""
-
-      @skill_set.each do |tech|
-      tec = TechnologyMaster.find_by_id(tech.technology_master_id)
-      if @technology_name == ""
-      @technology_name = tec.technology
-      else
-      @technology_name = @technology_name+", "+tec.technology
-      end
-    end#@skill_set.each do |tec|
-    if @technology_name != ""
-      @tech_name = @technology_name
-    else
-      @tech_name = "-"
-    end
-
-    @employee_id = User.find_by_id(m.user_id)
-
-
-     user_resp << {
-        'id' => m.id,
-        'user_id' => m.user_id,
-        'employee_id' => @employee_id.employee_no,
-        'assigned_date'  =>m.assigned_date,
-        'relieved_date'  => m.relieved_date,
-        'status'  => m.active,
-        'reporting_to' => m.reporting_to,
-        'technology' => @tech_name,
-        'utilization'  => m.utilization,        
-        'is_billable'  => m.is_billable,
-        'flag' => @flag
-      }
-    end
-   else
+      render json: response
    end
 
-   response = {
-     'client_id' => @project_master.client_id,
-     'project_id' => @project_master.id,
-     'start_date' => @project_master.start_date,
-     'end_date' => @project_master.end_date,
-     'manager_resp' => manager_resp,
-     'project_users' => user_resp
-    }
-    render json: response
-end
+  def show  
+     #render json: @project_user
+     @project_master = ProjectMaster.find_by_id(params[:id])
+     if @project_master != nil
 
-def create
- #begin          
-if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
-convert_param_to_array(params[:selected_user_id])
-@s_user_id = @output_array
-convert_param_to_array(params[:assigned_date])
-@a_date = @output_array
-convert_param_to_array(params[:relieved_date])
-@r_date = @output_array
-#convert_param_to_array(params[:active])
-#@active = @output_array
-convert_param_to_array(params[:utilization])
-@utilization = @output_array
-convert_param_to_array(params[:is_billable])
-@billable = @output_array
-convert_param_to_array(params[:manager])
-@manager = @output_array
-convert_param_to_array(params[:reporting_to])
-@reporting_to = @output_array
+       @find_pro_user_manager = ProjectUser.where("project_master_id = #{@project_master.id} and manager = 1")
+
+       manager_resp = []
+       @find_pro_user_manager.each do |m|
+        if m.user_id != nil
+       @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
+
+      if @time_sheets != nil and @time_sheets.size.to_i >= 1
+        @flag =  1
+      else
+        @flag = 0
+      end
+    else
+      @flag = 0
+    end
+
+    @skill_set = UserTechnology.where("user_id = #{m.user_id}")
+      @technology_name=""
+
+        @skill_set.each do |tech|
+    tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+        if @technology_name == ""
+        @technology_name = tec.technology
+        else
+        @technology_name = @technology_name+", "+tec.technology
+        end
+      end#@skill_set.each do |tec|
+      if @technology_name != ""
+        @tech_name = @technology_name
+      else
+        @tech_name = "-"
+      end
+
+      @employee_id = User.find_by_id(m.user_id)
+
+       manager_resp << {
+          'id' => m.id,
+          'manager_id' => m.user_id,
+          'employee_id' => @employee_id.employee_no,
+          'assigned_date'  =>m.assigned_date,
+          'relieved_date'  => m.relieved_date,
+          'status'  => m.active,
+          'utilization'  => m.utilization,
+          'technology' => @tech_name,
+          'is_billable'  => m.is_billable,
+          'flag' => @flag
+        }
+      end
+if @find_pro_user_manager!=nil and  @find_pro_user_manager.size!=0
+@only_user = "and user_id!=#{@find_pro_user_manager[0].user_id}"
+else
+@only_user = ""
+end
+       @find_pro_user = ProjectUser.where("project_master_id = #{@project_master.id} #{@only_user}")
+
+       user_resp = []
+       @find_pro_user.each do |m|
+        if m.user_id != nil
+       @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
+       
+      if @time_sheets != nil and @time_sheets.size.to_i >= 1
+        @flag =  1
+      else
+        @flag = 0
+      end
+    else
+      @flag = 0
+    end   
+
+     @skill_set = UserTechnology.where("user_id = #{m.user_id}")
+      @technology_name=""
+
+        @skill_set.each do |tech|
+        tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+        if @technology_name == ""
+        @technology_name = tec.technology
+        else
+        @technology_name = @technology_name+", "+tec.technology
+        end
+      end#@skill_set.each do |tec|
+      if @technology_name != ""
+        @tech_name = @technology_name
+      else
+        @tech_name = "-"
+      end
+
+      @employee_id = User.find_by_id(m.user_id)
+
+
+       user_resp << {
+          'id' => m.id,
+          'user_id' => m.user_id,
+          'employee_id' => @employee_id.employee_no,
+          'assigned_date'  =>m.assigned_date,
+          'relieved_date'  => m.relieved_date,
+          'status'  => m.active,
+          'reporting_to' => m.reporting_to,
+          'technology' => @tech_name,
+          'utilization'  => m.utilization,        
+          'is_billable'  => m.is_billable,
+          'flag' => @flag
+        }
+      end
+     else
+     end
+
+     response = {
+       'client_id' => @project_master.client_id,
+       'project_id' => @project_master.id,
+       'start_date' => @project_master.start_date,
+       'end_date' => @project_master.end_date,
+       'manager_resp' => manager_resp,
+       'project_users' => user_resp
+      }
+      render json: response
+  end
+
+  def create
+   #begin          
+  if params[:selected_user_id]!=nil and params[:selected_user_id]!=""
+  convert_param_to_array(params[:selected_user_id])
+  @s_user_id = @output_array
+  convert_param_to_array(params[:assigned_date])
+  @a_date = @output_array
+  convert_param_to_array(params[:relieved_date])
+  @r_date = @output_array
+  #convert_param_to_array(params[:active])
+  #@active = @output_array
+  convert_param_to_array(params[:utilization])
+  @utilization = @output_array
+  convert_param_to_array(params[:is_billable])
+  @billable = @output_array
+  convert_param_to_array(params[:manager])
+  @manager = @output_array
+  convert_param_to_array(params[:reporting_to])
+  @reporting_to = @output_array
 
 
      p=0
@@ -306,7 +309,7 @@ convert_param_to_array(params[:reporting_to])
     #rescue
       #render json: { valid: false, error: "Invalid parameters" }, status: 404
     #end    
-end
+  end
 
  def update   
    #begin          
@@ -405,11 +408,11 @@ end
       #render json: { valid: false, error: "Invalid parameters" }, status: 404
     #end
   end
-def destroy
-    @project = ProjectUser.find(params[:id])
-    @project.destroy
-    render json: { valid: true, msg:"deleted successfully."}
-end
+  def destroy
+      @project = ProjectUser.find(params[:id])
+      @project.destroy
+      render json: { valid: true, msg:"deleted successfully."}
+  end
 private
 
     # Use callbacks to share common setup or constraints between actions.
