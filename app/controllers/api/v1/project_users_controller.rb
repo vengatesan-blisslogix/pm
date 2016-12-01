@@ -285,9 +285,9 @@ end
       puts "--AAA-----------#{user}"
       if @user != nil and @mail_send.to_i==1
         if @manager[p].to_i  == 1
-          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
+          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now
         elsif @manager[p].to_i  == 0
-          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now
+          UserNotifier.welcome_user(@user.email, @user.name).deliver_now
         end
       end                
 
@@ -392,9 +392,9 @@ end
       @mail_send_who.each do |m|
       @user = User.find_by_id(@mail_user[mail])
           if m.to_i==1
-          #UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
+          UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
         else
-          #UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
+          UserNotifier.welcome_user(@user.email, @user.name).deliver_now!
         end
           mail=mail+1
       end
