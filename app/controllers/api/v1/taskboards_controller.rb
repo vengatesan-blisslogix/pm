@@ -4,15 +4,14 @@ before_action :authenticate_user!
 before_action :set_taskboards, only: [:show, :edit, :update]
  
 
- def index
+  def index
+    get_all_projects
 
-get_all_projects
-
-if params[:project_master_id] and params[:sprint_planning_id]
-@search_val = "AND project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
-else
-@search_val = ""
-end
+    if params[:project_master_id] and params[:sprint_planning_id]
+      @search_val = "AND project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
+    else
+      @search_val = ""
+    end
 
 
   #new
@@ -318,7 +317,7 @@ end
         @task_name =""
       end     
     get_assigne(@progress.task_master_id, "new")
-get_hours(@progress.task_master_id)
+    get_hours(@progress.task_master_id)
       new_task << {
         'taskboard_id' => @progress.id,
         'task_id' => @task_id,

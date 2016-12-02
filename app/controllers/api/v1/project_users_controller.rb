@@ -259,6 +259,17 @@ end
          @project = ProjectUser.find_by_id(@find_pro_user[0].id)
       else
          @project = ProjectUser.new
+        @find_leave_task = ProjectTask.where("project_master_id = #{params[:project_master_id]} and task_name='Leave'")
+        
+            if @find_leave_task !=nil and @find_leave_task.size!=0
+              @find_task_board = Taskboard.where("project_master_id = #{params[:project_master_id]} and task_master_id=#{@find_leave_task[0].id}")
+              if @find_task_board !=nil and @find_task_board.size!=0
+              @assign = Assign.new
+              @assign.taskboard_id = @find_task_board[0].id
+              @assign.assigned_user_id = user
+              @assign.save!
+              end
+            end
       end     
      
       @project.assigned_date = @a_date[p]
@@ -342,6 +353,17 @@ end
          @project = ProjectUser.find_by_id(@find_pro_user[0].id)
       else
          @project = ProjectUser.new
+         @find_leave_task = ProjectTask.where("project_master_id = #{params[:project_master_id]} and task_name='Leave'")
+        
+            if @find_leave_task !=nil and @find_leave_task.size!=0
+              @find_task_board = Taskboard.where("project_master_id = #{params[:project_master_id]} and task_master_id=#{@find_leave_task[0].id}")
+              if @find_task_board !=nil and @find_task_board.size!=0
+              @assign = Assign.new
+              @assign.taskboard_id = @find_task_board[0].id
+              @assign.assigned_user_id = user
+              @assign.save!
+              end
+            end
       end     
      
       @project.assigned_date = @a_date[p]
@@ -391,7 +413,7 @@ end
      mail=0
       @mail_send_who.each do |m|
       @user = User.find_by_id(@mail_user[mail])
-          if m.to_i==1
+        if m.to_i==1
           UserNotifier.welcome_manager(@user.email, @user.name).deliver_now!
         else
           UserNotifier.welcome_user(@user.email, @user.name).deliver_now!

@@ -357,9 +357,18 @@ serial=1
                     @tech_name = "-"
                   end
                   worksheet1.write(row,5, "#{@tech_name}", format1)
-                  @current_exp = ((Date.today - u.doj)/365)
+                 # @current_exp = ((Date.today - u.doj)/365)
 
-                  worksheet1.write(row,6, "#{u.prior_experience}", format1)
+                 # worksheet1.write(row,6, "#{u.prior_experience}", format1)
+
+
+                @current_exp = Date.today - u.doj.to_date
+                @ce = (@current_exp/30).round
+
+                @tot = @ce + u.prior_experience
+
+                  worksheet1.write(row,6, "#{@tot}", format1)
+               
 
       @project_user = ProjectUser.where("user_id = #{u.id}")
 
@@ -1147,10 +1156,10 @@ else
           else
             @proj_name = ""
           end
-            @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
+            @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and status != 'rejected'").select(:user_id).uniq
             @timesheet_summ_user.each do |tsu|
-            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}").sum(:task_time)
-            @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}")
+            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id} and status != 'rejected'").sum(:task_time)
+            @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id} and status != 'rejected'")
       @resource_name = User.find_by_id(tsu.user_id)
       if @resource_name != nil
         @res_name = @resource_name.name
@@ -1274,8 +1283,8 @@ def edit_summary
   @find_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
 
   if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
- @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id}")
- @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id}").sum(:task_time)
+ @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id} and status != 'rejected'")
+ @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id} and status != 'rejected'").sum(:task_time)
 @task_time = []
 @task_time_hour = []
 @all_summary.each do |as|
