@@ -130,6 +130,7 @@ end
 
 
     # Parse the JSON
+    puts "------------------#{json}------------------"    
     hash1 = JSON.parse(json)
     hash1.each do |hash|
 

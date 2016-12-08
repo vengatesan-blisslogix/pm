@@ -1315,6 +1315,7 @@ resp = {
   'sprint_name' => @sprint_planning_id.sprint_name,
   'release_id'=> @sprint_planning_id.release_planning_id,
   'release_name'=>@release_planning_id.release_name,
+  'resource_id' => @user_id.id,
   'resource_name' => @user_id.name,
   'task_id'=> @summary.task_master_id,
   'task_name'=>@project_task_name.task_name,
