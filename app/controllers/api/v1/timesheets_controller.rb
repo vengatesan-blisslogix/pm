@@ -25,6 +25,7 @@ if params[:log].to_i == 1
 
   json = params[:_json].to_s.gsub("=>",":")
 
+   puts "---------------#{json}------------------" 
     # Parse the JSON
     hash1 = JSON.parse(json)
     hash1.each do |hash|
