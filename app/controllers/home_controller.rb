@@ -787,7 +787,7 @@ end
     end
 
     @skill_set.each do |tech|
-tec = TechnologyMaster.find_by_id(tech.technology_master_id)
+    tec = TechnologyMaster.find_by_id(tech.technology_master_id)
       if @technology_name == ""
       @technology_name = tec.technology
       else
@@ -1067,7 +1067,7 @@ end
 
 def timesheet_approval
 #@assigns = Logtime.find_by_id(params[:id])
-@assigns_val = Logtime.where("project_master_id=#{params[:project_master_id]} and approved_by IS NULL")
+@assigns_val = Logtime.where("project_master_id=#{params[:project_master_id]} and task_master_id=#{params[:task_master_id]} and approved_by IS NULL")
 puts "----------#{params[:id]}---#{params[:project_master_id]}---#{params[:task_master_id]}--------"
 if @assigns_val != nil and @assigns_val.size.to_i!=0
 
@@ -1123,13 +1123,27 @@ def timesheet_summary
     if current_user.role_master_id == 1 
       @search="task_date between '#{@start_date}' and '#{@end_date}'"
     elsif @role_id.include?(current_user.role_master_id)
-    @find_reporting_to = User.where("reporting_to='#{current_user.id}'")
-      @ruser=""
-      @find_reporting_to.each do |ru|
-        if @ruser==""
-        @ruser=ru.id.to_s
+    @find_reporting_to = ProjectUser.where("manager=1 and user_id=#{current_user.id}")
+
+     @rpro=""
+      @find_reporting_to.each do |rp|
+        if @rpro==""
+        @rpro=rp.project_master_id.to_s
         else
-          @ruser=@ruser+","+ru.id.to_s
+          @rpro=@rpro+","+rp.project_master_id.to_s
+        end
+      end
+
+      @ruser=""
+
+if @rpro!=""
+    @find_reporting_to_user = ProjectUser.where("project_master_id IN(#{@rpro})")
+
+      @find_reporting_to_user.each do |ru|
+        if @ruser==""
+        @ruser=ru.user_id.to_s
+        else
+          @ruser=@ruser+","+ru.user_id.to_s
         end
       end
       if @ruser==""
@@ -1137,6 +1151,7 @@ def timesheet_summary
       else
        @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id IN (#{@ruser})"
       end
+    end
     else
       @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]}"
       
@@ -1156,10 +1171,10 @@ else
           else
             @proj_name = ""
           end
-            @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and status != 'rejected'").select(:user_id).uniq
+            @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
             @timesheet_summ_user.each do |tsu|
-            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id} and status != 'rejected'").sum(:task_time)
-            @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id} and status != 'rejected'")
+            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}").sum(:task_time)
+            @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}")
       @resource_name = User.find_by_id(tsu.user_id)
       if @resource_name != nil
         @res_name = @resource_name.name
@@ -1173,8 +1188,8 @@ else
       else
         @task_name = ""
       end
-
-      if @timesheet_summ_id[0].status != nil
+@status_log= Logtime.find_by_id(@timesheet_summ_id[0].id)
+      if @status_log!=nil and @status_log.status != nil
         @status = @timesheet_summ_id[0].status
       else
         @status = "pending"
