@@ -113,6 +113,7 @@ resources :home
       resources :project_payments
       resources :checklists
       resources :checklist_rejects
+      resources :project_request_forms
 
 
    end#namespace :v1 do

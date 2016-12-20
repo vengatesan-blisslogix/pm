@@ -1,0 +1,51 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_name: MyString
+  project_manager: MyString
+  project_type_id: 1
+  billable: MyString
+  project_description: MyString
+  project_domain_id: 1
+  client_name: MyString
+  kickstart_date: 2016-12-19
+  planned_start_date: 2016-12-19
+  planned_end_date: 2016-12-19
+  tag_keyword: MyString
+  project_status_master_id: 1
+  project_location_id: 1
+  sow_no: MyString
+  signoff_attachment: false
+  account_manager_name: MyString
+  website_page: MyString
+  facebook_page: MyString
+  twitter_page: MyString
+  business_unit_id: 1
+  enagement_type_id: 1
+  payment_cylce: MyString
+  team_member_allocation: MyString
+
+two:
+  project_name: MyString
+  project_manager: MyString
+  project_type_id: 1
+  billable: MyString
+  project_description: MyString
+  project_domain_id: 1
+  client_name: MyString
+  kickstart_date: 2016-12-19
+  planned_start_date: 2016-12-19
+  planned_end_date: 2016-12-19
+  tag_keyword: MyString
+  project_status_master_id: 1
+  project_location_id: 1
+  sow_no: MyString
+  signoff_attachment: false
+  account_manager_name: MyString
+  website_page: MyString
+  facebook_page: MyString
+  twitter_page: MyString
+  business_unit_id: 1
+  enagement_type_id: 1
+  payment_cylce: MyString
+  team_member_allocation: MyString

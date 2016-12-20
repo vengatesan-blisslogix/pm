@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116061913) do
+ActiveRecord::Schema.define(version: 20161220133126) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -107,12 +107,12 @@ ActiveRecord::Schema.define(version: 20161116061913) do
     t.string   "skypke",              limit: 255
     t.integer  "star_rating",         limit: 4
     t.string   "active",              limit: 255
-    t.string   "comments",            limit: 255
+    t.text     "comments",            limit: 65535
     t.string   "tag",                 limit: 255
     t.string   "archived",            limit: 255
     t.integer  "client_source_id",    limit: 4
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "user_id",             limit: 4
   end
 
@@ -236,7 +236,7 @@ ActiveRecord::Schema.define(version: 20161116061913) do
   create_table "project_masters", force: :cascade do |t|
     t.string   "billable",                 limit: 255
     t.string   "project_name",             limit: 255
-    t.string   "description",              limit: 255
+    t.text     "description",              limit: 65535
     t.string   "project_image",            limit: 255
     t.integer  "domain_id",                limit: 4
     t.integer  "client_id",                limit: 4
@@ -257,8 +257,8 @@ ActiveRecord::Schema.define(version: 20161116061913) do
     t.integer  "assigned_to_user_id",      limit: 4
     t.date     "kickstart_date"
     t.integer  "project_type_id",          limit: 4
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "avatar_file_name",         limit: 255
     t.string   "avatar_content_type",      limit: 255
     t.integer  "avatar_file_size",         limit: 4
@@ -281,6 +281,43 @@ ActiveRecord::Schema.define(version: 20161116061913) do
     t.integer  "user_id",     limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+  end
+
+  create_table "project_request_forms", force: :cascade do |t|
+    t.string   "project_name",               limit: 255
+    t.string   "project_manager",            limit: 255
+    t.integer  "project_type_id",            limit: 4
+    t.string   "billable",                   limit: 255
+    t.text     "project_description",        limit: 65535
+    t.integer  "project_domain_id",          limit: 4
+    t.string   "client_name",                limit: 255
+    t.date     "kickstart_date"
+    t.date     "planned_start_date"
+    t.date     "planned_end_date"
+    t.string   "tag_keyword",                limit: 255
+    t.integer  "project_status_master_id",   limit: 4
+    t.integer  "project_location_id",        limit: 4
+    t.string   "sow_no",                     limit: 255
+    t.boolean  "signoff_attachment"
+    t.string   "account_manager_name",       limit: 255
+    t.string   "website_page",               limit: 255
+    t.string   "facebook_page",              limit: 255
+    t.string   "twitter_page",               limit: 255
+    t.integer  "business_unit_id",           limit: 4
+    t.integer  "enagement_type_id",          limit: 4
+    t.string   "payment_cylce",              limit: 255
+    t.string   "team_member_allocation",     limit: 255
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "signed_copy_file_name",      limit: 255
+    t.string   "signed_copy_content_type",   limit: 255
+    t.integer  "signed_copy_file_size",      limit: 4
+    t.datetime "signed_copy_updated_at"
+    t.string   "mail_approval_file_name",    limit: 255
+    t.string   "mail_approval_content_type", limit: 255
+    t.integer  "mail_approval_file_size",    limit: 4
+    t.datetime "mail_approval_updated_at"
+    t.date     "signoff_date"
   end
 
   create_table "project_status_masters", force: :cascade do |t|
@@ -312,14 +349,14 @@ ActiveRecord::Schema.define(version: 20161116061913) do
 
   create_table "project_tasks", force: :cascade do |t|
     t.string   "task_name",             limit: 255
-    t.string   "task_description",      limit: 255
+    t.text     "task_description",      limit: 65535
     t.string   "active",                limit: 255
     t.integer  "priority",              limit: 4
     t.time     "planned_duration"
     t.time     "actual_duration"
     t.integer  "project_master_id",     limit: 4
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.float    "planned",               limit: 24
     t.float    "actual",                limit: 24
     t.integer  "task_status_master_id", limit: 4
@@ -372,9 +409,9 @@ ActiveRecord::Schema.define(version: 20161116061913) do
     t.string   "release_name",           limit: 255
     t.date     "start_date"
     t.date     "end_date"
-    t.string   "comments",               limit: 255
+    t.text     "comments",               limit: 65535
     t.string   "active",                 limit: 255
-    t.string   "release_notes",          limit: 255
+    t.text     "release_notes",          limit: 65535
     t.string   "flag_name",              limit: 255
     t.integer  "approved",               limit: 4
     t.integer  "approved_by_user_id",    limit: 4
@@ -383,8 +420,8 @@ ActiveRecord::Schema.define(version: 20161116061913) do
     t.datetime "qa_approved_date_time"
     t.integer  "user_id",                limit: 4
     t.integer  "project_master_id",      limit: 4
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "role_activity_mappings", force: :cascade do |t|
@@ -410,12 +447,12 @@ ActiveRecord::Schema.define(version: 20161116061913) do
     t.date     "start_date"
     t.date     "end_date"
     t.string   "sprint_name",         limit: 255
-    t.string   "sprint_desc",         limit: 255
+    t.text     "sprint_desc",         limit: 65535
     t.integer  "sprint_status_id",    limit: 4
     t.integer  "project_master_id",   limit: 4
     t.integer  "release_planning_id", limit: 4
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   create_table "sprint_statuses", force: :cascade do |t|

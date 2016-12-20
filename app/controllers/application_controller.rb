@@ -445,6 +445,17 @@ end
       end
     end
 
+    def get_all_project_request_forms
+        @project_request_all = ProjectRequestForm.all.order(:project_name)
+        @request_form_resp=[]
+        @project_request_all.each do |pp| 
+           @request_form_resp << {
+          'id' => pp.id,
+          'location_name' => pp.project_name      
+        }
+      end
+    end
+
     def get_all_checklist
         @checklist_all = Checklist.all.order(:name)
         @checklist_resp=[]
