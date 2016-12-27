@@ -451,7 +451,7 @@ end
         @project_request_all.each do |pp| 
            @request_form_resp << {
           'id' => pp.id,
-          'location_name' => pp.project_name      
+          'project_name' => pp.project_name      
         }
       end
     end

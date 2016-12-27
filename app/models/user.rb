@@ -61,11 +61,72 @@ class User < ActiveRecord::Base
       'role' => getrole,
       'company' => getcompany,
       'branch' => getbranch,
-      'access' => getaccess
+      'access' => getaccess,
+      'engagement_type' => getengagement
     }
   end
 
   private
+def get_all_projects
+  current_user = User.find_by_id(id)
+      if current_user.role_master_id==1
+      @search_all_pro=""
+      @search_all_pro_id=""
+      @client_id = ""
+      @admin =1
+      else
+        @admin =0
+        @find_pro = ProjectUser.where("user_id=#{current_user.id}").select(:project_master_id).uniq
+        @search_all_pro_id=""
+        @find_pro.each do |fp|
+        if @search_all_pro_id==""
+          @search_all_pro_id=fp.project_master_id
+        else
+          @search_all_pro_id=@search_all_pro_id.to_s+","+fp.project_master_id.to_s
+        end
+        end
+        if @search_all_pro_id==""
+          @search_all_pro="id IN(0)"
+        else
+          @search_all_pro="id IN(#{@search_all_pro_id})"
+        end
+
+      end
+      @project_all = ProjectMaster.where("#{@search_all_pro}").order(:project_name)
+      @project_resp=[]
+      @client_id = ""
+      @project_all.each do |p| 
+        if @client_id==""
+          @client_id=p.client_id
+        else
+          @client_id=@client_id.to_s+","+p.client_id.to_s
+        end
+        @project_resp << {
+         'id' => p.id,
+         'project_name' => p.project_name      
+        }
+      end
+   end
+
+  def getengagement
+    get_all_projects
+    if @admin == 1
+      @engage = true
+    else
+        if @search_all_pro_id==""
+          @search_all_pro="id IN(0)"
+        else
+          @search_all_pro="id IN(#{@search_all_pro_id})"
+        end
+          @pm = ProjectMaster.where("engagement_type_id = 2 and #{@search_all_pro}")
+          if @pm !=nil and @pm.size != 0
+            @engage = true
+          else
+            @engage = false
+          end
+    end#if @admin == 1
+    @engage
+  end
 def getrole
 	resp = []
 	@role = RoleMaster.find(role_master_id)

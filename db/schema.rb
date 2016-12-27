@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220133126) do
+ActiveRecord::Schema.define(version: 20161227053019) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -318,6 +318,7 @@ ActiveRecord::Schema.define(version: 20161220133126) do
     t.integer  "mail_approval_file_size",    limit: 4
     t.datetime "mail_approval_updated_at"
     t.date     "signoff_date"
+    t.integer  "project_manager_id",         limit: 4
   end
 
   create_table "project_status_masters", force: :cascade do |t|

@@ -19,12 +19,18 @@ def index
     @project_request_forms = ProjectRequestForm.where("#{@search}").page(params[:page]).order(:created_at => 'desc')
     resp=[]
      @project_request_forms.each do |pp| 
+      @manager_name = User.find_by_id(pp.project_manager_id)
+      puts "-----------#{pp.project_manager_id}------"
       resp << {
         'id' => pp.id,
         'name' => pp.project_name,
         'sow_no' => pp.sow_no,
-        'project_manager' => pp.project_manager,
-        'account_manager_name' => pp.account_manager_name
+        'project_manager' => "#{@manager_name.name}" " " "#{@manager_name.last_name}",
+        'account_manager_name' => pp.account_manager_name,
+        'billable' => pp.billable,
+        'kickstart_date' => pp.kickstart_date,
+        'planned_start_date' => pp.planned_start_date,
+        'planned_end_date' => pp.planned_end_date
       }
       end
 
@@ -96,7 +102,7 @@ private
     def project_request_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :project_name => "#{params[:project_name]}", :project_manager => "#{params[:project_manager]}", :project_type_id => "#{params[:project_type_id]}", :billable => "#{params[:billable]}", :project_description => "#{params[:project_description]}", :project_domain_id => "#{params[:project_domain_id]}", :client_name => "#{params[:client_name]}", :kickstart_date => "#{params[:kickstart_date]}", :planned_start_date => "#{params[:planned_start_date]}", :planned_end_date => "#{params[:planned_end_date]}", :tag_keyword => "#{params[:tag_keyword]}", :project_status_master_id => "#{params[:project_status_master_id]}", :project_location_id => "#{params[:project_location_id]}", :sow_no => "#{params[:sow_no]}", :signoff_attachment => "#{params[:signoff_attachment]}", :account_manager_name => "#{params[:account_manager_name]}", :website_page => "#{params[:website_page]}", :facebook_page => "#{params[:facebook_page]}", :twitter_page => "#{params[:twitter_page]}", :business_unit_id => "#{params[:business_unit_id]}", :enagement_type_id => "#{params[:enagement_type_id]}", :payment_cylce => "#{params[:payment_cylce]}", :team_member_allocation => "#{params[:team_member_allocation]}", :signoff_date => "#{params[:signoff_date]}" }
+      raw_parameters = { :project_name => "#{params[:project_name]}", :project_manager => "#{params[:project_manager]}", :project_type_id => "#{params[:project_type_id]}", :billable => "#{params[:billable]}", :project_description => "#{params[:project_description]}", :project_domain_id => "#{params[:project_domain_id]}", :client_name => "#{params[:client_name]}", :kickstart_date => "#{params[:kickstart_date]}", :planned_start_date => "#{params[:planned_start_date]}", :planned_end_date => "#{params[:planned_end_date]}", :tag_keyword => "#{params[:tag_keyword]}", :project_status_master_id => "#{params[:project_status_master_id]}", :project_location_id => "#{params[:project_location_id]}", :sow_no => "#{params[:sow_no]}", :signoff_attachment => "#{params[:signoff_attachment]}", :account_manager_name => "#{params[:account_manager_name]}", :website_page => "#{params[:website_page]}", :facebook_page => "#{params[:facebook_page]}", :twitter_page => "#{params[:twitter_page]}", :business_unit_id => "#{params[:business_unit_id]}", :enagement_type_id => "#{params[:enagement_type_id]}", :payment_cylce => "#{params[:payment_cylce]}", :team_member_allocation => "#{params[:team_member_allocation]}", :signoff_date => "#{params[:signoff_date]}", :project_manager_id => "#{params[:project_manager_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
       parameters.permit(:project_name, 
       	:project_manager, 
@@ -121,6 +127,7 @@ private
         :enagement_type_id,
         :payment_cylce,
         :team_member_allocation,
-        :signoff_date)    
+        :signoff_date,
+        :project_manager_id)    
     end
 end

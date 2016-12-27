@@ -21,9 +21,10 @@ r = RoleMaster.create(role_name: "Super Admin", active: "active")
 #Add branch 
 b = Branch.create(name: 'Chennai', active:"active")
 #Add company
-c = Company.create(company_name: 'TVS Next Pvt Ltd.,',
+c = Company.create(company_name: 'TVS Next',
 	            email: 'pmo@tvsnext.io',                
-                mobile: '+91 44 49098874'                
+                mobile: '+91 44 49098874',
+                active: 'active'               
                 )
 c.save!
 #add super admin
@@ -130,3 +131,35 @@ end
 #Add super admin Role
 s = SprintStatus.create(status: "true", active: 1, user_id: 1)
 
+
+
+#add Activities
+["Create New Client",
+"Edit Client",
+"Create New Project",
+"Edit Project",
+"Create Project Members",
+"Edit Project Members",
+"Create Release Plan",
+"Edit Releaseplan",
+"Create Sprint Plan",
+"Edit Sprint Plan",
+"Create Product Backlog",
+"Edit Product Backlog",
+"Add Unassigned task",
+"Create New User",
+"Edit User",
+"Create New Role",
+"Edit Role",
+"Create New Activity",
+"Edit Activity",
+"Create New Branch",
+"Edit Branch",
+"Create New Technology",
+"Edit Technology",
+"Create New Team",
+"Edit Team",
+"Create New Holiday",
+"Edit Holiday"].each do |act|
+act = ActivityMaster.create(activity_Name: "#{act}", active: "active",  is_page: "no")
+end
