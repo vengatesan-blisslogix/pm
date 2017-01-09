@@ -43,7 +43,7 @@ before_action :set_project, only: [:show, :edit, :update]
         @status_name =""
       end      
 
-      @release_planning = ReleasePlanning.find_by_id(p.project_master_id)
+      @release_planning = ReleasePlanning.find_by_project_master_id(p.project_master_id)
        if @release_planning!=nil and @release_planning!=""
          @release_name =@release_planning.release_name
           @release_id =@release_planning.id
@@ -51,7 +51,7 @@ before_action :set_project, only: [:show, :edit, :update]
          @release_name =""
        end    
 
-      @sprint_planning = SprintPlanning.find_by_id(p.project_master_id)
+      @sprint_planning = SprintPlanning.find_by_project_master_id(p.project_master_id)
        if @sprint_planning!=nil and @sprint_planning!=""
          @sprint_name =@sprint_planning.sprint_name
           @sprint_id =@sprint_planning.id
@@ -59,7 +59,7 @@ before_action :set_project, only: [:show, :edit, :update]
          @sprint_name =""
        end    
 
-      @assign = Taskboard.find_by_id(p.project_master_id)
+      @assign = Taskboard.find_by_project_master_id(p.project_master_id)
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
          @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
