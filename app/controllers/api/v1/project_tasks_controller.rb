@@ -83,7 +83,7 @@ before_action :set_project, only: [:show, :edit, :update]
 
          @find_assigneer.each do |a|
          
-          @users = User.find_by_id(a.assigned_user_id)
+          @users = User.find_by_assigned_user_id(a.assigned_user_id)
            if @users!=nil and @users!=""
              @assigneer   ="#{@users.name} #{@users.last_name}"
            else
