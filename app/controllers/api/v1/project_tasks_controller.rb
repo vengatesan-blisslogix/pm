@@ -204,7 +204,7 @@ def show
              @assigneer   =""
            end
        end
-     end
+     
      
             
     resp << {
