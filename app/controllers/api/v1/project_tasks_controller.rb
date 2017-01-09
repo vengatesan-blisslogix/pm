@@ -112,7 +112,7 @@ before_action :set_project, only: [:show, :edit, :update]
           'started_on' => p.planned_duration,
           'ended_on' => p.actual_duration,
           'assignee_name' => @assignee,
-          'assigner_name' => @assigner_name,
+          'assigner_name' => @assigneer,
           'project_board_id' => p.task_status_master_id,
           'project_board_status' => @status_name,
           'project_id' => p.project_master_id,
