@@ -223,6 +223,7 @@ def create
     @project = ProjectTask.new(project_params)
     if @project.save
           @project.active = "active"
+          @project.active = "active"
           @project.planned = params[:planned_duration]
         @project.save
     	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
@@ -237,7 +238,7 @@ end
     if @project.update(project_params)  	
       @project.save
           @project.planned = params[:planned_duration]
-          @project.actual = params[:actual_duration]
+          @project.task_status_master_id = 1
         @project.save  
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
