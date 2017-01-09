@@ -78,6 +78,10 @@ match "/api/v1/set_stage", :to => "home#set_stage", :via => ["get"]
 
 match "/api/v1/default_pro", :to => "home#default_pro", :via => ["post"]
 
+match "/api/v1/all_priority", :to => "home#all_priority", :via => ["get"]
+
+match "/api/v1/all_status", :to => "home#all_status", :via => ["get"]
+
 
 
 

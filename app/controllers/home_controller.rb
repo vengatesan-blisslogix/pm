@@ -13,6 +13,32 @@ class HomeController < ApplicationController
         render json: { valid: true, msg:"#{@default_proj.name} This is your default project."}
   end
 
+  def all_priority
+    @all_priority = TaskPriority.all     
+      @priority_resp=[]
+      @all_priority.each do |tp| 
+
+        @priority_resp << {
+         'priority_id' => tp.id,
+         'priority_name' => tp.name,
+        }
+      end
+      render json: @priority_resp
+  end
+
+  def all_status
+    @all_status = TaskStatusMaster.all     
+      @status_resp=[]
+      @all_status.each do |ts| 
+
+        @status_resp << {
+         'project_board_id' => ts.id,
+         'project_board_status' => ts.status,
+        }
+      end
+      render json: @status_resp
+  end
+
   def project
     get_all_projects
     @projects = ProjectMaster.order(:created_at => 'desc')
