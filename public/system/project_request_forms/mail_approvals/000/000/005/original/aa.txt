@@ -1,0 +1,25 @@
+1. Difference between View Bag & View Data
+2. Difference between Stored Procedure & User defined Functions in SQL
+3. Can SQL Views be updated?
+4. What is a Constructor?
+5. What is Inheritance?
+6. What is Abstract class?
+7. What is Polymorphism?
+8. What are the concepts in OOPs?
+9. What are the types of Views in SQL?
+10. What is Index in SQL?
+11. What is the difference between Hash Table & Arrays?
+12. What is the difference between Arrays & Collections?
+13. Can a Stored Procedure be used inside a User Defined Function in SQL?
+14. Can a User Defined Function be used inside a Stored Procedure in SQL?
+15. Is it possible to inherit more than one class?
+16. What is meant by Abstraction?
+17. Is it possible to create objects for an abstract class?
+18. Life cycle of MVC
+19. Life cycle of ASP .NET
+20. What does Global.asax.cs file do?
+21. What is the use of RouteConfig.cs in MVC?
+22. Can we have 2 Routes in a RouteConfig.cs file?
+23. Can we have 2 RouteConfig.cs files in App_Start?
+24. Data flow from Data Access Layer to the Data Base
+25. Difference between string and string builder?

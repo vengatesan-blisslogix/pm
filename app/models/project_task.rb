@@ -8,6 +8,6 @@ default_scope { where(active: "active")}
     
     validates_presence_of :project_master_id
 
-	paginates_per $PER_PAGE
+	#paginates_per $PER_PAGE
 
 end

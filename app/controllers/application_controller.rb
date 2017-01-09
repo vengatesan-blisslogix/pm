@@ -220,22 +220,61 @@ puts "----ttime-----#{@total_time}----------"
         else
           @search_all_pro="id IN(#{@search_all_pro_id})"
         end
+        
+        if params[:controller] == "api/v1/project_tasks" and params[:action] == "index"
 
+        @engage = ProjectMaster.where("engagement_type_id = 2 and #{@search_all_pro}")
+          if @engage != nil and @engage.size!= 0
+            @engage_proj = ""
+            @search_all_pro_id.split(",").each do |en|
+
+                @engage_find = ProjectMaster.find_by_id(en)
+                   
+                if @engage_find != nil and @engage_find.engagement_type_id.to_i == 2
+                  if @engage_proj==""
+                    @engage_proj=en
+                  else
+                    @engage_proj=@engage_proj.to_s+","+en.to_s
+                  end#if @engage_proj==""
+                end#if @engage_find != nil
+            end
+                  if @engage_proj==""
+                    @search_all_pro = "id IN(0)"
+                  else
+                    @search_all_pro = "id IN(#{@engage_proj})"
+                  end           
+
+          else
+           @search_all_pro = "id IN(0)" 
+          end#if @engage != nil and @engage.size!= 0
+        end
       end
+
+      @default_pro = 0
+
       @project_all = ProjectMaster.where("#{@search_all_pro}").order(:project_name)
       @project_resp=[]
       @client_id = ""
       @project_all.each do |p| 
+        @find_pro_default = ProjectUser.where("user_id=#{current_user.id} and project_master_id=#{p.id} and default_project=#{p.id}")
+        puts "--------#{@find_pro_default.size}----------"
+        if @find_pro_default !=nil and @find_pro_default.size.to_i!=0
+          puts "-----------------------"
+          @default_pro = p.id
+        end
+
         if @client_id==""
           @client_id=p.client_id
         else
           @client_id=@client_id.to_s+","+p.client_id.to_s
         end
+
         @project_resp << {
-         'id' => p.id,
-         'project_name' => p.project_name      
-        }
+         'value' => p.id,
+         'label' => p.project_name,
+        }      
       end
+      
    end
 
    def get_all_project_task_status

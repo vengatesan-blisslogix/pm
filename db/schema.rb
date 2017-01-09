@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161227053019) do
+ActiveRecord::Schema.define(version: 20170109051320) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20161227053019) do
   create_table "assigns", force: :cascade do |t|
     t.integer  "taskboard_id",     limit: 4
     t.integer  "assigned_user_id", limit: 4
+    t.integer  "assigneer_id",     limit: 4
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
@@ -141,6 +142,85 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.datetime "updated_at",                 null: false
   end
 
+  create_table "cr_release", force: :cascade do |t|
+    t.string   "name",        limit: 160, null: false
+    t.datetime "released_on",             null: false
+    t.integer  "project_id",  limit: 4,   null: false
+    t.datetime "created_on",              null: false
+    t.datetime "modified_on"
+  end
+
+  create_table "cr_release_attachment", force: :cascade do |t|
+    t.integer  "release_id",    limit: 4,   null: false
+    t.string   "document_name", limit: 160, null: false
+    t.datetime "created_on",                null: false
+  end
+
+  add_index "cr_release_attachment", ["release_id"], name: "release_id", using: :btree
+
+  create_table "cr_sprint", force: :cascade do |t|
+    t.string   "name",        limit: 250, null: false
+    t.date     "started_on",              null: false
+    t.date     "ended_on",                null: false
+    t.integer  "status_id",   limit: 4,   null: false
+    t.integer  "project_id",  limit: 4,   null: false
+    t.datetime "created_on",              null: false
+    t.datetime "modified_on"
+  end
+
+  create_table "cr_sprint_status", id: false, force: :cascade do |t|
+    t.integer  "id",          limit: 4,   null: false
+    t.string   "name",        limit: 250, null: false
+    t.datetime "created_on",              null: false
+    t.datetime "modified_on"
+  end
+
+  create_table "cr_task", force: :cascade do |t|
+    t.string   "name",             limit: 250,   null: false
+    t.text     "description",      limit: 65535, null: false
+    t.float    "p_hours",          limit: 24,    null: false
+    t.float    "c_hours",          limit: 24,    null: false
+    t.date     "started_on",                     null: false
+    t.date     "ended_on",                       null: false
+    t.integer  "assignee_id",      limit: 4,     null: false
+    t.integer  "assigner_id",      limit: 4,     null: false
+    t.integer  "task_priority_id", limit: 4,     null: false
+    t.integer  "task_board_id",    limit: 4,     null: false
+    t.integer  "project_id",       limit: 4,     null: false
+    t.integer  "sprint_id",        limit: 4,     null: false
+    t.integer  "release_id",       limit: 4,     null: false
+    t.datetime "created_on",                     null: false
+    t.datetime "modified_on"
+  end
+
+  create_table "cr_task_attachment", force: :cascade do |t|
+    t.integer  "task_id",    limit: 4,   null: false
+    t.string   "name",       limit: 250, null: false
+    t.datetime "created_on",             null: false
+  end
+
+  add_index "cr_task_attachment", ["task_id"], name: "task_id", using: :btree
+  add_index "cr_task_attachment", ["task_id"], name: "task_id_2", using: :btree
+
+  create_table "cr_task_board", force: :cascade do |t|
+    t.string   "name",        limit: 160, null: false
+    t.datetime "created_on",              null: false
+    t.datetime "modified_on"
+  end
+
+  create_table "cr_task_priority", force: :cascade do |t|
+    t.integer  "name",        limit: 4, null: false
+    t.datetime "created_on",            null: false
+    t.datetime "modified_on"
+  end
+
+  create_table "cr_user_favorite", force: :cascade do |t|
+    t.integer  "user_id",     limit: 4, null: false
+    t.integer  "project_id",  limit: 4, null: false
+    t.datetime "created_on",            null: false
+    t.datetime "modified_on",           null: false
+  end
+
   create_table "cron_intranets", force: :cascade do |t|
     t.string   "emp_codes",        limit: 255
     t.string   "emp_name",         limit: 255
@@ -214,6 +294,12 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.integer  "value",      limit: 4
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "project_boards", force: :cascade do |t|
+    t.string   "status",     limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "project_domains", force: :cascade do |t|
@@ -319,6 +405,7 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.datetime "mail_approval_updated_at"
     t.date     "signoff_date"
     t.integer  "project_manager_id",         limit: 4
+    t.integer  "payment_cycle_id",           limit: 4
   end
 
   create_table "project_status_masters", force: :cascade do |t|
@@ -353,8 +440,8 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.text     "task_description",      limit: 65535
     t.string   "active",                limit: 255
     t.integer  "priority",              limit: 4
-    t.time     "planned_duration"
-    t.time     "actual_duration"
+    t.float    "planned_duration",      limit: 24
+    t.float    "actual_duration",       limit: 24
     t.integer  "project_master_id",     limit: 4
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
@@ -397,6 +484,7 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.integer  "manager",           limit: 4
     t.string   "reporting_to",      limit: 255
     t.integer  "allocate",          limit: 4
+    t.integer  "default_project",   limit: 4
   end
 
   create_table "regions", force: :cascade do |t|
@@ -423,6 +511,14 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.integer  "project_master_id",      limit: 4
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+  end
+
+  create_table "releases", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.datetime "released_on"
+    t.integer  "project_id",  limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "role_activity_mappings", force: :cascade do |t|
@@ -464,6 +560,22 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "sprints", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.date     "started_on"
+    t.date     "ended_on"
+    t.integer  "status_id",  limit: 4
+    t.integer  "project_id", limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "task_priorities", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "task_status_masters", force: :cascade do |t|
     t.string   "status",      limit: 255
     t.datetime "created_at",              null: false
@@ -487,6 +599,24 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
     t.integer  "task_complete",         limit: 4
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string   "name",             limit: 255
+    t.text     "description",      limit: 65535
+    t.float    "p_hours",          limit: 24
+    t.float    "c_hours",          limit: 24
+    t.date     "started_on"
+    t.date     "ended_on"
+    t.integer  "assignee_id",      limit: 4
+    t.integer  "assigner_id",      limit: 4
+    t.integer  "task_priority_id", limit: 4
+    t.integer  "project_board_id", limit: 4
+    t.integer  "project_id",       limit: 4
+    t.integer  "sprint_id",        limit: 4
+    t.integer  "release_id",       limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "team_masters", force: :cascade do |t|
@@ -542,6 +672,13 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.integer  "shared_to",       limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+  end
+
+  create_table "user_favourites", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "project_id", limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "user_technologies", force: :cascade do |t|
@@ -602,6 +739,7 @@ ActiveRecord::Schema.define(version: 20161227053019) do
     t.integer  "delivery",               limit: 4
     t.integer  "reporting_to_id",        limit: 4
     t.string   "reporting_id",           limit: 255
+    t.integer  "default_project_id",     limit: 4
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
@@ -611,6 +749,8 @@ ActiveRecord::Schema.define(version: 20161227053019) do
   add_index "users", ["role_master_id"], name: "index_users_on_role_master_id", using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "cr_release_attachment", "cr_release", column: "release_id", name: "cr_release_attachment_ibfk_1", on_delete: :cascade
+  add_foreign_key "cr_task_attachment", "cr_task", column: "task_id", name: "cr_task_attachment_ibfk_1", on_delete: :cascade
   add_foreign_key "users", "branches"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "role_masters"

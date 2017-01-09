@@ -43,16 +43,31 @@ u.save!
 
 
 
-href = ["home.dashboard", "home.clients", "home.projects", "home.projectMembers", "home.releasePlanning", "home.sprintPlanning", "home.productBacklog",  "home.taskBoard", "home.timesheet", "home.reports", "home.admin", "home.masters"]
+href = ["home.dashboard", "home.clients", "home.projects", "home.projectform", "home.projectMembers", "home.projectplan",  "home.taskBoard", "home.timesheet", "home.reports", "home.admin", "home.masters"]
 
-icon = ["fa fa-fw fa-windows", "fa fa-fw fa-bullseye", "fa fa-fw fa-tachometer", "fa fa-fw fa-users", "fa fa-fw fa-life-ring", "fa fa-fw fa-leaf", "fa fa-fw fa-arrows", "fa fa-fw fa-paper-plane", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle"]
+icon = ["fa fa-fw fa-windows", "fa fa-fw fa-bullseye", "fa fa-fw fa-tachometer", "fa fa-file-word-o", "fa fa-fw fa-users", "fa fa-fw fa-plus-circle", "fa fa-fw fa-paper-plane", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle", "fa fa-fw fa-plus-circle"]
 i = 0
 
-["Dashboard", "Clients", "Projects", "Project Members", "Release Planning", "Sprint Planning", "Product Backlog", "Task Board", "Timesheet", "Reports", "Admin", "Masters"].each do |al|
+["Dashboard", "Clients", "Projects", "Project Form","Project Members", "Project Plan", "Task Board", "Timesheet", "Reports", "Admin", "Masters"].each do |al|
 a = ActivityMaster.create(activity_Name: "#{al}", active: "active", is_page: "yes", parent_id:0, href: href[i],  icon: icon[i])
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: a.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
 end
+
+
+
+#Add Project Plan sub activity
+plan = ActivityMaster.find_by_activity_Name("Project Plan")
+href = ["home.releasePlanning", "home.sprintPlanning", "home.productBacklog"]
+icon = ["fa fa-fw fa-life-ring", "fa fa-fw fa-leaf", "fa fa-fw fa-arrows"]
+i = 0
+["Release Planning", "Sprint Planning", "Product Backlog"].each do |pp|
+pn = ActivityMaster.create(activity_Name: "#{pp}", active: "active", is_page: "yes", parent_id: plan.id, href: href[i],  icon: icon[i])
+RoleActivityMapping.create(role_master_id: r.id, activity_master_id: pn.id, access_value: 1, user_id: u.id, active: 1)
+i = i+1
+end
+
+
 
 #Add Project Users activity
 #project = ActivityMaster.find_by_activity_Name("Projects")
@@ -69,6 +84,8 @@ rep = ActivityMaster.create(activity_Name: "#{re}", active: "active", is_page: "
 RoleActivityMapping.create(role_master_id: r.id, activity_master_id: rep.id, access_value: 1, user_id: u.id, active: 1)
 i = i+1
 end
+
+
 
 #add admin sub activity
 href = ["home.users", "home.roles", "home.activity","home.branch","home.technology","home.team","home.holidays"]

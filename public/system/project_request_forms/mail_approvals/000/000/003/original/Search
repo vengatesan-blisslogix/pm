@@ -1,0 +1,61 @@
+1. Search with a word/phrase:
+
+POST	: http://10.91.16.148:3000/api/v1/search_user/?
+
+REQUEST	:{
+	"search":"a"
+	}
+RESPONSE: [
+	  {
+	    "name": "Admin",
+	    "employee_no": "0001",
+	    "email": "pmo@tvsnext.io"
+	  },
+	  {
+	    "name": "Arun",
+	    "employee_no": "NXT 237",
+	    "email": "arun.a@tvsnext.io"
+	  },
+	  {
+	    "name": "Arunachalam",
+	    "employee_no": "NXT 248",
+	    "email": "arun@tvsnext.io"
+	  }
+	 ]
+
+2. Search with email:
+
+POST	: http://10.91.16.148:3000/api/v1/search_user/?
+
+REQUEST :{
+	"email": "arun.a@tvsnext.io"
+	}
+
+
+RESPONSE: [
+	  {
+	    "name": "Arun",
+	    "last_name": "Kumar A",
+	    "nickname": null,
+	    "email": "arun.a@tvsnext.io",
+	    "mobile_no": "9876543217",
+	    "office_phone": null,
+	    "home_phone": null,
+	    "profile_photo": null,
+	    "avatar_file_name": "/avatars/original/missing.png",
+	    "active": "active",
+	    "prior_experience": 3.4,
+	    "doj": "2014-02-05",
+	    "dob": "1970-01-01",
+	    "team_id": 7,
+	    "created_by_user": null,
+	    "reporting_to": "7",
+	    "branch_id": 1,
+	    "company_id": 1,
+	    "role_master_id": 3,
+	    "employee_no": "NXT 237",
+	    "user_technology": null
+	  }
+	]
+
+_

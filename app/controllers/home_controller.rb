@@ -6,6 +6,45 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+  def default_pro
+    @default_proj = User.find_by_id(params[:user_id])
+    @default_proj.default_project_id   = params[:default_project_id ]
+    @default_proj.save
+        render json: { valid: true, msg:"#{@default_proj.name} This is your default project."}
+  end
+
+  def project
+    get_all_projects
+    @projects = ProjectMaster.order(:created_at => 'desc')
+    #@project = []
+      #@projects.each do |p|
+        #@project << {
+          #'value' => p.id,
+          #'label' => p.project_name
+        #}
+      #end
+      @respone = {
+        'list' => @project_resp,
+        'count' => @project_resp.count,
+        'default' => @default_pro
+      }
+      render json: @respone
+  end
+
+  def set_priority
+    @task = Task.find_by_id(params[:task_id])
+    @task.task_priority_id = params[:task_priority_id]
+    @task.save
+        render json: { valid: true, msg:"#{@task.name}-priority updated successfully."}
+  end
+
+  def set_stage
+    @task = Task.find_by_id(params[:task_id])
+    @task.task_board_id = params[:task_board_id]
+    @task.save
+        render json: { valid: true, msg:"#{@task.name}-stage updated successfully."}
+  end
+
 def get_regions
    @region_all = Region.all.order(:name)
       @region_resp=[]
@@ -1756,7 +1795,11 @@ def get_sprint
 
 def all_projects
   get_all_projects
-  render json: @project_resp
+  @respone = {
+            'list' => @project_resp,
+            'count' => @project_resp.count
+          }
+        render json: @respone
 end
 
 def get_task_project

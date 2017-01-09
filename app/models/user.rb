@@ -127,6 +127,8 @@ def get_all_projects
     end#if @admin == 1
     @engage
   end
+
+  
 def getrole
 	resp = []
 	@role = RoleMaster.find(role_master_id)

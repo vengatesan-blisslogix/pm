@@ -1,0 +1,297 @@
+
+use ng-change in view file to get country
+                                                                                                                                                    --Select country *-- {{Country.name}} 
+*Country Cannot be Blank.
+--Select State *-- {{State.name}} 
+*State Cannot be Blank.
+--Select City *-- {{City.name}} 
+*City Cannot be Blank.
+<div class="row form-group">
+
+   <div class="col-md-4 col-sm-4 col-xs-12" ng-class="{
+                                                       'has-error'
+                                                               :addAccountForm.Region.$error.required && showErr}">
+                                               <select ng-model="User.Region" class="form-control" name="Region" ng-change="timeZone(User.Region)" required>
+                                                   <option value="">--Select Region *--</option>
+                                                   <option ng-selected="Caller.CallerId == User.Region" value="{{Caller.CallerId}}" ng-repeat="Caller in Callers">{{Caller.CallerName}}</option>
+                                               </select>
+                                               <p class="help-block" ng-show="addAccountForm.Region.$error.required && showErr">*Region Cannot be Blank.</p>
+                                           </div>
+Moorthi • 2 mins
+Moorthi S (moorthi.s@tvsnext.io)
+
+
+Send a message
+
+                                        
+
+ <div class="col-md-4 col-sm-4 col-xs-12" ng-class="{
+                                                       'has-error'
+                                                               :addAccountForm.Country.$error.required && showErr}">
+                                               <select ng-model="User.Country" class="form-control" name="Country" ng-change="StateZone(User.Country)" required>
+                                                   <option value="">--Select country *--</option>
+                                                   <option ng-selected="Country.id == User.Country" value="{{Country.id}}" ng-repeat="Country in Countrys">{{Country.name}}</option>
+                                               </select> 
+                                               <!--<multiselect class="input-xlarge" multiple="false" header="--Select country *--" ng-model="User.Namecountry" name="Country" options="f.name for f in Countrys" change="selected()" ng-change="StateZone(User.Namecountry)" required></multiselect>-->  
+                                               <p class="help-block" ng-show="addAccountForm.Country.$error.required && showErr">*Country Cannot be Blank.</p>
+                                           </div>
+                                           <div class="col-md-4 col-sm-4 col-xs-12"  ng-class="{
+                                                       'has-error'
+                                                               :addAccountForm.State.$error.required && showErr}">
+                                               <select ng-model="User.State" class="form-control" name="State" ng-change="CityZone(User.State)" required>
+                                                   <option value="">--Select State *--</option>
+                                                   <option ng-selected="State.id == User.State" value="{{State.id}}" ng-repeat="State in States">{{State.name}}</option>
+                                               </select> 
+
+                                               <p class="help-block" ng-show="addAccountForm.State.$error.required && showErr">*State Cannot be Blank.</p>
+                                           </div>
+                                           <div class="col-md-4 col-sm-4 col-xs-12"  ng-class="{
+                                                       'has-error'
+                                                               :addAccountForm.City.$error.required && showErr}">
+                                               <select ng-model="User.City" class="form-control" name="City" ng-required="Citys.length != 0">
+                                                   <option value="">--Select City *--</option>
+                                                   <option ng-selected="City.id == User.City" value="{{City.id}}" ng-repeat="City in Citys">{{City.name}}</option>
+                                               </select>
+                                               <p class="help-block" ng-show="addAccountForm.Country.$error.required && showErr">*City Cannot be Blank.</p>
+                                           </div>
+                                       </div>
+  commonService.GetTimezone($scope.Value).then(function (data) {
+               $('#Tvs_loader').hide();
+               if (data.IsSuccess)
+                   $scope.Timezones = data.ResponseObject;
+           }, function (err) {
+               $('#Tvs_loader').hide();
+               console.log(err);
+           });
+           $scope.country["RegionId"] = Region;
+           DashboardService.GetCountry($scope.country).then(function (data) {
+               $('#Tvs_loader').hide();
+               if (data.IsSuccess)
+                   $scope.Countrys = data.ResponseObject;
+           }, function (err) {
+               $('#Tvs_loader').hide();
+           });
+   DashboardService.GetState($scope.state).then(function (data) {
+               $('#Tvs_loader').hide();
+               if (data.IsSuccess)
+                   $scope.States = data.ResponseObject;
+           }, function (err) {
+               $('#Tvs_loader').hide();
+               console.log(err);
+           });
+ DashboardService.GetCity($scope.city).then(function (data) {
+               $('#Tvs_loader').hide();
+               if (data.IsSuccess)
+                   $scope.Citys = data.ResponseObject;
+           }, function (err) {
+               $('#Tvs_loader').hide();
+               console.log(err);
+           });
+
+
+
+
+
+
+
+ // Integertated On 11/07/2016
+           GetTimezone: function (data) {
+               var method_name = "GetTimezone";
+               var deferred = $q.defer();
+               var RegionId = data && data.RegionId ? data.RegionId : '';
+//                var CountryCode = data.CountryCode;
+               $http({
+                   method: 'GET',
+                   url: baseurl + "get/Common/GetTimezone?RegionId=" + RegionId,
+//                    cache: localStorage.IsSuperAdmin == "false",
+                   headers: {
+                       Accept: "text/plain; charset=utf-8",
+                       'Content-Type': 'application/x-www-form-urlencoded',
+                       'Microtime': timestamp,
+                       'Hash': apiConfig.commonHMAC(method_name, timestamp),
+                       'Hname': method_name,
+                   },
+                   dataType: 'json'
+               }).success(function (data, status, headers, config) {
+                   deferred.resolve(data);
+               }).error(function (data, status, headers, config) {
+                   deferred.reject(data);
+               });
+               return deferred.promise;
+           },
+
+
+
+GetnewCountry: function (RegionId) {
+
+               var method_name = "GetCountry";
+               var deferred = $q.defer();
+               $http({
+                   method: 'GET',
+                   url: baseurl + "get/Dashboard/GetCountry?RoleId=" + 1 + "&SubRoleId=" + 1 + "&RegionId=" + RegionId,
+//                    cache: true,
+                   headers: {
+                       Accept: "text/plain; charset=utf-8",
+                       'Content-Type': 'application/x-www-form-urlencoded',
+                       'Microtime': timestamp,
+                       'Hash': apiConfig.commonHMAC(method_name, timestamp),
+                       'Hname': method_name,
+                   },
+                   dataType: 'json'
+               }).success(function (data, status, headers, config) {
+                   deferred.resolve(data);
+               }).error(function (data, status, headers, config) {
+                   deferred.reject(data);
+               });
+               return deferred.promise;
+           },
+           GetState: function (CountryId) {
+
+               var method_name = "GetState";
+               var deferred = $q.defer();
+               $http({
+                   method: 'GET',
+                   url: baseurl + "get/Dashboard/GetState?RoleId=" + 1 + "&SubRoleId=" + 1 + "&CountryId=" + CountryId.CountryId,
+//                    cache: true,
+                   headers: {
+                       Accept: "text/plain; charset=utf-8",
+                       'Content-Type': 'application/x-www-form-urlencoded',
+                       'Microtime': timestamp,
+                       'Hash': apiConfig.commonHMAC(method_name, timestamp),
+                       'Hname': method_name,
+                   },
+                   dataType: 'json'
+               }).success(function (data, status, headers, config) {
+                   deferred.resolve(data);
+               }).error(function (data, status, headers, config) {
+                   deferred.reject(data);
+               });
+               return deferred.promise;
+           },
+           GetCity: function (StateId) {
+
+               var method_name = "GetCity";
+               var deferred = $q.defer();
+               $http({
+                   method: 'GET',
+                   url: baseurl + "get/Dashboard/GetCity?RoleId=" + 1 + "&SubRoleId=" + 1 + "&StateId=" + StateId.StateId,
+//                    cache: true,
+                   headers: {
+                       Accept: "text/plain; charset=utf-8",
+                       'Content-Type': 'application/x-www-form-urlencoded',
+                       'Microtime': timestamp,
+                       'Hash': apiConfig.commonHMAC(method_name, timestamp),
+                       'Hname': method_name,
+                   },
+                   dataType: 'json'
+               }).success(function (data, status, headers, config) {
+                   deferred.resolve(data);
+               }).error(function (data, status, headers, config) {
+                   deferred.reject(data);
+               });
+               return deferred.promise;
+           },
+
+
+
+
+
+
+
+
+
+
+
+<div class="form-group col-md-10 col-md-offset-1" ng-class="{ 'has-error' : (clientForm.country.$invalid && showerr)||(clientForm.country.$invalid && clientForm.country.$dirty)}">
+               <!-- <p class="asterisk"><i class="fa fa-asterisk" aria-hidden="true"></i></p>-->
+                <select name="country" class="countries form-control" ng-model="submit.country"  id="countryId" data-toggle="tooltip" title="City Name">
+                    <option value="">Select Country</option>
+                </select>
+               <!-- <p ng-show="(clientForm.country.$invalid && showerr)||(clientForm.country.$invalid && clientForm.country.$dirty)" class="help-block"><span style="color:red;">*</span>Enter City Name</p>-->
+            </div>
+
+            <div class="form-group col-md-10 col-md-offset-1">
+                <select name="state" class="states form-control text" id="stateId">
+                    <option value="">Select State</option>
+                </select>
+            </div>
+            <div class="form-group col-md-10 col-md-offset-1">
+                <select name="city" class="cities form-control text" id="cityId">
+                    <option value="">Select City</option>
+                </select>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="form-group col-md-10 col-md-offset-1" ng-class="{ 'has-error' : (clientForm.region.$invalid && showerr)||(clientForm.region.$invalid && clientForm.region.$dirty)}">
+                <select ng-model="submit.region" class="form-control" name="region" ng-change="timeZone(submit.region)" required>
+                  <option value="">--Select Region *--</option>
+                  <option ng-selected="Region.id == submit.region" value="{{Region.id}}" ng-repeat="region in TimeZones">{{Country.name}}</option>
+                </select> 
+             <!--<multiselect class="input-xlarge" multiple="false" header="--Select country *--" ng-model="User.Namecountry" name="Country" options="f.name for f in Countrys" change="selected()" ng-change="StateZone(User.Namecountry)" required></multiselect>-->  
+               <p class="help-block" ng-show="addAccountForm.region.$error.required && showErr">*Region Cannot be Blank.</p>
+            </div>
+
+            <div class="form-group col-md-10 col-md-offset-1" ng-class="{ 'has-error' : (clientForm.country.$invalid && showerr)||(clientForm.country.$invalid && clientForm.country.$dirty)}">
+                <select ng-model="submit.country" class="form-control" name="country" ng-change="StateZone(submit.country)" required>
+                  <option value="">--Select Country *--</option>
+                  <option ng-selected="Country.id == submit.country" value="{{Country.id}}" ng-repeat="Country in Countrys">{{Country.name}}</option>
+                </select> 
+             <!--<multiselect class="input-xlarge" multiple="false" header="--Select country *--" ng-model="User.Namecountry" name="Country" options="f.name for f in Countrys" change="selected()" ng-change="StateZone(User.Namecountry)" required></multiselect>-->  
+               <p class="help-block" ng-show="addAccountForm.Country.$error.required && showErr">*Country Cannot be Blank.</p>
+            </div>
+
+            <div class="form-group col-md-10 col-md-offset-1" ng-class="{ 'has-error' : (clientForm.state.$invalid && showerr)||(clientForm.state.$invalid && clientForm.state.$dirty)}">
+                <select ng-model="submit.state" class="form-control" name="state" ng-change="StateZone(submit.state)" required>
+                  <option value="">--Select State *--</option>
+                  <option ng-selected="state.id == submit.state" value="{{state.id}}" ng-repeat="state in states">{{state.name}}</option>
+                </select> 
+             <!--<multiselect class="input-xlarge" multiple="false" header="--Select country *--" ng-model="User.Namecountry" name="Country" options="f.name for f in Countrys" change="selected()" ng-change="StateZone(User.Namecountry)" required></multiselect>-->  
+               <p class="help-block" ng-show="addAccountForm.state.$error.required && showErr">*State Cannot be Blank.</p>
+            </div>
+
+            <div class="form-group col-md-10 col-md-offset-1" ng-class="{ 'has-error' : (clientForm.city.$invalid && showerr)||(clientForm.city.$invalid && clientForm.city.$dirty)}">
+                <select ng-model="submit.city" class="form-control" name="city" ng-change="CityZone(submit.city)" required>
+                  <option value="">--Select City *--</option>
+                  <option ng-selected="city.id == submit.city" value="{{city.id}}" ng-repeat="city in cities">{{city.name}}</option>
+                </select> 
+             <!--<multiselect class="input-xlarge" multiple="false" header="--Select country *--" ng-model="User.Namecountry" name="Country" options="f.name for f in Countrys" change="selected()" ng-change="StateZone(User.Namecountry)" required></multiselect>-->  
+               <p class="help-block" ng-show="addAccountForm.city.$error.required && showErr">*City Cannot be Blank.</p>
+            </div>

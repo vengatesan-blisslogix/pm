@@ -1,0 +1,74 @@
+  $scope.$on('df', function (event, weekdays) {
+
+        var date = [];
+        date[0] = weekdays.senddata[2];
+        var projectRequest = {};
+        projectRequest.id = [];
+        //angular.forEach($scope.projectModel, function (data, index) {
+        //    projectRequest.id[index] = data.id;
+        //});
+        projectRequest.date = date;
+        //timesheetService.getProjectData(projectRequest, function (data, status) {
+        //    $scope.dummyJson = data;
+        //    $scope.checkModelPosition();
+        //    for (var x = 0; x < $scope.projectModel.length; x++) {
+        //        $scope.releaseModel[x] = {};
+        //        $scope.sprintModel[x] = {};
+        //    }
+        //},
+        //    function (data, status) {
+        //        alert(data.errors);
+        //    });
+
+        $scope.weekdays = weekdays;
+
+        timesheetService.addholiday(function (data, status) {
+            $scope.viewholiday = data.holiday_resp;
+            $scope.holidayList = data.holiday_list;
+
+            for (var i = 0; i < $scope.weekdays.senddata.length; i++) {
+                var calenderDate = $scope.weekdays.senddata[i].split('/');
+                calenderDate[1] = parseInt(calenderDate[1]) - 1;
+                //calenderDate = calenderDate.join('/');
+                var calenderDateholidayDate = new Date(calenderDate[2], calenderDate[1], calenderDate[0]);
+                for (var j = 0; j < $scope.viewholiday.length; j++) {
+                    var holiday = $scope.viewholiday[j].date;
+                    var holidayDate = new Date(holiday);
+                    if (holidayDate.getTime() == calenderDateholidayDate.getTime()) {
+                        $scope.DisableField[i] = true;
+                        break;
+                    }
+                    else {
+                        $scope.DisableField[i] = false;
+                    }
+                }
+            }
+
+            // emit giving here
+            $scope.$broadcast("hldy", $scope.viewholiday);
+        },
+            function (data, status) {
+                debugger;
+                alert(data.errors);
+            });
+        timesheetService.timesheetsummary($scope.weekdays.senddata[0], function (data, status) {
+           // debugger; alert(status);
+            // date convert string to date format :
+            $scope.start_date = data.timesheet_summary[0].start_date;
+            $scope.end_date = data.timesheet_summary[0].end_date;
+
+            $scope.tmshtsmry = data.timesheet_summary;
+            $scope.totalcount = data.no_of_records;
+            for (var i = 0; i < $scope.tmshtsmry[i].date.length; i++) {
+                $scope.tmshtsmry[i].date = new Date($scope.tmshtsmry[i].date);
+            }
+            $scope.approvedbtn = data.show_approve;
+            $scope.rejectedbtn = data.show_approve;
+        },
+     function (data, status) {
+         alert(status);
+     });
+        $scope.fnDynamicElement();
+       
+
+    });

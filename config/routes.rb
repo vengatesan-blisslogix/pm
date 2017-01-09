@@ -70,6 +70,16 @@ match "/api/v1/user_ldap_auth", :to => "home#user_ldap_auth", :via => ["post"]
 
 match "/api/v1/get_regions", :to => "home#get_regions", :via => ["get"]
 
+match "/api/v1/project", :to => "home#project", :via => ["get"]
+
+match "/api/v1/set_priority", :to => "home#set_priority", :via => ["get"]
+
+match "/api/v1/set_stage", :to => "home#set_stage", :via => ["get"]
+
+match "/api/v1/default_pro", :to => "home#default_pro", :via => ["post"]
+
+
+
 
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
@@ -114,6 +124,15 @@ resources :home
       resources :checklists
       resources :checklist_rejects
       resources :project_request_forms
+
+      resources :tasks
+      resources :sprints
+      resources :releases
+      resources :task_priorities
+      resources :user_favouites
+      resources :project_boards
+
+
 
 
    end#namespace :v1 do
