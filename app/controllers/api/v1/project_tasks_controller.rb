@@ -75,6 +75,13 @@ before_action :set_project, only: [:show, :edit, :update]
        end
      end
 
+     @pri_name = TaskPriority.find_by_id(p.priority)
+      if @pri_name!=nil and @pri_name!=""
+        @priority_name =@pri_name.name
+      else
+        @priority_name =""
+      end     
+
 
      @assigner = Taskboard.find_by_id(p.project_master_id)
        if @assigner!=nil and @assigner!=""
@@ -83,7 +90,7 @@ before_action :set_project, only: [:show, :edit, :update]
 
          @find_assigneer.each do |a|
          
-          @users = User.find_by_assigned_user_id(a.assigned_user_id)
+          @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
              @assigneer   ="#{@users.name} #{@users.last_name}"
            else
@@ -98,7 +105,8 @@ before_action :set_project, only: [:show, :edit, :update]
           'description' => p.task_description,
           'p_hours' => p.planned,
           'c_hours' => p.actual,
-          'priority' => p.priority,
+          'priority_id' => p.priority,
+          'priority_name' => @priority_name,
           'started_on' => p.planned_duration,
           'ended_on' => p.actual_duration,
           'assignee_name' => @assignee,
@@ -156,6 +164,13 @@ def show
          @sprint_name =""
        end    
 
+      @pri_name = TaskPriority.find_by_id(p.priority)
+      if @pri_name!=nil and @pri_name!=""
+        @priority_name =@pri_name.name
+      else
+        @priority_name =""
+      end     
+
       @assign = Taskboard.find_by_project_master_id(p.project_master_id)
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
@@ -195,7 +210,8 @@ def show
           'description' => p.task_description,
           'p_hours' => p.planned,
           'c_hours' => p.actual,
-          'priority' => p.priority,
+          'priority_id' => p.priority,
+          'priority_name' => @priority_name,         
           'started_on' => p.planned_duration,
           'ended_on' => p.actual_duration,
           'assignee_name' => @assignee,

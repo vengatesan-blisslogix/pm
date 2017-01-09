@@ -39,6 +39,18 @@ class HomeController < ApplicationController
       render json: @status_resp
   end
 
+  def demo
+    @pri_name = TaskPriority.find_by_id(p.priority)
+      if @pri_name!=nil and @pri_name!=""
+        @priority_name =@pri_name.name
+      else
+        @priority_name =""
+      end     
+      @pr << {
+        'priority_name' => @priority_name
+      }
+  end
+
   def project
     get_all_projects
     @projects = ProjectMaster.order(:created_at => 'desc')
