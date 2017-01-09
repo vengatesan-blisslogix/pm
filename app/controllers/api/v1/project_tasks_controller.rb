@@ -122,30 +122,101 @@ before_action :set_project, only: [:show, :edit, :update]
 
 
 def show	
-resp=[]
+  p = @project
 
+  resp=[]
+
+      @project_master = ProjectMaster.find_by_id(p.project_master_id)
+      if @project_master!=nil and @project_master!=""
+        @project_name =@project_master.project_name
+      else
+        @project_name =""
+      end      
+
+      @task_status_master = TaskStatusMaster.find_by_id(p.task_status_master_id)
+      if @task_status_master!=nil and @task_status_master!=""
+        @status_name =@task_status_master.status
+      else
+        @status_name =""
+      end      
+
+      @release_planning = ReleasePlanning.find_by_project_master_id(p.project_master_id)
+       if @release_planning!=nil and @release_planning!=""
+         @release_name =@release_planning.release_name
+          @release_id =@release_planning.id
+       else
+         @release_name =""
+       end    
+
+      @sprint_planning = SprintPlanning.find_by_project_master_id(p.project_master_id)
+       if @sprint_planning!=nil and @sprint_planning!=""
+         @sprint_name =@sprint_planning.sprint_name
+          @sprint_id =@sprint_planning.id
+       else
+         @sprint_name =""
+       end    
+
+      @assign = Taskboard.find_by_project_master_id(p.project_master_id)
+       if @assign!=nil and @assign!=""
+         @taskboard_id =@assign.id
+         @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
+
+         @find_assigne.each do |a|
+         
+          @users = User.find_by_id(a.assigned_user_id)
+           if @users!=nil and @users!=""
+             @assignee   ="#{@users.name} #{@users.last_name}"
+           else
+             @assignee   =""
+           end
+       end
+     end
+
+
+     @assigner = Taskboard.find_by_id(p.project_master_id)
+       if @assigner!=nil and @assigner!=""
+         @taskboard_id =@assigner.id
+         @find_assigneer =  Assign.where("taskboard_id=#{@taskboard_id}")
+
+         @find_assigneer.each do |a|
+         
+          @users = User.find_by_id(a.assigned_user_id)
+           if @users!=nil and @users!=""
+             @assigneer   ="#{@users.name} #{@users.last_name}"
+           else
+             @assigneer   =""
+           end
+       end
+     
+            
     resp << {
-        'id' => @project.id,
-        'name' => @project.task_name, 
-        'description' => @project.task_description,  
-        'p_hours' => @project.planned,
-        'c_hours' => @project.actual, 
-        'priority' => @project.priority, 
-        'started_on' => @project.planned_duration,
-        'ended_on' => @project.actual_duration,   
-        'assignee_name' => @assignee_name,
-        'assigner_name' => @assigner_name,    
-        'project_board_id' =>@project.task_status_master_id,
-        'project_board_status' => @status_name,
-        'project_id' => @project.project_master_id, 
-        'project_name' => @project_name,
-        'sprint_id' => @sprint_id,
-        'sprint_name' => @sprint_name,    
-        'release_id' => @release_id,
-        'release_name' => @release_name
+          'id' => p.id,
+          'name' => p.task_name,         
+          'description' => p.task_description,
+          'p_hours' => p.planned,
+          'c_hours' => p.actual,
+          'priority' => p.priority,
+          'started_on' => p.planned_duration,
+          'ended_on' => p.actual_duration,
+          'assignee_name' => @assignee,
+          'assigner_name' => @assigner_name,
+          'project_board_id' => p.task_status_master_id,
+          'project_board_status' => @status_name,
+          'project_id' => p.project_master_id,
+          'project_name' => @project_name,
+          'sprint_id' => @sprint_id,
+          'sprint_name' => @sprint_name,
+          'release_id' => @release_id,
+          'release_name' => @release_name
       }
-      render json: resp
-    end
+      end
+      @respone = {
+            'list' => resp,
+            'count' => 1
+          }
+        render json: @respone
+  end
+
 
 def create
 
