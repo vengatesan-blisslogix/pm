@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109051320) do
+ActiveRecord::Schema.define(version: 20170109125058) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -440,8 +440,8 @@ ActiveRecord::Schema.define(version: 20170109051320) do
     t.text     "task_description",      limit: 65535
     t.string   "active",                limit: 255
     t.integer  "priority",              limit: 4
-    t.float    "planned_duration",      limit: 24
-    t.float    "actual_duration",       limit: 24
+    t.date     "planned_duration"
+    t.date     "actual_duration"
     t.integer  "project_master_id",     limit: 4
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
