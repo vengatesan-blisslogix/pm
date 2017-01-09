@@ -88,9 +88,9 @@ before_action :set_project, only: [:show, :edit, :update]
          @taskboard_id =@assigner.id
          @find_assigneer =  Assign.where("taskboard_id=#{@taskboard_id}")
 
-         @find_assigneer.each do |a|
+         @find_assigneer.each do |as|
          
-          @users = User.find_by_id(a.assigned_user_id)
+          @users = User.find_by_id(as.assigneer_id)
            if @users!=nil and @users!=""
              @assigneer   ="#{@users.name} #{@users.last_name}"
            else
@@ -98,6 +98,8 @@ before_action :set_project, only: [:show, :edit, :update]
            end
        end
      end
+
+
             
     resp << {
           'id' => p.id,
@@ -238,7 +240,6 @@ def create
 
     @project = ProjectTask.new(project_params)
     if @project.save
-          @project.active = "active"
           @project.active = "active"
           @project.planned = params[:planned_duration]
         @project.save
