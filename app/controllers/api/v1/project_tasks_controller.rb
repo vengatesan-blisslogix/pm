@@ -190,20 +190,21 @@ def show
      end
 
 
-     @assigner = Taskboard.find_by_id(p.project_master_id)
+      @assigner = Taskboard.find_by_id(p.project_master_id)
        if @assigner!=nil and @assigner!=""
          @taskboard_id =@assigner.id
          @find_assigneer =  Assign.where("taskboard_id=#{@taskboard_id}")
 
-         @find_assigneer.each do |a|
+         @find_assigneer.each do |as|
          
-          @users = User.find_by_id(a.assigned_user_id)
+          @users = User.find_by_id(as.assigneer_id)
            if @users!=nil and @users!=""
              @assigneer   ="#{@users.name} #{@users.last_name}"
            else
              @assigneer   =""
            end
        end
+     end
      
             
     resp << {
@@ -217,7 +218,7 @@ def show
           'started_on' => p.planned_duration.strftime("%d-%m-%Y"),
           'ended_on' => p.actual_duration.strftime("%d-%m-%Y"),
           'assignee_name' => @assignee,
-          'assigner_name' => @assigner_name,
+          'assigner_name' => @assigneer,
           'project_board_id' => p.task_status_master_id,
           'project_board_status' => @status_name,
           'project_id' => p.project_master_id,
