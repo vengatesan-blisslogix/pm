@@ -74,7 +74,7 @@ before_action :set_project, only: [:show, :edit, :update]
 
          @find_assigne.each do |a|
          
-          @assigner = User.find_by_id(as.assigneer_id)
+          @assigner = User.find_by_id(a.assigneer_id)
             if @assigner!=nil and @assigner!=""
               @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
             else
@@ -99,6 +99,17 @@ before_action :set_project, only: [:show, :edit, :update]
         @priority_name =""
       end        
 
+      if p.planned_duration!=nil and p.planned_duration!=""
+        @pd = p.planned_duration.strftime("%d-%m-%Y")
+      else
+        @pd = ""
+      end
+
+      if p.actual_duration!=nil and p.actual_duration!=""
+        @ad = p.actual_duration.strftime("%d-%m-%Y")
+      else
+        @ad = ""
+      end
 
             
     resp << {
@@ -109,8 +120,8 @@ before_action :set_project, only: [:show, :edit, :update]
           'c_hours' => p.actual,
           'priority_id' => p.priority,
           'priority_name' => @priority_name,
-          'started_on' => p.planned_duration.strftime("%d-%m-%Y"),
-          'ended_on' => p.actual_duration.strftime("%d-%m-%Y"),
+          'started_on' => @pd,
+          'ended_on' => @ad,
           'assigned_user_id' => @assignee_id,
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
