@@ -68,8 +68,10 @@ before_action :set_project, only: [:show, :edit, :update]
          
           @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
+             @assignee_id = @users.id
              @assignee   ="#{@users.name} #{@users.last_name}"
            else
+             @assignee_id = ""
              @assignee   =""
            end
        end
@@ -111,6 +113,7 @@ before_action :set_project, only: [:show, :edit, :update]
           'priority_name' => @priority_name,
           'started_on' => p.planned_duration.strftime("%d-%m-%Y"),
           'ended_on' => p.actual_duration.strftime("%d-%m-%Y"),
+          'assigned_user_id' => @assignee_id,
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
           'project_board_id' => p.task_status_master_id,
@@ -173,7 +176,7 @@ def show
         @priority_name =""
       end     
 
-      @assign = Taskboard.find_by_project_master_id(p.project_master_id)
+     @assign = Taskboard.find_by_project_master_id(p.project_master_id)
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
          @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
@@ -182,8 +185,10 @@ def show
          
           @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
+             @assignee_id = @users.id
              @assignee   ="#{@users.name} #{@users.last_name}"
            else
+             @assignee_id = ""
              @assignee   =""
            end
        end
@@ -203,8 +208,7 @@ def show
            else
              @assigneer   =""
            end
-       end
-     
+       end    
      
             
     resp << {
@@ -217,6 +221,7 @@ def show
           'priority_name' => @priority_name,         
           'started_on' => p.planned_duration.strftime("%d-%m-%Y"),
           'ended_on' => p.actual_duration.strftime("%d-%m-%Y"),
+          'assigned_user_id' => @assignee_id,        
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
           'project_board_id' => p.task_status_master_id,

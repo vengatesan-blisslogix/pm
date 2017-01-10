@@ -82,6 +82,9 @@ match "/api/v1/all_priority", :to => "home#all_priority", :via => ["get"]
 
 match "/api/v1/all_status", :to => "home#all_status", :via => ["get"]
 
+match "/api/v1/proj_users", :to => "home#proj_users", :via => ["get"]
+
+
 
 
 

@@ -6,6 +6,11 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+  def proj_users
+    @find_project_user = ProjectUser.where("user_id = params[:user_id] and project_id = params[:project_master_id]")
+      
+  end
+
   def default_pro
     @default_proj = User.find_by_id(params[:user_id])
     @default_proj.default_project_id   = params[:default_project_id ]
