@@ -43,29 +43,44 @@ before_action :set_project, only: [:show, :edit, :update]
         @status_name =""
       end      
 
-      @release_planning = ReleasePlanning.find_by_project_master_id(p.project_master_id)
-       if @release_planning!=nil and @release_planning!=""
-         @release_name =@release_planning.release_name
-          @release_id =@release_planning.id
-       else
-         @release_name =""
-       end    
 
-      @sprint_planning = SprintPlanning.find_by_project_master_id(p.project_master_id)
-       if @sprint_planning!=nil and @sprint_planning!=""
-         @sprint_name =@sprint_planning.sprint_name
-          @sprint_id =@sprint_planning.id
-       else
-         @sprint_name =""
-       end    
+      @task = Taskboard.find_by_task_master_id(p.id)
+      if  @task!=nil and @task!=""
 
-      @assign = Taskboard.find_by_project_master_id(p.project_master_id)
+        @sprint_planning = SprintPlanning.find_by_id(@task.sprint_planning_id)
+         if @sprint_planning!=nil and @sprint_planning!=""
+           @sprint_name =@sprint_planning.sprint_name
+            @sprint_id =@sprint_planning.id
+              @release_planning = ReleasePlanning.find_by_id(@sprint_planning.release_planning_id)
+               if @release_planning!=nil and @release_planning!=""
+                 @release_name =@release_planning.release_name
+                  @release_id =@release_planning.id
+               else
+                 @release_name =""
+               end    
+         else
+           @sprint_name =""
+           @release_name =""
+         end    
+      else
+        @sprint_name =""
+        @release_name =""
+      end
+
+      @assign = Taskboard.find_by_task_master_id(p.id)
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
          @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
 
          @find_assigne.each do |a|
          
+          @assigner = User.find_by_id(as.assigneer_id)
+            if @assigner!=nil and @assigner!=""
+              @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
+            else
+              @assigneer   =""
+            end
+
           @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
              @assignee_id = @users.id
@@ -82,24 +97,7 @@ before_action :set_project, only: [:show, :edit, :update]
         @priority_name =@pri_name.name
       else
         @priority_name =""
-      end     
-
-
-     @assigner = Taskboard.find_by_id(p.project_master_id)
-       if @assigner!=nil and @assigner!=""
-         @taskboard_id =@assigner.id
-         @find_assigneer =  Assign.where("taskboard_id=#{@taskboard_id}")
-
-         @find_assigneer.each do |as|
-         
-          @users = User.find_by_id(as.assigneer_id)
-           if @users!=nil and @users!=""
-             @assigneer   ="#{@users.name} #{@users.last_name}"
-           else
-             @assigneer   =""
-           end
-       end
-     end
+      end        
 
 
             

@@ -8,6 +8,14 @@ class HomeController < ApplicationController
 
   def proj_users
     @find_project_user = ProjectUser.where("user_id = params[:user_id] and project_id = params[:project_master_id]")
+    @find_project_user.each do |pu|
+      @user_resp << {
+       'assigned_user_id' => ,        
+          'assignee_name' => ,
+          'assigner_name' => ,
+    }
+    end
+    
       
   end
 
