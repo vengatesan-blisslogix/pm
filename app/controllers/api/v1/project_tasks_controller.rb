@@ -145,6 +145,7 @@ before_action :set_project, only: [:show, :edit, :update]
 
 def show	
   p = @project
+  puts  "----params[:id]---"
 
   resp=[]
 
@@ -162,36 +163,44 @@ def show
         @status_name =""
       end      
 
-      @release_planning = ReleasePlanning.find_by_project_master_id(p.project_master_id)
-       if @release_planning!=nil and @release_planning!=""
-         @release_name =@release_planning.release_name
-          @release_id =@release_planning.id
-       else
-         @release_name =""
-       end    
 
-      @sprint_planning = SprintPlanning.find_by_project_master_id(p.project_master_id)
-       if @sprint_planning!=nil and @sprint_planning!=""
-         @sprint_name =@sprint_planning.sprint_name
-          @sprint_id =@sprint_planning.id
-       else
-         @sprint_name =""
-       end    
+      @task = Taskboard.find_by_task_master_id(p.id)
+      if  @task!=nil and @task!=""
 
-      @pri_name = TaskPriority.find_by_id(p.priority)
-      if @pri_name!=nil and @pri_name!=""
-        @priority_name =@pri_name.name
+        @sprint_planning = SprintPlanning.find_by_id(@task.sprint_planning_id)
+         if @sprint_planning!=nil and @sprint_planning!=""
+           @sprint_name =@sprint_planning.sprint_name
+            @sprint_id =@sprint_planning.id
+              @release_planning = ReleasePlanning.find_by_id(@sprint_planning.release_planning_id)
+               if @release_planning!=nil and @release_planning!=""
+                 @release_name =@release_planning.release_name
+                  @release_id =@release_planning.id
+               else
+                 @release_name =""
+               end    
+         else
+           @sprint_name =""
+           @release_name =""
+         end    
       else
-        @priority_name =""
-      end     
+        @sprint_name =""
+        @release_name =""
+      end
 
-     @assign = Taskboard.find_by_project_master_id(p.project_master_id)
+      @assign = Taskboard.find_by_task_master_id(p.id)
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
          @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
 
          @find_assigne.each do |a|
          
+          @assigner = User.find_by_id(a.assigneer_id)
+            if @assigner!=nil and @assigner!=""
+              @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
+            else
+              @assigneer   =""
+            end
+
           @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
              @assignee_id = @users.id
@@ -203,22 +212,25 @@ def show
        end
      end
 
+     @pri_name = TaskPriority.find_by_id(p.priority)
+      if @pri_name!=nil and @pri_name!=""
+        @priority_name =@pri_name.name
+      else
+        @priority_name =""
+      end        
 
-      @assigner = Taskboard.find_by_id(p.project_master_id)
-       if @assigner!=nil and @assigner!=""
-         @taskboard_id =@assigner.id
-         @find_assigneer =  Assign.where("taskboard_id=#{@taskboard_id}")
+      if p.planned_duration!=nil and p.planned_duration!=""
+        @pd = p.planned_duration.strftime("%d-%m-%Y")
+      else
+        @pd = ""
+      end
 
-         @find_assigneer.each do |as|
-         
-          @users = User.find_by_id(as.assigneer_id)
-           if @users!=nil and @users!=""
-             @assigneer   ="#{@users.name} #{@users.last_name}"
-           else
-             @assigneer   =""
-           end
-       end    
-     
+      if p.actual_duration!=nil and p.actual_duration!=""
+        @ad = p.actual_duration.strftime("%d-%m-%Y")
+      else
+        @ad = ""
+      end
+
             
     resp << {
           'id' => p.id,
@@ -227,10 +239,10 @@ def show
           'p_hours' => p.planned,
           'c_hours' => p.actual,
           'priority_id' => p.priority,
-          'priority_name' => @priority_name,         
-          'started_on' => p.planned_duration.strftime("%d-%m-%Y"),
-          'ended_on' => p.actual_duration.strftime("%d-%m-%Y"),
-          'assigned_user_id' => @assignee_id,        
+          'priority_name' => @priority_name,
+          'started_on' => @pd,
+          'ended_on' => @ad,
+          'assigned_user_id' => @assignee_id,
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
           'project_board_id' => p.task_status_master_id,
@@ -242,7 +254,7 @@ def show
           'release_id' => @release_id,
           'release_name' => @release_name
       }
-      end
+      
       @respone = {
             'list' => resp,
             'count' => 1
