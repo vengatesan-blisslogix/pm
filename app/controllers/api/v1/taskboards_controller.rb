@@ -7,289 +7,115 @@ before_action :set_taskboards, only: [:show, :edit, :update]
   def index
     get_all_projects
 
-    if params[:project_master_id] and params[:sprint_planning_id]
-      @search_val = "AND project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
+    if  @admin.to_i == 1
+      @search_val = ""
+    elsif params[:project_master_id] and params[:sprint_planning_id]
+      @search_val = "project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
+    elsif @default_pro.to_i != 0
+      @search_val = "project_master_id = #{@default_pro}"          
     else
       @search_val = ""
     end
 
-
-  #new
-   task_resp =  []
-   @task_board_id = ""
-   @all_task = Taskboard.where("task_master_id IS NOT NULL") 
-   @all_task.each do |at|
-    if @task_board_id !=""
-    @task_board_id = @task_board_id+','+at.task_master_id.to_s
-    else
-    @task_board_id = at.task_master_id.to_s 
-    end
-   end
-   if @task_board_id == ""
-    @unassigned = "project_master_id = #{params[:project_master_id]}"
-   else
-    @unassigned = "id NOT IN(#{@task_board_id}) AND project_master_id = #{params[:project_master_id]}"
-   end
-   @task_masters = ProjectTask.where("#{@unassigned} ")
-   @task_masters.each do |t| 
-    puts "----111---#{t.id}-------111---"
-    puts "----planned---#{t.planned}-------hours---"
-       
-    get_assigne(t.id, "new")
-     get_hours(t.id)
-      task_resp << {
-        'id' => t.id,
-        'task_name' => t.task_name,
-        'assign_params' => @assigned,
-        'assign_name' => @assignee_user,
-        'worked_hours' => @hours_resp,
-        'planned' => t.planned
-      }
-    end
-    #new
-
-   new_task = []
-   @progress = Taskboard.where("new = ? #{@search_val}", true)
-   @progress.each do |tp|  
-   puts tp.task_master_id    
+       task_resp = []
+       if @search_val!="" or @admin.to_i == 1
+   @task = Taskboard.where("#{@search_val}")
+   @task.each do |tp|  
+      
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
       if @project_task!=nil and @project_task!=""
         get_task_board(@project_task.project_master_id)
-        #@planned_duration=@project_task.planned
         @task_name =@project_task.task_name
         @task_id =@project_task.id
        else
         @project_users_resp = ""
         @task_name =""
-      end     
-    #get_task_board(@project_task.project_master_id)
-    get_assigne(tp.task_master_id, "new")
-    get_hours(tp.task_master_id)
-      new_task << {
-        'taskboard_id' => tp.id,
-        'task_id' => @task_id,
-        'project_master_id' => tp.project_master_id,
-        'sprint_planning_id' => tp.sprint_planning_id,
-        'task_name' => @task_name,
-        'assign_params' => @assigned,
-        'assign_name' => @assignee_user,
-        #'planned_duration' => tp.est_time,
-        'planned_duration' => @project_task.planned,
-        'worked_hours' => @hours_resp,
-        'project_users' => @project_users_resp
-      }
-    end
+      end
 
-   #in_progress
-   in_progress = []
-   @progress = Taskboard.where("in_progress = ? #{@search_val}", true)
-   @progress.each do |tp|      
-     @project_task = ProjectTask.find_by_id(tp.task_master_id)
-      if @project_task!=nil and @project_task!=""
-        get_task_board(@project_task.project_master_id)
-        #@planned_duration=@project_task.planned
-        @task_name =@project_task.task_name
-        @task_id =@project_task.id
-        # get_task_board(@project_task.project_master_id)
-        get_assigne(tp.task_master_id, "in_progress")
-        get_hours(tp.task_master_id)
 
-        in_progress << {
-          'taskboard_id' => tp.id,
-          'task_id' => @task_id,
-          'project_master_id' => tp.project_master_id,
-          'sprint_planning_id' => tp.sprint_planning_id,
-          'task_name' => @task_name,        
-          'assign_params' => @assigned,
-          'assign_name' => @assignee_user,
-          #'planned_duration' => tp.est_time,
-          'planned_duration' => @project_task.planned,
-          'worked_hours' => @hours_resp,
-          'project_users' => @project_users_resp
-        }
-       else
-        @task_name =""
-      end     
+    @project_master = ProjectMaster.find_by_id(tp.project_master_id)
+      if @project_master!=nil and @project_master!=""
+        @project_name =@project_master.project_name
+      else
+        @project_name =""
+      end      
+
+      @task_status_master = TaskStatusMaster.find_by_id(tp.task_status_master_id)
+      if @task_status_master!=nil and @task_status_master!=""
+        @status_name =@task_status_master.status
+      else
+        @status_name =""
+      end      
+
+        @sprint_planning = SprintPlanning.find_by_id(tp.sprint_planning_id)
+         if @sprint_planning!=nil and @sprint_planning!=""
+           @sprint_name =@sprint_planning.sprint_name
+            @sprint_id =@sprint_planning.id
+              @release_planning = ReleasePlanning.find_by_id(@sprint_planning.release_planning_id)
+               if @release_planning!=nil and @release_planning!=""
+                 @release_name =@release_planning.release_name
+                  @release_id =@release_planning.id
+               else
+                 @release_name =""
+               end    
+         else
+           @sprint_name =""
+           @release_name =""
+         end    
+
+
+    @assign = Taskboard.find_by_task_master_id(tp.task_master_id)
+       if @assign!=nil and @assign!=""
+         @taskboard_id =@assign.id
+         @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
+
+         @find_assigne.each do |a|
+         
+          @assigner = User.find_by_id(a.assigneer_id)
+            if @assigner!=nil and @assigner!=""
+              @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
+            else
+              @assigneer   =""
+            end
+
+          @users = User.find_by_id(a.assigned_user_id)
+           if @users!=nil and @users!=""
+             @assignee_id = @users.id
+             @assignee   ="#{@users.name} #{@users.last_name}"
+           else
+             @assignee_id = ""
+             @assignee   =""
+           end
+       end
+     end
      
-    end
-    #in_progress
 
-
- 
-   #development_completed
-   development_completed = []
-   @development = Taskboard.where("development_completed = ? #{@search_val}", true)
-   @development.each do |td|      
-     @project_task = ProjectTask.find_by_id(td.task_master_id)
-      if @project_task!=nil and @project_task!=""
-        get_task_board(@project_task.project_master_id)
-        #@planned_duration=@project_task.planned
-        @task_name =@project_task.task_name
-        @task_id =@project_task.id
-      else
-        @task_name =""
-      end        
-      #get_task_board(@project_task.project_master_id)
-      get_assigne(td.task_master_id, "development_completed")
-      get_hours(td.task_master_id)
-
-      development_completed << {
-        'taskboard_id' => td.id,
-        'task_id' => @task_id,
-        'project_master_id' => td.project_master_id,
-        'sprint_planning_id' => td.sprint_planning_id,        
-        'task_name' => @task_name,
-        'assign_params' => @assigned,
-        'assign_name' => @assignee_user,
-        #'planned_duration' => td.est_time,
-        'planned_duration' => @project_task.planned,
-        'worked_hours' => @hours_resp,
-        'project_users' => @project_users_resp
-      }
-    end
-    #development_completed
-
-    #qa
-     qa = []
-     @qa = Taskboard.where("qa = ? #{@search_val}", true)
-     @qa.each do |tq|      
-       @project_task = ProjectTask.find_by_id(tq.task_master_id)
-        if @project_task!=nil and @project_task!=""
-        get_task_board(@project_task.project_master_id)
-        #@planned_duration=@project_task.planned          
-          @task_name =@project_task.task_name
-          @task_id =@project_task.id
-        else
-          @task_name =""
-        end       
-      #get_task_board(@project_task.project_master_id)      
-        get_assigne(tq.task_master_id, "qa")
-        get_hours(tq.task_master_id)
-
-        qa << {
-          'taskboard_id' => tq.id,
-          'task_id' => @task_id,
-          'project_master_id' => tq.project_master_id,
-          'sprint_planning_id' => tq.sprint_planning_id,          
-          'task_name' => @task_name,
-          'assign_params' => @assigned,
-          'assign_name' => @assignee_user,
-          #'planned_duration' => tq.est_time,
-          'planned_duration' => @project_task.planned,
-          'worked_hours' => @hours_resp,
-          'project_users' => @project_users_resp
-        }
-      end
-      #qa
-
-     #accepted
-     accepted = []
-     @accepted = Taskboard.where("completed = ? #{@search_val}", true)
-     @accepted.each do |tc|      
-       @project_task = ProjectTask.find_by_id(tc.task_master_id)
-        if @project_task!=nil and @project_task!=""
-        get_task_board(@project_task.project_master_id)
-        #@planned_duration=@project_task.planned          
-          @task_name =@project_task.task_name
-          @task_id =@project_task.id
-        else
-          @task_name =""
-        end       
-        #get_task_board(@project_task.project_master_id)
-        get_assigne(tc.task_master_id, "completed")
-        get_hours(tc.task_master_id)
-
-        accepted << {
-          'taskboard_id' => tc.id,
-          'task_id' => @task_id,
-          'project_master_id' => tc.project_master_id,
-          'sprint_planning_id' => tc.sprint_planning_id,
-          'task_name' => @task_name,
-          'assign_params' => @assigned,
-          'assign_name' => @assignee_user,
-          #'planned_duration' => tc.est_time,
-          'planned_duration' => @project_task.planned,
-          'worked_hours' => @hours_resp,
-          'project_users' => @project_users_resp
-        }
-      end
-      #accepted
-
-
-   #hold
-   hold = []
-   @hold = Taskboard.where("hold = ? #{@search_val}", true)
-   @hold.each do |th|      
-     @project_task = ProjectTask.find_by_id(th.task_master_id)
-      if @project_task!=nil and @project_task!=""
-        get_task_board(@project_task.project_master_id)
-        #@planned_duration=@project_task.planned        
-        @task_name =@project_task.task_name
-        @task_id =@project_task.id
-      else
-        @task_name =""
-      end     
-   #get_task_board(@project_task.project_master_id)
-   get_assigne(th.task_master_id, "hold")
-   get_hours(th.task_master_id)
-
-      hold << {
-        'taskboard_id' => th.id,
-        'task_id' => @task_id,
-        'project_master_id' => th.project_master_id,
-        'sprint_planning_id' => th.sprint_planning_id,
-        'task_name' => @task_name,
-        'assign_params' => @assigned,
-        'assign_name' => @assignee_user,
-        #'planned_duration' => th.est_time,
-        'planned_duration' => @project_task.planned,
-        'worked_hours' => @hours_resp,
-        'project_users' => @project_users_resp
-      }
-    end
-    #hold
-
-
-   @taskboards = Taskboard.page(params[:page])
-    resp=[]
-     @taskboards.each do |p| 
     
-      if p.status.to_i==1
-        @status=true
-      else
-        @status=false
-      end
-      
-      resp << {
-        'id' => p.id,
-        'task_master_id' => p.task_master_id, 
-        'in progress' => p.in_progress, 
-        'development completed' => p.development_completed, 
-        'QA' => p.qa, 
-        'accepted' => p.completed, 
-        'hold' => p.hold,
-        'task_name' => @task_name        
-      }
-      end
-   #@search=""
-    pagination(Taskboard,@search)
-    
-    response = {
-      'no_of_records' => @no_of_records.size,
-      'no_of_pages' => @no_pages,
-      'next' => @next,
-      'prev' => @prev,
-      'project' => @project_resp,
-      'new_task' => new_task,
-      'new' => task_resp,
-      'in_progress' => in_progress,
-      'development_completed' => development_completed,
-      'qa' => qa,
-      'accepted' => accepted,
-      'hold' => hold
-    }
+      task_resp << {
+        'project_board_id' => tp.id,
+        'task_id' => @task_id,
+        'task_name' => @task_name,
+        'assigned_user_id' => @assignee_id,
+        'assignee_name' => @assignee,
+        'assigner_name' => @assigneer,
+        'project_board_status_id' => tp.task_status_master_id,
+        'project_board_status' => @status_name,
+        'project_id' => tp.project_master_id,
+        'project_name' => @project_name,
+        'sprint_id' => tp.sprint_planning_id,
+        'sprint_name' => @sprint_name,
+        'release_id' => @release_id,
+        'release_name' => @release_name
+        }
+    end
+  end
 
-    render json: response
+   @respone = {
+            'list' => task_resp,
+            'count' => task_resp.count
+          }
+        render json: @respone
+
  end
 
 
@@ -300,42 +126,16 @@ before_action :set_taskboards, only: [:show, :edit, :update]
  def create    
     @taskboard = Taskboard.new(taskboards_params)      
       if @taskboard.save
-        @taskboard.new = true
+         @taskboard.task_status_master_id = 1       
          @taskboard.status = "active"
         @taskboard.save
 
-       new_task = []
-   @progress = @taskboard
-     @project_task = ProjectTask.find_by_id(@progress.task_master_id)
-      if @project_task!=nil and @project_task!=""
-        get_task_board(@project_task.project_master_id)
-        @planned_duration=@project_task.planned
-        @task_name =@project_task.task_name
-        @task_id =@project_task.id
-       else
-        @project_users_resp = ""
-        @task_name =""
-      end     
-    get_assigne(@progress.task_master_id, "new")
-    get_hours(@progress.task_master_id)
-      new_task << {
-        'taskboard_id' => @progress.id,
-        'task_id' => @task_id,
-        'project_master_id' => @progress.project_master_id,
-        'sprint_planning_id' => @progress.sprint_planning_id,
-        'task_name' => @task_name,
-        'assign_params' => @assigned,
-        'planned_duration' => @planned_duration,
-        'worked_hours' => @hours_resp,
-        'project_users' => @project_users_resp
-      }
-    new_task={
+    un_assigned={
           'valid' => true, 
-          #'new_task' => new_task,
           'msg' => "created successfully"
           }
 
-        render json: new_task
+        render json: un_assigned
       else
         render json: { valid: false, error: @taskboard.errors }, status: 404
       end
@@ -362,13 +162,8 @@ private
 
 	def taskboards_params           
 	    
-	      raw_parameters = { 
-	       :new => "#{params[:new]}",
-         :in_progress => "#{params[:in_progress]}",
-	       :development_completed => "#{params[:development_completed]}",
-	       :qa => "#{params[:qa]}",
-	       :completed => "#{params[:completed]}",
-	       :hold => "#{params[:hold]}",
+	      raw_parameters = { 	      
+         :task_status_master_id => "#{params[:task_status_master_id]}",
 	       :task_master_id => "#{params[:task_master_id]}",
          :project_master_id => "#{params[:project_master_id]}",
          :sprint_planning_id => "#{params[:sprint_planning_id]}",
@@ -377,7 +172,7 @@ private
 	      }
 	      
 	      parameters = ActionController::Parameters.new(raw_parameters)
-	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id,:new , :in_progress, :development_completed, :qa, :completed, :hold, :description, :est_time)
+	      parameters.permit(:task_master_id, :project_master_id, :sprint_planning_id, :task_status_master_id, :description, :est_time)
 	    
 	end
 end
