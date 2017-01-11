@@ -120,8 +120,102 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 
 
 	def show
-	  render json: @taskboard
-	end
+      tp = @taskboard
+
+    task_resp = []
+      
+     @project_task = ProjectTask.find_by_id(tp.task_master_id)
+      if @project_task!=nil and @project_task!=""
+        get_task_board(@project_task.project_master_id)
+        @task_name =@project_task.task_name
+        @task_id =@project_task.id
+       else
+        @project_users_resp = ""
+        @task_name =""
+      end
+
+
+    @project_master = ProjectMaster.find_by_id(tp.project_master_id)
+      if @project_master!=nil and @project_master!=""
+        @project_name =@project_master.project_name
+      else
+        @project_name =""
+      end      
+
+      @task_status_master = TaskStatusMaster.find_by_id(tp.task_status_master_id)
+      if @task_status_master!=nil and @task_status_master!=""
+        @status_name =@task_status_master.status
+      else
+        @status_name =""
+      end      
+
+        @sprint_planning = SprintPlanning.find_by_id(tp.sprint_planning_id)
+         if @sprint_planning!=nil and @sprint_planning!=""
+           @sprint_name =@sprint_planning.sprint_name
+            @sprint_id =@sprint_planning.id
+              @release_planning = ReleasePlanning.find_by_id(@sprint_planning.release_planning_id)
+               if @release_planning!=nil and @release_planning!=""
+                 @release_name =@release_planning.release_name
+                  @release_id =@release_planning.id
+               else
+                 @release_name =""
+               end    
+         else
+           @sprint_name =""
+           @release_name =""
+         end    
+
+
+    @assign = Taskboard.find_by_task_master_id(tp.task_master_id)
+       if @assign!=nil and @assign!=""
+         @taskboard_id =@assign.id
+         @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
+
+         @find_assigne.each do |a|
+         
+          @assigner = User.find_by_id(a.assigneer_id)
+            if @assigner!=nil and @assigner!=""
+              @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
+            else
+              @assigneer   =""
+            end
+
+          @users = User.find_by_id(a.assigned_user_id)
+           if @users!=nil and @users!=""
+             @assignee_id = @users.id
+             @assignee   ="#{@users.name} #{@users.last_name}"
+           else
+             @assignee_id = ""
+             @assignee   =""
+           end
+       end
+    
+      task_resp << {
+        'project_board_id' => tp.id,
+        'task_id' => @task_id,
+        'task_name' => @task_name,
+        'assigned_user_id' => @assignee_id,
+        'assignee_name' => @assignee,
+        'assigner_name' => @assigneer,
+        'project_board_status_id' => tp.task_status_master_id,
+        'project_board_status' => @status_name,
+        'project_id' => tp.project_master_id,
+        'project_name' => @project_name,
+        'sprint_id' => tp.sprint_planning_id,
+        'sprint_name' => @sprint_name,
+        'release_id' => @release_id,
+        'release_name' => @release_name
+        }
+    end
+  
+
+   @respone = {
+            'list' => task_resp,
+            'count' => task_resp.count
+          }
+        render json: @respone
+ end
+
 
  def create    
     @taskboard = Taskboard.new(taskboards_params)      
