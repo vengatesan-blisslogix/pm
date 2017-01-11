@@ -33,6 +33,69 @@ class HomeController < ApplicationController
         render json: { valid: true, msg:"#{@default_proj.name} This is your default project."}
   end
 
+  def all_sprint
+    get_all_projects
+
+    puts "-------#{@admin}--  #{@default_pro}----"
+
+    if  @admin.to_i == 1
+      
+    @all_sprint = SprintPlanning.all  
+        elsif @default_pro.to_i != 0
+
+    @all_sprint = SprintPlanning.where("project_master_id = #{@default_pro}")  
+                
+    else
+        if @search_all_pro_id==""
+          @search_all_pro="project_master_id IN(0)"
+        else
+          @search_all_pro="project_master_id IN(#{@search_all_pro_id})"
+        end
+      @all_sprint = SprintPlanning.where("#{@search_all_pro}")  
+    end
+
+      @sprint_resp=[]
+      @all_sprint.each do |sp| 
+
+        @sprint_resp << {
+         'sprint_id' => sp.id,
+         'sprint_name' => sp.sprint_name,
+        }
+      end
+      render json: @sprint_resp
+  end
+
+  def all_release    
+     get_all_projects
+
+    puts "-------#{@admin}--  #{@default_pro}----"
+
+    if  @admin.to_i == 1
+      
+    @all_release = ReleasePlanning.all  
+        elsif @default_pro.to_i != 0
+
+    @all_release = ReleasePlanning.where("project_master_id = #{@default_pro}")  
+                
+    else
+        if @search_all_pro_id==""
+          @search_all_pro="project_master_id IN(0)"
+        else
+          @search_all_pro="project_master_id IN(#{@search_all_pro_id})"
+        end
+      @all_release = ReleasePlanning.where("#{@search_all_pro}")  
+    end
+      @release_resp=[]
+      @all_release.each do |rp| 
+
+        @release_resp << {
+         'release_id' => rp.id,
+         'release_name' => rp.release_name,
+        }
+      end
+      render json: @release_resp
+  end
+
   def all_priority
     @all_priority = TaskPriority.all     
       @priority_resp=[]

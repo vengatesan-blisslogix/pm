@@ -27,6 +27,7 @@ def create
       @assign = Assign.new
       @assign.taskboard_id = params[:taskboard_id]
       @assign.assigned_user_id = user
+      @assign.assigneer_id = params[:user_id]
       @assign.save!
        p=p+1
      end
@@ -51,6 +52,7 @@ end
       @assign = Assign.new
       @assign.taskboard_id = params[:taskboard_id]
       @assign.assigned_user_id = user
+      @assign.assigneer_id = params[:user_id]
       @assign.save!
        p=p+1
      end
@@ -79,9 +81,9 @@ private
     def assign_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :taskboard_id => "#{params[:taskboard_id]}", :assigned_user_id => "#{params[:assigned_user_id]}" }
+      raw_parameters = { :taskboard_id => "#{params[:taskboard_id]}", :assigned_user_id => "#{params[:assigned_user_id]}", :assigneer_id => "#{params[:assigneer_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:taskboard_id, :assigned_user_id)
+      parameters.permit(:taskboard_id, :assigned_user_id, :assigneer_id)
     
     end
 

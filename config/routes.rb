@@ -84,6 +84,10 @@ match "/api/v1/all_status", :to => "home#all_status", :via => ["get"]
 
 match "/api/v1/project_users", :to => "home#project_users", :via => ["get"]
 
+match "/api/v1/all_sprint", :to => "home#all_sprint", :via => ["get"]
+
+match "/api/v1/all_release", :to => "home#all_release", :via => ["get"]
+
 
 
 
