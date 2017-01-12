@@ -8,22 +8,29 @@ class HomeController < ApplicationController
 
   def project_users
     @find_project_user = ProjectUser.where("project_master_id = #{params[:project_master_id]}")
-    @user_resp = []
+    @manager_resp = []
+    @prouser_resp = []
     @find_project_user.each do |pu|
       @user = User.find_by_id(pu.user_id)
       if pu.manager.to_i == 1
-        @user_resp << {
+        @manager_resp << {
           'assigner_id' => @user.id,        
           'assigner_name' => "#{@user.name} #{@user.last_name}",
         }
       else
-        @user_resp << {
+        @prouser_resp << {
           'assignee_id' => @user.id,        
           'assignee_name' => "#{@user.name} #{@user.last_name}",
         }
       end
     end
-    render json: @user_resp      
+     @user_resp = {
+        'assignee_list' => @prouser_resp,
+        'count' => @prouser_resp.count,
+        'assigner_list' => @manager_resp,
+        'default' => @default_pro
+      }
+      render json: @user_resp
   end
 
   def default_pro
