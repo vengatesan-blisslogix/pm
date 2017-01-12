@@ -282,7 +282,7 @@ end
 
     if @project.update(project_params)  	
       @project.save
-          
+
           @project.project_master_id = params[:project_id]
           @project.planned = params[:planned_duration]
           @project.task_status_master_id = 1
@@ -308,7 +308,7 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_master_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
       parameters.permit(:task_name, :task_description, :active, :priority, :project_master_id, :task_status_master_id )
     
