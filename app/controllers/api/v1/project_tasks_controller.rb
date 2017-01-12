@@ -282,8 +282,7 @@ end
 
     if @project.update(project_params)  	
       @project.save
-          @project.id = params[:id]
-
+          
           @project.project_master_id = params[:project_id]
           @project.planned = params[:planned_duration]
           @project.task_status_master_id = 1
