@@ -114,7 +114,7 @@ before_action :set_project, only: [:show, :edit, :update]
             
     resp << {
           'id' => p.id,
-          'name' => p.task_name,         
+          'task_name' => p.task_name,         
           'description' => p.task_description,
           'p_hours' => p.planned,
           'c_hours' => p.actual,
@@ -234,7 +234,7 @@ def show
             
     resp << {
           'id' => p.id,
-          'name' => p.task_name,         
+          'task_name' => p.task_name,         
           'description' => p.task_description,
           'p_hours' => p.planned,
           'c_hours' => p.actual,
