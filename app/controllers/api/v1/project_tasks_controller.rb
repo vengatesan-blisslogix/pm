@@ -283,7 +283,7 @@ end
       @project.save
           @project.active = "active"
           @project.planned = params[:planned_duration]
-          @project.project_board_id = 1
+          #@project.project_board_id = 1
         @project.save  
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
