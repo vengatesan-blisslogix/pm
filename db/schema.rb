@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170111054353) do
+ActiveRecord::Schema.define(version: 20170116055838) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -439,7 +439,7 @@ ActiveRecord::Schema.define(version: 20170111054353) do
     t.string   "task_name",             limit: 255
     t.text     "task_description",      limit: 65535
     t.string   "active",                limit: 255
-    t.integer  "priority",              limit: 4
+    t.integer  "priority_id",           limit: 4
     t.date     "planned_duration"
     t.date     "actual_duration"
     t.integer  "project_master_id",     limit: 4
@@ -584,16 +584,16 @@ ActiveRecord::Schema.define(version: 20170111054353) do
   end
 
   create_table "taskboards", force: :cascade do |t|
-    t.integer  "task_master_id",        limit: 4
     t.string   "status",                limit: 255
     t.string   "description",           limit: 255
-    t.integer  "project_master_id",     limit: 4
-    t.integer  "sprint_planning_id",    limit: 4
     t.integer  "est_time",              limit: 4
     t.integer  "task_complete",         limit: 4
+    t.integer  "task_status_master_id", limit: 4
+    t.integer  "project_master_id",     limit: 4
+    t.integer  "sprint_planning_id",    limit: 4
+    t.integer  "task_master_id",        limit: 4
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.integer  "task_status_master_id", limit: 4
   end
 
   create_table "tasks", force: :cascade do |t|
