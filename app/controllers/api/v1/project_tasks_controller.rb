@@ -122,12 +122,12 @@ before_action :set_project, only: [:show, :edit, :update]
           'priority_name' => @priority_name,
           'started_on' => @pd,
           'ended_on' => @ad,
-          'assignee_id' => @assignee_id,
+          'assigned_user_id' => @assignee_id,
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
           'project_board_id' => p.task_status_master_id,
           'project_board_status' => @status_name,
-          'project_id' => p.project_master_id,
+          'project_master_id' => p.project_master_id,
           'project_name' => @project_name,
           'sprint_id' => @sprint_id,
           'sprint_name' => @sprint_name,
@@ -242,12 +242,12 @@ def show
           'priority_name' => @priority_name,
           'started_on' => @pd,
           'ended_on' => @ad,
-          'assignee_id' => @assignee_id,
+          'assigned_user_id' => @assignee_id,
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
           'project_board_id' => p.task_status_master_id,
           'project_board_status' => @status_name,
-          'project_id' => p.project_master_id,
+          'project_master_id' => p.project_master_id,
           'project_name' => @project_name,
           'sprint_id' => @sprint_id,
           'sprint_name' => @sprint_name,
@@ -267,11 +267,10 @@ def create
 
     @project = ProjectTask.new(project_params)
     if @project.save
-      @project.project_master_id = params[:project_id]
           @project.active = "active"
           @project.planned = params[:planned_duration]
         @project.save
-    	render json: { valid: true, msg:"#{@project.task_name}#{@project.id} created successfully."}
+    	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
      end
@@ -282,8 +281,6 @@ end
 
     if @project.update(project_params)  	
       @project.save
-
-          @project.project_master_id = params[:project_id]
           @project.planned = params[:planned_duration]
           @project.task_status_master_id = 1
         @project.save  
@@ -308,7 +305,7 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_master_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
       parameters.permit(:task_name, :task_description, :active, :priority, :project_master_id, :task_status_master_id )
     
