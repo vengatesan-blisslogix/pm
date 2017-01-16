@@ -19,7 +19,7 @@ class HomeController < ApplicationController
         }
       else
         @prouser_resp << {
-          'assignee_id' => @user.id,        
+          'assigned_user_id' => @user.id,        
           'assignee_name' => "#{@user.name} #{@user.last_name}",
         }
       end
