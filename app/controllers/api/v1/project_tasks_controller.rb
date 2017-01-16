@@ -306,9 +306,9 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority => "#{params[:priority]}", :project_master_id => "#{params[:project_master_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority_id => "#{params[:priority_id]}", :project_master_id => "#{params[:project_master_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority, :project_master_id, :task_status_master_id )
+      parameters.permit(:task_name, :task_description, :active, :priority_id, :project_master_id, :task_status_master_id )
     
     end
 
