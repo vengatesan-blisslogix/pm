@@ -36,7 +36,7 @@ before_action :set_project, only: [:show, :edit, :update]
         @project_name =""
       end      
 
-      @task_status_master = TaskStatusMaster.find_by_id(p.task_status_master_id)
+      @task_status_master = TaskStatusMaster.find_by_id(p.project_board_id)
       if @task_status_master!=nil and @task_status_master!=""
         @status_name =@task_status_master.status
       else
@@ -125,7 +125,7 @@ before_action :set_project, only: [:show, :edit, :update]
           'assigned_user_id' => @assignee_id,
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
-          'project_board_id' => p.task_status_master_id,
+          'project_board_id' => p.project_board_id,
           'project_board_status' => @status_name,
           'project_master_id' => p.project_master_id,
           'project_name' => @project_name,
@@ -156,7 +156,7 @@ def show
         @project_name =""
       end      
 
-      @task_status_master = TaskStatusMaster.find_by_id(p.task_status_master_id)
+      @task_status_master = TaskStatusMaster.find_by_id(p.project_board_id)
       if @task_status_master!=nil and @task_status_master!=""
         @status_name =@task_status_master.status
       else
@@ -245,7 +245,7 @@ def show
           'assigned_user_id' => @assignee_id,
           'assignee_name' => @assignee,
           'assigner_name' => @assigneer,
-          'project_board_id' => p.task_status_master_id,
+          'project_board_id' => p.project_board_id,
           'project_board_status' => @status_name,
           'project_master_id' => p.project_master_id,
           'project_name' => @project_name,
@@ -283,7 +283,7 @@ end
       @project.save
           @project.active = "active"
           @project.planned = params[:planned_duration]
-          @project.task_status_master_id = 1
+          @project.project_board_id = 1
         @project.save  
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
@@ -306,9 +306,9 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority_id => "#{params[:priority_id]}", :project_master_id => "#{params[:project_master_id]}", :task_status_master_id => "#{params[:task_status_master_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority_id => "#{params[:priority_id]}", :project_master_id => "#{params[:project_master_id]}", :project_board_id => "#{params[:project_board_id]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority_id, :project_master_id, :task_status_master_id )
+      parameters.permit(:task_name, :task_description, :active, :priority_id, :project_master_id, :project_board_id )
     
     end
 
