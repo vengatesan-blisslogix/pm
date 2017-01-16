@@ -92,7 +92,7 @@ before_action :set_project, only: [:show, :edit, :update]
        end
      end
 
-     @pri_name = TaskPriority.find_by_id(p.priority)
+     @pri_name = TaskPriority.find_by_id(p.priority_id)
       if @pri_name!=nil and @pri_name!=""
         @priority_name =@pri_name.name
       else
@@ -118,7 +118,7 @@ before_action :set_project, only: [:show, :edit, :update]
           'description' => p.task_description,
           'p_hours' => p.planned,
           'c_hours' => p.actual,
-          'priority_id' => p.priority,
+          'priority_id' => p.priority_id,
           'priority_name' => @priority_name,
           'started_on' => @pd,
           'ended_on' => @ad,
@@ -212,7 +212,7 @@ def show
        end
      end
 
-     @pri_name = TaskPriority.find_by_id(p.priority)
+     @pri_name = TaskPriority.find_by_id(p.priority_id)
       if @pri_name!=nil and @pri_name!=""
         @priority_name =@pri_name.name
       else
@@ -238,7 +238,7 @@ def show
           'description' => p.task_description,
           'p_hours' => p.planned,
           'c_hours' => p.actual,
-          'priority_id' => p.priority,
+          'priority_id' => p.priority_id,
           'priority_name' => @priority_name,
           'started_on' => @pd,
           'ended_on' => @ad,
