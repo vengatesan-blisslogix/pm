@@ -268,7 +268,7 @@ def create
     @project = ProjectTask.new(project_params)
     if @project.save
           @project.active = "active"
-          @project.planned = params[:planned_duration]
+          #@project.planned = params[:planned_duration]
         @project.save
     	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
      else
@@ -282,7 +282,7 @@ end
     if @project.update(project_params)  	
       @project.save
           @project.active = "active"
-          @project.planned = params[:planned_duration]
+          #@project.planned = params[:planned_duration]
           #@project.project_board_id = 1
         @project.save  
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
@@ -306,9 +306,9 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority_id => "#{params[:priority_id]}", :project_master_id => "#{params[:project_master_id]}", :project_board_id => "#{params[:project_board_id]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority_id => "#{params[:priority_id]}", :project_master_id => "#{params[:project_master_id]}", :project_board_id => "#{params[:project_board_id]}", :planned_duration => "#{params[:planned_duration]}", :actual_duration => "#{params[:actual_duration]}", :planned => "#{params[:planned]}", :actual => "#{params[:actual]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority_id, :project_master_id, :project_board_id )
+      parameters.permit(:task_name, :task_description, :active, :priority_id, :project_master_id, :project_board_id, :planned_duration, :actual_duration, :planned, :actual ) 
     
     end
 
