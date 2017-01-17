@@ -263,19 +263,39 @@ def show
   end
 
 
-def create
-
+  def create
     @project = ProjectTask.new(project_params)
     if @project.save
           @project.active = "active"
           #@project.planned = params[:planned_duration]
         @project.save
+          if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
+            convert_param_to_array(params[:assigned_user_id])
+            @assigned_user_id = @output_array
+            p=0
+            @assigned_user_id.each do |user|
+              @taskboard = Taskboard.new
+                @taskboard.task_status_master_id = 1
+                @taskboard.task_master_id = @project.id
+                @taskboard.project_master_id = @project.project_master_id
+                @taskboard.sprint_planning_id = params[:sprint_planning_id]
+                @taskboard.status = "active"
+              @taskboard.save
+            @assign = Assign.new
+              @assign.taskboard_id = @taskboard.id
+              @assign.assigned_user_id = user
+              @assign.assigneer_id = params[:user_id]
+            @assign.save!
+            p=p+1
+          end
+    end
+
+
     	render json: { valid: true, msg:"#{@project.task_name} created successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
-     end
-    
-end
+     end    
+  end
 
  def update   
 

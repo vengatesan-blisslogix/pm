@@ -6,6 +6,13 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+  def task_assign
+    @task_assign = Assign.new
+      @task_assign.taskboard_id = params[:taskboard_id]
+      @task_assign.assigned_user_id = user
+      @task_assign.assigneer_id = params[:user_id]
+    @task_assign.save!
+  end
   def project_users
     @find_project_user = ProjectUser.where("project_master_id = #{params[:project_master_id]}")
     @manager_resp = []

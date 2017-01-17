@@ -88,6 +88,8 @@ match "/api/v1/all_sprint", :to => "home#all_sprint", :via => ["get"]
 
 match "/api/v1/all_release", :to => "home#all_release", :via => ["get"]
 
+match "/api/v1/task_assign", :to => "home#task_assign", :via => ["post"]
+
 
 
 
