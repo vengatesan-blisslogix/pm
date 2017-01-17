@@ -72,7 +72,7 @@ class HomeController < ApplicationController
       @all_sprint.each do |sp| 
 
         @sprint_resp << {
-         'sprint_id' => sp.id,
+         'sprint_planning_id' => sp.id,
          'sprint_name' => sp.sprint_name,
         }
       end

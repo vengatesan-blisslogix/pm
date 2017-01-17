@@ -76,8 +76,10 @@ before_action :set_project, only: [:show, :edit, :update]
          
           @assigner = User.find_by_id(a.assigneer_id)
             if @assigner!=nil and @assigner!=""
+              @assigneer_id = @assigner.id
               @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
             else
+              @assigneer_id = ""
               @assigneer   =""
             end
 
@@ -130,7 +132,7 @@ before_action :set_project, only: [:show, :edit, :update]
           'project_board_status' => @status_name,
           'project_master_id' => p.project_master_id,
           'project_name' => @project_name,
-          'sprint_id' => @sprint_id,
+          'sprint_planning_id' => @sprint_id,
           'sprint_name' => @sprint_name,
           'release_id' => @release_id,
           'release_name' => @release_name
@@ -197,8 +199,10 @@ def show
          
           @assigner = User.find_by_id(a.assigneer_id)
             if @assigner!=nil and @assigner!=""
+              @assigneer_id = @assigner.id
               @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
             else
+              @assigneer_id = ""
               @assigneer   =""
             end
 
@@ -251,7 +255,7 @@ def show
           'project_board_status' => @status_name,
           'project_master_id' => p.project_master_id,
           'project_name' => @project_name,
-          'sprint_id' => @sprint_id,
+          'sprint_planning_id' => @sprint_id,
           'sprint_name' => @sprint_name,
           'release_id' => @release_id,
           'release_name' => @release_name
