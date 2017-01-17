@@ -14,30 +14,32 @@ class HomeController < ApplicationController
     @task_assign.save!
   end
   def project_users
-    @find_project_user = ProjectUser.where("project_master_id = #{params[:project_master_id]}")
-    @manager_resp = []
-    @prouser_resp = []
-    @find_project_user.each do |pu|
-      @user = User.find_by_id(pu.user_id)
-      if pu.manager.to_i == 1
-        @manager_resp << {
-          'assigneer_id' => @user.id,        
-          'assigner_name' => "#{@user.name} #{@user.last_name}",
-        }
-      else
-        @prouser_resp << {
-          'assigned_user_id' => @user.id,        
-          'assignee_name' => "#{@user.name} #{@user.last_name}",
-        }
-      end
+    if @find_project_user != nil and @find_project_user != ""
+      @find_project_user = ProjectUser.where("project_master_id = #{params[:project_master_id]}")
+        @manager_resp = []
+        @prouser_resp = []
+        @find_project_user.each do |pu|
+          @user = User.find_by_id(pu.user_id)
+          if pu.manager.to_i == 1
+            @manager_resp << {
+              'assigneer_id' => @user.id,        
+              'assigner_name' => "#{@user.name} #{@user.last_name}",
+            }
+          else
+            @prouser_resp << {
+              'assigned_user_id' => @user.id,        
+              'assignee_name' => "#{@user.name} #{@user.last_name}",
+            }
+          end
+        end    
+         @user_resp = {
+            'assignee_list' => @prouser_resp,
+            'count' => @prouser_resp.count,
+            'assigner_list' => @manager_resp,
+            'default' => @default_pro
+          }
     end
-     @user_resp = {
-        'assignee_list' => @prouser_resp,
-        'count' => @prouser_resp.count,
-        'assigner_list' => @manager_resp,
-        'default' => @default_pro
-      }
-      render json: @user_resp
+          render json: @user_resp    
   end
 
   def default_pro
@@ -49,16 +51,10 @@ class HomeController < ApplicationController
 
   def all_sprint
     get_all_projects
-
-    puts "-------#{@admin}--  #{@default_pro}----"
-
-    if  @admin.to_i == 1
-      
+    if  @admin.to_i == 1      
     @all_sprint = SprintPlanning.all  
         elsif @default_pro.to_i != 0
-
-    @all_sprint = SprintPlanning.where("project_master_id = #{@default_pro}")  
-                
+    @all_sprint = SprintPlanning.where("project_master_id = #{@default_pro}")                 
     else
         if @search_all_pro_id==""
           @search_all_pro="project_master_id IN(0)"
@@ -67,7 +63,6 @@ class HomeController < ApplicationController
         end
       @all_sprint = SprintPlanning.where("#{@search_all_pro}")  
     end
-
       @sprint_resp=[]
       @all_sprint.each do |sp| 
 
