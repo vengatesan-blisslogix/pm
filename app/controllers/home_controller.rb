@@ -21,7 +21,7 @@ class HomeController < ApplicationController
       @user = User.find_by_id(pu.user_id)
       if pu.manager.to_i == 1
         @manager_resp << {
-          'assigner_id' => @user.id,        
+          'assigneer_id' => @user.id,        
           'assigner_name' => "#{@user.name} #{@user.last_name}",
         }
       else
