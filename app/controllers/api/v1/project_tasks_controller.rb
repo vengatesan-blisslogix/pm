@@ -270,7 +270,7 @@ def show
           #@project.planned = params[:planned_duration]
         @project.save
           if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
-            convert_param_to_array(params[:assigned_user_id])
+            convert_param_to_array(params[:assigned_user_id].to_s)
             @assigned_user_id = @output_array
             p=0
             @assigned_user_id.each do |user|
