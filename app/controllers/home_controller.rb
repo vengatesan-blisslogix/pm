@@ -14,6 +14,7 @@ class HomeController < ApplicationController
     @task_assign.save!
   end
   def project_users
+    @user_resp = []
       @find_project_user = ProjectUser.where("project_master_id = #{params[:project_master_id]}")
         @manager_resp = []
         @prouser_resp = []
@@ -49,6 +50,7 @@ class HomeController < ApplicationController
 
   def all_sprint
     get_all_projects
+    @sprint_resp=[]
     if  @admin.to_i == 1      
     @all_sprint = SprintPlanning.all  
         elsif @default_pro.to_i != 0
@@ -61,7 +63,6 @@ class HomeController < ApplicationController
         end
       @all_sprint = SprintPlanning.where("#{@search_all_pro}")  
     end
-      @sprint_resp=[]
       @all_sprint.each do |sp| 
 
         @sprint_resp << {
@@ -74,16 +75,12 @@ class HomeController < ApplicationController
 
   def all_release    
      get_all_projects
-
+      @release_resp=[]
     puts "-------#{@admin}--  #{@default_pro}----"
-
     if  @admin.to_i == 1
-      
     @all_release = ReleasePlanning.all  
-        elsif @default_pro.to_i != 0
-
+    elsif @default_pro.to_i != 0
     @all_release = ReleasePlanning.where("project_master_id = #{@default_pro}")  
-                
     else
         if @search_all_pro_id==""
           @search_all_pro="project_master_id IN(0)"
@@ -92,7 +89,6 @@ class HomeController < ApplicationController
         end
       @all_release = ReleasePlanning.where("#{@search_all_pro}")  
     end
-      @release_resp=[]
       @all_release.each do |rp| 
 
         @release_resp << {
