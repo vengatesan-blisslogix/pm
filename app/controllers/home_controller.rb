@@ -14,7 +14,6 @@ class HomeController < ApplicationController
     @task_assign.save!
   end
   def project_users
-    if @find_project_user != nil and @find_project_user != ""
       @find_project_user = ProjectUser.where("project_master_id = #{params[:project_master_id]}")
         @manager_resp = []
         @prouser_resp = []
@@ -37,8 +36,7 @@ class HomeController < ApplicationController
             'count' => @prouser_resp.count,
             'assigner_list' => @manager_resp,
             'default' => @default_pro
-          }
-    end
+          }    
           render json: @user_resp    
   end
 
