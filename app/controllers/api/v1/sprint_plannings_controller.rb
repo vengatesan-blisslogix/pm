@@ -91,6 +91,8 @@ puts "#{@search}"
         'active' => @status,
         'start_date' => p.start_date,        
         'end_date' => p.end_date,
+        'planned_hours' => p.planned_hours,
+        'actual_hours'   => p.actual_hours,
         'sprint_desc' => p.sprint_desc
         }
       end
@@ -147,9 +149,9 @@ private
     end
 
     def sprint_params
-      raw_parameters = { :active => "#{params[:active]}", :start_date => "#{params[:start_date]}", :end_date => "#{params[:end_date]}", :sprint_name => "#{params[:sprint_name]}", :sprint_desc => "#{params[:sprint_desc]}", :sprint_status_id => "#{params[:sprint_status_id]}", :release_planning_id => "#{params[:release_planning_id]}", :project_master_id => "#{params[:project_master_id]}" }
+      raw_parameters = { :active => "#{params[:active]}", :start_date => "#{params[:start_date]}", :end_date => "#{params[:end_date]}", :sprint_name => "#{params[:sprint_name]}", :sprint_desc => "#{params[:sprint_desc]}", :sprint_status_id => "#{params[:sprint_status_id]}", :release_planning_id => "#{params[:release_planning_id]}", :project_master_id => "#{params[:project_master_id]}", :planned_hours => "#{params[:planned_hours]}", :actual_hours => "#{params[:actual_hours]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit( :active, :start_date, :end_date, :sprint_name, :sprint_desc, :sprint_status_id, :project_master_id, :release_planning_id)
+      parameters.permit( :active, :start_date, :end_date, :sprint_name, :sprint_desc, :sprint_status_id, :project_master_id, :release_planning_id, :planned_hours, :actual_hours)
     end
 
 end
