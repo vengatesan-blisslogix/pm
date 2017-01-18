@@ -10,16 +10,17 @@ before_action :set_planning, only: [:show, :edit, :update]
       if params[:project_master_id] 
         @search = "project_master_id = #{params[:project_master_id]}"
       else
-        if @search_all_pro_id==""
-          if current_user.role_master_id==1
-            @search = ""
+         if  @admin.to_i == 1      
+          @search = "" 
+        elsif @default_pro.to_i != 0
+          @search = "project_master_id = #{@default_pro}"
+        else
+          if @search_all_pro_id==""
+            @search="project_master_id IN(0)"
           else
-
-        @search = "project_master_id IN(0)"
-        end
-      else
-        @search = "project_master_id IN(#{@search_all_pro_id})"
-      end
+            @search="project_master_id IN(#{@search_all_pro_id})"
+          end   
+        end     
       end
 
 
