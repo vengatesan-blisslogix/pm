@@ -307,10 +307,37 @@ def show
 
     if @project.update(project_params)  	
       @project.save
-          @project.active = "active"
-          #@project.planned = params[:planned_duration]
-          #@project.project_board_id = 1
-        @project.save  
+          @project.active = "active"         
+        @project.save
+        if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
+            convert_param_to_array(params[:assigned_user_id].to_s)
+            @assigned_user_id = @output_array
+            p=0
+            @assigned_user_id.each do |user|
+              @find_taskboard = Taskboard.find_by_task_master_id(@project.id)
+              if @find_taskboard != nil and @find_taskboard != ""
+                @taskboard = @find_taskboard
+              else
+                @taskboard = Taskboard.new
+              end
+                @taskboard.task_status_master_id = 1
+                @taskboard.task_master_id = @project.id
+                @taskboard.project_master_id = @project.project_master_id
+                @taskboard.sprint_planning_id = params[:sprint_planning_id]
+                @taskboard.status = "active"
+              @taskboard.save
+                @find_assign = Assign.where("assigned_user_id = #{user} and taskboard_id = #{@taskboard.id}")
+                  if @find_assign != nil and @find_assign != "" and @find_assign.size != 0
+                    @assign = @find_assign[0]
+                  else
+                    @assign = Assign.new
+                  end
+                      @assign.taskboard_id = @taskboard.id
+                      @assign.assigned_user_id = user
+                      @assign.assigneer_id = params[:user_id]
+                    @assign.save!
+                    p=p+1
+          end 
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
         render json: { valid: false, error: @project.errors }, status: 404
