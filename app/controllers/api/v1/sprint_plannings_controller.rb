@@ -60,16 +60,20 @@ puts "#{@search}"
     puts "#{@search}"
       @project_master = ProjectMaster.find_by_id(p.project_master_id)
       if @project_master!=nil and @project_master!=""
+        @project_id = @project_master.id
         @project_name =@project_master.project_name
       else
+        @project_id = ""
         @project_name =""
       end
       if p.project_master_id!=nil and p.release_planning_id !=nil
             @release_planning = ReleasePlanning.where("project_master_id = #{p.project_master_id} and id = #{p.release_planning_id}").first
 
             if @release_planning!=nil and @release_planning!=""
-              @release_name =@release_planning.release_name                
+              @release_name =@release_planning.release_name
+              @release_id =@release_planning.id
             else
+              @release_id = ""
               @release_name =""
             end
           end
@@ -79,7 +83,9 @@ puts "#{@search}"
       end
       resp << {
         'id' => p.id,
+        'project_master_id' => @project_id,
         'project_name' => @project_name,
+        'release_id' => @release_id,
         'release_name' => @release_name,
         'sprint_name' => p.sprint_name,
         'active' => @status,

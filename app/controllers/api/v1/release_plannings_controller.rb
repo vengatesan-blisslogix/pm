@@ -50,9 +50,9 @@ puts "#{@search}"
         'start_date' => t.start_date,
         'end_date' => t.end_date,        
         'release_notes' => t.release_notes,        
-        'user_id' => t.user_id, 
         'active' => t.active, 
         'flag_name' => t.flag_name,
+        'project_master_id' => t.project_master_id,
         'project_name' => @project_name,
       }      
     end   
