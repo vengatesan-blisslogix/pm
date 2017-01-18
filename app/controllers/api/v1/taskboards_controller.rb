@@ -175,7 +175,8 @@ before_action :set_taskboards, only: [:show, :edit, :update]
          
           @assigner = User.find_by_id(a.assigneer_id)
             if @assigner!=nil and @assigner!=""
-              @assigneer   ="#{@assigner.name} #{@assigner.last_name}"
+              @assigneer   ={ 'id' => @assigner.id,
+        'name' => "#{@assigner.name} #{@assigner.last_name}"}
             else
               @assigneer   =""
             end
@@ -183,7 +184,8 @@ before_action :set_taskboards, only: [:show, :edit, :update]
           @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
              @assignee_id = @users.id
-             @assignee   ="#{@users.name} #{@users.last_name}"
+             @assignee   ={ 'id' => @assigner.id,
+        'name' => "#{@users.name} #{@users.last_name}"}
            else
              @assignee_id = ""
              @assignee   =""
