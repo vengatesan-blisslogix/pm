@@ -53,7 +53,6 @@ puts "#{@search}"
         'active' => t.active, 
         'flag_name' => t.flag_name,
         'project_name' => @project_name,
-        'project_list' => @project_resp
       }      
     end   
     pagination(ReleasePlanning,@search)
