@@ -5,19 +5,25 @@ before_action :set_planning, only: [:show, :edit, :update]
 
 	 def index
 
-  get_all_projects
+ get_all_projects
 
-    if params[:project_master_id] and params[:release_planning_id]
-      @search = "project_master_id = #{params[:project_master_id]} and id = #{params[:release_planning_id]}"
-    else
-        if @search_all_pro_id=="" and  @admin == 0
-          @search ="id IN(0)"
-        elsif @search_all_pro_id=="" and  @admin == 1
-          @search =""
-        else
-          @search ="project_master_id IN(#{@search_all_pro_id})"
+      if params[:project_master_id] 
+        @search = "project_master_id = #{params[:project_master_id]}"
+      else
+        if @search_all_pro_id==""
+          if current_user.role_master_id==1
+            @search = ""
+          else
+
+        @search = "project_master_id IN(0)"
         end
-    end
+      else
+        @search = "project_master_id IN(#{@search_all_pro_id})"
+      end
+      end
+
+
+puts "#{@search}"
 
     @release_plannings = ReleasePlanning.where(@search).page(params[:page]).order(:created_at => 'desc')
     resp=[]
@@ -53,13 +59,13 @@ before_action :set_planning, only: [:show, :edit, :update]
     pagination(ReleasePlanning,@search)
     
     response = {
-      'no_of_records' => @no_of_records.size,
-      'no_of_pages' => @no_pages,
-      'next' => @next,
-      'prev' => @prev,
-      'resp' => resp,
-      'project' => @project_resp
-
+      #'no_of_records' => @no_of_records.size,
+      #'no_of_pages' => @no_pages,
+      #'next' => @next,
+      #'prev' => @prev,
+      'project' => @project_resp,
+      'list' => resp,
+      'count' => resp.count
     }
 
     render json: response 
