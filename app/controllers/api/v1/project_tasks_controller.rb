@@ -337,6 +337,7 @@ def show
                       @assign.assigneer_id = params[:user_id]
                     @assign.save!
                     p=p+1
+                  end
           end 
        render json: { valid: true, msg:"#{@project.task_name} updated successfully."}
      else
