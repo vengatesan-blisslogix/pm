@@ -100,9 +100,9 @@ before_action :set_taskboards, only: [:show, :edit, :update]
         'assigner_name' => @assigneer,
         'project_board_status_id' => tp.task_status_master_id,
         'project_board_status' => @status_name,
-        'project_id' => tp.project_master_id,
+        'project_master_id' => tp.project_master_id,
         'project_name' => @project_name,
-        'sprint_id' => tp.sprint_planning_id,
+        'sprint_planning_id' => tp.sprint_planning_id,
         'sprint_name' => @sprint_name,
         'release_id' => @release_id,
         'release_name' => @release_name
@@ -199,9 +199,9 @@ before_action :set_taskboards, only: [:show, :edit, :update]
         'assigner_name' => @assigneer,
         'project_board_status_id' => tp.task_status_master_id,
         'project_board_status' => @status_name,
-        'project_id' => tp.project_master_id,
+        'project_master_id' => tp.project_master_id,
         'project_name' => @project_name,
-        'sprint_id' => tp.sprint_planning_id,
+        'sprint_planning_id' => tp.sprint_planning_id,
         'sprint_name' => @sprint_name,
         'release_id' => @release_id,
         'release_name' => @release_name
