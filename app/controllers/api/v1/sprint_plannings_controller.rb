@@ -7,20 +7,37 @@ before_action :set_sprint, only: [:show, :edit, :update]
 
   get_all_projects
 
-      if params[:project_master_id] 
-        @search = "project_master_id = #{params[:project_master_id]}"
-      else
-        if @search_all_pro_id==""
-          if current_user.role_master_id==1
-            @search = ""
-          else
+    if params[:project_master_id] && params[:release_planning_id]
+      @search = "project_master_id = #{params[:project_master_id]} and release_planning_id = #{params[:release_planning_id]}"
 
-        @search = "project_master_id IN(0)"
-        end
-      else
-        @search = "project_master_id IN(#{@search_all_pro_id})"
-      end
-      end
+        @project_master = ProjectMaster.find_by_id(params[:project_master_id])
+            if @project_master!=nil and @project_master!=""
+              @project_name =@project_master.project_name
+            else
+              @project_name =""
+            end
+
+            @release_planning = ReleasePlanning.find_by_id(params[:release_planning_id])
+
+            if @release_planning!=nil and @release_planning!=""
+              @release_name =@release_planning.release_name
+            else
+              @release_name =""
+            end
+
+    else
+        if  @admin.to_i == 1      
+          @search = "" 
+        elsif @default_pro.to_i != 0
+          @search = "project_master_id = #{@default_pro}"
+        else
+          if @search_all_pro_id==""
+            @search="project_master_id IN(0)"
+          else
+            @search="project_master_id IN(#{@search_all_pro_id})"
+          end        
+    end
+    end
 
 
 puts "#{@search}"
