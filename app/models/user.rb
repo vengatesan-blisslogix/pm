@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
       'branch' => getbranch,
       'access' => getaccess,
       'engagement_type' => getengagement,
-      'default_project' => defaultproject
+      'default_project_id' => defaultproject
     }
   end
 
