@@ -20,7 +20,7 @@ class HomeController < ApplicationController
   end
 
   def unassigned_list
-    @find_taskboard = Taskboard.where("task_status_master_id = 1")
+    @find_taskboard = Taskboard.where("task_status_master_id = 1 and project_master_id = #{params[:project_master_id]}")
       @un_assigned = []
       @find_taskboard.each do |ft|
         @list = ProjectTask.find_by_id(ft.task_master_id)
