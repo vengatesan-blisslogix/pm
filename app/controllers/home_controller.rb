@@ -168,10 +168,10 @@ class HomeController < ApplicationController
   end
 
   def set_stage
-    @task = ProjectTask.find_by_id(params[:task_id])
-    @task.project_board_id = params[:project_board_id]
+    @task = Taskboard.find_by_id(params[:taskboard_id])
+    @task.task_status_master_id = params[:task_status_master_id]
     @task.save
-        render json: { valid: true, msg:"#{@task.task_name}-stage updated successfully."}
+        render json: { valid: true, msg:"updated successfully"}
   end
 
 def get_regions
