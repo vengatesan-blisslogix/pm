@@ -193,7 +193,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
           @users = User.find_by_id(a.assigned_user_id)
            if @users!=nil and @users!=""
              @assignee_id = @users.id
-             @assignee   << { 'id' => @assigner.id,
+             @assignee   << { 'id' => @assignee_id,
                             'name' => "#{@users.name} #{@users.last_name}"}
            else
              @assignee_id = ""
