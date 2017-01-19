@@ -5,21 +5,28 @@ before_action :set_taskboards, only: [:show, :edit, :update]
  
 
   def index
-    get_all_projects
+    
+ get_all_projects
 
-    if  @admin.to_i == 1
-      @search_val = ""
-    elsif params[:project_master_id] and params[:sprint_planning_id]
-      @search_val = "project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
-    elsif @default_pro.to_i != 0
-      @search_val = "project_master_id = #{@default_pro}"          
-    else
-      @search_val = ""
-    end
+      if params[:project_master_id] and params[:sprint_planning_id] 
+        @search = "project_master_id = #{params[:project_master_id]} and sprint_planning_id = #{params[:sprint_planning_id]}"
+      else
+         if  @admin.to_i == 1      
+          @search = "" 
+        elsif @default_pro.to_i != 0
+          @search = "project_master_id = #{@default_pro}"
+        else
+          if @search_all_pro_id==""
+            @search="project_master_id IN(0)"
+          else
+            @search="project_master_id IN(#{@search_all_pro_id})"
+          end   
+        end     
+      end
 
        task_resp = []
        if @search_val!="" or @admin.to_i == 1
-   @task = Taskboard.where("#{@search_val}")
+   @task = Taskboard.where("#{@search}")
    @task.each do |tp|  
       
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
