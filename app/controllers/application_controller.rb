@@ -256,7 +256,7 @@ puts "----ttime-----#{@total_time}----------"
       @project_resp=[]
       @client_id = ""
       @project_all.each do |p| 
-        @find_pro_default = ProjectUser.where("user_id=#{current_user.id} and project_master_id=#{p.id} and default_project=#{p.id}")
+        @find_pro_default = ProjectUser.where("user_id=#{current_user.id} and default_project=#{p.id}")
         puts "--------#{@find_pro_default.size}----------"
         if @find_pro_default !=nil and @find_pro_default.size.to_i!=0
           puts "-----------------------"
