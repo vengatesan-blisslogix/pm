@@ -178,9 +178,10 @@ before_action :set_taskboards, only: [:show, :edit, :update]
          @taskboard_id =@assign.id
          @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
               @assignee = []
-              @assigneer = []
 
          @find_assigne.each do |a|
+
+              @assigneer = []
 
           @assigner = User.find_by_id(a.assigneer_id)
             if @assigner!=nil and @assigner!=""
