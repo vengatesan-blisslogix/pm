@@ -65,34 +65,26 @@ match "/api/v1/manager_master", :to => "home#manager_master", :via => ["get"]
 match "/api/v1/employee_master", :to => "home#employee_master", :via => ["get"]
 
 match "/api/v1/search_user", :to => "home#search_user", :via => ["post"]
-
 match "/api/v1/user_ldap_auth", :to => "home#user_ldap_auth", :via => ["post"]
 
 match "/api/v1/get_regions", :to => "home#get_regions", :via => ["get"]
-
 match "/api/v1/project", :to => "home#project", :via => ["get"]
-
 match "/api/v1/set_priority", :to => "home#set_priority", :via => ["get"]
-
 match "/api/v1/set_stage", :to => "home#set_stage", :via => ["get"]
 
 match "/api/v1/default_pro", :to => "home#default_pro", :via => ["post"]
 
 match "/api/v1/all_priority", :to => "home#all_priority", :via => ["get"]
-
 match "/api/v1/all_status", :to => "home#all_status", :via => ["get"]
-
 match "/api/v1/project_users", :to => "home#project_users", :via => ["get"]
-
 match "/api/v1/all_sprint", :to => "home#all_sprint", :via => ["get"]
-
 match "/api/v1/all_release", :to => "home#all_release", :via => ["get"]
 
 match "/api/v1/task_assign", :to => "home#task_assign", :via => ["post"]
 
 match "/api/v1/unassigned_list", :to => "home#unassigned_list", :via => ["get"]
 
-match "/api/v1/sprint_task", :to => "home#sprint_task", :via => ["post"]
+match "/api/v1/status_list", :to => "home#status_list", :via => ["get"]
 
 
 

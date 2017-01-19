@@ -64,6 +64,27 @@ class ApplicationController < ActionController::Base
     end
 =end
 
+  def create_taskboard
+     @taskboard = Taskboard.new      
+      if @taskboard.save
+         @taskboard.task_status_master_id = 1  
+         @taskboard.task_master_id = params[:task_master_id]
+         @taskboard.project_master_id = params[:project_master_id]
+         @taskboard.sprint_planning_id = params[:sprint_planning_id]
+         @taskboard.status = "active"
+        @taskboard.save
+
+    un_assigned={
+          'valid' => true, 
+          'msg' => "created successfully"
+          }
+
+        render json: un_assigned
+      else
+        render json: { valid: false, error: @taskboard.errors }, status: 404
+      end
+  end
+
   def get_assigne(task_master_id, stage)
 puts "-----------------#{task_master_id}----#{stage}-------------------"
 

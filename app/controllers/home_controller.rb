@@ -6,8 +6,8 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
-  def sprint_task
-    
+  def status_list
+    @list = SprintStatus.all
   end
 
   def unassigned_list
@@ -168,10 +168,10 @@ class HomeController < ApplicationController
   end
 
   def set_stage
-    @task = Task.find_by_id(params[:task_id])
-    @task.task_board_id = params[:task_board_id]
+    @task = ProjectTask.find_by_id(params[:task_id])
+    @task.project_board_id = params[:project_board_id]
     @task.save
-        render json: { valid: true, msg:"#{@task.name}-stage updated successfully."}
+        render json: { valid: true, msg:"#{@task.task_name}-stage updated successfully."}
   end
 
 def get_regions
