@@ -20,14 +20,15 @@ class HomeController < ApplicationController
   end
 
   def unassigned_list
-    @list = ProjectTask.where("project_board_id = 1")
-    @un_assigned = []
-    @list.each do |l|
-      @un_assigned << {
-        'id' => l.id,
-        'task_name' => l.task_name
-      }
-    end
+    @find_taskboard = Taskboard.where("task_status_master_id = 1")
+      @un_assigned = []
+      @find_taskboard.each do |ft|
+        @list = ProjectTask.find_by_id(ft.task_master_id)
+          @un_assigned << {
+            'id' => @list.id,
+            'task_name' => @list.task_name
+          }
+        end
     render json: @un_assigned
   end
 
