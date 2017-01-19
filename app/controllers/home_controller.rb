@@ -8,6 +8,15 @@ class HomeController < ApplicationController
 
   def status_list
     @list = SprintStatus.all
+      @status_resp=[]
+      @list.each do |ss| 
+
+        @status_resp << {
+         'id' => ss.id,
+         'name' => ss.status,
+        }
+      end
+      render json: @status_resp
   end
 
   def unassigned_list
