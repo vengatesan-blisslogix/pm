@@ -139,7 +139,7 @@ class HomeController < ApplicationController
       @respone = {
         'list' => @project_resp,
         'count' => @project_resp.count,
-        'default' => @default_pro
+        'default_project_id' => @default_pro
       }
       render json: @respone
   end
