@@ -7,26 +7,10 @@ before_action :set_sprint, only: [:show, :edit, :update]
 
   get_all_projects
 
-    if params[:project_master_id] && params[:release_planning_id]
-      @search = "project_master_id = #{params[:project_master_id]} and release_planning_id = #{params[:release_planning_id]}"
-
-        @project_master = ProjectMaster.find_by_id(params[:project_master_id])
-            if @project_master!=nil and @project_master!=""
-              @project_name =@project_master.project_name
-            else
-              @project_name =""
-            end
-
-            @release_planning = ReleasePlanning.find_by_id(params[:release_planning_id])
-
-            if @release_planning!=nil and @release_planning!=""
-              @release_name =@release_planning.release_name
-            else
-              @release_name =""
-            end
-
+   if params[:project_master_id] 
+        @search = "project_master_id = #{params[:project_master_id]} "
     else
-        if  @admin.to_i == 1      
+       if  @admin.to_i == 1      
           @search = "" 
         elsif @default_pro.to_i != 0
           @search = "project_master_id = #{@default_pro}"
@@ -35,29 +19,21 @@ before_action :set_sprint, only: [:show, :edit, :update]
             @search="project_master_id IN(0)"
           else
             @search="project_master_id IN(#{@search_all_pro_id})"
-          end        
+          end   
     end
     end
 
 
-puts "#{@search}"
+puts "99999#{@search}"
 
-	  @sprint_plannings = SprintPlanning.where(@search).page(params[:page]).order(:created_at => 'desc')
+	  @sprint_plannings = SprintPlanning.where("#{@search}")
 	  resp=[]
      @sprint_plannings.each do |p| 
-
-
-      if p.active.to_i==1
-        @status= "open"
-      elsif p.active.to_i==2
-        @status= "ongoing"
-      else
-        @status= "closed"
-      end
+      
     
  
   if p.project_master_id!=nil
-    puts "#{@search}"
+    puts "0000#{@search}"
       @project_master = ProjectMaster.find_by_id(p.project_master_id)
       if @project_master!=nil and @project_master!=""
         @project_id = @project_master.id
@@ -81,6 +57,11 @@ puts "#{@search}"
             release_name =""
             puts "---------@release_name-----------"
       end
+      if p.project_master_id!=nil
+        @status = SprintStatus.find_by(p.sprint_status_id)
+        @status_name = @status.status
+      end
+
       resp << {
         'id' => p.id,
         'project_master_id' => @project_id,
@@ -88,7 +69,8 @@ puts "#{@search}"
         'release_id' => @release_id,
         'release_name' => @release_name,
         'sprint_name' => p.sprint_name,
-        'active' => @status,
+        'sprint_status_id' => p.sprint_status_id,
+        'status_name' => @status_name,
         'start_date' => p.start_date,        
         'end_date' => p.end_date,
         'planned_hours' => p.planned_hours,

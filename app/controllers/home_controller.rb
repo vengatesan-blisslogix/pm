@@ -12,8 +12,8 @@ class HomeController < ApplicationController
       @list.each do |ss| 
 
         @status_resp << {
-         'id' => ss.id,
-         'name' => ss.status,
+         'sprint_status_id' => ss.id,
+         'status_name' => ss.status,
         }
       end
       render json: @status_resp
