@@ -6,6 +6,22 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+  def sprint_task
+    
+  end
+
+  def unassigned_list
+    @list = ProjectTask.where("project_board_id = 1")
+    @un_assigned = []
+    @list.each do |l|
+      @un_assigned << {
+        'id' => l.id,
+        'task_name' => l.task_name
+      }
+    end
+    render json: @un_assigned
+  end
+
   def task_assign
     @task_assign = Assign.new
       @task_assign.taskboard_id = params[:taskboard_id]

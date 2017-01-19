@@ -90,6 +90,9 @@ match "/api/v1/all_release", :to => "home#all_release", :via => ["get"]
 
 match "/api/v1/task_assign", :to => "home#task_assign", :via => ["post"]
 
+match "/api/v1/unassigned_list", :to => "home#unassigned_list", :via => ["get"]
+
+match "/api/v1/sprint_task", :to => "home#sprint_task", :via => ["post"]
 
 
 
