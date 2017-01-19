@@ -62,7 +62,8 @@ class User < ActiveRecord::Base
       'company' => getcompany,
       'branch' => getbranch,
       'access' => getaccess,
-      'engagement_type' => getengagement
+      'engagement_type' => getengagement,
+      'default_project' => defaultproject
     }
   end
 
@@ -128,6 +129,11 @@ def get_all_projects
     @engage
   end
 
+def defaultproject
+  resp = []
+  @df = User.find(id)
+  resp = @df.default_project_id if @df
+end
   
 def getrole
 	resp = []
