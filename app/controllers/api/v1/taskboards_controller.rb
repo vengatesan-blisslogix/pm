@@ -26,7 +26,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 
        task_resp = []
        if @search_val!="" or @admin.to_i == 1
-   @task = Taskboard.where("#{@search}")
+   @task = Taskboard.where("#{@search}").order(:created_at => 'desc')
    @task.each do |tp|  
       
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
@@ -249,8 +249,49 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 
 
 	def update
-	  if @taskboard.update(taskboards_params)  	      
-	    render json: { valid: true, msg: "taskboard updated successfully"}
+	  if @taskboard.update(taskboards_params)
+        if params[:log] != nil and params[:log].to_i == 1         
+            @timelog = Logtime.new
+              if params[:task_time] and params[:task_time]!=nil
+                @timelog.task_time = params[:task_time]
+              else
+                @timelog.start_time = params[:start_time]
+                @timelog.end_time = params[:end_time]
+              end
+              @timelog.task_date = params[:date]
+              @timelog.user_id = params[:user_id]
+              @timelog.status = "pending"
+           @timelog.save
+         end
+          
+          log_values = []
+
+          log_values << {
+            'taskboard_id' => @timelog.taskboard_id,
+            'task_time' => @timelog.task_time
+            }
+          
+
+            if params[:assign] != nil and params[:assign].to_i == 1         
+              convert_param_to_array(params[:assigned_user_id])
+              @assigned_user_id = @output_array
+                p=0
+                  @assigned_user_id.each do |user|
+                    
+                    @find_user = Assign.where("taskboard_id = #{@taskboard.id} and assigned_user_id = #{user}")
+                      if @find_user != nil and @find_user.size != 0
+
+                      else
+                        @assign = Assign.new                      
+                        @assign.taskboard_id = @taskboard.id
+                        @assign.assigned_user_id = user
+                        @assign.assigneer_id = params[:user_id]
+                        @assign.save
+                      end
+                  end
+              end   
+     
+    	    render json: { valid: true, msg: "taskboard updated with log_values"}      
 	  else
 	    render json: { valid: false, error: @taskboard.errors }, status: 404
 	  end

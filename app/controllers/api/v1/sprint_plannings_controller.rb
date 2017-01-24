@@ -57,9 +57,11 @@ puts "99999#{@search}"
             release_name =""
             puts "---------@release_name-----------"
       end
-      if p.project_master_id!=nil
-        @status = SprintStatus.find_by(p.sprint_status_id)
+      if p.sprint_status_id.to_i != 0
+        @status = SprintStatus.find_by_id(p.sprint_status_id)
         @status_name = @status.status
+      else
+        @status_name = ""
       end
 
       resp << {
@@ -78,7 +80,7 @@ puts "99999#{@search}"
         'sprint_desc' => p.sprint_desc
         }
       end
-    pagination(SprintPlanning,@search)
+    #pagination(SprintPlanning,@search)
     
     response = {
       #'no_of_records' => @no_of_records.size,
