@@ -258,6 +258,10 @@ before_action :set_taskboards, only: [:show, :edit, :update]
                 @timelog.start_time = params[:start_time]
                 @timelog.end_time = params[:end_time]
               end
+              @timelog.taskboard_id = @taskboard.id
+              @timelog.project_master_id = @taskboard.project_master_id
+              @timelog.sprint_planning_id = @taskboard.sprint_planning_id
+              @timelog.task_master_id = @taskboard.task_master_id
               @timelog.task_date = params[:date]
               @timelog.user_id = params[:user_id]
               @timelog.status = "pending"
