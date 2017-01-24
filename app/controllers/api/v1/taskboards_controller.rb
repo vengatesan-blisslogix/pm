@@ -258,7 +258,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
                 @timelog.start_time = params[:start_time]
                 @timelog.end_time = params[:end_time]
               end
-              @timelog.taskboard_id = @taskboard.id
+              @timelog.taskboard_id = params[:taskboard_id]
               @timelog.project_master_id = @taskboard.project_master_id
               @timelog.sprint_planning_id = @taskboard.sprint_planning_id
               @timelog.task_master_id = @taskboard.task_master_id
@@ -275,7 +275,6 @@ before_action :set_taskboards, only: [:show, :edit, :update]
             'task_time' => @timelog.task_time
             }
           
-
             if params[:assign] != nil and params[:assign].to_i == 1         
               convert_param_to_array(params[:assigned_user_id])
               @assigned_user_id = @output_array
@@ -287,7 +286,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 
                       else
                         @assign = Assign.new                      
-                        @assign.taskboard_id = @taskboard.id
+                        @assign.taskboard_id = params[:taskboard_id]
                         @assign.assigned_user_id = user
                         @assign.assigneer_id = params[:user_id]
                         @assign.track_id = params[:user_id]
