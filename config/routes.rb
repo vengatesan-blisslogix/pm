@@ -76,7 +76,7 @@ match "/api/v1/default_pro", :to => "home#default_pro", :via => ["post"]
 
 match "/api/v1/all_priority", :to => "home#all_priority", :via => ["get"]
 match "/api/v1/all_status", :to => "home#all_status", :via => ["get"]
-match "/api/v1/project_users", :to => "home#project_users", :via => ["get"]
+match "/api/v1/assign_list", :to => "home#assign_list", :via => ["get"]
 match "/api/v1/all_sprint", :to => "home#all_sprint", :via => ["get"]
 match "/api/v1/all_release", :to => "home#all_release", :via => ["get"]
 
