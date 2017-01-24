@@ -201,6 +201,10 @@ before_action :set_taskboards, only: [:show, :edit, :update]
              @assignee   =""
            end
        end
+
+
+        @find_timesheet_entry = Logtime.where("project_master_id=#{tp.project_master_id} and user_id=#{params[:user_id]}").sum(:task_time).round(2)         
+        
     
       task_resp << {
         'project_board_id' => tp.id,
@@ -216,7 +220,9 @@ before_action :set_taskboards, only: [:show, :edit, :update]
         'sprint_planning_id' => tp.sprint_planning_id,
         'sprint_name' => @sprint_name,
         'release_id' => @release_id,
-        'release_name' => @release_name
+        'release_name' => @release_name,
+        'worked_hours' => @find_timesheet_entry,
+        'actual_hours' => @project_task.planned
         }
     end
   
