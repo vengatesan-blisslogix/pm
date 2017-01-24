@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118133038) do
+ActiveRecord::Schema.define(version: 20170124111019) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20170118133038) do
     t.integer  "assigneer_id",     limit: 4
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "track_id",         limit: 4
   end
 
   create_table "billable_types", force: :cascade do |t|
@@ -438,16 +439,16 @@ ActiveRecord::Schema.define(version: 20170118133038) do
   create_table "project_tasks", force: :cascade do |t|
     t.string   "task_name",         limit: 255
     t.text     "task_description",  limit: 65535
-    t.string   "active",            limit: 255
-    t.integer  "priority_id",       limit: 4
-    t.date     "planned_duration"
-    t.date     "actual_duration"
+    t.integer  "project_board_id",  limit: 4
     t.integer  "project_master_id", limit: 4
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.string   "active",            limit: 255
     t.float    "planned",           limit: 24
     t.float    "actual",            limit: 24
-    t.integer  "project_board_id",  limit: 4
+    t.date     "planned_duration"
+    t.date     "actual_duration"
+    t.integer  "priority_id",       limit: 4
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "project_time_sheets", force: :cascade do |t|
@@ -500,6 +501,8 @@ ActiveRecord::Schema.define(version: 20170118133038) do
     t.float    "actual_hours",           limit: 24
     t.date     "start_date"
     t.date     "end_date"
+    t.integer  "project_master_id",      limit: 4
+    t.integer  "user_id",                limit: 4
     t.text     "comments",               limit: 65535
     t.string   "active",                 limit: 255
     t.text     "release_notes",          limit: 65535
@@ -509,8 +512,6 @@ ActiveRecord::Schema.define(version: 20170118133038) do
     t.string   "qa_approved",            limit: 255
     t.integer  "qa_approved_by_user_id", limit: 4
     t.datetime "qa_approved_date_time"
-    t.integer  "user_id",                limit: 4
-    t.integer  "project_master_id",      limit: 4
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
   end
@@ -543,6 +544,8 @@ ActiveRecord::Schema.define(version: 20170118133038) do
 
   create_table "sprint_plannings", force: :cascade do |t|
     t.string   "active",              limit: 255
+    t.float    "planned_hours",       limit: 24
+    t.float    "actual_hours",        limit: 24
     t.date     "start_date"
     t.date     "end_date"
     t.string   "sprint_name",         limit: 255
@@ -552,8 +555,6 @@ ActiveRecord::Schema.define(version: 20170118133038) do
     t.integer  "release_planning_id", limit: 4
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.float    "planned_hours",       limit: 24
-    t.float    "actual_hours",        limit: 24
   end
 
   create_table "sprint_statuses", force: :cascade do |t|

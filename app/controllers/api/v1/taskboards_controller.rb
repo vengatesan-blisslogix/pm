@@ -290,6 +290,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
                         @assign.taskboard_id = @taskboard.id
                         @assign.assigned_user_id = user
                         @assign.assigneer_id = params[:user_id]
+                        @assign.track_id = params[:user_id]
                         @assign.save
                       end
                   end
