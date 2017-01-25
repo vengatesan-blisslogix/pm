@@ -291,8 +291,8 @@ puts "----ttime-----#{@total_time}----------"
         end
 
         @project_resp << {
-         'value' => p.id,
-         'label' => p.project_name,
+         'project_master_id' => p.id,
+         'project_name' => p.project_name,
         }      
       end
       
