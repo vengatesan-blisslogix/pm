@@ -169,11 +169,7 @@ def create
         @task.save
 
             @taskboard = Taskboard.new         
-            @taskboard.in_progress = 1
-            @taskboard.development_completed =0
-            @taskboard.qa=0
-            @taskboard.completed=0
-            @taskboard.hold=0
+            @taskboard.task_status_master_id = 1
             @taskboard.task_master_id=@task.id
             @taskboard.project_master_id=@project_master.id
             @taskboard.sprint_planning_id=@sprint_planning.id 
