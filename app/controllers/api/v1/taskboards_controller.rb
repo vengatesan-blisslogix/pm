@@ -280,12 +280,12 @@ before_action :set_taskboards, only: [:show, :edit, :update]
            @timelog.save
          end
           
-          log_values = []
+          #log_values = []
 
-          log_values << {
-            'taskboard_id' => @timelog.taskboard_id,
-            'task_time' => @timelog.task_time
-            }
+          #log_values << {
+            #'taskboard_id' => @timelog.taskboard_id,
+            #'task_time' => @timelog.task_time
+            #}
           
             if params[:assign] != nil and params[:assign].to_i == 1         
               convert_param_to_array(params[:assigned_user_id])
