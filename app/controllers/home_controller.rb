@@ -1378,13 +1378,14 @@ else
       else
         @task_name = ""
       end
-@status_log= Logtime.find_by_id(@timesheet_summ_id[0].id)
-      if @status_log!=nil and @status_log.status != nil
-        @status = @timesheet_summ_id[0].status
-      else
-        @status = "pending"
+      if @status_log != nil
+        @status_log= Logtime.find_by_id(@timesheet_summ_id[0].id)
+        if @status_log!=nil and @status_log.status != nil
+          @status = @timesheet_summ_id[0].status
+        else
+          @status = "pending"
+        end
       end
-
       if @timesheet_summ_id[0].comments != nil
         @comments = @timesheet_summ_id[0].comments
       else
