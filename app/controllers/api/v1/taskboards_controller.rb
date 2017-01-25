@@ -132,6 +132,8 @@ before_action :set_taskboards, only: [:show, :edit, :update]
     task_resp = []
       
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
+  if @project_task!=nil and @project_task!=""
+
       if @project_task!=nil and @project_task!=""
         get_task_board(@project_task.project_master_id)
         @task_name =@project_task.task_name
@@ -225,7 +227,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
         'actual_hours' => @project_task.planned
         }
     end
-  
+  end
 
    @respone = {
             'list' => task_resp,
