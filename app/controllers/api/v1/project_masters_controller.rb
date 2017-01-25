@@ -164,7 +164,7 @@ def create
            @task.task_description               = "Staffing Task"
            @task.priority_id                    = 2
            @task.project_master_id              = @project_master.id
-           @task.task_status_master_id          = 3
+           #@task.task_status_master_id          = 3
           
         @task.save
 
@@ -214,7 +214,7 @@ def create
            @task.task_description               = "Staffing Task"
            @task.priority_id                    = 2
            @task.project_master_id              = @project_master.id
-           @task.task_status_master_id          = 3
+           #@task.task_status_master_id          = 3
           
         @task.save
         end
