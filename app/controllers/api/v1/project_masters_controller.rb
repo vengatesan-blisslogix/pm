@@ -162,7 +162,7 @@ def create
            puts "-------------#{@task.planned}--------------------"
            @task.task_name                      = "Leave"
            @task.task_description               = "Staffing Task"
-           @task.priority                       = 2
+           @task.priority_id                    = 2
            @task.project_master_id              = @project_master.id
            @task.task_status_master_id          = 3
           
@@ -212,7 +212,7 @@ def create
            puts "-------------#{@task.planned}--------------------"
            @task.task_name                      = @project_master.project_name+"task"
            @task.task_description               = "Staffing Task"
-           @task.priority                       = 2
+           @task.priority_id                    = 2
            @task.project_master_id              = @project_master.id
            @task.task_status_master_id          = 3
           
