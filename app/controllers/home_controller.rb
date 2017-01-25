@@ -1378,7 +1378,7 @@ else
       else
         @task_name = ""
       end
-      #if @status_log != nil
+      if @@timesheet_summ_id[0] != nil
         @status_log= Logtime.find_by_id(@timesheet_summ_id[0].id)
         if @status_log!=nil and @status_log.status != nil
           @status = @timesheet_summ_id[0].status
