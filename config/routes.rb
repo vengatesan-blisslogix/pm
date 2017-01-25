@@ -83,9 +83,9 @@ match "/api/v1/all_release", :to => "home#all_release", :via => ["get"]
 match "/api/v1/task_assign", :to => "home#task_assign", :via => ["post"]
 
 match "/api/v1/unassigned_list", :to => "home#unassigned_list", :via => ["get"]
-
 match "/api/v1/status_list", :to => "home#status_list", :via => ["get"]
 
+match "/api/v1/delete_task", :to => "home#delete_task", :via => ["delete"]
 
 
 

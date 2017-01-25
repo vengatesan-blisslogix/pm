@@ -307,12 +307,6 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 	  end
 	end
 
-  def destroy
-      @taskboard = Taskboard.find(params[:id])
-      @taskboard.destroy
-      render json: { valid: true, msg:"deleted successfully."}
-  end
-
 private
 	def set_taskboards
 	@taskboard = Taskboard.find_by_id(params[:id])

@@ -6,6 +6,13 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+  def delete_task
+      @del_task = ProjectTask.find_by_id(params[:id])
+      @del_task.is_delete = 1
+      @del_task.save
+      render json: { valid: true, msg:"#{@del_task.task_name} deleted successfully."}
+  end
+
   def status_list
     @list = SprintStatus.all
       @status_resp=[]

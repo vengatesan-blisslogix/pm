@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170124111019) do
+ActiveRecord::Schema.define(version: 20170125064624) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -449,6 +449,7 @@ ActiveRecord::Schema.define(version: 20170124111019) do
     t.integer  "priority_id",       limit: 4
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "is_delete",         limit: 4
   end
 
   create_table "project_time_sheets", force: :cascade do |t|
