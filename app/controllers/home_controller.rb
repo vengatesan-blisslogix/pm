@@ -1391,7 +1391,7 @@ else
         else
           @comments = ""
         end 
-      end
+      
       @project_user = ProjectUser.where("manager = 1 and user_id=#{current_user.id}")
 
       if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
@@ -1415,6 +1415,7 @@ else
             }
 
       end#@timesheet_summ_user.each do |tsu|
+      end
     end
     @task_id_uniq << lts.task_master_id
   end
