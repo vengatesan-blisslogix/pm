@@ -2,7 +2,7 @@ class ProjectTask < ActiveRecord::Base
 
 
 
-	default_scope { where(active: "active", is_delete: nil)}
+	default_scope { where(active: "active", is_delete: 0)}
 	
 	belongs_to :project_master
     
