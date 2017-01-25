@@ -63,6 +63,7 @@ class User < ActiveRecord::Base
       'branch' => getbranch,
       'access' => getaccess,
       'engagement_type' => getengagement,
+      'task_access' => @task_access,
       'default_project_id' => defaultproject
     }
   end
@@ -111,6 +112,7 @@ def get_all_projects
 
   def getengagement
     get_all_projects
+    @task_access = []
     if @admin == 1
       @engage = true
     else
@@ -126,6 +128,14 @@ def get_all_projects
             @engage = false
           end
     end#if @admin == 1
+    @user_proj = ProjectMaster.where("#{@search_all_pro}")
+    @user_proj.each do |up|
+       @task_access << {
+         'project_master_id' => up.id,
+         'project_name' => up.project_name,
+         'engagement_type_id' => up.engagement_type_id
+        }
+      end
     @engage
   end
 
