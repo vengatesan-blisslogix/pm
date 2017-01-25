@@ -110,26 +110,31 @@ class HomeController < ApplicationController
      get_all_projects
       @release_resp=[]
     puts "-------#{@admin}--  #{@default_pro}----"
-    if  @admin.to_i == 1
-    @all_release = ReleasePlanning.all  
-    elsif @default_pro.to_i != 0
-    @all_release = ReleasePlanning.where("project_master_id = #{@default_pro}")  
+    if params[:project_master_id] 
+      @all_release = ReleasePlanning.where("project_master_id = #{params[:project_master_id]}")  
     else
-        if @search_all_pro_id==""
-          @search_all_pro="project_master_id IN(0)"
+        if  @admin.to_i == 1
+        @all_release = ReleasePlanning.all  
+        elsif @default_pro.to_i != 0
+        @all_release = ReleasePlanning.where("project_master_id = #{@default_pro}")  
         else
-          @search_all_pro="project_master_id IN(#{@search_all_pro_id})"
+            if @search_all_pro_id==""
+              @search_all_pro="project_master_id IN(0)"
+            else
+              @search_all_pro="project_master_id IN(#{@search_all_pro_id})"
+            end
+          @all_release = ReleasePlanning.where("#{@search_all_pro}")  
         end
-      @all_release = ReleasePlanning.where("#{@search_all_pro}")  
     end
-      @all_release.each do |rp| 
+          @all_release.each do |rp| 
 
-        @release_resp << {
-         'release_id' => rp.id,
-         'release_name' => rp.release_name,
-        }
-      end
-      render json: @release_resp
+            @release_resp << {
+             'release_id' => rp.id,
+             'release_name' => rp.release_name,
+            }
+          end
+    
+          render json: @release_resp
   end
 
   def all_priority
