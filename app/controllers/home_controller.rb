@@ -1385,13 +1385,14 @@ else
         else
           @status = "pending"
         end
-      end
-      if @timesheet_summ_id[0].comments != nil
-        @comments = @timesheet_summ_id[0].comments
-      else
-        @comments = ""
-      end 
 
+        if @timesheet_summ_id[0].comments != nil
+          @comments = @timesheet_summ_id[0].comments
+        else
+          @comments = ""
+        end 
+      end
+      
       @project_user = ProjectUser.where("manager = 1 and user_id=#{current_user.id}")
 
       if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
