@@ -221,7 +221,7 @@ end
 
      response = {
        'client_id' => @project_master.client_id,
-       'project_id' => @project_master.id,
+       'project_master_id' => @project_master.id,
        'start_date' => @project_master.start_date,
        'end_date' => @project_master.end_date,
        'manager_resp' => manager_resp,
