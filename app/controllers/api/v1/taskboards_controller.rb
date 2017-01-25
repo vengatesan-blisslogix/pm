@@ -203,7 +203,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
        end
 
 
-        @find_timesheet_entry = Logtime.where("project_master_id=#{tp.project_master_id} and task_master_id = #{tp.task_master_id}and user_id=#{params[:user_id]}").sum(:task_time).round(2)         
+        @find_timesheet_entry = Logtime.where("project_master_id=#{tp.project_master_id} and task_master_id = #{tp.task_master_id} and user_id=#{params[:user_id]}").sum(:task_time).round(2)         
         
     
       task_resp << {
