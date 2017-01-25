@@ -1378,7 +1378,7 @@ else
       else
         @task_name = ""
       end
-      if @status_log != nil
+      #if @status_log != nil
         @status_log= Logtime.find_by_id(@timesheet_summ_id[0].id)
         if @status_log!=nil and @status_log.status != nil
           @status = @timesheet_summ_id[0].status
@@ -1391,8 +1391,7 @@ else
         else
           @comments = ""
         end 
-      
-
+      end
       @project_user = ProjectUser.where("manager = 1 and user_id=#{current_user.id}")
 
       if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
@@ -1416,7 +1415,6 @@ else
             }
 
       end#@timesheet_summ_user.each do |tsu|
-    end
     end
     @task_id_uniq << lts.task_master_id
   end
