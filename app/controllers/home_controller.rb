@@ -31,11 +31,13 @@ class HomeController < ApplicationController
       @un_assigned = []
       @find_taskboard.each do |ft|
         @list = ProjectTask.find_by_id(ft.task_master_id)
+          if @list != nil
           @un_assigned << {
             'id' => @list.id,
             'task_name' => @list.task_name
           }
         end
+      end
     render json: @un_assigned
   end
 

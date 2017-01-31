@@ -274,12 +274,9 @@ def show
     if @project.save
           @project.active = "active"
           #@project.planned = params[:planned_duration]
+
         @project.save
-              @attachment = ProjectTaskAttachment.new
-                @attachment.project_task_id = @project.id
-                @attachment.updated_by = params[:user_id]
-                @attachment.avatar = params[:avatar]
-              @attachment.save
+
         #if params[:avatar]!=nil and params[:avatar]!=""
           #convert_param_to_array(params[:avatar].to_s)
             #@avatar = @output_array
@@ -294,6 +291,14 @@ def show
               #set_avatar(at, @attachment)
             #end
         #end
+
+              @attachment = ProjectTaskAttachment.new
+                @attachment.project_task_id = @project.id
+                @attachment.updated_by = params[:user_id]
+                @attachment.avatar = params[:avatar]
+              @attachment.save
+
+
           if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
             convert_param_to_array(params[:assigned_user_id].to_s)
             @assigned_user_id = @output_array
