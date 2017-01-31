@@ -2048,7 +2048,6 @@ end
   end
 #-----------------timesheets---  
   def add_timesheets
-puts"ssssssssssss------------#{params[:id]}"
 
     resp =  []
     if params[:date] and params[:date]!=nil
@@ -2061,19 +2060,21 @@ puts"ssssssssssss------------#{params[:id]}"
     end
 
 
-if params[:id]!=nil and params[:id]!=""
-#convert_param_to_array(params[:id])
-@project_master_id_array = params[:id]
-@project_master_id_array.each do |pro_id|
-      @project_master = ProjectMaster.find_by_id(pro_id)
-      get_release_project(@project_master.id)
-      resp << {
-                 'ProjectName' => @project_master.project_name,
-                 'ProjectId'    => @project_master.id,
-                 'Release'   => @resp_rel, 
-                }
-end
-end
+    if params[:id]!=nil and params[:id]!=""
+    #convert_param_to_array(params[:id])
+    @project_master_id_array = params[:id]
+    @project_master_id_array.each do |pro_id|
+          @project_master = ProjectMaster.find_by_id(pro_id)
+          get_release_project(@project_master.id)
+          get_sprint_release(@project_master.id)
+          resp << {
+                     'ProjectName' => @project_master.project_name,
+                     'ProjectId'    => @project_master.id,
+                     'Release'   => @resp_rel, 
+                     'Sprint' => @resp_sprint
+                    }
+    end
+    end
           render json: resp
   end
 
@@ -2091,9 +2092,9 @@ end
           end  
   end
 
-  def get_sprint_release(release_id)
+  def get_sprint_release(project_id)
      @resp_sprint =  []
-       @sprint_plannings = SprintPlanning.where("release_planning_id = #{release_id}")
+       @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id}")
        @sprint_plannings.each do |s|    
        get_task_release(s.id)  
           @resp_sprint << {
@@ -2125,7 +2126,7 @@ end
   def timesheets_records(task_master_id, sprint_id)
 
   @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id} #{session[:search_task]}")
- @task_time = []
+  @task_time = []
       if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
        
 

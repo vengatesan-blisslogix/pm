@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_task_id: 1
+  updated_by: 
+  delete_status: 1
+
+two:
+  project_task_id: 1
+  updated_by: 
+  delete_status: 1

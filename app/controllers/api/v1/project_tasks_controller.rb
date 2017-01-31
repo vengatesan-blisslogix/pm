@@ -275,6 +275,25 @@ def show
           @project.active = "active"
           #@project.planned = params[:planned_duration]
         @project.save
+              @attachment = ProjectTaskAttachment.new
+                @attachment.project_task_id = @project.id
+                @attachment.updated_by = params[:user_id]
+                @attachment.avatar = params[:avatar]
+              @attachment.save
+        #if params[:avatar]!=nil and params[:avatar]!=""
+          #convert_param_to_array(params[:avatar].to_s)
+            #@avatar = @output_array
+            #p=0
+            #@avatar.each do |at|
+              #puts "-----------#{at}"
+              #@attachment = ProjectTaskAttachment.new
+                #@attachment.project_task_id = @project.id
+                #@attachment.updated_by = params[:user_id]
+                #@attachment.avatar = at
+              #@attachment.save
+              #set_avatar(at, @attachment)
+            #end
+        #end
           if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
             convert_param_to_array(params[:assigned_user_id].to_s)
             @assigned_user_id = @output_array
@@ -309,6 +328,28 @@ def show
       @project.save
           @project.active = "active"         
         @project.save
+
+          @attachment = ProjectTaskAttachment.new
+                @attachment.project_task_id = @project.id
+                @attachment.updated_by = params[:user_id]
+                @attachment.avatar = params[:avatar]
+          @attachment.save
+
+        #if params[:avatar]!=nil and params[:avatar]!=""
+          #convert_param_to_array(params[:avatar].to_s)
+            #@avatar = @output_array
+            #p=0
+            #@avatar.each do |at|
+              #puts "-----------#{at}"
+              #@attachment = ProjectTaskAttachment.new
+                #@attachment.project_task_id = @project.id
+                #@attachment.updated_by = params[:user_id]
+                #@attachment.avatar = at
+              #@attachment.save
+              #set_avatar(at, @attachment)
+            #end
+        #end
+
         if params[:assigned_user_id]!=nil and params[:assigned_user_id]!=""
             convert_param_to_array(params[:assigned_user_id].to_s)
             @assigned_user_id = @output_array
@@ -356,6 +397,13 @@ private
       	render json: { valid: false}, status: 404
       end
     end
+
+    def set_avatar(at, attachment)
+      attachment.avatar = at
+      attachment.save
+    end
+
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)

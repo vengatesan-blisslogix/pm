@@ -246,9 +246,9 @@ private
   
     def set_avatar
       if params[:avatar]!=nil and params[:avatar]!=""
-    @project_master.avatar = params[:avatar]
-    @project_master.save
-  end
+        @project_master.avatar = params[:avatar]
+        @project_master.save
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
