@@ -340,6 +340,15 @@ def show
                 @attachment.avatar = params[:avatar]
           @attachment.save
 
+            if params[:task_reason]|| params[:hour_reason].present?
+              @task_reason = ProjectTaskReason.new
+                    @task_reason.project_task_id = @project.id
+                    @task_reason.date_reason = params[:date_reason]
+                    @task_reason.hour_reason = params[:hour_reason]
+                    @task_reason.created_by = params[:user_id]
+              @task_reason.save            
+            end
+
         #if params[:avatar]!=nil and params[:avatar]!=""
           #convert_param_to_array(params[:avatar].to_s)
             #@avatar = @output_array

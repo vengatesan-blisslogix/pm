@@ -115,7 +115,15 @@ puts "99999#{@search}"
 
 	def update 
 	  if @sprint_planning.update(sprint_params)  	      
-	    render json: @sprint_planning
+            if params[:task_reason]|| params[:hour_reason].present?
+              @sprint_reason = SprintPlanningReason.new
+                    @sprint_reason.sprint_planning_id = @sprint_planning.id
+                    @sprint_reason.date_reason = params[:date_reason]
+                    @sprint_reason.hour_reason = params[:hour_reason]
+                    @sprint_reason.created_by = params[:user_id]
+              @sprint_reason.save
+            end
+        render json: @sprint_planning
 	  else
         render json: { valid: false, error: @sprint_planning.errors }, status: 404
 	  end

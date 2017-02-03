@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  release_planning_id: 1
+  date_reason: MyText
+  hour_reason: MyText
+  created_by: 1
+
+two:
+  release_planning_id: 1
+  date_reason: MyText
+  hour_reason: MyText
+  created_by: 1

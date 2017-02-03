@@ -100,6 +100,14 @@ puts "#{@search}"
 
 	def update 
 	    if @release_planning.update(planning_params)
+         if params[:task_reason]|| params[:hour_reason].present?
+              @release_reason = ReleasePlanningReason.new
+                    @release_reason.release_planning_id = @release_planning.id
+                    @release_reason.date_reason = params[:date_reason]
+                    @release_reason.hour_reason = params[:hour_reason]
+                    @release_reason.created_by = params[:user_id]
+              @release_reason.save
+         end
          render json: { valid: true, msg:"#{@release_planning.release_name} updated successfully."}
 	    else
 	       render json: { valid: false, error: @release_planning.errors }, status: 404

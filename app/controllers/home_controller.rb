@@ -49,22 +49,47 @@ class HomeController < ApplicationController
     @task_assign.save!
   end
   def assign_list
+    #get_all_projects
     @user_resp = []
       @find_project_user = ProjectUser.where("project_master_id = #{params[:project_master_id]}")
         @manager_resp = []
         @prouser_resp = []
         @find_project_user.each do |pu|
           @user = User.find_by_id(pu.user_id)
-          if pu.manager.to_i == 1
-            @manager_resp << {
-              'assigneer_id' => @user.id,        
-              'assigner_name' => "#{@user.name} #{@user.last_name}",
-            }
+          @engage = ProjectMaster.find_by_id(params[:project_master_id])
+          puts "#{@engage.engagement_type_id.to_i == 2}********engagement*****"
+          if @engage != nil and @engage.engagement_type_id.to_i == 2
+            puts "******engae if*******#{@user.id}"
+            if pu.manager.to_i == 1
+              puts"#{@user.id}-------------"
+              @manager_resp << {
+                'assigneer_id' => @user.id,        
+                'assigner_name' => "#{@user.name} #{@user.last_name}",
+              }
+               @prouser_resp << {
+                'assigned_user_id' => @user.id,        
+                'assignee_name' => "#{@user.name} #{@user.last_name}",
+              }
+            else
+              puts"#{@user.id}*************"
+               @prouser_resp << {
+                'assigned_user_id' => @user.id,        
+                'assignee_name' => "#{@user.name} #{@user.last_name}",
+              }
+            end
           else
-            @prouser_resp << {
-              'assigned_user_id' => @user.id,        
-              'assignee_name' => "#{@user.name} #{@user.last_name}",
-            }
+            puts "***********#{@user.id}.............."
+            if pu.manager.to_i == 1
+            @manager_resp << {
+                'assigneer_id' => @user.id,        
+                'assigner_name' => "#{@user.name} #{@user.last_name}",
+              }
+            else
+              @prouser_resp << {
+                'assigned_user_id' => @user.id,        
+                'assignee_name' => "#{@user.name} #{@user.last_name}",
+              }
+            end
           end
         end    
          @user_resp = {
