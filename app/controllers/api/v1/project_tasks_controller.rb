@@ -134,7 +134,7 @@ before_action :set_project, only: [:show, :edit, :update]
           'project_name' => @project_name,
           'sprint_planning_id' => @sprint_id,
           'sprint_name' => @sprint_name,
-          'release_id' => @release_id,
+          'release_planning_id' => @release_id,
           'release_name' => @release_name
       }
       end
@@ -257,7 +257,7 @@ def show
           'project_name' => @project_name,
           'sprint_planning_id' => @sprint_id,
           'sprint_name' => @sprint_name,
-          'release_id' => @release_id,
+          'release_planning_id' => @release_id,
           'release_name' => @release_name
       }
       

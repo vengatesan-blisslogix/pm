@@ -68,7 +68,7 @@ puts "99999#{@search}"
         'id' => p.id,
         'project_master_id' => @project_id,
         'project_name' => @project_name,
-        'release_id' => @release_id,
+        'release_planning_id' => @release_id,
         'release_name' => @release_name,
         'sprint_name' => p.sprint_name,
         'sprint_status_id' => p.sprint_status_id,

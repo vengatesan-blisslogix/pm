@@ -1257,6 +1257,51 @@ def show_checklist
     render json: @checklist_resp
 end
 
+  #-----------------timesheets---  
+  def add_timesheets
+
+    resp =  []
+    if params[:date] and params[:date]!=nil
+      @start_date = params[:date][0].to_date.at_beginning_of_week
+      @end_date =  params[:date][0].to_date.at_end_of_week
+      @search="and task_date between '#{@start_date}' and '#{@end_date}' "
+      session[:search_task] =@search
+    else
+      session[:search_task] =""
+    end
+
+
+    if params[:id]!=nil and params[:id]!=""
+    #convert_param_to_array(params[:id])
+    @project_master_id_array = params[:id]
+    @project_master_id_array.each do |pro_id|
+          @project_master = ProjectMaster.find_by_id(pro_id)
+          get_release_project(@project_master.id)
+          get_sprint_release(@project_master.id)
+          resp << {
+                     'ProjectName' => @project_master.project_name,
+                     'ProjectId'    => @project_master.id,
+                     'Release'   => @resp_rel, 
+                     'Sprint' => @resp_sprint
+                    }
+    end
+    end
+          render json: resp
+  end
+
+  def timesheets_records(task_master_id, sprint_id)
+
+  @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id} #{session[:search_task]}")
+  @task_time = []
+      if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
+       
+
+        @find_summary.each do |as|
+        @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
+        end
+      end     
+  end
+
 def timesheet_approval
 #@assigns = Logtime.find_by_id(params[:id])
 @assigns_val = Logtime.where("project_master_id=#{params[:project_master_id]} and task_master_id=#{params[:task_master_id]} and approved_by IS NULL")
@@ -2048,37 +2093,7 @@ end
           }
         render json: @sprint_task
   end
-#-----------------timesheets---  
-  def add_timesheets
 
-    resp =  []
-    if params[:date] and params[:date]!=nil
-      @start_date = params[:date][0].to_date.at_beginning_of_week
-      @end_date =  params[:date][0].to_date.at_end_of_week
-      @search="and task_date between '#{@start_date}' and '#{@end_date}' "
-      session[:search_task] =@search
-    else
-      session[:search_task] =""
-    end
-
-
-    if params[:id]!=nil and params[:id]!=""
-    #convert_param_to_array(params[:id])
-    @project_master_id_array = params[:id]
-    @project_master_id_array.each do |pro_id|
-          @project_master = ProjectMaster.find_by_id(pro_id)
-          get_release_project(@project_master.id)
-          get_sprint_release(@project_master.id)
-          resp << {
-                     'ProjectName' => @project_master.project_name,
-                     'ProjectId'    => @project_master.id,
-                     'Release'   => @resp_rel, 
-                     'Sprint' => @resp_sprint
-                    }
-    end
-    end
-          render json: resp
-  end
 
   def get_release_project(project_id)
   @resp_rel =  []
@@ -2123,19 +2138,6 @@ end
           }
         end
         end
-  end
-
-  def timesheets_records(task_master_id, sprint_id)
-
-  @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id} #{session[:search_task]}")
-  @task_time = []
-      if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
-       
-
-        @find_summary.each do |as|
-        @task_time << {'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
-        end
-      end     
   end
 
 #-----------------timesheets---
