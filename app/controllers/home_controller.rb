@@ -131,7 +131,7 @@ class HomeController < ApplicationController
           @all_release.each do |rp| 
 
             @release_resp << {
-             'release_id' => rp.id,
+             'release_planning_id' => rp.id,
              'release_name' => rp.release_name,
             }
           end
