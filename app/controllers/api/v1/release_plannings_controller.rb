@@ -31,24 +31,33 @@ puts "#{@search}"
      @release_plannings.each do |t| 
     
 
-  if t.project_master_id!=nil
+      if t.project_master_id!=nil
 
-    @project_master = ProjectMaster.find_by_id(t.project_master_id)
-      if @project_master!=nil and @project_master!=""
-        @project_name =@project_master.project_name
-      else
-        @project_name =""
+        @project_master = ProjectMaster.find_by_id(t.project_master_id)
+          if @project_master!=nil and @project_master!=""
+            @project_name =@project_master.project_name
+          else
+            @project_name =""
+          end
+        elsif params[:project_master_id]
+          @project_name = ProjectMaster.find_by_id(params[:project_master_id]).project_name
+          
       end
-    elsif params[:project_master_id]
-      @project_name = ProjectMaster.find_by_id(params[:project_master_id]).project_name
-      
-  end
 
      if t.sprint_status_id.to_i != 0
         @status = SprintStatus.find_by_id(t.sprint_status_id)
         @status_name = @status.status
       else
         @status_name = ""
+      end
+
+      @release_planning_reason = ReleasePlanningReason.find_by_release_planning_id(t.id)
+      if @release_planning_reason!=nil and @release_planning_reason!=""
+        @date_reason =@release_planning_reason.date_reason
+        @hour_reason =@release_planning_reason.hour_reason
+      else
+        @date_reason =""
+        @hour_reason =""
       end
 
        resp << {
@@ -65,6 +74,8 @@ puts "#{@search}"
         'status_name' => @status_name,
         'project_master_id' => t.project_master_id,
         'project_name' => @project_name,
+        'date_reason' => @date_reason,
+        'hour_reason' => @hour_reason
       }      
     end   
     pagination(ReleasePlanning,@search)

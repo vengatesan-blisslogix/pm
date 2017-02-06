@@ -64,6 +64,15 @@ puts "99999#{@search}"
         @status_name = ""
       end
 
+      @sprint_planning_reason = SprintPlanningReason.find_by_sprint_planning_id(p.id)
+      if @sprint_planning_reason!=nil and @sprint_planning_reason!=""
+        @date_reason =@sprint_planning_reason.date_reason
+        @hour_reason =@sprint_planning_reason.hour_reason
+      else
+        @date_reason =""
+        @hour_reason =""
+      end
+
       resp << {
         'id' => p.id,
         'project_master_id' => @project_id,
@@ -77,7 +86,9 @@ puts "99999#{@search}"
         'end_date' => p.end_date,
         'planned_hours' => p.planned_hours,
         'actual_hours'   => p.actual_hours,
-        'sprint_desc' => p.sprint_desc
+        'sprint_desc' => p.sprint_desc,
+        'date_reason' => @date_reason,
+        'hour_reason' => @hour_reason
         }
       end
     #pagination(SprintPlanning,@search)
