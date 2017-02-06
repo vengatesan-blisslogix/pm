@@ -43,6 +43,15 @@ before_action :set_project, only: [:show, :edit, :update]
         @status_name =""
       end      
 
+      @project_task_reason = ProjectTaskReason.find_by_project_task_id(p.id)
+      if @project_task_reason!=nil and @project_task_reason!=""
+        @date_reason =@project_task_reason.date_reason
+        @hour_reason =@project_task_reason.hour_reason
+      else
+        @date_reason =""
+        @hour_reason =""
+      end      
+
 
       @task = Taskboard.find_by_task_master_id(p.id)
       if  @task!=nil and @task!=""
@@ -135,7 +144,9 @@ before_action :set_project, only: [:show, :edit, :update]
           'sprint_planning_id' => @sprint_id,
           'sprint_name' => @sprint_name,
           'release_planning_id' => @release_id,
-          'release_name' => @release_name
+          'release_name' => @release_name,
+          'date_reason' => @date_reason,
+          'hour_reason' => @hour_reason
       }
       end
       @respone = {
