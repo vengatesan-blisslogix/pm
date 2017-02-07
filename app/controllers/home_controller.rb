@@ -1307,7 +1307,7 @@ end
                      'ProjectName' => @project_master.project_name,
                      'ProjectId'    => @project_master.id,
                      'Release'   => @resp_rel, 
-                     'Sprint' => @resp_sprint
+                     #'Sprint' => @resp_sprint
                     }
     end
     end
@@ -1502,10 +1502,10 @@ puts"======#{@task_id_uniq}"
       end
 
       response = {
-        'no_of_records' => @no_of_records.size,
-        'no_of_pages' => @no_pages,
-        'next' => @next,
-        'prev' => @prev,
+#        'no_of_records' => @no_of_records.size,
+#        'no_of_pages' => @no_pages,
+#        'next' => @next,
+#        'prev' => @prev,
         'show_approve' =>@enable_approve_button,
         'timesheet_summary' => resp
       }
