@@ -7,6 +7,8 @@ class HomeController < ApplicationController
   end
 
   def reason_history
+          @f_history = []
+
     @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")
       @rel_reason = []
       @find_rel_reason.each do |fr|
@@ -37,7 +39,6 @@ class HomeController < ApplicationController
           'project_master_id' => ta.project_master_id
         }
       end
-      @f_history = []
       @f_history << {
         'release_histroy' => @rel_reason,
         'sprint_histroy' => @spr_reason,
