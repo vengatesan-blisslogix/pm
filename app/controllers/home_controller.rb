@@ -8,6 +8,8 @@ class HomeController < ApplicationController
 
   def reason_history
           @f_history = []
+                @c_his = []
+
 
     @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")
       @rel_reason = []
@@ -44,7 +46,6 @@ class HomeController < ApplicationController
         'sprint_histroy' => @spr_reason,
         'task_histroy' => @ta_reason
       }
-      @c_his = []
       @c_his << {
         'history' => @f_history,
         'count' => @f_history.count
