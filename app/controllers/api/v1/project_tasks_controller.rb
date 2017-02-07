@@ -357,6 +357,8 @@ def show
                     @task_reason.date_reason = params[:date_reason]
                     @task_reason.hour_reason = params[:hour_reason]
                     @task_reason.created_by = params[:user_id]
+                    @task_reason.project_master_id = @project.project_master_id
+
               @task_reason.save            
             end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203095840) do
+ActiveRecord::Schema.define(version: 20170207125544) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -442,12 +442,13 @@ ActiveRecord::Schema.define(version: 20170203095840) do
   end
 
   create_table "project_task_reasons", force: :cascade do |t|
-    t.integer  "project_task_id", limit: 4
-    t.text     "date_reason",     limit: 65535
-    t.text     "hour_reason",     limit: 65535
-    t.integer  "created_by",      limit: 4
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "project_task_id",   limit: 4
+    t.text     "date_reason",       limit: 65535
+    t.text     "hour_reason",       limit: 65535
+    t.integer  "created_by",        limit: 4
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "project_master_id", limit: 4
   end
 
   create_table "project_tasks", force: :cascade do |t|
@@ -518,6 +519,7 @@ ActiveRecord::Schema.define(version: 20170203095840) do
     t.integer  "created_by",          limit: 4
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.integer  "project_master_id",   limit: 4
   end
 
   create_table "release_plannings", force: :cascade do |t|
@@ -576,6 +578,7 @@ ActiveRecord::Schema.define(version: 20170203095840) do
     t.integer  "created_by",         limit: 4
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.integer  "project_master_id",  limit: 4
   end
 
   create_table "sprint_plannings", force: :cascade do |t|

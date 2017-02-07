@@ -119,7 +119,7 @@ require "action_mailer"
         mail.sender = "pmo@tvsnext.io"
         mail.to = au.email
         #mail.to = "sastrayogesh@gmail.com"
-        mail.subject = "[REMINDER][Timesheet Entry] - #{pro.project_name}"
+        mail.subject = "[REMINDER 1][Project End Date] - #{pro.project_name}"
         mail.content_type = "multipart/mixed"
 
         html_part = Mail::Part.new do

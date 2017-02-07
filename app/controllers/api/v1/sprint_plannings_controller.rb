@@ -132,6 +132,7 @@ puts "99999#{@search}"
                     @sprint_reason.date_reason = params[:date_reason]
                     @sprint_reason.hour_reason = params[:hour_reason]
                     @sprint_reason.created_by = params[:user_id]
+                    @sprint_reason.project_master_id = @sprint_planning.project_master_id
               @sprint_reason.save
             end
         render json: @sprint_planning

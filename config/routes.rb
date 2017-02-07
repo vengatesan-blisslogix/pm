@@ -87,6 +87,7 @@ match "/api/v1/status_list", :to => "home#status_list", :via => ["get"]
 
 match "/api/v1/delete_task", :to => "home#delete_task", :via => ["delete"]
 
+match "/api/v1/reason_history", :to => "home#reason_history", :via => ["get"]
 
 
 resources :home

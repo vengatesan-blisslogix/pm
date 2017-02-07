@@ -117,6 +117,7 @@ puts "#{@search}"
                     @release_reason.date_reason = params[:date_reason]
                     @release_reason.hour_reason = params[:hour_reason]
                     @release_reason.created_by = params[:user_id]
+                    @release_reason.project_master_id = @release_planning.project_master_id
               @release_reason.save
          end
          render json: { valid: true, msg:"#{@release_planning.release_name} updated successfully."}
