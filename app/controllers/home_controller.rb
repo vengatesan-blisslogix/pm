@@ -8,11 +8,30 @@ class HomeController < ApplicationController
 
   def reason_history
     @f_history = []
-      @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")
+      @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")        
         @rel_reason = []
         @find_rel_reason.each do |fr|
+          @rel_det = ReleasePlanning.find_by_id(fr.project_master_id)
+          if @rel_det!=nil and @rel_det!=""
+            @release_name =@rel_det.release_name
+            @release_ph = @rel_det.planned_hours
+            @release_ah = @rel_det.actual_hours
+            @release_sd = @rel_det.start_date
+            @release_ed = @rel_det.end_date
+          else
+            @release_name = ""
+            @release_ph   = ""
+            @release_ah   = ""
+            @release_sd   = ""
+            @release_ed   = ""
+          end
           @rel_reason << {
             'release_planning_id' => fr.release_planning_id,
+            'release_name' => @release_name,
+            'actual_hours' => @actual_hours,
+            'planned_hours' => @planned_hours,
+            'start_date' => @release_sd,
+            'end_date' => @release_ed,
             'date_reason' => fr.date_reason,
             'hour_reason' => fr.hour_reason,
             'project_master_id' => fr.project_master_id
@@ -2173,7 +2192,7 @@ end
             @resp_rel << {
               'id' => r.id,
               'ReleaseName' => r.release_name,
-              'Sprints' => @resp_sprint
+              'Sprint' => @resp_sprint
             }
           end  
   end
