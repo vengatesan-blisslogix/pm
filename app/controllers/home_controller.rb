@@ -7,51 +7,47 @@ class HomeController < ApplicationController
   end
 
   def reason_history
-          @f_history = []
-                @c_his = []
-
-
-    @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")
-      @rel_reason = []
-      @find_rel_reason.each do |fr|
-        @rel_reason << {
-          'release_planning_id' => fr.release_planning_id,
-          'date_reason' => fr.date_reason,
-          'hour_reason' => fr.hour_reason,
-          'project_master_id' => fr.project_master_id
-        }
-      end
-      @find_spr_reason = SprintPlanningReason.where("project_master_id = #{params[:project_master_id]}")
-      @spr_reason = []
-      @find_spr_reason.each do |fs|
-        @spr_reason << {
-          'sprint_planning_id' => fs.sprint_planning_id,
-          'date_reason' => fs.date_reason,
-          'hour_reason' => fs.hour_reason,
-          'project_master_id' => fs.project_master_id
-        }
-      end
-      @find_ta_reason = ProjectTaskReason.where("project_master_id = #{params[:project_master_id]}")
-      @ta_reason = []
-      @find_ta_reason.each do |ta|
-        @ta_reason << {
-          'project_task_id' => ta.project_task_id,
-          'date_reason' => ta.date_reason,
-          'hour_reason' => ta.hour_reason,
-          'project_master_id' => ta.project_master_id
-        }
-      end
-      @f_history << {
-        'release_histroy' => @rel_reason,
-        'sprint_histroy' => @spr_reason,
-        'task_histroy' => @ta_reason
-      }
-      @c_his << {
-        'history' => @f_history,
-        'count' => @f_history.count
-      }
-
-      render json: @c_his
+    @f_history = []
+      @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")
+        @rel_reason = []
+        @find_rel_reason.each do |fr|
+          @rel_reason << {
+            'release_planning_id' => fr.release_planning_id,
+            'date_reason' => fr.date_reason,
+            'hour_reason' => fr.hour_reason,
+            'project_master_id' => fr.project_master_id
+          }
+        end
+        @find_spr_reason = SprintPlanningReason.where("project_master_id = #{params[:project_master_id]}")
+        @spr_reason = []
+        @find_spr_reason.each do |fs|
+          @spr_reason << {
+            'sprint_planning_id' => fs.sprint_planning_id,
+            'date_reason' => fs.date_reason,
+            'hour_reason' => fs.hour_reason,
+            'project_master_id' => fs.project_master_id
+          }
+        end
+        @find_ta_reason = ProjectTaskReason.where("project_master_id = #{params[:project_master_id]}")
+        @ta_reason = []
+        @find_ta_reason.each do |ta|
+          @ta_reason << {
+            'project_task_id' => ta.project_task_id,
+            'date_reason' => ta.date_reason,
+            'hour_reason' => ta.hour_reason,
+            'project_master_id' => ta.project_master_id
+          }
+        end
+          @f_history << {
+            'release_histroy' => @rel_reason,
+            'release_count' => @rel_reason.count,
+            'sprint_histroy' => @spr_reason,
+            'sprint_count' => @spr_reason.count,
+            'task_histroy' => @ta_reason,
+            'task_count' => @ta_reason.count
+          }
+      
+      render json: @f_history
   end
 
   def delete_task
