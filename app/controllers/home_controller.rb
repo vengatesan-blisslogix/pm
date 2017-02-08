@@ -27,9 +27,9 @@ class HomeController < ApplicationController
           end
           @rel_reason << {
             'release_planning_id' => fr.release_planning_id,
-            'release_name' => @release_name,
-            'actual_hours' => @actual_hours,
-            'planned_hours' => @planned_hours,
+            'name' => @release_name,
+            'actual_hours' => @release_ah,
+            'planned_hours' => @release_ph,
             'start_date' => @release_sd,
             'end_date' => @release_ed,
             'date_reason' => fr.date_reason,
@@ -40,8 +40,27 @@ class HomeController < ApplicationController
         @find_spr_reason = SprintPlanningReason.where("project_master_id = #{params[:project_master_id]}")
         @spr_reason = []
         @find_spr_reason.each do |fs|
+          @spr_det = SprintPlanning.find_by_id(fs.project_master_id)
+          if @spr_det!=nil and @spr_det!=""
+            @sprint_name =@spr_det.sprint_name
+            @sprint_ph = @spr_det.planned_hours
+            @sprint_ah = @spr_det.actual_hours
+            @sprint_sd = @spr_det.start_date
+            @sprint_ed = @spr_det.end_date
+          else
+            @sprint_name = ""
+            @sprint_ph   = ""
+            @sprint_ah   = ""
+            @sprint_sd   = ""
+            @sprint_ed   = ""
+          end
           @spr_reason << {
             'sprint_planning_id' => fs.sprint_planning_id,
+            'name' => @sprint_name,
+            'actual_hours' => @sprint_ah,
+            'planned_hours' => @sprint_ph,
+            'start_date' => @sprint_sd,
+            'end_date' => @sprint_ed,
             'date_reason' => fs.date_reason,
             'hour_reason' => fs.hour_reason,
             'project_master_id' => fs.project_master_id
@@ -50,8 +69,27 @@ class HomeController < ApplicationController
         @find_ta_reason = ProjectTaskReason.where("project_master_id = #{params[:project_master_id]}")
         @ta_reason = []
         @find_ta_reason.each do |ta|
+          @pt_det = ProjectTask.find_by_id(ta.project_master_id)
+          if @pt_det!=nil and @pt_det!=""
+            @task_name =@pt_det.task_name
+            @task_ph = @pt_det.planned
+            @task_ah = @pt_det.actual
+            @task_pd = @pt_det.planned_duration
+            @task_ad = @pt_det.actual_duration
+          else
+            @task_name = ""
+            @task_ph   = ""
+            @task_ah   = ""
+            @task_pd   = ""
+            @task_ad   = ""
+          end
           @ta_reason << {
             'project_task_id' => ta.project_task_id,
+            'name' => @task_name,
+            'actual_hours' => @task_ph,
+            'planned_hours' => @task_ah,
+            'start_date' => @task_pd,
+            'end_date' => @task_ad,
             'date_reason' => ta.date_reason,
             'hour_reason' => ta.hour_reason,
             'project_master_id' => ta.project_master_id
