@@ -21,105 +21,49 @@ require "action_mailer"
            :domain => "gmail.com",
            :enable_starttls_auto => true,
            :authentication => :login,
-           :user_name => "pmo@tvsnext.io",
-           :password => "pmo#123$"
+           :user_name => "sastrayogesh@gmail.com",
+           :password => "krish_15"
   }
   end
 
-    class User < ActiveRecord::Base
-    set_table_name ="users"
-    end
     class ProjectMaster < ActiveRecord::Base
     set_table_name ="project_masters"
     end
 
-      @project_all = ProjectMaster.all
+      @project_all = ProjectMaster.all    
+        
 
-      @project_all.each do |pro|
-        @mail_day = (pro.end_date - Date.today).to_i        
-        if @mail_day.to_i == 31 or @mail_day.to_i == 30
-          puts "#{pro.project_name}--S"
-        else
-          puts"#{pro.project_name}--F"
-        end 
+   #-------table for details --------
+
+
+  @thead_details= ""
+
+  @project_all.each do |pro|
+    @mail_day = (pro.end_date - Date.today).to_i        
+      if @mail_day.to_i == 31 or @mail_day.to_i == 30
+        puts "#{pro.project_name}--S"
+      else
+        puts"#{pro.project_name}--F"
+      end 
         puts"------------------#{@mail_day}"
-      end
-
-    #-------table for details --------
-
-
-      @thead_details= ""
-
-      @week_days.each do |day|
-      if @thead_details==""
-      @thead_details="<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
-      else
-      @thead_details=@thead_details+"<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
-      end # if @thead==""
-      end#@week_days.each do |day|
-      @task_tbody = ""
-      @pro_task_mapping.each do |task_map|
-        @task_name = ProjectTask.find_by_id(task_map.project_task_id)
-        if @task_name !=nil
-      @tbody_details = "<td align='center'>#{@task_name.task_name}</td>"
-      @week_days.each do |day|
-      @find_timesheet_log_details = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}' and task_master_id=#{task_map.project_task_id}") 
-        if @find_timesheet_log_details!=nil and @find_timesheet_log_details.size!=0
-          @log_time_details = @find_timesheet_log_details[0].task_time
+      
+        if @thead_details==""
+        @thead_details="<td align='center'>#{pro.project_name}--S</td>"
         else
-          @log_time_details = 0
-        end
-      @tbody_details=@tbody_details+"<td align='center'>#{@log_time_details}</td>"
-      end#@week_days.each do |day|
-      @tbody_details ="<tr style='background-color: #d0dfe5;'>#{@tbody_details}</tr>"
+        @thead_details=@thead_details+"<td align='center'>#{pro.project_name}--F</td>"
+        end # if @thead==""
 
-      if @task_tbody==""
-      @task_tbody=@tbody_details
-      else
-      @task_tbody=@task_tbody+@tbody_details
-      end # if @thead==""
+  @task_tbody = ""
 
-      end# if @task_name !=nil
-
-
-      end#@pro_task_mapping.each do |task_map|
-
-
-      @thead_details = "<tr style='background-color: #FFA500;'><td align='center'>Task Name</td>#{@thead_details}</tr>"
-      table_cont_details = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead_details}#{@task_tbody}</table>"
-      #-------table for details --------
-      #-------table for summary --------
-      @thead = ""
-      @tbody = "<td align='center'>#{au.name}</td>"
-      @week_days.each do |day|
-      if @thead==""
-      @thead="<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
-      else
-      @thead=@thead+"<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
-      end # if @thead==""
-      @find_timesheet_log = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
-        if @find_timesheet_log!=nil and @find_timesheet_log.size!=0
-          @log_time = @find_timesheet_log[0].task_time
-        else
-          @log_time = 0
-        end
-
-      @tbody=@tbody+"<td align='center'>#{@log_time}</td>"
-
-      end#@week_days.each do |day|
-      @tbody ="<tr style='background-color: #d0dfe5;'>#{@tbody}</tr>"
-
-      @thead = "<tr style='background-color: #FFA500;'><td align='center'>Name</td>#{@thead}</tr>"
-      table_cont = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
-      #-------table for summary --------
+  @tbody_details = "<td align='center'>#{pro.project_name}</td>"
 
 
       #mail  part
       mail = Mail.new
         mail.sender = "pmo@tvsnext.io"
-        mail.to = au.email
+        mail.to = "manickavelu.t@tvsnext.io"
         #mail.to = "sastrayogesh@gmail.com"
-        mail.subject = "[REMINDER 1][Project End Date] - #{pro.project_name}"
+        mail.subject = "[REMINDER 1][PROJECT END DATE] - #{pro.project_name}"
         mail.content_type = "multipart/mixed"
 
         html_part = Mail::Part.new do
@@ -155,12 +99,9 @@ require "action_mailer"
 
       Dear PMO,<br/><br>
 
-      Did you notice that following project contract is going to be expire within the following days<br/><br>
+      Did you notice that the following project is going to end with the following days<br/><br>
       Project Name : <b>#{pro.project_name}</b><br/><br>
-      Details:<br>
-      #{table_cont_details}
-      <br>It's Just a reminder.
-      <br/><br>
+
 
       Thanks<br>
       Linchpin Team
@@ -169,19 +110,16 @@ require "action_mailer"
           </body>
           </html>"
         end
-        text_part = Mail::Part.new do
-          body "TEXT"
-        end
-        mail.part :content_type => "multipart/alternative" do |p|
-          p.html_part = html_part
-          p.text_part = text_part
-        end
-        mail.deliver
-      #mail  part
 
-      end#if @time_sheet_present.sum.to_i < 40
-      end#@project_all.each do |pro|
-      end#if @project_id!=""
-         #send_reminder_to_all_users(au.email,au.name,pro_details)
-      end #@all_user.each do |au|
+      text_part = Mail::Part.new do
+        body "TEXT"
+      end
+      mail.part :content_type => "multipart/alternative" do |p|
+        p.html_part = html_part
+        p.text_part = text_part
+      end
+      mail.deliver
+    #mail  part
+dsd
+  end#@project_all.each do |pro|
 
