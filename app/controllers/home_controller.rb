@@ -2248,7 +2248,7 @@ end
         end        
   end
 
-  def get_task_release(sprint_id)
+  def get_task_release(sprint_id, project_id)
      @resp_task =  [] 
      get_release_project(project_id)
      #@project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
