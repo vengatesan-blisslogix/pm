@@ -99,7 +99,7 @@ require "action_mailer"
 
       Dear PMO,<br/><br>
 
-      Did you notice that the following project is going to end with the following days<br/><br>
+      Please Note that the following project end date is due in <br/><br>
       Project Name : <b>#{pro.project_name}</b><br/><br>
 
 
