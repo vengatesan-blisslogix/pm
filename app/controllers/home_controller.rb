@@ -1408,7 +1408,7 @@ end
                      'ProjectName' => @project_master.project_name,
                      'ProjectId'    => @project_master.id,
                      'Release'   => @resp_rel, 
-                     #'Sprint' => @resp_sprint
+                     'Sprint' => @resp_sprint
                     }
     end
     end
