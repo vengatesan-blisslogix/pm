@@ -2248,11 +2248,11 @@ end
         end        
   end
 
-  def get_task_release(sprint_id, project_id)
+  def get_task_release(sprint_id)
      @resp_task =  [] 
-     get_release_project(project_id)
+     
      #@project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
-       @project_tasks = Taskboard.where("project_master_id = #{project_id} and sprint_planning_id = #{sprint_id}")
+       @project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id}")
        @project_tasks.each do |p|    
        @project_ta = ProjectTask.find_by_id(p.task_master_id)  
        if @project_ta  != nil
