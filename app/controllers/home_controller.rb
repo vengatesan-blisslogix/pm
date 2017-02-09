@@ -2227,7 +2227,6 @@ end
          @release_plannings = ReleasePlanning.where("project_master_id = #{project_id}")
          @release_plannings.each do |r|  
          get_sprint_release(r.id)
-         @rel_spr = SprintPlanning.where("release_planning_id = r.id")
             @resp_rel << {
               'id' => r.id,
               'ReleaseName' => r.release_name,
@@ -2238,7 +2237,7 @@ end
 
   def get_sprint_release(project_id)
      @resp_sprint =  []
-       @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id}")
+       @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id} and release_planning_id =#{r.id}")
        @sprint_plannings.each do |s|    
        get_task_release(s.id)  
           @resp_sprint << {
