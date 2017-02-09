@@ -1408,7 +1408,7 @@ end
                      'ProjectName' => @project_master.project_name,
                      'ProjectId'    => @project_master.id,
                      'Release'   => @resp_rel, 
-                     'Sprint' => @resp_sprint
+                     #'Sprint' => @resp_sprint
                     }
     end
     end
@@ -2226,7 +2226,8 @@ end
 
          @release_plannings = ReleasePlanning.where("project_master_id = #{project_id}")
          @release_plannings.each do |r|  
-         get_sprint_release(r.id)    
+         get_sprint_release(r.id)
+         @rel_spr = SprintPlanning.where("release_planning_id = r.id")
             @resp_rel << {
               'id' => r.id,
               'ReleaseName' => r.release_name,
