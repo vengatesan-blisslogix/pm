@@ -2227,7 +2227,6 @@ end
          @release_plannings = ReleasePlanning.where("project_master_id = #{project_id}")
          @release_plannings.each do |r|  
          get_sprint_release(project_id, r.id)
-         puts "#{project_id}-------------#{r.id}"
             @resp_rel << {
               'id' => r.id,
               'ReleaseName' => r.release_name,
@@ -2237,6 +2236,8 @@ end
   end
 
   def get_sprint_release(project_id, release_id)
+             puts "--#{project_id}-------------#{release_id}--"
+
      @resp_sprint =  []
        @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id} and release_planning_id =#{release_id}")
        @sprint_plannings.each do |s|    
