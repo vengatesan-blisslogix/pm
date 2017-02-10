@@ -51,7 +51,7 @@ if params[:log].to_i == 1
         @task_date = h['Date']
         @task_time = h['hour'] 
 
-            @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = #{@task_date}")
+            @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = '#{@task_date.to_date}'")
             puts "-----------#{@timesheet_check}----------------------"
                 if @timesheet_check != nil and @timesheet_check.size != 0 
                   @timesheet = @timesheet_check[0]
