@@ -2260,6 +2260,7 @@ end
           @resp_task << {
             'id' => @project_ta.id,
             'TaskName' => @project_ta.task_name,
+            'EstimationEffort' => @project_ta.planned,
             'Timesheet' => @task_time
           }
         end
