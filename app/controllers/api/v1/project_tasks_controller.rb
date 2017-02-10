@@ -146,7 +146,10 @@ before_action :set_project, only: [:show, :edit, :update]
           'release_planning_id' => @release_id,
           'release_name' => @release_name,
           'date_reason' => @date_reason,
-          'hour_reason' => @hour_reason
+          'hour_reason' => @hour_reason,
+          'sc_start' => p.sc_start,
+          'sc_end' => p.sc_end,
+          'delay_type' => p.delay_type
       }
       end
       @respone = {
