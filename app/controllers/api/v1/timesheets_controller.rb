@@ -51,7 +51,12 @@ if params[:log].to_i == 1
         @task_date = h['Date']
         @task_time = h['hour'] 
 
-        @timesheet = Logtime.new
+            @timesheet_check = Logtime.find_by(task_master_id: @task_id, task_date: @task_date)
+                if @timesheet_check != nil 
+                  @timesheet = timesheet_check
+                else
+                  @timesheet = Logtime.new
+                end
         @timesheet.task_master_id  = @task_id
         @timesheet.project_master_id = @project_id
         @timesheet.sprint_planning_id = @sprint_id
@@ -92,7 +97,12 @@ elsif params[:log].to_i == 2
 
                   @t_date.each do |td|
 
-                    @timesheet = Logtime.new
+                       @timesheet_check = Logtime.find_by(task_master_id: @proj_task[p], task_date: @t_date[t])
+                       if @timesheet_check != nil 
+                        @timesheet = timesheet_check
+                       else
+                        @timesheet = Logtime.new
+                       end
                     @timesheet.start_time  = params[:start_time]
                     @timesheet.end_time  = params[:end_time]
                     @timesheet.date  = params[:date]
