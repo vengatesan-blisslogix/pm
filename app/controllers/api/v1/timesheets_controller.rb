@@ -65,7 +65,7 @@ if params[:log].to_i == 1
                     @timesheet.status = "pending"
                     @timesheet.task_date = @task_date
                     @timesheet.task_time = @task_time                 
-                    #@timesheet.save!
+                    @timesheet.save!
                 
       end
     end
