@@ -22,6 +22,9 @@ module BlissPm
 
       config.force_ssl = true
 
+    config.middleware.use Rack::SslEnforcer,
+      :redirect_to => 'https://example.com',    # For when behind a proxy, like nginx      
+      :strict => true  
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.secret_key = '7727c90d781aae5c88c573997c5d3514408b4044eff60185f6df969b415c4b2535dfbde2e384dc12d65a4c80baa044f95f16726252549aca81c05a703b95bf16'

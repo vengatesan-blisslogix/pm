@@ -12,7 +12,7 @@ Rails.application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  config.force_ssl = true
+  # config.force_ssl = true
 
   # Configure static file server for tests with Cache-Control for performance.
   config.serve_static_files   = true
