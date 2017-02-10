@@ -272,7 +272,10 @@ def show
           'sprint_planning_id' => @sprint_id,
           'sprint_name' => @sprint_name,
           'release_planning_id' => @release_id,
-          'release_name' => @release_name
+          'release_name' => @release_name,
+          'sc_start' => p.sc_start,
+          'sc_end' => p.sc_end,
+          'delay_type' => p.delay_type
       }
       
       @respone = {

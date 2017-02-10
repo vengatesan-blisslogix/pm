@@ -88,7 +88,10 @@ puts "99999#{@search}"
         'actual_hours'   => p.actual_hours,
         'sprint_desc' => p.sprint_desc,
         'date_reason' => @date_reason,
-        'hour_reason' => @hour_reason
+        'hour_reason' => @hour_reason,
+        'sc_start' => p.sc_start,
+        'sc_end' => p.sc_end,
+        'delay_type' => p.delay_type
         }
       end
     #pagination(SprintPlanning,@search)

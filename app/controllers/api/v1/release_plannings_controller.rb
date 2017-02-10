@@ -75,7 +75,10 @@ puts "#{@search}"
         'project_master_id' => t.project_master_id,
         'project_name' => @project_name,
         'date_reason' => @date_reason,
-        'hour_reason' => @hour_reason
+        'hour_reason' => @hour_reason,
+        'sc_start' => t.sc_start,
+        'sc_end' => t.sc_end,
+        'delay_type' => t.delay_type
       }      
     end   
     pagination(ReleasePlanning,@search)
