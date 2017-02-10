@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207125544) do
+ActiveRecord::Schema.define(version: 20170210124729) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -466,6 +466,9 @@ ActiveRecord::Schema.define(version: 20170207125544) do
     t.datetime "updated_at",                      null: false
     t.integer  "is_delete",         limit: 4
     t.text     "reason",            limit: 65535
+    t.date     "sc_start"
+    t.date     "sc_end"
+    t.integer  "delay_type",        limit: 4
   end
 
   create_table "project_time_sheets", force: :cascade do |t|
@@ -543,6 +546,9 @@ ActiveRecord::Schema.define(version: 20170207125544) do
     t.datetime "updated_at",                           null: false
     t.integer  "sprint_status_id",       limit: 4
     t.text     "reason",                 limit: 65535
+    t.date     "sc_start"
+    t.date     "sc_end"
+    t.integer  "delay_type",             limit: 4
   end
 
   create_table "releases", force: :cascade do |t|
@@ -595,6 +601,9 @@ ActiveRecord::Schema.define(version: 20170207125544) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.text     "reason",              limit: 65535
+    t.date     "sc_start"
+    t.date     "sc_end"
+    t.integer  "delay_type",          limit: 4
   end
 
   create_table "sprint_statuses", force: :cascade do |t|

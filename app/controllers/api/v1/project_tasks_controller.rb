@@ -435,9 +435,9 @@ private
     def project_params
       #params.require(:branch).permit(:name, :active, :user_id)
 
-      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority_id => "#{params[:priority_id]}", :project_master_id => "#{params[:project_master_id]}", :project_board_id => "#{params[:project_board_id]}", :planned_duration => "#{params[:planned_duration]}", :actual_duration => "#{params[:actual_duration]}", :planned => "#{params[:planned]}", :actual => "#{params[:actual]}" }
+      raw_parameters = { :task_name => "#{params[:task_name]}", :task_description => "#{params[:task_description]}", :active => "#{params[:active]}",  :priority_id => "#{params[:priority_id]}", :project_master_id => "#{params[:project_master_id]}", :project_board_id => "#{params[:project_board_id]}", :planned_duration => "#{params[:planned_duration]}", :actual_duration => "#{params[:actual_duration]}", :planned => "#{params[:planned]}", :actual => "#{params[:actual]}", :sc_start => "#{params[:sc_start]}", :sc_end => "#{params[:sc_end]}", :delay_type => "#{params[:delay_type]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:task_name, :task_description, :active, :priority_id, :project_master_id, :project_board_id, :planned_duration, :actual_duration, :planned, :actual ) 
+      parameters.permit(:task_name, :task_description, :active, :priority_id, :project_master_id, :project_board_id, :planned_duration, :actual_duration, :planned, :actual, :sc_start, :sc_end, :delay_type) 
     
     end
 

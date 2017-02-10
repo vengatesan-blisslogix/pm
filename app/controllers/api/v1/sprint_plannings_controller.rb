@@ -153,9 +153,9 @@ private
     end
 
     def sprint_params
-      raw_parameters = { :active => "#{params[:active]}", :start_date => "#{params[:start_date]}", :end_date => "#{params[:end_date]}", :sprint_name => "#{params[:sprint_name]}", :sprint_desc => "#{params[:sprint_desc]}", :sprint_status_id => "#{params[:sprint_status_id]}", :release_planning_id => "#{params[:release_planning_id]}", :project_master_id => "#{params[:project_master_id]}", :planned_hours => "#{params[:planned_hours]}", :actual_hours => "#{params[:actual_hours]}" }
+      raw_parameters = { :active => "#{params[:active]}", :start_date => "#{params[:start_date]}", :end_date => "#{params[:end_date]}", :sprint_name => "#{params[:sprint_name]}", :sprint_desc => "#{params[:sprint_desc]}", :sprint_status_id => "#{params[:sprint_status_id]}", :release_planning_id => "#{params[:release_planning_id]}", :project_master_id => "#{params[:project_master_id]}", :planned_hours => "#{params[:planned_hours]}", :actual_hours => "#{params[:actual_hours]}", :sc_start => "#{params[:sc_start]}", :sc_end => "#{params[:sc_end]}", :delay_type => "#{params[:delay_type]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit( :active, :start_date, :end_date, :sprint_name, :sprint_desc, :sprint_status_id, :project_master_id, :release_planning_id, :planned_hours, :actual_hours)
+      parameters.permit( :active, :start_date, :end_date, :sprint_name, :sprint_desc, :sprint_status_id, :project_master_id, :release_planning_id, :planned_hours, :actual_hours, :sc_start, :sc_end, :delay_type)
     end
 
 end

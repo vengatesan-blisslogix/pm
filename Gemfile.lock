@@ -120,7 +120,6 @@ GEM
     puma (3.6.2)
     rack (1.6.5)
     rack-cors (0.4.0)
-    rack-ssl-enforcer (0.2.9)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.6)
@@ -208,7 +207,6 @@ DEPENDENCIES
   paperclip
   puma
   rack-cors
-  rack-ssl-enforcer
   rails (= 4.2.6)
   sass-rails (~> 5.0)
   spreadsheet (~> 1.1, >= 1.1.3)
