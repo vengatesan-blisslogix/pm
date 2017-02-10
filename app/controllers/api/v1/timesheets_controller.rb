@@ -51,13 +51,13 @@ if params[:log].to_i == 1
         @task_date = h['Date']
         @task_time = h['hour'] 
 
-            @timesheet_check = Logtime.find_by(task_master_id: @task_id, task_date: @task_date)
-            puts "-----------#{Logtime.find_by(task_master_id: @task_id, task_date: @task_date}----------------------"
-                if @timesheet_check != nil 
-                  @timesheet = timesheet_check
+            @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = #{task_date}")
+            puts "-----------#{@timesheet_check}----------------------"
+                if @timesheet_check != nil and @timesheet_check.size != 0 
+                  @timesheet = @timesheet_check[0]
                 else
                   @timesheet = Logtime.new
-                
+                end
                     @timesheet.task_master_id  = @task_id
                     @timesheet.project_master_id = @project_id
                     @timesheet.sprint_planning_id = @sprint_id
@@ -66,7 +66,7 @@ if params[:log].to_i == 1
                     @timesheet.task_date = @task_date
                     @timesheet.task_time = @task_time                 
                     #@timesheet.save!
-                end
+                
       end
     end
   end
