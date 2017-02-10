@@ -18,12 +18,19 @@ class HomeController < ApplicationController
             @release_ah = @rel_det.actual_hours
             @release_sd = @rel_det.start_date
             @release_ed = @rel_det.end_date
+            @release_sc_sd = @rel_det.sc_start
+            @release_sc_ed = @rel_det.sc_end
+            @release_delay_type = @rel_det.delay_type
           else
             @release_name = ""
             @release_ph   = ""
             @release_ah   = ""
             @release_sd   = ""
             @release_ed   = ""
+            @release_sc_sd = ""
+            @release_sc_ed = ""
+            @release_delay_type =""
+
           end
           @rel_reason << {
             'release_planning_id' => fr.release_planning_id,
@@ -34,7 +41,10 @@ class HomeController < ApplicationController
             'end_date' => @release_ed,
             'date_reason' => fr.date_reason,
             'hour_reason' => fr.hour_reason,
-            'project_master_id' => fr.project_master_id
+            'project_master_id' => fr.project_master_id,
+            'sc_start' =>  @release_sc_sd,
+            'sc_end' =>  @release_sc_ed,
+            'delay_type' => @release_delay_type 
           }
         end
         @find_spr_reason = SprintPlanningReason.where("project_master_id = #{params[:project_master_id]}")
@@ -47,12 +57,18 @@ class HomeController < ApplicationController
             @sprint_ah = @spr_det.actual_hours
             @sprint_sd = @spr_det.start_date
             @sprint_ed = @spr_det.end_date
+            @sprint_sc_sd = @spr_det.sc_start
+            @sprint_sc_ed = @spr_det.sc_end
+            @sprint_delay_type = @spr_det.delay_type
           else
             @sprint_name = ""
             @sprint_ph   = ""
             @sprint_ah   = ""
             @sprint_sd   = ""
             @sprint_ed   = ""
+            @sprint_sc_sd = ""
+            @sprint_sc_ed = ""
+            @sprint_delay_type =""
           end
           @spr_reason << {
             'sprint_planning_id' => fs.sprint_planning_id,
@@ -63,7 +79,10 @@ class HomeController < ApplicationController
             'end_date' => @sprint_ed,
             'date_reason' => fs.date_reason,
             'hour_reason' => fs.hour_reason,
-            'project_master_id' => fs.project_master_id
+            'project_master_id' => fs.project_master_id,
+            'sc_start' =>  @sprint_sc_sd,
+            'sc_end' => @sprint_sc_ed,
+            'delay_type' => @sprint_delay_type
           }
         end
         @find_ta_reason = ProjectTaskReason.where("project_master_id = #{params[:project_master_id]}")
@@ -76,12 +95,18 @@ class HomeController < ApplicationController
             @task_ah = @pt_det.actual
             @task_pd = @pt_det.planned_duration
             @task_ad = @pt_det.actual_duration
+            @task_sc_sd = @pt_det.sc_start
+            @task_sc_ed = @pt_det.sc_end
+            @task_delay_type = @pt_det.delay_type
           else
             @task_name = ""
             @task_ph   = ""
             @task_ah   = ""
             @task_pd   = ""
             @task_ad   = ""
+            @task_sc_sd = ""
+            @task_sc_ed = ""
+            @task_delay_type =""
           end
           @ta_reason << {
             'project_task_id' => ta.project_task_id,
@@ -92,7 +117,10 @@ class HomeController < ApplicationController
             'end_date' => @task_ad,
             'date_reason' => ta.date_reason,
             'hour_reason' => ta.hour_reason,
-            'project_master_id' => ta.project_master_id
+            'project_master_id' => ta.project_master_id,
+            'sc_start' =>@task_sc_sd,
+            'sc_end' =>  @task_sc_ed,
+            'delay_type' => @task_delay_type
           }
         end
           @f_history << {

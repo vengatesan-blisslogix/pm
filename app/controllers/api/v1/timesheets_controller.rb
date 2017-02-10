@@ -52,7 +52,7 @@ if params[:log].to_i == 1
         @task_time = h['hour'] 
 
             @timesheet_check = Logtime.find_by(task_master_id: @task_id, task_date: @task_date)
-            puts "-----------#{timesheet_check}----------------------"
+            puts "-----------#{@timesheet_check}----------------------"
                 if @timesheet_check != nil 
                   @timesheet = timesheet_check
                 else
