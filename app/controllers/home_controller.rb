@@ -2239,7 +2239,7 @@ end
      @resp_sprint =  []
        @sprint_plannings = SprintPlanning.where("release_planning_id = #{release_id}")
        @sprint_plannings.each do |s|    
-       get_task_release(s.id)  
+       get_task_release(s.id, s.project_master_id)  
           @resp_sprint << {
             'id' => s.id,
             'SprintName' => s.sprint_name,
@@ -2248,11 +2248,11 @@ end
         end        
   end
 
-  def get_task_release(sprint_id)
+  def get_task_release(sprint_id, project_id)
      @resp_task =  [] 
      
      #@project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
-       @project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id}")
+       @project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id} and project_master_id =#{project_id}")
        @project_tasks.each do |p|    
        @project_ta = ProjectTask.find_by_id(p.task_master_id)  
        if @project_ta  != nil
