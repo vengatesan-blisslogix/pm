@@ -56,16 +56,16 @@ if params[:log].to_i == 1
                   @timesheet = timesheet_check
                 else
                   @timesheet = Logtime.new
+                
+                    @timesheet.task_master_id  = @task_id
+                    @timesheet.project_master_id = @project_id
+                    @timesheet.sprint_planning_id = @sprint_id
+                    @timesheet.user_id = params[:user_id]
+                    @timesheet.status = "pending"
+                    @timesheet.task_date = @task_date
+                    @timesheet.task_time = @task_time                 
+                    @timesheet.save!
                 end
-        @timesheet.task_master_id  = @task_id
-        @timesheet.project_master_id = @project_id
-        @timesheet.sprint_planning_id = @sprint_id
-        @timesheet.user_id = params[:user_id]
-        @timesheet.status = "pending"
-        @timesheet.task_date = @task_date
-        @timesheet.task_time = @task_time                 
-        @timesheet.save!
-
       end
     end
   end
@@ -103,7 +103,7 @@ elsif params[:log].to_i == 2
                         @timesheet = timesheet_check
                        else
                         @timesheet = Logtime.new
-                       end
+                       
                     @timesheet.start_time  = params[:start_time]
                     @timesheet.end_time  = params[:end_time]
                     @timesheet.date  = params[:date]
@@ -120,6 +120,7 @@ elsif params[:log].to_i == 2
 
                     t=t+1
                   end#@t_date.each do |td|
+                      end#if @timesheet_check
                 end#if params[:task_date] and params[:task_time]
                 p=p+1
   
@@ -169,21 +170,21 @@ end
 
 
         @timesheet = Logtime.find_by(task_master_id: @task_id, task_date: @task_date.to_date)
-       if @timesheet != nil 
+         if @timesheet != nil 
 
-       else
-        @timesheet = Logtime.new
-       end
+         else
+          @timesheet = Logtime.new
+         
 
-        @timesheet.task_master_id  = @task_id
-        @timesheet.project_master_id = @project_id
-        @timesheet.sprint_planning_id = @sprint_id
-        @timesheet.user_id = params[:user_id]
-        @timesheet.status = "pending"
-        @timesheet.task_date = @task_date
-        @timesheet.task_time = @task_time                 
-        @timesheet.save!
-
+          @timesheet.task_master_id  = @task_id
+          @timesheet.project_master_id = @project_id
+          @timesheet.sprint_planning_id = @sprint_id
+          @timesheet.user_id = params[:user_id]
+          @timesheet.status = "pending"
+          @timesheet.task_date = @task_date
+          @timesheet.task_time = @task_time                 
+          @timesheet.save!
+        end
       end
     end
   end
