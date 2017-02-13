@@ -250,6 +250,15 @@ def show
         @ad = ""
       end
 
+       @project_task_reason = ProjectTaskReason.find_by_project_task_id(p.id)
+      if @project_task_reason!=nil and @project_task_reason!=""
+        @date_reason =@project_task_reason.date_reason
+        @hour_reason =@project_task_reason.hour_reason
+      else
+        @date_reason =""
+        @hour_reason =""
+      end      
+
             
     resp << {
           'id' => p.id,
@@ -273,6 +282,8 @@ def show
           'sprint_name' => @sprint_name,
           'release_planning_id' => @release_id,
           'release_name' => @release_name,
+          'date_reason' => @date_reason,
+          'hour_reason' => @hour_reason,
           'sc_start' => p.sc_start,
           'sc_end' => p.sc_end,
           'delay_type' => p.delay_type
