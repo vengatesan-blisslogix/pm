@@ -11,7 +11,7 @@ class HomeController < ApplicationController
       @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")        
         @rel_reason = []
         @find_rel_reason.each do |fr|
-          @rel_det = ReleasePlanning.find_by_id(fr.project_master_id)
+          @rel_det = ReleasePlanning.find_by_id(fr.release_planning_id)
           if @rel_det!=nil and @rel_det!=""
             @release_name =@rel_det.release_name
             @release_ph = @rel_det.planned_hours
@@ -50,7 +50,7 @@ class HomeController < ApplicationController
         @find_spr_reason = SprintPlanningReason.where("project_master_id = #{params[:project_master_id]}")
         @spr_reason = []
         @find_spr_reason.each do |fs|
-          @spr_det = SprintPlanning.find_by_id(fs.project_master_id)
+          @spr_det = SprintPlanning.find_by_id(fs.sprint_planning_id)
           if @spr_det!=nil and @spr_det!=""
             @sprint_name =@spr_det.sprint_name
             @sprint_ph = @spr_det.planned_hours
@@ -88,7 +88,7 @@ class HomeController < ApplicationController
         @find_ta_reason = ProjectTaskReason.where("project_master_id = #{params[:project_master_id]}")
         @ta_reason = []
         @find_ta_reason.each do |ta|
-          @pt_det = ProjectTask.find_by_id(ta.project_master_id)
+          @pt_det = ProjectTask.find_by_id(ta.project_task_id)
           if @pt_det!=nil and @pt_det!=""
             @task_name =@pt_det.task_name
             @task_ph = @pt_det.planned
