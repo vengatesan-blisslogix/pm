@@ -166,15 +166,15 @@ end
     #puts"-result.values_at(*headers)----------#{result.values_at(*headers)}--#{result['id']}---"
       @h1.each do |h|
         @task_date = h['Date']
-        @task_time = h['hour'] 
-
-
-        @timesheet = Logtime.find_by(task_master_id: @task_id, task_date: @task_date.to_date)
-         if @timesheet != nil 
-
-         else
-          @timesheet = Logtime.new
+        @task_time = h['hour']         
          
+         @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = '#{@task_date.to_date}'")
+            puts "-----------#{@timesheet_check}----------------------"
+                if @timesheet_check != nil and @timesheet_check.size != 0 
+                  @timesheet = @timesheet_check[0]
+                else
+                  @timesheet = Logtime.new
+                end
 
           @timesheet.task_master_id  = @task_id
           @timesheet.project_master_id = @project_id
@@ -183,8 +183,7 @@ end
           @timesheet.status = "pending"
           @timesheet.task_date = @task_date
           @timesheet.task_time = @task_time                 
-          @timesheet.save!
-        end
+          @timesheet.save!        
       end
     end
   end
