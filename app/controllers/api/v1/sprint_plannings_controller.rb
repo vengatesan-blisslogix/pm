@@ -111,7 +111,8 @@ puts "99999#{@search}"
  end
 
 	def show	
-	  render json: @sprint_planning
+	  #render json: @sprint_planning
+    
 	end
 
 	def create
@@ -129,7 +130,7 @@ puts "99999#{@search}"
 
 	def update 
 	  if @sprint_planning.update(sprint_params)  	      
-            if params[:task_reason]|| params[:hour_reason].present?
+            if params[:date_reason]|| params[:hour_reason].present?
               @sprint_reason = SprintPlanningReason.new
                     @sprint_reason.sprint_planning_id = @sprint_planning.id
                     @sprint_reason.date_reason = params[:date_reason]

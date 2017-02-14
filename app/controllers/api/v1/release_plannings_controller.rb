@@ -114,7 +114,7 @@ puts "#{@search}"
 
 	def update 
 	    if @release_planning.update(planning_params)
-         if params[:task_reason]|| params[:hour_reason].present?
+         if params[:date_reason]|| params[:hour_reason].present?
               @release_reason = ReleasePlanningReason.new
                     @release_reason.release_planning_id = @release_planning.id
                     @release_reason.date_reason = params[:date_reason]

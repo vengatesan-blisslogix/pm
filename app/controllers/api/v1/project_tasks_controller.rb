@@ -384,7 +384,7 @@ def show
                 @attachment.avatar = params[:avatar]
           @attachment.save
 
-            if params[:task_reason]|| params[:hour_reason].present?
+            if params[:date_reason]|| params[:hour_reason].present?
               @task_reason = ProjectTaskReason.new
                     @task_reason.project_task_id = @project.id
                     @task_reason.date_reason = params[:date_reason]
