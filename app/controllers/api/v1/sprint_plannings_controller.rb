@@ -111,7 +111,7 @@ puts "99999#{@search}"
  end
 
 	def show	
-	  #render json: @sprint_planning
+	  render json: @sprint_planning
     
 	end
 
