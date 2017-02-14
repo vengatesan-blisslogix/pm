@@ -120,6 +120,9 @@ puts "#{@search}"
                     @release_reason.date_reason = params[:date_reason]
                     @release_reason.hour_reason = params[:hour_reason]
                     @release_reason.created_by = params[:user_id]
+                    @release_reason.sch_start = params[:sch_start]
+                    @release_reason.sch_end = params[:sch_end]
+                    @release_reason.delayed_type = params[:delayed_type]
                     @release_reason.project_master_id = @release_planning.project_master_id
               @release_reason.save
          end

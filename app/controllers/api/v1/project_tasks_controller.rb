@@ -374,6 +374,9 @@ def show
                     @task_reason.date_reason = params[:date_reason]
                     @task_reason.hour_reason = params[:hour_reason]
                     @task_reason.created_by = params[:user_id]
+                    @task_reason.sch_start = params[:sch_start]
+                    @task_reason.sch_end = params[:sch_end]
+                    @task_reason.delayed_type = params[:delayed_type]
                     @task_reason.project_master_id = @project.project_master_id
 
               @task_reason.save            
