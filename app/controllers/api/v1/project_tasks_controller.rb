@@ -47,9 +47,16 @@ before_action :set_project, only: [:show, :edit, :update]
       if @project_task_reason!=nil and @project_task_reason!=""
         @date_reason =@project_task_reason.date_reason
         @hour_reason =@project_task_reason.hour_reason
+        @sch_start =@project_task_reason.sch_start
+        @sch_end =@project_task_reason.sch_end
+        @delayed_type =@project_task_reason.delayed_type
+
       else
         @date_reason =""
         @hour_reason =""
+        @sch_start =""
+        @sch_end =""
+        @delayed_type =""
       end      
 
 
@@ -147,9 +154,9 @@ before_action :set_project, only: [:show, :edit, :update]
           'release_name' => @release_name,
           'date_reason' => @date_reason,
           'hour_reason' => @hour_reason,
-          'sc_start' => p.sc_start,
-          'sc_end' => p.sc_end,
-          'delay_type' => p.delay_type
+          'sch_start' => @sch_start,
+          'sch_end' => @sch_end,
+          'delayed_type' => @delayed_type
       }
       end
       @respone = {
