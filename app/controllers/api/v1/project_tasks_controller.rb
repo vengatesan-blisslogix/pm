@@ -257,14 +257,20 @@ def show
         @ad = ""
       end
 
-       @project_task_reason = ProjectTaskReason.find_by_project_task_id(p.id)
-      if @project_task_reason!=nil and @project_task_reason!=""
-        @date_reason =@project_task_reason.date_reason
-        @hour_reason =@project_task_reason.hour_reason
-        @sch_start =@project_task_reason.sch_start
-        @sch_end =@project_task_reason.sch_end
-        @delayed_type =@project_task_reason.delayed_type
 
+
+      @project_task_reason = ProjectTaskReason.where("project_task_id = #{p.id}")
+        @ptr = []
+        @project_task_reason.each do |ptr|
+
+      if @project_task_reason!=nil and @project_task_reason!=""
+        @ptr << {
+          'date_reason' => ptr.date_reason,
+          'hour_reason' => ptr.hour_reason,
+          'sch_start' => ptr.sch_start,
+          'sch_end' => ptr.sch_end,
+          'delayed_type' => ptr.delayed_type          
+        }
       else
         @date_reason =""
         @hour_reason =""
@@ -272,7 +278,7 @@ def show
         @sch_end =""
         @delayed_type =""
       end      
-
+    end
             
     resp << {
           'id' => p.id,
@@ -296,11 +302,7 @@ def show
           'sprint_name' => @sprint_name,
           'release_planning_id' => @release_id,
           'release_name' => @release_name,
-          'date_reason' => @date_reason,
-          'hour_reason' => @hour_reason,
-          'sch_start' => @sch_start,
-          'sch_end' => @sch_end,
-          'delayed_type' => @delayed_type
+          'reason' => @ptr
       }
       
       @respone = {
