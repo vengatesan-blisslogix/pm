@@ -97,7 +97,55 @@ puts "#{@search}"
 	 end
 
 	  def show	
-	     render json: @release_planning, status: 200
+	     #render json: @release_planning, status: 200
+        r = @release_planning
+      puts  "----params[:id]---"
+
+    resp=[]
+
+     @release_planning_reason = ReleasePlanningReason.where("release_planning_id = #{r.id}")
+        @rpr = []
+        @release_planning_reason.each do |rpr|
+
+      if @release_planning_reason!=nil and @release_planning_reason!=""
+        @rpr << {
+          'date_reason' => rpr.date_reason,
+          'hour_reason' => rpr.hour_reason,
+          'sch_start' => rpr.sch_start,
+          'sch_end' => rpr.sch_end,
+          'delayed_type' => rpr.delayed_type          
+        }
+      else
+        @date_reason =""
+        @hour_reason =""
+        @sch_start =""
+        @sch_end =""
+        @delayed_type =""
+      end      
+    end
+
+    resp << {
+          'id' => r.id,
+          'release_name' => r.release_name,         
+          'release_notes' => r.release_notes,
+          'planned_hours' => r.planned_hours,
+          'actual_hours' => r.actual_hours,
+          'start_date' => r.start_date,
+          'end_date' => r.end_date,     
+          'comments' => r.comments,
+          'active' => r.active,     
+          'flag_name' => r.flag_name,
+          'user_id' => r.user_id,
+          'project_master_id' => r.project_master_id,
+          'reason' => @rpr
+          
+      }
+      
+      @respone = {
+            'list' => resp,
+            'count' => 1
+          }
+        render json: @respone
 	  end
 
 	def create

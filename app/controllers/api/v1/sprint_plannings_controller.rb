@@ -111,8 +111,54 @@ puts "99999#{@search}"
  end
 
 	def show	
-	  render json: @sprint_planning
-    
+	  #render json: @sprint_planning
+    s = @sprint_planning
+      puts  "----params[:id]---"
+
+    resp=[]
+
+     @sprint_planning_reason = SprintPlanningReason.where("sprint_planning_id = #{s.id}")
+        @spr = []
+        @sprint_planning_reason.each do |spr|
+
+      if @sprint_planning_reason!=nil and @sprint_planning_reason!=""
+        @spr << {
+          'date_reason' => spr.date_reason,
+          'hour_reason' => spr.hour_reason,
+          'sch_start' => spr.sch_start,
+          'sch_end' => spr.sch_end,
+          'delayed_type' => spr.delayed_type          
+        }
+      else
+        @date_reason =""
+        @hour_reason =""
+        @sch_start =""
+        @sch_end =""
+        @delayed_type =""
+      end      
+    end
+
+    resp << {
+          'id' => s.id,
+          'sprint_name' => s.sprint_name,         
+          'sprint_desc' => s.sprint_desc,
+          'planned_hours' => s.planned_hours,
+          'actual_hours' => s.actual_hours,
+          'start_date' => s.start_date,
+          'end_date' => s.end_date,    
+          'active' => s.active,      
+          'sprint_status_id' => s.sprint_status_id,
+          'project_master_id' => s.project_master_id,
+          'release_planning_id' => s.release_planning_id,
+          'reason' => @spr
+          
+      }
+      
+      @respone = {
+            'list' => resp,
+            'count' => 1
+          }
+        render json: @respone
 	end
 
 	def create

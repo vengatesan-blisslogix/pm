@@ -257,8 +257,6 @@ def show
         @ad = ""
       end
 
-
-
       @project_task_reason = ProjectTaskReason.where("project_task_id = #{p.id}")
         @ptr = []
         @project_task_reason.each do |ptr|
