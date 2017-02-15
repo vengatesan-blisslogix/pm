@@ -2270,6 +2270,7 @@ end
             'id' => @project_ta.id,
             'TaskName' => @project_ta.task_name,
             'EstimationEffort' => @project_ta.planned,
+            'LoggedEffort' => as.task_time,
             'Timesheet' => @task_time
           }
         end
