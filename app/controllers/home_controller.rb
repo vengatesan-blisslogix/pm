@@ -2267,7 +2267,7 @@ end
        if @project_ta  != nil
         timesheets_records(p.task_master_id, sprint_id)
 
-        @logged_eff = Logtime.where("sprint_planning_id=#{p.sprint_planning_id} and project_master_id=#{p.project_master_id} and user_id=#{pu.user_id}").sum(:task_time)
+        @logged_eff = Logtime.where("sprint_planning_id=#{p.sprint_planning_id} and project_master_id=#{p.project_master_id} and user_id=#{p.user_id}").sum(:task_time)
 
           @resp_task << {
             'id' => @project_ta.id,
