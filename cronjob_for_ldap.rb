@@ -57,7 +57,8 @@ ActiveRecord::Base.establish_connection({
 			@test_doj 				= Date.parse(u['doj'])
 			@user.doj         		= @test_doj.to_date
 
-			@test_dob 				= u['dob'].to_date
+			@test_dob 				= Date.parse(u['dob'])
+			@user.dob         		= @test_dob.to_date
 
 			@user.prior_experience 	= u['previousExperience']
 			@user.email 			= u['email']
