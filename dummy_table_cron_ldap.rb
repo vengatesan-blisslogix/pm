@@ -9,7 +9,7 @@ ActiveRecord::Base.establish_connection({
   :adapter => 'mysql2',
   :user => 'root',
   :password => 'tvsnext',
-  :database => 'pm_production',
+  :database => 'pm_development',
   :host => 'localhost'
 })
 
@@ -22,7 +22,7 @@ client = TinyTds::Client.new username: 'pmpuser', password: 'pmp#123$', host: '1
 result = client.execute("SELECT * FROM HRIS.dbo.empBasicViewForApp WHERE leftOrg='false';")
 
     result.each do |u|
-       #p u['email']
+       p u['email']
         #if u['leftOrg'] == true
         	
 	       @cront_intranet = CronIntranet.find_by_emp_email(u['email'])

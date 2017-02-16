@@ -9,7 +9,7 @@ ActiveRecord::Base.establish_connection({
   :adapter => 'mysql2',
   :user => 'root',
   :password => 'tvsnext',
-  :database => 'pm_production',
+  :database => 'pm_development',
   :host => 'localhost'
 })
 
