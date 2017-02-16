@@ -143,78 +143,6 @@ ActiveRecord::Schema.define(version: 20170214100138) do
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "cr_release", force: :cascade do |t|
-    t.string   "name",        limit: 160, null: false
-    t.datetime "released_on",             null: false
-    t.integer  "project_id",  limit: 4,   null: false
-    t.datetime "created_on",              null: false
-    t.datetime "modified_on"
-  end
-
-  create_table "cr_release_attachment", force: :cascade do |t|
-    t.integer  "release_id",    limit: 4,   null: false
-    t.string   "document_name", limit: 160, null: false
-    t.datetime "created_on",                null: false
-  end
-
-  add_index "cr_release_attachment", ["release_id"], name: "release_id", using: :btree
-
-  create_table "cr_sprint", force: :cascade do |t|
-    t.string   "name",        limit: 250, null: false
-    t.date     "started_on",              null: false
-    t.date     "ended_on",                null: false
-    t.integer  "status_id",   limit: 4,   null: false
-    t.integer  "project_id",  limit: 4,   null: false
-    t.datetime "created_on",              null: false
-    t.datetime "modified_on"
-  end
-
-  create_table "cr_sprint_status", id: false, force: :cascade do |t|
-    t.integer  "id",          limit: 4,   null: false
-    t.string   "name",        limit: 250, null: false
-    t.datetime "created_on",              null: false
-    t.datetime "modified_on"
-  end
-
-  create_table "cr_task", force: :cascade do |t|
-    t.string   "name",             limit: 250,   null: false
-    t.text     "description",      limit: 65535, null: false
-    t.float    "p_hours",          limit: 24,    null: false
-    t.float    "c_hours",          limit: 24,    null: false
-    t.date     "started_on",                     null: false
-    t.date     "ended_on",                       null: false
-    t.integer  "assignee_id",      limit: 4,     null: false
-    t.integer  "assigner_id",      limit: 4,     null: false
-    t.integer  "task_priority_id", limit: 4,     null: false
-    t.integer  "task_board_id",    limit: 4,     null: false
-    t.integer  "project_id",       limit: 4,     null: false
-    t.integer  "sprint_id",        limit: 4,     null: false
-    t.integer  "release_id",       limit: 4,     null: false
-    t.datetime "created_on",                     null: false
-    t.datetime "modified_on"
-  end
-
-  create_table "cr_task_attachment", force: :cascade do |t|
-    t.integer  "task_id",    limit: 4,   null: false
-    t.string   "name",       limit: 250, null: false
-    t.datetime "created_on",             null: false
-  end
-
-  add_index "cr_task_attachment", ["task_id"], name: "task_id", using: :btree
-  add_index "cr_task_attachment", ["task_id"], name: "task_id_2", using: :btree
-
-  create_table "cr_task_board", force: :cascade do |t|
-    t.string   "name",        limit: 160, null: false
-    t.datetime "created_on",              null: false
-    t.datetime "modified_on"
-  end
-
-  create_table "cr_task_priority", force: :cascade do |t|
-    t.integer  "name",        limit: 4, null: false
-    t.datetime "created_on",            null: false
-    t.datetime "modified_on"
-  end
-
   create_table "cron_intranets", force: :cascade do |t|
     t.string   "emp_codes",        limit: 255
     t.string   "emp_name",         limit: 255
@@ -807,8 +735,6 @@ ActiveRecord::Schema.define(version: 20170214100138) do
   add_index "users", ["role_master_id"], name: "index_users_on_role_master_id", using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
-  add_foreign_key "cr_release_attachment", "cr_release", column: "release_id", name: "cr_release_attachment_ibfk_1", on_delete: :cascade
-  add_foreign_key "cr_task_attachment", "cr_task", column: "task_id", name: "cr_task_attachment_ibfk_1", on_delete: :cascade
   add_foreign_key "users", "branches"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "role_masters"
