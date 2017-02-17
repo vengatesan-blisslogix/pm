@@ -30,7 +30,7 @@ ActiveRecord::Base.establish_connection({
     result.each do |u|
        #p u['reporting_to']
         if u['leftOrg'] == false and u['email'] != nil
-       
+       		p u['email']
 	       @find_user = User.find_by_email(u['email'])
 			if @find_user != nil
 			@user = User.find_by_email(u['email'])
@@ -46,10 +46,11 @@ ActiveRecord::Base.establish_connection({
                   end
                   
 			   
-				@user.reporting_to = u['reportingTo']
+				#@user.reporting_to = u['reportingTo']
 				@user.save
 				end
 		   else
+		   	p u['email'] u['empNo']
 		    @user = User.new
 	   		@user.employee_no 		= u['empNo']
 			@user.name 				= u['name'].split(" ")[0]
