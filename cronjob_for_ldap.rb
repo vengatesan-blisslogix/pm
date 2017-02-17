@@ -46,7 +46,7 @@ ActiveRecord::Base.establish_connection({
                   end
                   
 			   
-				#@user.reporting_to = u['reportingTo'].split("(")[0].strip
+				@user.reporting_to = u['reportingTo']
 				@user.save
 				end
 		   else
