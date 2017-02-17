@@ -22,6 +22,7 @@ ActiveRecord::Base.establish_connection({
 	end
 
 
+
 	client = TinyTds::Client.new username: 'pmpuser', password: 'pmp#123$', host: '10.91.19.245', database: 'HRIS'
 
 	#result = client.execute("SELECT * FROM empBasicViewForApp")
