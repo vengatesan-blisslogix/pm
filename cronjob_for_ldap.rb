@@ -31,7 +31,7 @@ ActiveRecord::Base.establish_connection({
        #p u['reporting_to']
         if u['leftOrg'] == false and u['email'] != nil       		
 	       @find_user = User.where("email ='#{u['email']}'")
-	       p "----------find user-------#{@find_user}"
+	       p "----------find user-------#{@find_user.size}",User.where("email ='#{u['email']}'")
 			if @find_user != nil and @find_user.size !=0
 			@user = @find_user[0]
 			#@user.nickname = u['name']+" "+"(#{u['empNo']})"
