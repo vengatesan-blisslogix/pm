@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214100138) do
+ActiveRecord::Schema.define(version: 20170217045511) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
