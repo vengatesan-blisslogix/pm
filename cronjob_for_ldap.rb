@@ -30,10 +30,10 @@ ActiveRecord::Base.establish_connection({
     result.each do |u|
        #p u['reporting_to']
         if u['leftOrg'] == false and u['email'] != nil       		
-	       @find_user = User.find_by_email(u['email'].to_s)
+	       @find_user = User.where("email ='#{u['email']}'")
 	       p "----------find user-------#{@find_user}"
 			if @find_user != nil
-			@user = User.find_by_email(u['email'].to_s)
+			@user = User.where("email ='#{u['email']}'")
 			#@user.nickname = u['name']+" "+"(#{u['empNo']})"
 			#@user.save #reporting_to run no 2
 			p "-------if-----#{u['reportingTo']}"
