@@ -37,7 +37,7 @@ ActiveRecord::Base.establish_connection({
 			#@user.nickname = u['name']+" "+"(#{u['empNo']})"
 			#@user.save #reporting_to run no 2
 			p "-------if-----#{u['reportingTo']}"
-				if @user!=nil and u['reportingTo'] != nil					
+				if @user!=nil and u['reportingTo'] != nil and @user.size !=0
 				@find_repo = CronReporting.where("reporting_name ='#{u['reportingTo']}'")
 				  	if @find_repo != nil and @find_repo.size!=0
 	                  	@user.reporting_to_id = @find_repo[0].reporting_id
