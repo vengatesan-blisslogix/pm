@@ -32,12 +32,12 @@ ActiveRecord::Base.establish_connection({
         if u['leftOrg'] == false and u['email'] != nil       		
 	       @find_user = User.where("email ='#{u['email']}'")
 	       p "----------find user-------#{@find_user}"
-			if @find_user != nil
-			@user = User.where("email ='#{u['email']}'")
+			if @find_user != nil and @find_user.size !=0
+			@user = @find_user[0]
 			#@user.nickname = u['name']+" "+"(#{u['empNo']})"
 			#@user.save #reporting_to run no 2
 			p "-------if-----#{u['reportingTo']}"
-				if @user!=nil and u['reportingTo'] != nil and @user.size !=0
+				if @user!=nil and u['reportingTo'] != nil
 				@find_repo = CronReporting.where("reporting_name ='#{u['reportingTo']}'")
 				  	if @find_repo != nil and @find_repo.size!=0
 	                  	@user.reporting_to_id = @find_repo[0].reporting_id
