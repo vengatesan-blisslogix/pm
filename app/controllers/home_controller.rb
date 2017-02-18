@@ -2121,7 +2121,7 @@ def get_sprint
     @sprint_plannings = SprintPlanning.where("project_master_id = #{params[:project_master_id]}")
     @sprint_plannings.each do |v|      
       resp << {
-        'id' => v.id,
+        'sprint_planning_id' => v.id,
         'sprint_name' => v.sprint_name
       }
     end

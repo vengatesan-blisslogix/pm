@@ -152,6 +152,7 @@ puts "#{@search}"
 	  @release_planning = ReleasePlanning.new(planning_params)
 		if @release_planning.save
        @release_planning.active = "active"
+       @release_planning.sprint_status_id = 1
         @release_planning.save
 
 			render json: { valid: true, msg:"#{@release_planning.release_name} created successfully."}	
