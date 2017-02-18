@@ -422,7 +422,7 @@ def show
               else
                 @taskboard = Taskboard.new
               end
-                @taskboard.task_status_master_id = 1
+                @taskboard.task_status_master_id = @project.project_board_id
                 @taskboard.task_master_id = @project.id
                 @taskboard.project_master_id = @project.project_master_id
                 @taskboard.sprint_planning_id = params[:sprint_planning_id]
