@@ -188,7 +188,7 @@ puts "99999#{@search}"
                     @sprint_reason.project_master_id = @sprint_planning.project_master_id
               @sprint_reason.save
             end
-        render json: @sprint_planning
+        render json: { valid: true, msg:"#{@sprint_planning.sprint_name} updated successfully."} 
 	  else
         render json: { valid: false, error: @sprint_planning.errors }, status: 404
 	  end
