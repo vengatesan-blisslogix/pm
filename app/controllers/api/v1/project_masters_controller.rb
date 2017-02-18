@@ -130,6 +130,7 @@ end
 def create
 
     @project_master = ProjectMaster.new(project_master_params)
+    puts "------------------#{project_master_params}-----------------"
     if @project_master.save
         @project_master.active                  = "active"
         @project_master.save
