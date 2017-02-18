@@ -295,14 +295,14 @@ before_action :set_taskboards, only: [:show, :edit, :update]
                     
                     @find_user = Assign.where("taskboard_id = #{@taskboard.id} and assigned_user_id = #{user}")
                       if @find_user != nil and @find_user.size != 0
-
-                      else
                         @assign = Assign.new                      
                         @assign.taskboard_id = params[:taskboard_id]
                         @assign.assigned_user_id = user
                         @assign.assigneer_id = params[:user_id]
                         @assign.track_id = params[:user_id]
                         @assign.save
+                      else
+                        
                       end
                   end
               end   
