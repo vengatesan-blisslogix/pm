@@ -51,7 +51,7 @@ def create
                       end
                   end
               end   
- puts "---del-----#{@del}-----finduser---#{ params[:unassigned_user_id]}-----#{ params[:unassigned_user_id].class}--id---@find_user[0].id-"
+              puts "---del-----#{@del}-----finduser---#{ params[:unassigned_user_id]}-----#{ params[:unassigned_user_id].class}--id---@find_user[0].id-"
             if params[:assign] != nil and params[:assign].to_i == 1 and params[:unassigned_user_id].present?   
               #convert_param_to_array(params[:unassigned_user_id])
               @unassigned_user_id = params[:unassigned_user_id]
@@ -62,7 +62,7 @@ def create
                     puts "---del-----#{@del}-----finduser---#{@find_user}-------id---@find_user[0].id-"
                       if @find_user != nil and @find_user.size != 0
                         @del = Assign.find_by_id(@find_user[0].id)
-                        
+
                         @del.destroy if @del != nil
                       else
                         
