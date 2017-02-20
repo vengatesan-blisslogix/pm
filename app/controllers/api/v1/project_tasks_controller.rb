@@ -118,13 +118,13 @@ before_action :set_project, only: [:show, :edit, :update]
       end        
 
       if p.planned_duration!=nil and p.planned_duration!=""
-        @pd = p.planned_duration.strftime("%d-%m-%Y")
+        @pd = p.planned_duration
       else
         @pd = ""
       end
 
       if p.actual_duration!=nil and p.actual_duration!=""
-        @ad = p.actual_duration.strftime("%d-%m-%Y")
+        @ad = p.actual_duration
       else
         @ad = ""
       end
