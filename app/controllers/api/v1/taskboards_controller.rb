@@ -184,10 +184,10 @@ before_action :set_taskboards, only: [:show, :edit, :update]
          @taskboard_id =@assign.id
          @find_assigne =  ProjectUser.where("project_master_id=#{@project_task.project_master_id}").uniq(:user_id)
               @assignee = []
-
+              @assigneer = []
          @find_assigne.each do |a|
 
-              @assigneer = []
+              
 
           @assigner = User.find_by_id(a.user_id)
             if @assigner!=nil and @assigner!=""
