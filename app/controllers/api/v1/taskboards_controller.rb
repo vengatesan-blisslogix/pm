@@ -182,14 +182,14 @@ before_action :set_taskboards, only: [:show, :edit, :update]
     @assign = Taskboard.find_by_task_master_id(tp.task_master_id)
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
-         @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
+         @find_assigne =  ProjectUser.where("project_master_id=#{@project_task.project_master_id}").uniq(user_id)
               @assignee = []
 
          @find_assigne.each do |a|
 
               @assigneer = []
 
-          @assigner = User.find_by_id(a.assigneer_id)
+          @assigner = User.find_by_id(a.user_id)
             if @assigner!=nil and @assigner!=""
               @assigneer   << { 'id' => @assigner.id,
                               'name' => "#{@assigner.name} #{@assigner.last_name}"}
@@ -197,7 +197,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
               @assigneer   =""
             end
 
-          @users = User.find_by_id(a.assigned_user_id)
+          @users = User.find_by_id(a.user_id)
            if @users!=nil and @users!=""
              @assignee_id = @users.id
              @assignee   << { 'id' => @assignee_id,
