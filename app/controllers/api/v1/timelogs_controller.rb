@@ -32,7 +32,7 @@ def create
           @timelog.status = "pending"
        @timelog.save
 
-            if params[:assign] != nil and params[:assign].to_i == 1         
+            if params[:assign] != nil and params[:assign].to_i == 1 and params[:assigned_user_id].present?
               #convert_param_to_array(params[:assigned_user_id])
              # @assigned_user_id = @output_array
                 p=0
@@ -52,7 +52,7 @@ def create
                   end
               end   
 
-            if params[:assign] != nil and params[:assign].to_i == 1         
+            if params[:assign] != nil and params[:assign].to_i == 1 and params[:unassigned_user_id].present?   
               #convert_param_to_array(params[:unassigned_user_id])
               #@unassigned_user_id = @output_array
                 p=0
