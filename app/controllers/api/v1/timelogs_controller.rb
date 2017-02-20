@@ -31,7 +31,44 @@ def create
           @timelog.user_id = params[:user_id]
           @timelog.status = "pending"
        @timelog.save
-    	
+       
+            if params[:assign] != nil and params[:assign].to_i == 1         
+              convert_param_to_array(params[:assigned_user_id])
+              @assigned_user_id = @output_array
+                p=0
+                  @assigned_user_id.each do |user|
+                    
+                    @find_user = Assign.where("taskboard_id = #{@taskboard.id} and assigned_user_id = #{user}")
+                      if @find_user != nil and @find_user.size != 0
+
+                      else
+                        @assign = Assign.new                      
+                        @assign.taskboard_id = params[:taskboard_id]
+                        @assign.assigned_user_id = user
+                        @assign.assigneer_id = params[:user_id]
+                        @assign.track_id = params[:user_id]
+                        @assign.save
+                      end
+                  end
+              end   
+
+            if params[:assign] != nil and params[:assign].to_i == 1         
+              convert_param_to_array(params[:unassigned_user_id])
+              @unassigned_user_id = @output_array
+                p=0
+                  @unassigned_user_id.each do |user|
+                    
+                    @find_unassinged_user = Assign.where("taskboard_id = #{@taskboard.id} and assigned_user_id = #{user}")
+                      if @find_user != nil and @find_user.size != 0
+                        @del = Assign.find_by_id(@find_user[0].id).delete
+                      else
+                        
+                      end
+                  end
+            end 
+
+
+
 log_values = []
 
 log_values << {
