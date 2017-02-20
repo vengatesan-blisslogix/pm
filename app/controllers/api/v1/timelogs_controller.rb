@@ -60,7 +60,7 @@ def create
                     
                     @find_unassinged_user = Assign.where("taskboard_id = #{params[:id]} and assigned_user_id = #{user}")
                       if @find_user != nil and @find_user.size != 0
-                        @del = Assign.find_by_id(@find_user[0].id).delete
+                        @del = Assign.find_by_id(@find_user[0].id).destroy
                       else
                         
                       end
