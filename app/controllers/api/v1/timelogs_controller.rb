@@ -59,9 +59,10 @@ def create
                   @unassigned_user_id.each do |user|
                     
                     @find_unassinged_user = Assign.where("taskboard_id = #{params[:id]} and assigned_user_id = #{user}")
+                    puts "---del-----#{@del}-----finduser---#{@find_user}-------id---@find_user[0].id-"
                       if @find_user != nil and @find_user.size != 0
                         @del = Assign.find_by_id(@find_user[0].id)
-                        puts "---del-----#{@del}-----finduser---#{@find_user}-------id---@find_user[0].id-"
+                        
                         @del.destroy if @del != nil
                       else
                         
