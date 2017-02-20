@@ -34,7 +34,7 @@ def create
 
             if params[:assign] != nil and params[:assign].to_i == 1 and params[:assigned_user_id].present?
               #convert_param_to_array(params[:assigned_user_id])
-             # @assigned_user_id = @output_array
+             @assigned_user_id = params[:assigned_user_id]
                 p=0
                   @assigned_user_id.each do |user|
                     
@@ -54,7 +54,7 @@ def create
 
             if params[:assign] != nil and params[:assign].to_i == 1 and params[:unassigned_user_id].present?   
               #convert_param_to_array(params[:unassigned_user_id])
-              #@unassigned_user_id = @output_array
+              @unassigned_user_id = params[:unassigned_user_id]
                 p=0
                   @unassigned_user_id.each do |user|
                     
