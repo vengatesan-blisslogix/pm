@@ -31,10 +31,10 @@ def create
           @timelog.user_id = params[:user_id]
           @timelog.status = "pending"
        @timelog.save
-       
+
             if params[:assign] != nil and params[:assign].to_i == 1         
-              convert_param_to_array(params[:assigned_user_id])
-              @assigned_user_id = @output_array
+              #convert_param_to_array(params[:assigned_user_id])
+             # @assigned_user_id = @output_array
                 p=0
                   @assigned_user_id.each do |user|
                     
@@ -53,8 +53,8 @@ def create
               end   
 
             if params[:assign] != nil and params[:assign].to_i == 1         
-              convert_param_to_array(params[:unassigned_user_id])
-              @unassigned_user_id = @output_array
+              #convert_param_to_array(params[:unassigned_user_id])
+              #@unassigned_user_id = @output_array
                 p=0
                   @unassigned_user_id.each do |user|
                     
