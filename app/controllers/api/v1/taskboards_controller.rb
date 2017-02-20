@@ -187,7 +187,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
               @assigneer = []
          @find_assigne.each do |a|
 
-              
+              puts"#{a.manager}--------user-----------#{a.user_id}"
           if a.manager.to_i == 1
           @assigner = User.find_by_id(a.user_id)
             if @assigner!=nil and @assigner!=""
