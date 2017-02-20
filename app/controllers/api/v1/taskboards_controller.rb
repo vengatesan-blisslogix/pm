@@ -188,7 +188,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
          @find_assigne.each do |a|
 
               
-
+          if a.manager.to_i == 1
           @assigner = User.find_by_id(a.user_id)
             if @assigner!=nil and @assigner!=""
               @assigneer   << { 'id' => @assigner.id,
@@ -196,6 +196,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
             else
               @assigneer   =""
             end
+          end#if a.manager.to_i == 1
 
           @users = User.find_by_id(a.user_id)
            if @users!=nil and @users!=""
