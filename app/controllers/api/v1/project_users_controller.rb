@@ -347,10 +347,15 @@ end
      @mail_user=[]
      @mail_send_who = []
      @s_user_id.each do |user|
-      @find_pro_user = ProjectUser.where("project_master_id = #{params[:project_master_id]} and user_id = #{user}")
+      @find_pro_user = ProjectUser.where("project_master_id = #{params[:project_master_id]} and user_id = #{user} and is_billable = #{@billable[p]}")
 
       if @find_pro_user != nil and @find_pro_user.size !=0
          @project = ProjectUser.find_by_id(@find_pro_user[0].id)
+
+         if @find_pro_user.size == 1 and @find_pro_user[0].is_billable != @billable[p]
+
+         end
+
       else
          @project = ProjectUser.new
          @find_leave_task = ProjectTask.where("project_master_id = #{params[:project_master_id]} and task_name='Leave'")
