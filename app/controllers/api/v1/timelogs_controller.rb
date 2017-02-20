@@ -38,7 +38,7 @@ def create
                 p=0
                   @assigned_user_id.each do |user|
                     
-                    @find_user = Assign.where("taskboard_id = #{@taskboard.id} and assigned_user_id = #{user}")
+                    @find_user = Assign.where("taskboard_id = #{ params[:taskboard_id]} and assigned_user_id = #{user}")
                       if @find_user != nil and @find_user.size != 0
 
                       else
@@ -58,7 +58,7 @@ def create
                 p=0
                   @unassigned_user_id.each do |user|
                     
-                    @find_unassinged_user = Assign.where("taskboard_id = #{@taskboard.id} and assigned_user_id = #{user}")
+                    @find_unassinged_user = Assign.where("taskboard_id = #{ params[:taskboard_id]} and assigned_user_id = #{user}")
                       if @find_user != nil and @find_user.size != 0
                         @del = Assign.find_by_id(@find_user[0].id).delete
                       else
