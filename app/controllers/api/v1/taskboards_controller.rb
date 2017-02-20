@@ -306,6 +306,21 @@ before_action :set_taskboards, only: [:show, :edit, :update]
                       end
                   end
               end   
+
+            if params[:assign] != nil and params[:assign].to_i == 1         
+              convert_param_to_array(params[:unassigned_user_id])
+              @unassigned_user_id = @output_array
+                p=0
+                  @unassigned_user_id.each do |user|
+                    
+                    @find_unassinged_user = Assign.where("taskboard_id = #{@taskboard.id} and assigned_user_id = #{user}")
+                      if @find_user != nil and @find_user.size != 0
+                        @del = Assign.find_by_id(@find_user[0].id).delete
+                      else
+                        
+                      end
+                  end
+            end     
      
     	    render json: { valid: true, msg: "taskboard updated with log_values"}      
 	  else
