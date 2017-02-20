@@ -1368,13 +1368,13 @@ end
     end
 
     if params[:percentage].to_i == 1
-      @per=5
+      @per=0
       while @per < 101
          @per_new = Percentage.new
           @per_new.value = @per
           @per_new.save
 
-      @per = @per+5
+      @per = @per+1
       end
     end
   end
