@@ -66,6 +66,7 @@ def create
                       if @find_unassinged_user != nil and @find_unassinged_user.size != 0
                         @del = Assign.find_by_id(@find_user[0].id)
                         @del.is_delete = 1
+                        @del.save!
                         #@del.destroy if @del != nil
                       else
                         
