@@ -39,6 +39,8 @@ def create
                   @assigned_user_id.each do |user|
                     
                     @find_user = Assign.where("taskboard_id = #{params[:id]} and assigned_user_id = #{user}")
+
+                     puts "---del-2222222---#{@find_user.size}-----finduser---#{user}----#{params[:id]}-------id---@find_user[0].id-"
                       if @find_user != nil and @find_user.size != 0
 
                       else
@@ -47,7 +49,7 @@ def create
                         @assign.assigned_user_id = user
                         @assign.assigneer_id = params[:user_id]
                         @assign.track_id = params[:user_id]
-                        @assign.save
+                        @assign.save!
                       end
                   end
               end   
@@ -59,8 +61,8 @@ def create
                   @unassigned_user_id.each do |user|
                     
                     @find_unassinged_user = Assign.where("taskboard_id = #{params[:id]} and assigned_user_id = #{user}")
-                    puts "---del-----#{@del}-----finduser---#{@find_user}-------id---@find_user[0].id-"
-                      if @find_user != nil and @find_user.size != 0
+                    puts "---del-11111----#{@find_user.size}-----finduser---#{user}----#{params[:id]}-------id---@find_user[0].id-"
+                      if @find_unassinged_user != nil and @find_unassinged_user.size != 0
                         @del = Assign.find_by_id(@find_user[0].id)
 
                         @del.destroy if @del != nil
