@@ -183,6 +183,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
          @find_assigne =  ProjectUser.where("project_master_id=#{@project_task.project_master_id}").uniq(:user_id)
+         #@find_assigne = ProjectUser.joins(:user).select("users.name as users_name,users.last_name as users_last_name, project_users.manager as manager").where("project_users.project_master_id=1").order("name ASC")
               @assignee = []
               @assigneer = []
          @find_assigne.each do |a|
@@ -209,29 +210,29 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 
         @task_ass = []
         @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
-              @assignee = []
-              @assigneer = []
+              @task_assignee = []
+              @task_assigneer = []
          @find_assigne.each do |a|
 
             @assigner = User.find_by_id(a.assigneer_id)
             if @assigner!=nil and @assigner!=""
-              @assigneer   << { 'id' => @assigner.id,
+              @task_assigneer   << { 'id' => @assigner.id,
                               'name' => "#{@assigner.name} #{@assigner.last_name}"}            
             end
 
             @users = User.find_by_id(a.assigned_user_id)
             if @users!=nil and @users!=""
               @assignee_id = @users.id
-              @assignee   << { 'id' => @assignee_id,
+              @task_assignee   << { 'id' => @assignee_id,
                             'name' => "#{@users.name} #{@users.last_name}"}
             else
               @assignee_id = ""
-              @assignee   =""
+              @task_assignee   =""
             end
          end
          @task_ass ={
-            'task_assigneer_list' => @assigneer,
-            'task_assignee_list'  => @assignee
+            'task_assigneer_list' => @task_assigneer,
+            'task_assignee_list'  => @task_assignee
                    }
 
         @find_timesheet_entry = Logtime.where("project_master_id=#{tp.project_master_id} and task_master_id = #{tp.task_master_id} and user_id=#{params[:user_id]}").sum(:task_time).round(2)         

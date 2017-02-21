@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
     belongs_to :role_master
     belongs_to :branch
     belongs_to :team_master
+    has_many :project_users
  #   after_create :send_welcome_email
 
 
