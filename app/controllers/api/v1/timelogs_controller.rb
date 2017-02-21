@@ -49,6 +49,7 @@ def create
                         @assign.assigned_user_id = user
                         @assign.assigneer_id = params[:user_id]
                         @assign.track_id = params[:user_id]
+                        @assign.is_delete = 0
                         @assign.save!
                       end
                   end
@@ -64,8 +65,8 @@ def create
                     puts "---del-11111----#{@find_user.size}-----finduser---#{user}----#{params[:id]}-------id---@find_user[0].id-"
                       if @find_unassinged_user != nil and @find_unassinged_user.size != 0
                         @del = Assign.find_by_id(@find_user[0].id)
-
-                        @del.destroy if @del != nil
+                        @del.is_delete = 1
+                        #@del.destroy if @del != nil
                       else
                         
                       end
