@@ -235,7 +235,7 @@ class HomeController < ApplicationController
             end
          end
          @task_ass ={
-            'assigneer_list' => @assigneer,
+            'task_assigneer_list' => @assigneer,
             'assignee_list'  => @assignee
                    }
                    render json: @task_ass

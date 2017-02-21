@@ -207,6 +207,32 @@ before_action :set_taskboards, only: [:show, :edit, :update]
            end
        end
 
+        @task_ass = []
+        @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
+              @assignee = []
+              @assigneer = []
+         @find_assigne.each do |a|
+
+            @assigner = User.find_by_id(a.assigneer_id)
+            if @assigner!=nil and @assigner!=""
+              @assigneer   << { 'id' => @assigner.id,
+                              'name' => "#{@assigner.name} #{@assigner.last_name}"}            
+            end
+
+            @users = User.find_by_id(a.assigned_user_id)
+            if @users!=nil and @users!=""
+              @assignee_id = @users.id
+              @assignee   << { 'id' => @assignee_id,
+                            'name' => "#{@users.name} #{@users.last_name}"}
+            else
+              @assignee_id = ""
+              @assignee   =""
+            end
+         end
+         @task_ass ={
+            'task_assigneer_list' => @assigneer,
+            'task_assignee_list'  => @assignee
+                   }
 
         @find_timesheet_entry = Logtime.where("project_master_id=#{tp.project_master_id} and task_master_id = #{tp.task_master_id} and user_id=#{params[:user_id]}").sum(:task_time).round(2)         
         
@@ -218,6 +244,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
         'assigned_user_id' => @assignee_id,
         'assignee_name' => @assignee,
         'assigner_name' => @assigneer,
+        'task_assign' => @task_ass,
         'project_board_status_id' => tp.task_status_master_id,
         'project_board_status' => @status_name,
         'project_master_id' => tp.project_master_id,
