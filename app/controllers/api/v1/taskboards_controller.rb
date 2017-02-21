@@ -182,7 +182,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
     @assign = Taskboard.find_by_task_master_id(tp.task_master_id)
        if @assign!=nil and @assign!=""
          @taskboard_id =@assign.id
-         @find_assigne =  ProjectUser.where("project_master_id=#{@project_task.project_master_id}").uniq(:user_id).uniq
+         @find_assigne =  ProjectUser.where("project_master_id=#{@project_task.project_master_id}").uniq(:user_id)
          #@find_assigne = ProjectUser.joins(:user).select("users.name as users_name,users.last_name as users_last_name, project_users.manager as manager").where("project_users.project_master_id=1").order("name ASC")
               @assignee = []
               @assigneer = []
