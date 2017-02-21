@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217045511) do
+ActiveRecord::Schema.define(version: 20170221091614) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -426,7 +426,7 @@ ActiveRecord::Schema.define(version: 20170217045511) do
     t.date     "assigned_date"
     t.date     "relieved_date"
     t.string   "active",            limit: 255
-    t.integer  "utilization",       limit: 4
+    t.float    "utilization",       limit: 24
     t.string   "is_billable",       limit: 255
     t.integer  "project_master_id", limit: 4
     t.integer  "user_id",           limit: 4
