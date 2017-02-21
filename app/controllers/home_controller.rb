@@ -211,6 +211,36 @@ class HomeController < ApplicationController
           render json: @user_resp    
   end
 
+  def task_assign
+    @task_ass = []
+   @find_assigne =  Assign.where("taskboard_id=#{params[:taskboard_id]}")
+              @assignee = []
+              @assigneer = []
+         @find_assigne.each do |a|
+
+            @assigner = User.find_by_id(a.assigneer_id)
+            if @assigner!=nil and @assigner!=""
+              @assigneer   << { 'id' => @assigner.id,
+                              'name' => "#{@assigner.name} #{@assigner.last_name}"}            
+            end
+
+            @users = User.find_by_id(a.assigned_user_id)
+            if @users!=nil and @users!=""
+              @assignee_id = @users.id
+              @assignee   << { 'id' => @assignee_id,
+                            'name' => "#{@users.name} #{@users.last_name}"}
+            else
+              @assignee_id = ""
+              @assignee   =""
+            end
+         end
+         @task_ass ={
+            'assigneer_list' => @assigneer,
+            'assignee_list'  => @assignee
+                   }
+                   render json: @task_ass
+  end
+
   def default_pro
     @default_proj = User.find_by_id(params[:user_id])
     @default_proj.default_project_id   = params[:default_project_id ]

@@ -89,6 +89,9 @@ match "/api/v1/delete_task", :to => "home#delete_task", :via => ["delete"]
 
 match "/api/v1/reason_history", :to => "home#reason_history", :via => ["get"]
 
+match "/api/v1/task_assign", :to => "home#task_assign", :via => ["get"]
+
+
 
 resources :home
   #mount_devise_token_auth_for 'User', at: 'auth'
