@@ -201,7 +201,8 @@ before_action :set_taskboards, only: [:show, :edit, :update]
            if @users!=nil and @users!=""
              @assignee_id = @users.id
              @assignee   << { 'id' => @assignee_id,
-                            'name' => "#{@users.name} #{@users.last_name}"}
+                            'name' => "#{@users.name} #{@users.last_name}",
+                            'billable' => a.is_billable }
            else
              @assignee_id = ""
              @assignee   =""
