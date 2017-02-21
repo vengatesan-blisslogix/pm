@@ -1441,13 +1441,13 @@ end
     @project_master_id_array = params[:id]
     @project_master_id_array.each do |pro_id|
           @project_master = ProjectMaster.find_by_id(pro_id)
-          get_release_project(@project_master.id)
+          #get_release_project(@project_master.id)
           get_sprint_release(@project_master.id)
           resp << {
                      'ProjectName' => @project_master.project_name,
                      'ProjectId'    => @project_master.id,
-                     'Release'   => @resp_rel, 
-                     #'Sprint' => @resp_sprint
+                     #'Release'   => @resp_rel, 
+                     'Sprint' => @resp_sprint
                     }
     end
     end
@@ -2274,9 +2274,9 @@ end
           end  
   end
 
-  def get_sprint_release(release_id)
+  def get_sprint_release(project_id)
      @resp_sprint =  []
-       @sprint_plannings = SprintPlanning.where("release_planning_id = #{release_id}")
+       @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id}")
        @sprint_plannings.each do |s|    
        get_task_release(s.id, s.project_master_id)  
           @resp_sprint << {

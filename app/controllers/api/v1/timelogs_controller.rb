@@ -43,7 +43,7 @@ def create
 
                       else
                         @assign = Assign.new                      
-                        @assign.taskboard_id = params[:taskboard_id]
+                        @assign.taskboard_id = params[:id]
                         @assign.assigned_user_id = user
                         @assign.assigneer_id = params[:user_id]
                         @assign.track_id = params[:user_id]
