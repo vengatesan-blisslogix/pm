@@ -25,7 +25,9 @@ def create
           if params[:task_time] and params[:task_time]!=nil
             @timelog.task_time = params[:task_time]
           else
+            if @timelog.end_time!=nil and @timelog.start_time!=nil
             @timelog.task_time = ((@timelog.end_time  - @timelog.start_time) / 1.hour)
+          end
           end  
   
           @timelog.user_id = params[:user_id]
