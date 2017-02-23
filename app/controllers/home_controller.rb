@@ -378,7 +378,7 @@ def get_regions
 end
 
   def user_ldap_auth
-    resp = []
+   @u_access =""
     puts"====#{params[:password]}----#{params[:username]}---------"
   if params[:username] and params[:password]
     
@@ -397,11 +397,189 @@ end
     attrs = []
     puts is_authorized
 
-render :json => is_authorized
+    if is_authorized == true
+      @user = User.find_by_user_name(params[:username])
+      if @user != nil 
+        sign_in @user
+        session[:user] = @user
+        set_curr_user(@user)
+         @u_access = { "data": {
+      'status'=>'success',
+      'id' => @user.id,
+      'provider' => @user.provider,
+      'uid' => @user.uid,
+      'avatar' => @user.avatar,
+      'email' => @user.email,      
+      'Name' => @user.name,      
+      'role' => getrole_ldap(@user.role_master_id),
+      'company' => getcompany_ldap(@user.company_id),
+      'branch' => getbranch_ldap(@user.branch_id),
+      'access' => getaccess(@user.id),
+      'engagement_type' => getengagement,
+      'task_access' => @task_access,
+      'default_project_id' => defaultproject(@user.id)
+    }}
   else
-    render :json => resp
+    @u_access = {
+        'error' => 'Username or Password Invalid'
+      }
+      end
+
+    else
+      if params[:username] == "pmo" or params[:username] == "pmo@tvsnext.io"
+         
+         @user = User.where("email='pmo@tvsnext.io' and password='#{params[:password]}'")
+      if @user != nil and @user.size!=0
+        @user = @user[0]
+        sign_in @user
+        session[:user] = @user
+        set_curr_user(@user)
+         @u_access = { "data": {
+      'status'=>'success',
+      'id' => @user.id,
+      'provider' => @user.provider,
+      'uid' => @user.uid,
+      'avatar' => @user.avatar,
+      'email' => @user.email,      
+      'Name' => @user.name,      
+      'role' => getrole_ldap(@user.role_master_id),
+      'company' => getcompany_ldap(@user.company_id),
+      'branch' => getbranch_ldap(@user.branch_id),
+      'access' => getaccess(@user.id),
+      'engagement_type' => getengagement,
+      'task_access' => @task_access,
+      'default_project_id' => defaultproject(@user.id)
+    }}
+    else
+        @u_access = {
+        'error' => 'Invalid Password'
+      }
+  end
+      else
+        @u_access = {
+        'error' => 'Not a linchpin user'
+      }
+      end      
+    end
+   
+    render :json => @u_access
+  else
+    render :json => @u_access
   end
   end
+
+  def getengagement
+ 
+    get_all_projects
+    @task_access = []
+    if @admin == 1
+      @engage = true
+    else
+        if @search_all_pro_id==""
+          @search_all_pro="id IN(0)"
+        else
+          @search_all_pro="id IN(#{@search_all_pro_id})"
+        end
+          @pm = ProjectMaster.where("engagement_type_id = 2 and #{@search_all_pro}")
+          if @pm !=nil and @pm.size != 0
+            @engage = true
+          else
+            @engage = false
+          end
+    end#if @admin == 1
+    @user_proj = ProjectMaster.where("#{@search_all_pro}")
+    @user_proj.each do |up|
+       @task_access << {
+         'project_master_id' => up.id,
+         'project_name' => up.project_name,
+         'engagement_type_id' => up.engagement_type_id
+        }
+      end
+    @engage
+  end
+
+def defaultproject(id)
+  resp = []
+  @df = User.find(id)
+  resp = @df.default_project_id if @df
+end
+  
+def getrole_ldap(role_master_id)
+  resp = []
+  @role = RoleMaster.find(role_master_id)
+  resp = @role.role_name if @role
+end
+def getcompany_ldap(company_id)
+  resp = []
+  @comp = Company.find(company_id)
+  resp = @comp.company_name if @comp
+end
+def getbranch_ldap(branch_id)
+  resp = []
+  @branch = Branch.find(branch_id)
+  resp = @branch.name if @branch
+end
+
+def getadmin_acccess(act_id)
+  sub = []
+  
+  @sub_activity = ActivityMaster.where("parent_id=#{act_id}") 
+  if @sub_activity != nil and @sub_activity.size.to_i!=0
+        @sub_activity.each do |a|
+        sub <<  {
+          'id' => a.id,
+          'menu' =>a.activity_Name,
+          'is_page' => a.is_page,
+          'href'  =>  a.href,
+          'icon' => a.icon
+        }
+      end  
+  end
+  sub
+end
+
+def getstatus(act_id)
+@sub_activity_true = ActivityMaster.where("parent_id=#{act_id}") 
+  if @sub_activity_true != nil and @sub_activity_true.size.to_i!=0
+  @val = true
+  else
+  @val = false
+  end
+end
+
+def getaccess(id)
+  resp = []
+  @act_id=""
+  @access_value = User.find(id).role_master.role_activity_mappings.order(:id)
+    @access_value.each do |access|      
+      @activity = ActivityMaster.find(access.activity_master_id)
+      if @activity.parent_id.to_i == 0 
+         if @act_id==""
+          @act_id=access.activity_master_id
+         else
+          @act_id=@act_id.to_s+","+access.activity_master_id.to_s
+         end
+    end
+end
+
+if @act_id!=""
+   @activity_all = ActivityMaster.where("id IN(#{@act_id})").order(:id)
+
+  @activity_all.each  do |activity1|
+    puts "#{activity1.id}"
+resp << {
+           'id' => activity1.id,
+           'main_menu' => activity1.activity_Name,
+           'is_page' => activity1.is_page,
+           'href'  =>  activity1.href,
+           'icon' => activity1.icon,
+           'sub_menu_status' => getstatus(activity1.id),
+           'sub_menu' => getadmin_acccess(activity1.id) 
+      }
+    end
+end 
+  resp
+end
 
 
 def search_user
@@ -466,7 +644,7 @@ def user_eldap
       #puts ldap.search(:filter => "sAMAccountName=yogesh.s1").first
 
      # search_param = params[:email]
-      result_attrs = ["l", "mail", "employeeId", "givenName", "sn", "extensionAttribute1", "extensionAttribute3", "mobile", "manager", "department", ]
+      result_attrs = ["l", "mail", "employeeId", "givenName", "sn", "extensionAttribute1", "extensionAttribute3", "mobile", "manager", "department", "nickname" ]
 
       # Build filter
       @user_search = params[:userTag]
@@ -495,13 +673,15 @@ def user_eldap
           :doj => item.extensionAttribute3.first,
           :mobile_no => item.mobile.first,
           :reporting_to => item.manager.first[3..-1].split(' ')[0].gsub("\\",""),
-          :team_id => item.department.first
+          :team_id => item.department.first,
+          :nickname => item.nickname.first,
+          :login_account => item.LoginAccount.first
         } 
       
       else
         puts item.mail.first
         resp << {
-          :email => item.mail.first
+         :login_account => item.LoginAccount.first
         }
       end
         rescue Exception => e
@@ -1442,11 +1622,11 @@ end
     @project_master_id_array.each do |pro_id|
           @project_master = ProjectMaster.find_by_id(pro_id)
           get_release_project(@project_master.id)
-          #get_sprint_release(@project_master.id)
+          get_sprint_release(@project_master.id)
           resp << {
                      'ProjectName' => @project_master.project_name,
                      'ProjectId'    => @project_master.id,
-                     'Release'   => @resp_rel, 
+                     #'Release'   => @resp_rel, 
                      'Sprint' => @resp_sprint
                     }
     end
@@ -2274,9 +2454,9 @@ end
           end  
   end
 
- def get_sprint_release(release_id)
+ def get_sprint_release(project_id)
       @resp_sprint =  []
-      @sprint_plannings = SprintPlanning.where("release_planning_id = #{release_id}")
+      @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id}")
        @sprint_plannings.each do |s|    
        get_task_release(s.id, s.project_master_id)  
           @resp_sprint << {

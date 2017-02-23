@@ -31,11 +31,15 @@ if params[:log].to_i == 1
     hash1.each do |hash|
 
   @project_id = hash['ProjectId']
-  @release_id = hash['Release']['id']
-  @sprint_id = hash['Release']['Sprints']['id']
-  #puts"=========AAAAA======#{hash['ProjectId']}==RR==#{hash['Release']['id']}---=SS===#{hash['Release']['Sprints']['id']}"
+  #@release_id = hash['Release']['id']
+  #@sprint_id = hash['Release']['Sprints']['id']
+  puts"=========AAAAA======#{hash['ProjectId']}---=SS===#{hash['Release']['Sprints']['id']}"
+  @sprint_id = hash['Sprints']['id']
+  
     # Get the Hash we're interested in
-    results = hash['Release']['Sprints']['Tasks']
+    #results = hash['Release']['Sprints']['Tasks']
+    results = hash['Sprints']['Tasks']
+
     # Get the key names to use as headers
     headers = results[0].keys
     #puts"-headers---#{headers}-----"
@@ -148,11 +152,13 @@ end
     hash1.each do |hash|
 
   @project_id = hash['ProjectId']
-  @release_id = hash['Release']['id']
-  @sprint_id = hash['Release']['Sprints']['id']
+  #@release_id = hash['Release']['id']
+  #@sprint_id = hash['Release']['Sprints']['id']
+  @sprint_id = hash['Sprints']['id']
   #puts"=========AAAAA======#{hash['ProjectId']}==RR==#{hash['Release']['id']}---=SS===#{hash['Release']['Sprints']['id']}"
     # Get the Hash we're interested in
-    results = hash['Release']['Sprints']['Tasks']
+    #results = hash['Release']['Sprints']['Tasks']
+    results = hash['Sprints']['Tasks']
     # Get the key names to use as headers
     headers = results[0].keys
     #puts"-headers---#{headers}-----"

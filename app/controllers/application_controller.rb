@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
 
  $PER_PAGE = 20 #per page records
  before_action :configure_permitted_parameters, if: :devise_controller?
+
+
+ def after_sign_in_path_for(resource)
+     render :json => resource
+ end
   
   private
   
@@ -178,10 +183,16 @@ puts "----ttime-----#{@total_time}----------"
 
     def current_user
       if params[:user_id]
-      current_user = User.find_by_id(params[:user_id])
+        current_user = User.find_by_id(params[:user_id])
+      elsif session[:user]!=nil
+        current_user = session[:user]
       else
-      render json: { valid: false, error: 'unauthorized user!!!' }, status: 404
+        render json: { valid: false, error: 'unauthorized user!!!' }, status: 404
       end
+    end
+    
+    def set_curr_user(user)
+      current_user = user
     end
   
     def pagination(model,search)
@@ -219,7 +230,8 @@ puts "----ttime-----#{@total_time}----------"
  end
  
    def get_all_projects
-  
+
+  puts"++++++++++++++++#{current_user}"
       if current_user.role_master_id==1
       @search_all_pro=""
       @search_all_pro_id=""
