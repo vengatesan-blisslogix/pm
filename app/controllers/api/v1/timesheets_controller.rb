@@ -30,11 +30,11 @@ if params[:log].to_i == 1
     hash1 = JSON.parse(json)
     hash1.each do |hash|
 
-  @project_id = hash['ProjectId']
+  @project_id = hash['id']
   #@release_id = hash['Release']['id']
-  #@sprint_id = hash['Release']['Sprints']['id']
-  puts"=========AAAAA======#{hash['ProjectId']}--SS"
-  @sprint_id = hash['Sprints']['id']
+  @sprint_id = hash['Sprints'][0]['id']
+  puts"=========AAAAA======#{hash['id']}----------------------SSSSs#{@sprint_id}-SS"
+  @sprint_id = @sprint_id['id']
   
     # Get the Hash we're interested in
     #results = hash['Release']['Sprints']['Tasks']
