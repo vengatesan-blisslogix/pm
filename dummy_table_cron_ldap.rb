@@ -51,6 +51,7 @@ result = client.execute("SELECT * FROM HRIS.dbo.empBasicViewForApp WHERE leftOrg
 			@cront_intranet.emp_mobile			= u['mobile']
 			@cront_intranet.emp_email			= u['email']
 			@cront_intranet.emp_photo			= u['photoFile']
+			@cront_intranet.login_account	    = u['LoginAccount']
 		    "--------------->#{@cront_intranet.emp_codes}<---------"		   
 	     @cront_intranet.save
 		   end

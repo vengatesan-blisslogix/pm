@@ -35,7 +35,7 @@ ActiveRecord::Base.establish_connection({
 	       p "----------find user-------#{@find_user.size}",User.where("email ='#{u['email']}'")
 			if @find_user != nil and @find_user.size !=0
 			@user = @find_user[0]
-			#@user.nickname = u['name']+" "+"(#{u['empNo']})"
+			@user.user_name = u['LoginAccount']
 			#@user.save #reporting_to run no 2
 			p "-------if-----#{u['reportingTo']}"
 				if @user!=nil and u['reportingTo'] != nil
@@ -64,6 +64,7 @@ ActiveRecord::Base.establish_connection({
 				@user.password 			= u['email'][0..2]+"#123$"
 				@user.active 			= "active"
 				@user.mobile_no			= u['mobile']
+				@user.user_name = u['LoginAccount']
 				@user.nickname = u['name']+" "+"(#{u['empNo']})"
 					if u['reportingTo'] != nil			 
 						@user.reporting_to		= u['reportingTo']

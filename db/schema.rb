@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221120921) do
+ActiveRecord::Schema.define(version: 20170223065011) do
 
   create_table "activity_masters", force: :cascade do |t|
     t.string   "activity_Name",        limit: 255
@@ -167,6 +167,12 @@ ActiveRecord::Schema.define(version: 20170221120921) do
     t.string   "emp_photo",        limit: 255
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.string   "login_account",    limit: 255
+  end
+
+  create_table "cron_reporting_to", id: false, force: :cascade do |t|
+    t.integer "reporting_id",   limit: 4,   null: false
+    t.string  "reporting_name", limit: 255
   end
 
   create_table "cron_reportings", force: :cascade do |t|
@@ -727,6 +733,7 @@ ActiveRecord::Schema.define(version: 20170221120921) do
     t.integer  "reporting_to_id",        limit: 4
     t.string   "reporting_id",           limit: 255
     t.integer  "default_project_id",     limit: 4
+    t.string   "user_name",              limit: 255
   end
 
   add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
