@@ -380,92 +380,89 @@ end
   def user_ldap_auth
    @u_access =""
     puts"====#{params[:password]}----#{params[:username]}---------"
-  if params[:username] and params[:password]
-    
-  
-    ldap = Net::LDAP.new :host => "10.91.19.110",
-       :port => 389,
-       :auth => {
-             :method => :simple,
-             :base  =>       "DC=TVSi,DC=local",
-             :username => "tvsi" + "\\" +params[:username],
-             :password => params[:password]
-       }
+      if params[:username] and params[:password]
+        
+      
+        ldap = Net::LDAP.new :host => "10.91.19.110",
+           :port => 389,
+           :auth => {
+                 :method => :simple,
+                 :base  =>       "DC=TVSi,DC=local",
+                 :username => "tvsi" + "\\" +params[:username],
+                 :password => params[:password]
+           }
 
-    is_authorized = ldap.bind # returns true if auth works, false otherwise (or throws error if it can't connect to the server)
+        is_authorized = ldap.bind # returns true if auth works, false otherwise (or throws error if it can't connect to the server)
 
-    attrs = []
-    puts is_authorized
+        attrs = []
+        puts is_authorized
 
-    if is_authorized == true
-      @user = User.find_by_user_name(params[:username])
-      if @user != nil 
-        sign_in @user
-        session[:user] = @user
-        set_curr_user(@user)
-         @u_access = { "data": {
-      'status'=>'success',
-      'id' => @user.id,
-      'provider' => @user.provider,
-      'uid' => @user.uid,
-      'avatar' => @user.avatar,
-      'email' => @user.email,      
-      'Name' => @user.name,      
-      'role' => getrole_ldap(@user.role_master_id),
-      'company' => getcompany_ldap(@user.company_id),
-      'branch' => getbranch_ldap(@user.branch_id),
-      'access' => getaccess(@user.id),
-      'engagement_type' => getengagement,
-      'task_access' => @task_access,
-      'default_project_id' => defaultproject(@user.id)
-    }}
-  else
-    @u_access = {
-        'error' => 'Username or Password Invalid'
-      }
-      end
-
-    else
-      if params[:username] == "pmo" or params[:username] == "pmo@tvsnext.io"
-         
-         @user = User.where("email='pmo@tvsnext.io' and password='#{params[:password]}'")
-      if @user != nil and @user.size!=0
-        @user = @user[0]
-        sign_in @user
-        session[:user] = @user
-        set_curr_user(@user)
-         @u_access = { "data": {
-      'status'=>'success',
-      'id' => @user.id,
-      'provider' => @user.provider,
-      'uid' => @user.uid,
-      'avatar' => @user.avatar,
-      'email' => @user.email,      
-      'Name' => @user.name,      
-      'role' => getrole_ldap(@user.role_master_id),
-      'company' => getcompany_ldap(@user.company_id),
-      'branch' => getbranch_ldap(@user.branch_id),
-      'access' => getaccess(@user.id),
-      'engagement_type' => getengagement,
-      'task_access' => @task_access,
-      'default_project_id' => defaultproject(@user.id)
-    }}
-    else
-        @u_access = {
-        'error' => 'Invalid Password'
-      }
-  end
+        if is_authorized == true
+          @user = User.find_by_user_name(params[:username])
+          if @user != nil 
+            sign_in @user
+            session[:user] = @user
+            set_curr_user(@user)
+             @u_access = { "data": {
+                            'status'=>'success',
+                            'id' => @user.id,
+                            'provider' => @user.provider,
+                            'uid' => @user.uid,
+                            'avatar' => @user.avatar,
+                            'email' => @user.email,      
+                            'Name' => @user.name,      
+                            'role' => getrole_ldap(@user.role_master_id),
+                            'company' => getcompany_ldap(@user.company_id),
+                            'branch' => getbranch_ldap(@user.branch_id),
+                            'access' => getaccess(@user.id),
+                            'engagement_type' => getengagement,
+                            'task_access' => @task_access,
+                            'default_project_id' => defaultproject(@user.id)
+            }}
+          else
+            @u_access = {
+            'error' => 'Username or Password Invalid'
+            }
+          end
+        else
+          if params[:username] == "pmo" or params[:username] == "pmo@tvsnext.io"         
+             @user = User.where("email='pmo@tvsnext.io' and password='#{params[:password]}'")
+                if @user != nil and @user.size!=0
+                  @user = @user[0]
+                  sign_in @user
+                  session[:user] = @user
+                  set_curr_user(@user)
+                   @u_access = { "data": {
+                                  'status'=>'success',
+                                  'id' => @user.id,
+                                  'provider' => @user.provider,
+                                  'uid' => @user.uid,
+                                  'avatar' => @user.avatar,
+                                  'email' => @user.email,      
+                                  'Name' => @user.name,      
+                                  'role' => getrole_ldap(@user.role_master_id),
+                                  'company' => getcompany_ldap(@user.company_id),
+                                  'branch' => getbranch_ldap(@user.branch_id),
+                                  'access' => getaccess(@user.id),
+                                  'engagement_type' => getengagement,
+                                  'task_access' => @task_access,
+                                  'default_project_id' => defaultproject(@user.id)
+                                }}
+                else
+                  @u_access = {
+                    'error' => 'Invalid Password'
+                  }
+                end
+          else
+            @u_access = {
+              'error' => 'Not a linchpin user'
+            }
+          end      
+        end   
+        render :json => @u_access
       else
-        @u_access = {
-        'error' => 'Not a linchpin user'
-      }
-      end      
-    end
-   
-    render :json => @u_access
-  else
-    render :json => @u_access
-  end
+        render :json => @u_access
+      end
   end
 
   def getengagement

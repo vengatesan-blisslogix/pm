@@ -32,8 +32,8 @@ if params[:log].to_i == 1
 
   @project_id = hash['id']
   #@release_id = hash['Release']['id']
-  @sprint_id = hash['Sprints'][0]['id']
-  puts"=========AAAAA======#{hash['id']}----------------------SSSSs#{@sprint_id}-SS"
+  @sprint_id = hash['Sprints']['id']
+  puts"=========Project======#{hash['id']}----------------------Sprint#{@sprint_id}-SS"
   @sprint_id = @sprint_id['id']
   
     # Get the Hash we're interested in
