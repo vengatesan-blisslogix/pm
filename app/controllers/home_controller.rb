@@ -1659,7 +1659,7 @@ if @assigns_val != nil and @assigns_val.size.to_i!=0
     assign.approved_by = params[:approve_by]
     assign.approved_at = Time.now
     assign.status = "approved"
-    assign.save!
+    #assign.save!
   elsif params[:approve] and params[:approve].to_i==2
     assign.approved_by = nil
     assign.approved_at = nil
