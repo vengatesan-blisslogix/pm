@@ -426,6 +426,7 @@ end
           end
         else
           if params[:username] == "pmo" or params[:username] == "pmo@tvsnext.io"         
+            puts "----------#{params[:username]}-----------"
              @user = User.where("email='pmo@tvsnext.io' and password='#{params[:password]}'")
                 if @user != nil and @user.size!=0
                   @user = @user[0]
