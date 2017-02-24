@@ -25,43 +25,39 @@ if params[:log].to_i == 1
 
   json = params[:_json].to_s.gsub("=>",":")
 
-   puts "---------------#{json}------------------" 
+   puts "---ZZZ------------#{json}------------------" 
     # Parse the JSON
     hash1 = JSON.parse(json)
     hash1.each do |hash|
 
-  @project_id = hash['id']
-  #@release_id = hash['Release']['id']
-  @sprint_id = hash['Sprints']['id']
-  puts"=========Project======#{hash['id']}----------------------Sprint#{@sprint_id}-SS"
-  @sprint_id = @sprint_id['id']
-  
-    # Get the Hash we're interested in
-    #results = hash['Release']['Sprints']['Tasks']
-    results = hash['Sprints']['Tasks']
+      @project_id = hash['id']
 
-    # Get the key names to use as headers
-    headers = results[0].keys
-    #puts"-headers---#{headers}-----"
-      # Iterate over the "results" hashes
-      results.each do |result|
-        # Replace the "repository" hash with its "name" value
-        
-    @h = result['Timesheet'][0].keys
-    @h1 = result['Timesheet']
-    @task_id = result['id']
-    #puts"-result.values_at(*headers)----------#{result.values_at(*headers)}--#{result['id']}---"
-      @h1.each do |h|
-        @task_date = h['Date']
-        @task_time = h['hour'] 
+            hash['Sprints'].each do |sprints|
+                @sprint_id = sprints['id']
+              
+                sprints['Tasks'].each do |tasks|
+                  @task_id = tasks['taskId']
+                    i=0
+                    tasks['Timesheet'].each do |timesheets|
+                      @time = timesheets['Timesheet']
 
-            @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = '#{@task_date.to_date}'")
+                        puts "--AAAA--#{@tasks_id}--#{timesheets['Date']}------#{timesheets['hour']}--"
+                          @task_date = timesheets['Date']
+                          @task_time = timesheets['hour']
+                        i+=1                   
+                    
+ 
+            @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = '#{@task_date}'")
             puts "-----------#{@timesheet_check}----------------------"
                 if @timesheet_check != nil and @timesheet_check.size != 0 
                   @timesheet = @timesheet_check[0]
                 else
                   @timesheet = Logtime.new
                 end
+
+                    @task_date = @task_date.to_s.split("/")
+                    @task_date =@task_date[2]+"-"+@task_date[1]+"-"+@task_date[0]
+
                     @timesheet.task_master_id  = @task_id
                     @timesheet.project_master_id = @project_id
                     @timesheet.sprint_planning_id = @sprint_id
@@ -69,11 +65,11 @@ if params[:log].to_i == 1
                     @timesheet.status = "pending"
                     @timesheet.task_date = @task_date
                     @timesheet.task_time = @task_time                 
-                    @timesheet.save!
-                
-      end
+                    @timesheet.save! 
+                    end
+                end
+            end        
     end
-  end
         render json: { valid: true, msg: "timesheet created successfully."}
 
 elsif params[:log].to_i == 2
