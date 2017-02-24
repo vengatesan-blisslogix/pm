@@ -1646,8 +1646,10 @@ end
   end
 
 def timesheet_approval
-#@assigns = Logtime.find_by_id(params[:id])
-@assigns_val = Logtime.where("project_master_id=#{params[:project_master_id]} and task_master_id=#{params[:task_master_id]} and approved_by IS NULL")
+@assigns = Logtime.find_by_id(params[:id])
+
+if @assigns != nil
+@assigns_val = Logtime.where("project_master_id=#{params[:project_master_id]} and task_master_id=#{params[:task_master_id]} and approved_by IS NULL and user_id = #{@assigns.user_id}")
 puts "----------#{params[:id]}---#{params[:project_master_id]}---#{params[:task_master_id]}--------"
 if @assigns_val != nil and @assigns_val.size.to_i!=0
 
@@ -1659,7 +1661,7 @@ if @assigns_val != nil and @assigns_val.size.to_i!=0
     assign.approved_by = params[:approve_by]
     assign.approved_at = Time.now
     assign.status = "approved"
-    #assign.save!
+    assign.save!
   elsif params[:approve] and params[:approve].to_i==2
     assign.approved_by = nil
     assign.approved_at = nil
@@ -1680,6 +1682,7 @@ end#@assigns_val.each do |@assigns|
 
 
 end#if @assigns_val != nil and @assigns_val.size.to_i!=0  
+end
       render json: { valid: true, msg:"updated successfully."}
 end
 
