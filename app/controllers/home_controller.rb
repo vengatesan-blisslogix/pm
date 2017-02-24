@@ -1634,7 +1634,7 @@ end
 
   def timesheets_records(task_master_id, sprint_id)
 
-  @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id} #{session[:search_task]}")
+  @find_summary = Logtime.where("sprint_planning_id = #{sprint_id} and task_master_id = #{task_master_id} #{session[:search_task]} and user_id =#{params[:user_id]}")
   @task_time = []
       if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
        
