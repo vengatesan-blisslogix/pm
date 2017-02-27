@@ -27,6 +27,27 @@ before_action :set_taskboards, only: [:show, :edit, :update]
        task_resp = []
        if @search_val!="" or @admin.to_i == 1
    @task = Taskboard.where("#{@search}").order(:created_at => 'desc')
+
+      if @admin.to_i == 1 
+      else
+      @tb_id=""
+          @task.each do |tp|     
+            @user_task = Assign.where("taskboard_id=#{tp.id} and assigned_user_id=#{params[:user_id]}")
+            if @user_task!=nil and @user_task.size!=0
+               if @tb_id==""
+                   @tb_id = tp.id
+               else
+                    @tb_id=@tb_id.to_s+","+tp.id.to_s
+               end
+            end
+          end
+          if @tb_id==""
+            @search_user = "id IN(0)"
+          else
+            @search_user = "id IN(#{@tb_id})"
+          end
+           @task = Taskboard.where("#{@search_user}").order(:created_at => 'desc')
+      end
    @task.each do |tp|  
       
      @project_task = ProjectTask.find_by_id(tp.task_master_id)
