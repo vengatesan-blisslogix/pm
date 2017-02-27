@@ -216,6 +216,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
         @find_assigne =  Assign.where("taskboard_id=#{@taskboard_id}")
               @task_assignee = []
               @task_assigneer = []
+              @user_id_chek = []
          @find_assigne.each do |a|
 
             @assigner = User.find_by_id(a.assigneer_id)
@@ -224,6 +225,7 @@ before_action :set_taskboards, only: [:show, :edit, :update]
                               'name' => "#{@assigner.name} #{@assigner.last_name}"}            
             end
 
+          if !@user_id_chek.include?(a.assigned_user_id) 
             @users = User.find_by_id(a.assigned_user_id)
             if @users!=nil and @users!=""
               @assignee_id = @users.id
@@ -232,7 +234,9 @@ before_action :set_taskboards, only: [:show, :edit, :update]
             else
               @assignee_id = ""
               @task_assignee   =""
-            end
+            end 
+            @user_id_chek << a.assigned_user_id
+          end
          end
          @task_ass ={
             'task_assigneer_list' => @task_assigneer,
