@@ -35,10 +35,11 @@ def create
        @timelog.save
 
             if params[:assign] != nil and params[:assign].to_i == 1 and params[:assigned_user_id].present?
-              #convert_param_to_array(params[:assigned_user_id])
-             @assigned_user_id = params[:assigned_user_id]
+              convert_param_to_array(params[:assigned_user_id])
+              @a_user_id = @output_array
+             #@a_user_id = params[:assigned_user_id]
                 p=0
-                  @assigned_user_id.each do |user|
+                  @a_user_id.each do |user|
                     
                     @find_user = Assign.where("taskboard_id = #{params[:id]} and assigned_user_id = #{user}")
 
@@ -58,10 +59,12 @@ def create
               end   
               puts "---del-----#{@del}-----finduser---#{ params[:unassigned_user_id]}-----#{ params[:unassigned_user_id].class}--id---@find_user[0].id-"
             if params[:assign] != nil and params[:assign].to_i == 1 and params[:unassigned_user_id].present?   
-              #convert_param_to_array(params[:unassigned_user_id])
-              @unassigned_user_id = params[:unassigned_user_id]
+              convert_param_to_array(params[:unassigned_user_id])
+              @un_user_id = @output_array
+
+              #@un_user_id = params[:unassigned_user_id]
                 p=0
-                  @unassigned_user_id.each do |user|
+                  @un_user_id.each do |user|
                     
                     @find_unassinged_user = Assign.where("taskboard_id = #{params[:id]} and assigned_user_id = #{user}")
                     puts "---del-11111----#{@find_unassinged_user.size}-----finduser---#{user}----#{params[:id]}-------id---@find_unassinged_user[0].id-"
