@@ -259,7 +259,7 @@ puts "----ttime-----#{@total_time}----------"
         @engage = ProjectMaster.where("engagement_type_id = 2 and #{@search_all_pro}")
           if @engage != nil and @engage.size!= 0
             @engage_proj = ""
-            @search_all_pro_id.split(",").each do |en|
+            @search_all_pro_id.to_s.split(",").each do |en|
 
                 @engage_find = ProjectMaster.find_by_id(en)
                    
