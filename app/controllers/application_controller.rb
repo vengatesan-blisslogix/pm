@@ -9,11 +9,13 @@ class ApplicationController < ActionController::Base
 
  $PER_PAGE = 20 #per page records
  before_action :configure_permitted_parameters, if: :devise_controller?
+ #around_action :set_timezone, if: :logged_in? 
 
 
  def after_sign_in_path_for(resource)
      render :json => resource
  end
+
   
   private
   
@@ -41,6 +43,14 @@ class ApplicationController < ActionController::Base
         :employee_no        
       ])
   end
+
+  #def set_timezone(&action)
+    #Time.use_zone('Chennai', &action)
+  #end
+
+  #def logged_in?
+    #!current_user.nil?
+  #end
 
 =begin    
   def configure_permitted_parameters

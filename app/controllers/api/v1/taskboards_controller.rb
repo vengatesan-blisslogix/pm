@@ -26,21 +26,48 @@ before_action :set_taskboards, only: [:show, :edit, :update]
 
        task_resp = []
        if @search_val!="" or @admin.to_i == 1
-   @task = Taskboard.where("#{@search}").order(:created_at => 'desc')
+        @task = Taskboard.where("#{@search}").order(:created_at => 'desc')
 
       if @admin.to_i == 1 
       else
       @tb_id=""
-          @task.each do |tp|     
-            @user_task = Assign.where("taskboard_id=#{tp.id} and assigned_user_id=#{params[:user_id]}")
-            if @user_task!=nil and @user_task.size!=0
-               if @tb_id==""
-                   @tb_id = tp.id
-               else
-                    @tb_id=@tb_id.to_s+","+tp.id.to_s
-               end
-            end
+          @task.each do |tp|    
+
+            if current_user.role_master_id== 3
+
+              @find_manager = ProjectUser.where("project_master_id=#{tp.project_master_id} and manager = 1 and user_id = #{current_user.id}")
+              if @find_manager != nil and @find_manager.size!= 0
+                if @tb_id==""
+                       @tb_id = tp.id
+                   else
+                        @tb_id=@tb_id.to_s+","+tp.id.to_s
+                   end
+
+                 else
+                  
+              @user_task = Assign.where("taskboard_id=#{tp.id} and assigned_user_id=#{params[:user_id]}")
+                if @user_task!=nil and @user_task.size!=0
+                   if @tb_id==""
+                       @tb_id = tp.id
+                   else
+                        @tb_id=@tb_id.to_s+","+tp.id.to_s
+                   end
+                end
+              end
+
+
+              else
+                @user_task = Assign.where("taskboard_id=#{tp.id} and assigned_user_id=#{params[:user_id]}")
+                if @user_task!=nil and @user_task.size!=0
+                   if @tb_id==""
+                       @tb_id = tp.id
+                   else
+                        @tb_id=@tb_id.to_s+","+tp.id.to_s
+                   end
+                end
+              end
           end
+
           if @tb_id==""
             @search_user = "id IN(0)"
           else
@@ -120,7 +147,6 @@ before_action :set_taskboards, only: [:show, :edit, :update]
        end
      end
      
-
     
       task_resp << {
         'project_board_id' => tp.id,

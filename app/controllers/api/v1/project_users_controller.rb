@@ -87,8 +87,8 @@ before_action :set_project_user, only: [ :edit]
         resp << {
           'id' => p.id,
           'project_name' => @project_name,
-          'assigned_date' => p.start_date,        
-          'relieved_date' => p.end_date,
+          'assigned_date' => p.start_date.strftime("%d-%m-%Y"),        
+          'relieved_date' => p.end_date.strftime("%d-%m-%Y"),
           'status' => p.active,
           'is_billable' => p.billable
         }
@@ -152,8 +152,8 @@ before_action :set_project_user, only: [ :edit]
           'id' => m.id,
           'manager_id' => m.user_id,
           'employee_id' => @employee_id.employee_no,
-          'assigned_date'  =>m.assigned_date,
-          'relieved_date'  => m.relieved_date,
+          'assigned_date'  =>m.assigned_date.strftime("%d-%m-%Y"),
+          'relieved_date'  => m.relieved_date.strftime("%d-%m-%Y"),
           'status'  => m.active,
           'utilization'  => m.utilization,
           'technology' => @tech_name,
@@ -206,8 +206,8 @@ end
           'id' => m.id,
           'user_id' => m.user_id,
           'employee_id' => @employee_id.employee_no,
-          'assigned_date'  =>m.assigned_date,
-          'relieved_date'  => m.relieved_date,
+          'assigned_date'  =>m.assigned_date.strftime("%d-%m-%Y"),
+          'relieved_date'  => m.relieved_date.strftime("%d-%m-%Y"),
           'status'  => m.active,
           'reporting_to' => m.reporting_to,
           'technology' => @tech_name,
@@ -222,8 +222,8 @@ end
      response = {
        'client_id' => @project_master.client_id,
        'project_id' => @project_master.id,
-       'start_date' => @project_master.start_date,
-       'end_date' => @project_master.end_date,
+       'start_date' => @project_master.start_date.strftime("%d-%m-%Y"),
+       'end_date' => @project_master.end_date.strftime("%d-%m-%Y"),
        'manager_resp' => manager_resp,
        'project_users' => user_resp
       }
