@@ -6,6 +6,24 @@ class HomeController < ApplicationController
     @project_masters = ProjectMaster.all
   end
 
+
+  def del_avatar
+    if params[:image].to_i == 1 and params[:user_id].to_i
+      @user = User.find_by_id(params[:user_id])        
+      @user.avatar.destroy
+      @user.save!
+        render json: "User image deleted"
+    elsif params[:image].to_i == 2 and params[:project_master_id].to_i
+      @project = ProjectMaster.find_by_id(params[:project_master_id]) 
+      @project.avatar.destroy
+      @project.save! 
+        render json: "Project image deleted"
+    else
+      render json: "Image not deleted"      
+    end 
+
+  end
+
   def reason_history
     @f_history = []
       @find_rel_reason = ReleasePlanningReason.where("project_master_id = #{params[:project_master_id]}")        

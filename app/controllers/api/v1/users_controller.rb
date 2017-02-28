@@ -202,6 +202,7 @@ add_user_tech(@user.id, params[:technology_id])
      end
   end
 
+
 private
 
 def add_user_tech(user_id, technology_master_id)
