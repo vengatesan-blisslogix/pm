@@ -1633,18 +1633,23 @@ end
 
 
     if params[:id]!=nil and params[:id]!=""
+
     #convert_param_to_array(params[:id])
     @project_master_id_array = params[:id]
     @project_master_id_array.each do |pro_id|
+      @task_count = []
           @project_master = ProjectMaster.find_by_id(pro_id)
           get_release_project(@project_master.id)
           get_sprint_release(@project_master.id)
+puts "#{@task_count}-------------"
+          if @task_count != [] and @task_count.size!=0
           resp << {
                      'ProjectName' => @project_master.project_name,
                      'ProjectId'    => @project_master.id,
                      #'Release'   => @resp_rel, 
                      'Sprint' => @resp_sprint
                     }
+          end#@resp_task != [] and @resp_task.size!=0
     end
     end
           render json: resp
@@ -2488,49 +2493,48 @@ end
 
   def get_task_release(sprint_id, project_id)
      @resp_task =  [] 
-     
+     puts "5555555555555555555-----------#{ @task_count}"
      #@project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
        @project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id} and project_master_id =#{project_id}")
        @project_tasks.each do |p| 
 
-      if @admin.to_i == 1 
-         @project_ta = ProjectTask.find_by_id(p.task_master_id)  
-       if @project_ta  != nil
-        timesheets_records(p.task_master_id, sprint_id)
+            if @admin.to_i == 1 
+               @project_ta = ProjectTask.find_by_id(p.task_master_id)  
+               if @project_ta  != nil
+                timesheets_records(p.task_master_id, sprint_id)
 
-        @logged_eff = Logtime.where("user_id=#{params[:user_id]} and task_master_id = #{p.task_master_id}").sum(:task_time).round
+                @logged_eff = Logtime.where("user_id=#{params[:user_id]} and task_master_id = #{p.task_master_id}").sum(:task_time).round
+                @task_count << 0
+                 puts "---6666666666666666--------#{ @task_count}"
+                  @resp_task << {
+                    'id' => @project_ta.id,
+                    'TaskName' => @project_ta.task_name,
+                    'EstimationEffort' => @project_ta.planned,
+                    'LoggedEffort' => @logged_eff,
+                    'Timesheet' => @task_time
+                  }
+                end#if @project_ta  != nil
+            else
+            @user_task = Assign.where("taskboard_id=#{p.id} and assigned_user_id=#{params[:user_id]}")
+                      if @user_task!=nil and @user_task.size!=0
+                                       @project_ta = ProjectTask.find_by_id(p.task_master_id)  
+                           if @project_ta  != nil
+                            timesheets_records(p.task_master_id, sprint_id)
 
-          @resp_task << {
-            'id' => @project_ta.id,
-            'TaskName' => @project_ta.task_name,
-            'EstimationEffort' => @project_ta.planned,
-            'LoggedEffort' => @logged_eff,
-            'Timesheet' => @task_time
-          }
-        end
-      else
-      @user_task = Assign.where("taskboard_id=#{p.id} and assigned_user_id=#{params[:user_id]}")
-                if @user_task!=nil and @user_task.size!=0
-                                 @project_ta = ProjectTask.find_by_id(p.task_master_id)  
-                     if @project_ta  != nil
-                      timesheets_records(p.task_master_id, sprint_id)
-
-                      @logged_eff = Logtime.where("user_id=#{params[:user_id]} and task_master_id = #{p.task_master_id}").sum(:task_time).round
-
-                        @resp_task << {
-                          'id' => @project_ta.id,
-                          'TaskName' => @project_ta.task_name,
-                          'EstimationEffort' => @project_ta.planned,
-                          'LoggedEffort' => @logged_eff,
-                          'Timesheet' => @task_time
-                        }
-                      end
-                end
-      end
-
-      
-        end
-  end
+                            @logged_eff = Logtime.where("user_id=#{params[:user_id]} and task_master_id = #{p.task_master_id}").sum(:task_time).round
+                               @task_count << 0
+                              @resp_task << {
+                                'id' => @project_ta.id,
+                                'TaskName' => @project_ta.task_name,
+                                'EstimationEffort' => @project_ta.planned,
+                                'LoggedEffort' => @logged_eff,
+                                'Timesheet' => @task_time
+                              }
+                            end#if @project_ta  != nil
+                      end#if @user_task!=nil and @user_task.size!=0
+            end#if @admin.to_i == 1       
+        end#@project_tasks.each do |p| 
+  end#def get_task_release(sprint_id, project_id)
 
 #-----------------timesheets---
   def forget_password
