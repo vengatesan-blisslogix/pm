@@ -2491,8 +2491,10 @@ end
      
      #@project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
        @project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id} and project_master_id =#{project_id}")
-       @project_tasks.each do |p|    
-       @project_ta = ProjectTask.find_by_id(p.task_master_id)  
+       @project_tasks.each do |p| 
+
+      if @admin.to_i == 1 
+         @project_ta = ProjectTask.find_by_id(p.task_master_id)  
        if @project_ta  != nil
         timesheets_records(p.task_master_id, sprint_id)
 
@@ -2506,6 +2508,27 @@ end
             'Timesheet' => @task_time
           }
         end
+      else
+      @user_task = Assign.where("taskboard_id=#{p.id} and assigned_user_id=#{params[:user_id]}")
+                if @user_task!=nil and @user_task.size!=0
+                                 @project_ta = ProjectTask.find_by_id(p.task_master_id)  
+                     if @project_ta  != nil
+                      timesheets_records(p.task_master_id, sprint_id)
+
+                      @logged_eff = Logtime.where("user_id=#{params[:user_id]} and task_master_id = #{p.task_master_id}").sum(:task_time).round
+
+                        @resp_task << {
+                          'id' => @project_ta.id,
+                          'TaskName' => @project_ta.task_name,
+                          'EstimationEffort' => @project_ta.planned,
+                          'LoggedEffort' => @logged_eff,
+                          'Timesheet' => @task_time
+                        }
+                      end
+                end
+      end
+
+      
         end
   end
 
