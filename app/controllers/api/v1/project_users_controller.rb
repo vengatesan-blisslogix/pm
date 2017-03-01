@@ -87,8 +87,8 @@ before_action :set_project_user, only: [ :edit]
         resp << {
           'id' => p.id,
           'project_name' => @project_name,
-          'assigned_date' => p.start_date.strftime("%d-%m-%Y"),        
-          'relieved_date' => p.end_date.strftime("%d-%m-%Y"),
+          'assigned_date' => p.start_date.strftime,        
+          'relieved_date' => p.end_date.strftime,
           'status' => p.active,
           'is_billable' => p.billable
         }
@@ -222,8 +222,8 @@ end
      response = {
        'client_id' => @project_master.client_id,
        'project_id' => @project_master.id,
-       'start_date' => @project_master.start_date.strftime("%d-%m-%Y"),
-       'end_date' => @project_master.end_date.strftime("%d-%m-%Y"),
+       'start_date' => @project_master.start_date.strftime,
+       'end_date' => @project_master.end_date.strftime,
        'manager_resp' => manager_resp,
        'project_users' => user_resp
       }
