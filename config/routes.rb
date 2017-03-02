@@ -88,10 +88,9 @@ match "/api/v1/status_list", :to => "home#status_list", :via => ["get"]
 match "/api/v1/delete_task", :to => "home#delete_task", :via => ["delete"]
 
 match "/api/v1/reason_history", :to => "home#reason_history", :via => ["get"]
-
 match "/api/v1/task_assign", :to => "home#task_assign", :via => ["get"]
-
 match "/api/v1/del_avatar", :to => "home#del_avatar", :via => ["get"]
+match "/api/v1/timesheet_report", :to => "home#timesheet_report", :via => ["get"]
 
 
 

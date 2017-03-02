@@ -157,7 +157,6 @@ else
   end
 
 
-
   def del_avatar
     if params[:image].to_i == 1 and params[:user_id].to_i
       @user = User.find_by_id(params[:user_id])        
@@ -2637,18 +2636,28 @@ end
       @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id}")
        @sprint_plannings.each do |s|    
        get_task_release(s.id, s.project_master_id) 
-       @sprint_count << 0 
-          @resp_sprint << {
-            'id' => s.id,
-            'SprintName' => s.sprint_name,
-            'Tasks' => @resp_task
-          }
-        end        
+       @find_user = Assign.where("assigned_user_id = #{current_user.id}")
+       @find_user.each do |fu|
+          puts "--------#{fu.taskboard_id}"
+          @find_sprint_id = Taskboard.where("id = #{fu.taskboard_id}")
+                    puts "-----sprint_planning_id---#{@find_sprint_id}"
+                    @find_sprint_id.each do |sprint|
+                      puts "------sp----#{sprint.sprint_planning_id}"
+                      @get_spr_name = SprintPlanning.where("id = #{sprint.sprint_planning_id}")
+                      @get_spr_name.each do |sn|
+                      @resp_sprint << {
+                          'id' => sn.id,
+                          'SprintName' => sn.sprint_name,
+                          'Tasks' => @resp_task
+                        }
+                      end
+                    end
+                  end
+       end      
   end
 
   def get_task_release(sprint_id, project_id)
      @resp_task =  [] 
-     puts "5555555555555555555-----------#{ @task_count}"
      #@project_tasks = Logtime.find_by_sql("select distinct task_master_id from logtimes where sprint_planning_id = #{sprint_id} #{session[:search_task]}")            
        @project_tasks = Taskboard.where("sprint_planning_id = #{sprint_id} and project_master_id =#{project_id}")
        @project_tasks.each do |p| 
@@ -2660,7 +2669,6 @@ end
 
                 @logged_eff = Logtime.where("user_id=#{params[:user_id]} and task_master_id = #{p.task_master_id}").sum(:task_time).round
                 @task_count << 0
-                 puts "---6666666666666666--------#{ @task_count}"
                   @resp_task << {
                     'id' => @project_ta.id,
                     'TaskName' => @project_ta.task_name,
