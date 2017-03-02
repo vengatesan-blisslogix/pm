@@ -1788,11 +1788,9 @@ end
     #convert_param_to_array(params[:id])
     @project_master_id_array = params[:id]
     @project_master_id_array.each do |pro_id|
-      @sprint_count = []
       @task_count = []
           @project_master = ProjectMaster.find_by_id(pro_id)
           get_release_project(@project_master.id)
-          if @sprint_count != [] and @sprint_count.size!=0
             get_sprint_release(@project_master.id)
             puts "#{@task_count}-------------"
             if @task_count != [] and @task_count.size!=0
@@ -1803,7 +1801,6 @@ end
                        'Sprint' => @resp_sprint
                       }
             end#@resp_task != [] and @resp_task.size!=0
-          end
     end
     end
           render json: resp
@@ -2637,7 +2634,6 @@ end
       @sprint_plannings = SprintPlanning.where("project_master_id = #{project_id}")
        @sprint_plannings.each do |s|    
        get_task_release(s.id, s.project_master_id) 
-       @sprint_count << 0 
           @resp_sprint << {
             'id' => s.id,
             'SprintName' => s.sprint_name,
