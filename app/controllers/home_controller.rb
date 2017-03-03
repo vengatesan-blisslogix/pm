@@ -1976,7 +1976,7 @@ else
               'task_name' => @task_name,
               'start_date' => @start_date,
               'end_date' => @end_date,
-              'no_of_hours' => @timesheet_summ_user_time,
+              'no_of_hours' => @timesheet_summ_user_time.round,
               'status' => @status,
               'comments' => @comments
             }

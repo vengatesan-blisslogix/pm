@@ -41,22 +41,26 @@ if params[:log].to_i == 1
                     tasks['Timesheet'].each do |timesheets|
                       @time = timesheets['Timesheet']
 
-                        puts "--AAAA--#{@tasks_id}--#{timesheets['Date']}------#{timesheets['hour']}--"
-                          @task_date = timesheets['Date']
+                        #puts "--AAAA--#{@tasks_id}--#{timesheets['Date']}------#{timesheets['hour']}--"
+                        
+                          @task_date = timesheets['Date'].split("/")
+                          @task_date = @task_date[2]+"-"+@task_date[1]+"-"+@task_date[0]
                           @task_time = timesheets['hour']
                         i+=1                   
                     
  
-            @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = '#{@task_date}'")
-            puts "-----------#{@timesheet_check}----------------------"
+            @timesheet_check = Logtime.where("task_master_id =#{@task_id} and task_date = '#{@task_date}' and user_id = #{current_user.id}")
+            puts "-----------#{}----------------------"
+
+           
                 if @timesheet_check != nil and @timesheet_check.size != 0 
                   @timesheet = @timesheet_check[0]
                 else
                   @timesheet = Logtime.new
                 end
 
-                    @task_date = @task_date.to_s.split("/")
-                    @task_date =@task_date[2]+"-"+@task_date[1]+"-"+@task_date[0]
+                    #@task_date = @task_date.to_s.split("/")
+                    #@task_date =@task_date[2]+"-"+@task_date[1]+"-"+@task_date[0]
 
                     @timesheet.task_master_id  = @task_id
                     @timesheet.project_master_id = @project_id
