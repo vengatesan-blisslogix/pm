@@ -1963,28 +1963,32 @@ else
           @comments = ""
         end 
       
-      @project_user = ProjectUser.where("manager = 1 and user_id=#{current_user.id}")
+@project_user = ProjectUser.where("manager = 1 and project_master_id=#{lts.project_master_id} and user_id=#{current_user.id}")
 
-      if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
-        @enable_approve_button = true
-      else
-       @enable_approve_button=false
-      end
+     if current_user.role_master_id == 1 or (@project_user != nil and @project_user.size != 0)
+       if @project_user != nil and @project_user.size != 0 and current_user.id == tsu.user_id
+          @enable_approve_button = false
+       else
+          @enable_approve_button = true
+       end        
+     else
+      @enable_approve_button=false
+     end
 
-     resp << {
-              'id' => @timesheet_summ_id[0].id,
-              'project_id' => lts.project_master_id,
-              'project_name' => @proj_name,
-              'resource_name' => @res_name,
-              'task_id' => @timesheet_summ_id[0].task_master_id,
-              'task_name' => @task_name,
-              'start_date' => @start_date,
-              'end_date' => @end_date,
-              'no_of_hours' => @timesheet_summ_user_time.round,
-              'status' => @status,
-              'comments' => @comments
-            }
-
+    resp << {
+             'id' => @timesheet_summ_id[0].id,
+             'project_id' => lts.project_master_id,
+             'project_name' => @proj_name,
+             'resource_name' => @res_name,
+             'task_id' => @timesheet_summ_id[0].task_master_id,
+             'task_name' => @task_name,
+             'start_date' => @start_date,
+             'end_date' => @end_date,
+             'no_of_hours' => @timesheet_summ_user_time.round,
+             'status' => @status,
+             'comments' => @comments,
+             'show_approve' =>@enable_approve_button
+           }
       end#@timesheet_summ_user.each do |tsu|
       end
     end
