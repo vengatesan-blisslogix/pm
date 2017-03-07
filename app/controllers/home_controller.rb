@@ -78,14 +78,8 @@ else
           end
             @timesheet_summ_user = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id}").select(:user_id).uniq
             @timesheet_summ_user.each do |tsu|
-            @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}")
-            @work_time = []
-            @timesheet_summ_user_time.each do |tsm|
-              @work_time = {
-              'date' => tsm.task_date,
-              'task_time' => tsm.task_time
-              }
-            end
+           
+
 
             @timesheet_summ_id = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}")
 
@@ -128,6 +122,16 @@ else
             @man_name = ""
           end
 
+ @timesheet_summ_user_time = Logtime.where("#{@search} and project_master_id=#{lts.project_master_id} and user_id=#{tsu.user_id} and task_master_id=#{lts.task_master_id}")
+            @timesheet_summ_user_time.each do |tsm|
+                          @work_time = []
+              @work_time = {
+              'date' => tsm.task_date,
+              'task_time' => tsm.task_time
+              }
+            
+          puts"----------wrk_tme-----#{@work_time}"
+
      resp << {
               'id' => @timesheet_summ_id[0].id,
               'project_id' => lts.project_master_id,
@@ -143,7 +147,7 @@ else
               'status' => @status,
               'comments' => @comments
             }
-
+            end
       end#@timesheet_summ_user.each do |tsu|
       end
     end
