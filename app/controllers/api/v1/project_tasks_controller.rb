@@ -347,8 +347,9 @@ def show
             p=0
             @assigned_user_id.each do |user|
               @taskboard = Taskboard.new
-                @taskboard.task_status_master_id = 1
+                #@taskboard.task_status_master_id = 1
                 @taskboard.task_master_id = @project.id
+                @taskboard.task_status_master_id = @project.project_board_id
                 @taskboard.project_master_id = @project.project_master_id
                 @taskboard.sprint_planning_id = params[:sprint_planning_id]
                 @taskboard.status = "active"
