@@ -1793,7 +1793,8 @@ end
     @project_master_id_array = params[:id]
     @project_master_id_array.each do |pro_id|
       @task_count = []
-          @project_master = ProjectMaster.find_by_id(pro_id)
+          @project_master = ProjectMaster.find_by_id(pro_id.to_i)
+          if @project_master!=nil 
           get_release_project(@project_master.id)
             get_sprint_release(@project_master.id)
             puts "#{@task_count}-------------"
@@ -1805,6 +1806,7 @@ end
                        'Sprint' => @resp_sprint
                       }
             end#@resp_task != [] and @resp_task.size!=0
+          end
     end
     end
           render json: resp
@@ -2009,7 +2011,6 @@ puts"======#{@task_id_uniq}"
         'no_of_pages' => @no_pages,
         'next' => @next,
         'prev' => @prev,
-        'show_approve' =>@enable_approve_button,
         'timesheet_summary' => resp
       }
     render json: response 
@@ -2054,63 +2055,63 @@ end
 
 def edit_summary
   #begin
-   @start_date = params[:start_date] 
-      @end_date = params[:start_date].to_date.at_end_of_week
-    
+    @start_date = params[:start_date] 
+    @end_date = params[:start_date].to_date.at_end_of_week
 
+      @summary = Logtime.find_by_id(params[:id])
+      resp = []
+        @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{@summary.user_id}"
+        @find_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
 
-  @summary = Logtime.find_by_id(params[:id])
-  resp = []
-  @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{@summary.user_id}"
-  @find_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id}").order("id desc").limit(1)
-
-  if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
- @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id} ")
- @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id} ").sum(:task_time)
-@task_time = []
-@task_time_hour = []
-@all_summary.each do |as|
-    @task_time << {'id' => as.id,'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
-end
-@project_task_name = ProjectTask.find_by_id(@summary.task_master_id)
-@project_master_id = ProjectMaster.find_by_id(@summary.project_master_id)
-@client_id = Client.find_by_id(@project_master_id.client_id)
-@sprint_planning_id = SprintPlanning.find_by_id(@summary.sprint_planning_id)
-@release_planning_id = ReleasePlanning.find_by_id(@sprint_planning_id.release_planning_id)
-@user_id = User.find_by_id(@summary.user_id)
-
- @holiday_all = Holiday.all.order(:date)
-        @holiday_resp=[]
-        @holiday_all.each do |h| 
-           @holiday_resp << {
-          'id' => h.id,
-          'holiday' => h.date
-        }
+    if @find_summary!= nil and @find_summary!="" and @find_summary.size!=0
+       @all_summary = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id} ")
+       @sum_time = Logtime.where("#{@search} and project_master_id = #{@summary.project_master_id} and task_master_id=#{@summary.task_master_id} and user_id = #{params[:user_id]}").sum(:task_time)
+      @task_time = []
+      @task_time_hour = []
+        @all_summary.each do |as|
+            @task_time << {'id' => as.id,'date'=>"#{as.task_date}", 'hour'=>as.task_time}    
         end
+          @project_task_name = ProjectTask.find_by_id(@summary.task_master_id)
+          @project_master_id = ProjectMaster.find_by_id(@summary.project_master_id)
+          @client_id = Client.find_by_id(@project_master_id.client_id)
+          @sprint_planning_id = SprintPlanning.find_by_id(@summary.sprint_planning_id)
+          @release_planning_id = ReleasePlanning.find_by_id(@sprint_planning_id.release_planning_id)
+          @user_id = User.find_by_id(@summary.user_id)
 
-resp = {
-  'client_id' => @client_id.id ,
-  'client_name' => @client_id.client_name,
-  'project_id'=>@summary.project_master_id,
-  'project_name' =>@project_master_id.project_name, 
-  'sprint_id' => @sprint_planning_id.id, 
-  'sprint_name' => @sprint_planning_id.sprint_name,
-  'release_id'=> @sprint_planning_id.release_planning_id,
-  'release_name'=>@release_planning_id.release_name,
-  'resource_id' => @user_id.id,
-  'resource_name' => @user_id.name,
-  'task_id'=> @summary.task_master_id,
-  'task_name'=>@project_task_name.task_name,
-  'status' => @summary.status,
-  'comments' => @summary.comments,
-  'list_of_holidays' => @holiday_resp,
-  'date'=>@task_time,
-  'worked' => @sum_time
+             @holiday_all = Holiday.all.order(:date)
+                    @holiday_resp=[]
+                    @holiday_all.each do |h| 
+                       @holiday_resp << {
+                      'id' => h.id,
+                      'holiday' => h.date
+                    }
+                    end
+          if @project_task_name!= nil and @project_task_name!=""
 
-}
+            resp = {
+              'client_id' => @client_id.id ,
+              'client_name' => @client_id.client_name,
+              'project_id'=>@summary.project_master_id,
+              'project_name' =>@project_master_id.project_name, 
+              'sprint_id' => @sprint_planning_id.id, 
+              'sprint_name' => @sprint_planning_id.sprint_name,
+              'release_id'=> @sprint_planning_id.release_planning_id,
+              'release_name'=>@release_planning_id.release_name,
+              'resource_id' => @user_id.id,
+              'resource_name' => @user_id.name,
+              'task_id'=> @summary.task_master_id,
+              'task_name'=>@project_task_name.task_name,
+              'status' => @summary.status,
+              'comments' => @summary.comments,
+              'list_of_holidays' => @holiday_resp,
+              'date'=>@task_time,
+              'worked' => @sum_time
+
+            }
   
-  end
-  render json: resp
+          end
+        end
+          render json: resp
 #rescue
 #  render json: { valid: false, msg: "Invalid Parameters."} 
 #end

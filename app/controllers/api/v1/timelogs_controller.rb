@@ -19,9 +19,18 @@ end
 
 def create
 
-    @timelog = Logtime.new(timelog_params)
+     @timesheet_check = Logtime.where("task_master_id =#{params[:task_master_id]} and task_date = '#{params[:date]}' and user_id = #{params[:user_id]}")
+
+           
+                if @timesheet_check != nil and @timesheet_check.size != 0 
+                  @timelog = @timesheet_check[0]
+                else
+                  @timelog = Logtime.new(timelog_params)
+                end
+
     if @timelog.save
           @timelog.task_date = params[:date]
+          @timelog.taskboard_id =  params[:id]
           if params[:task_time] and params[:task_time]!=nil
             @timelog.task_time = params[:task_time]
           else
@@ -32,7 +41,7 @@ def create
   
           @timelog.user_id = params[:user_id]
           @timelog.status = "pending"
-       @timelog.save
+        @timelog.save
 
             if params[:assign] != nil and params[:assign].to_i == 1 and params[:assigned_user_id].present?
               #convert_param_to_array(params[:assigned_user_id])
@@ -76,21 +85,19 @@ def create
                   end
             end 
 
+          log_values = []
 
+          log_values << {
+                  'taskboard_id' => @timelog.taskboard_id,
+                  'task_time' => @timelog.task_time
+                  }
+              log_values={
+                    'valid' => true, 
+                    'time_log' => log_values,
+                    'msg' => "created successfully"
+                    }
 
-log_values = []
-
-log_values << {
-        'taskboard_id' => @timelog.taskboard_id,
-        'task_time' => @timelog.task_time
-        }
-    log_values={
-          'valid' => true, 
-          'time_log' => log_values,
-          'msg' => "created successfully"
-          }
-
-        render json: log_values
+                  render json: log_values
 
      else
         render json: { valid: false, error: @timelog.errors }, status: 404
