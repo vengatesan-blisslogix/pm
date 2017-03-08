@@ -19,8 +19,8 @@ end
 
 def create
 
-     @timesheet_check = Logtime.where("task_master_id =#{params[:task_master_id]} and task_date = '#{params[:date]}' and user_id = #{params[:user_id]}")
-
+@timesheet_check = Logtime.where("task_master_id =#{params[:task_master_id]} and task_date = '#{params[:date].to_date}' and user_id = #{params[:user_id]}")
+puts"-----#{params[:task_master_id]}----#{params[:date].to_date}---#{params[:user_id]}--"
            
                 if @timesheet_check != nil and @timesheet_check.size != 0 
                   @timelog = @timesheet_check[0]
