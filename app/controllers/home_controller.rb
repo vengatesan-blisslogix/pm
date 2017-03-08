@@ -79,7 +79,8 @@ end
                   end
                 resp << {         
                 'project_name' => p.project_name,
-                'user_name' => @resource_name.name,
+                'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
+                'employee_no' => @resource_name.employee_no,
                 'manager_name' => @resource_name.reporting_to,
                 'task_date' => tdu,
                 'task_time' => @timesheet_summ_user_time,
