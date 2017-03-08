@@ -102,12 +102,27 @@ else#if @pro_id!=""
 
 end#if @pro_id!=""
 
+@find_defaulters = Logtime.find_by_sql("SELECT distinct u.id FROM `logtimes` l,users u where l.user_id!=u.id and #{@search}")
+
+@find_defaulters.each do |fd|
+  @resource_name = User.find_by_id(fd.id)
+resp << {         
+                'project_name' => "",
+                'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
+                'employee_no' => @resource_name.employee_no,
+                'manager_name' => @resource_name.reporting_to,
+                'task_date' => "",
+                'task_time' => 0,
+                #'status' => @status,
+                #'comments' => @comments
+                }
 
 
-
+end#@find_defaulters.each do |fd|
 
       response = {       
-        'timesheet_report' => resp
+        'timesheet_report' => resp,
+        'count' => resp.count
       }
     render json: response 
   end
