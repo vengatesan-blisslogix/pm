@@ -17,7 +17,7 @@ def index
      @checklists.each do |cl| 
       resp << {
         'id' => cl.id,
-        'name' => cl.name,
+        'checklist_name' => cl.name,
         'active' => cl.active,
         'description' => cl.description,
         'project_board_status' => cl.stage,
@@ -41,7 +41,19 @@ def index
 end
 
 def show	
-   render json: @checklist
+  c = @checklist
+   resp=[]
+      resp << {
+        'id' => c.id,
+        'checklist_name' => c.name,
+        'active' => c.active,
+        'description' => c.description,
+        'project_board_status' => c.stage,
+        'project_board_id' => c.stage_value
+      }
+      
+         render json: resp
+
 end
 
 def create
