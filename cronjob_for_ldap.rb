@@ -36,6 +36,8 @@ ActiveRecord::Base.establish_connection({
 			if @find_user != nil and @find_user.size !=0
 			@user = @find_user[0]
 			@user.user_name = u['LoginAccount']
+			@user.department = u['department']
+
 			#@user.save #reporting_to run no 2
 			p "-------if-----#{u['reportingTo']}"
 				if @user!=nil and u['reportingTo'] != nil
@@ -72,6 +74,7 @@ ActiveRecord::Base.establish_connection({
 						@user.reporting_to		= u['reportingTo']
 					end		    
 			    @user.uid 				= u['email']
+			    @user.department = u['department']
 			    @user.branch_id 		= 1
 				@user.company_id 		= 1
 				@user.role_master_id 	= 2      			 
