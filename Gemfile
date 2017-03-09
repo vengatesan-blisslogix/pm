@@ -37,6 +37,7 @@ gem 'rack-cors'
 gem 'writeexcel'
 gem 'spreadsheet', '~> 1.1', '>= 1.1.3'
 gem 'net-ldap', '~> 0.15.0'
+gem 'mail'
 
 
 # Use ActiveModel has_secure_password
