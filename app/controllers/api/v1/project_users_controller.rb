@@ -174,7 +174,7 @@ end
        @time_sheets = Logtime.where("project_master_id = #{@project_master.id} and user_id = #{m.user_id}")
        
       if @time_sheets != nil and @time_sheets.size.to_i >= 1
-        @flag =  1
+        @flag =  0
       else
         @flag = 0
       end
