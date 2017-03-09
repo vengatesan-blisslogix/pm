@@ -20,8 +20,8 @@ def index
         'name' => cl.name,
         'active' => cl.active,
         'description' => cl.description,
-        'stage' => cl.stage,
-        'stage_value' => cl.stage_value
+        'project_board_status' => cl.stage,
+        'project_board_id' => cl.stage_value
       }
       end
 
@@ -49,6 +49,8 @@ def create
     @checklist = Checklist.new(checklist_params)
     if @checklist.save
             @checklist.active = "active"
+            @checklist.stage = params[:project_board_status]
+            @checklist.stage_value = params[:project_board_id]
         @checklist.save
     	render json: { valid: true, msg:"#{@checklist.name} created successfully."}  
       #index
@@ -59,7 +61,10 @@ def create
 
  def update   
 
-    if @checklist.update(checklist_params)  	      
+    if @checklist.update(checklist_params)  
+            @checklist.stage = params[:project_board_status]
+            @checklist.stage_value = params[:project_board_id]	
+            @checklist.save      
        render json: { valid: true, msg:"#{@checklist.name} updated successfully."}
     else
         render json: { valid: false, error: @checklist.errors }, status: 404
@@ -83,7 +88,7 @@ private
 
       raw_parameters = { :name => "#{params[:name]}", :active => "#{params[:active]}", :user_id => "#{params[:user_id]}", :description => "#{params[:description]}", :stage => "#{params[:stage]}", :stage_value => "#{params[:stage_value]}" }
       parameters = ActionController::Parameters.new(raw_parameters)
-      parameters.permit(:name, :active, :description, :user_id, :stage, :stage_value)
+      parameters.permit(:name, :active, :description, :user_id)
     
     end
 

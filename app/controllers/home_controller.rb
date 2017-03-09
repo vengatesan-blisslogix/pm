@@ -1877,13 +1877,13 @@ if @rpro!=""
         end
       end
       if @ruser==""
-        @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]} and  id IN(0)"
+        @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]} and  id IN(0) and project_master_id IN(#{@rpro})"
       else
-       @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id IN (#{@ruser})"
+       @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id IN (#{@ruser}) and project_master_id IN(#{@rpro})"
       end
     end
     else
-      @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]}"
+      @search="task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{params[:user_id]} "
       
      
     end
