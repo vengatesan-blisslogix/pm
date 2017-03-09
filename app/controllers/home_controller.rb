@@ -13,113 +13,93 @@ class HomeController < ApplicationController
     else
       @start_date = Date.today.at_beginning_of_week
       @end_date =  Date.today.at_end_of_week
-    end#if
+    end#if 
+        @search="task_date between '#{@start_date}' and '#{@end_date}'"    
+        @timesheet_summ = Logtime.where("#{@search}")
+          
+          resp = []
+          @pro_id=""       
+           @timesheet_summ.each do |lts|
+            if @pro_id ==""
+              @pro_id = lts.project_master_id
+            else
+              @pro_id = @pro_id.to_s+","+lts.project_master_id.to_s
+            end
+           end#@timesheet_summ.each do |lts|
 
+      if @pro_id!=""
 
- 
-      @search="task_date between '#{@start_date}' and '#{@end_date}'"    
-  
-      puts "===========#{@search}============="
-    @timesheet_summ = Logtime.where("#{@search}")
+        @pro_all = ProjectMaster.where("id IN(#{@pro_id})")
+        @pro_all.each do |p|
 
-
-    resp = []
-
-    @pro_id=""
-   
-     @timesheet_summ.each do |lts|
-      if @pro_id ==""
-        @pro_id = lts.project_master_id
-      else
-        @pro_id = @pro_id.to_s+","+lts.project_master_id.to_s
-      end
-      
-
-     end#@timesheet_summ.each do |lts|
-
-if @pro_id!=""
-
-  @pro_all = ProjectMaster.where("id IN(#{@pro_id})")
-  @pro_all.each do |p|
-
-@timesheet_summ_date = Logtime.where("#{@search} and project_master_id=#{p.id}")
- @task_date_uniq = []
-@timesheet_summ_date.each do |td|
-if @task_date_uniq.include?(td.task_date)
-      else
-        @task_date_uniq << td.task_date
-      end
-end
-   @pro_user = ProjectUser.where("project_master_id=#{p.id}")
-   @find_reporting_to = ProjectUser.where("manager=1 and project_master_id=#{p.id}")
-   @pro_user.each do |pu|
-   @resource_name = User.find_by_id(pu.user_id)
-     if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0           
-      @find_reporting_to_name= User.find_by_id(@find_reporting_to[0].user_id)
- 
-      @task_date_uniq.each do |tdu|
-         @timesheet_summ_user = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id}")
-         if @timesheet_summ_user!=nil and @timesheet_summ_user.size!=0         
-              @timesheet_summ_user_time = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id}").sum(:task_time)
-                    if @timesheet_summ_user[0] != nil
-                    @status_log= Logtime.find_by_id(@timesheet_summ_user[0].id)
-                    if @status_log!=nil and @status_log.status != nil
-                    @status = @timesheet_summ_user[0].status
-                    @td = @timesheet_summ_user[0].task_date
-                    else
-                    @status = "pending"
-                    @td = ""
-                    end
-
-                    if @timesheet_summ_user[0].comments != nil
-                    @comments = @timesheet_summ_user[0].comments
-                    else
-                    @comments = ""
-                    end
+            @timesheet_summ_date = Logtime.where("#{@search} and project_master_id=#{p.id}")
+             @task_date_uniq = []
+            @timesheet_summ_date.each do |td|
+            if @task_date_uniq.include?(td.task_date)
+                  else
+                    @task_date_uniq << td.task_date
                   end
-                resp << {         
-                'project_name' => p.project_name,
-                'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
-                'employee_no' => @resource_name.employee_no,
-                'manager_name' => @resource_name.reporting_to,
-                'task_date' => tdu,
-                'task_time' => @timesheet_summ_user_time,
-                #'status' => @status,
-                #'comments' => @comments
-                }
+            end
+         @pro_user = ProjectUser.where("project_master_id=#{p.id}")
+         @find_reporting_to = ProjectUser.where("manager=1 and project_master_id=#{p.id}")
+         @pro_user.each do |pu|
+         @resource_name = User.find_by_id(pu.user_id)
+           if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0           
+            @find_reporting_to_name= User.find_by_id(@find_reporting_to[0].user_id)
+       
+            @task_date_uniq.each do |tdu|
+               @timesheet_summ_user = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id}")
+               if @timesheet_summ_user!=nil and @timesheet_summ_user.size!=0         
+                    @timesheet_summ_user_time = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id}").sum(:task_time)
+                          if @timesheet_summ_user[0] != nil
+                          @status_log= Logtime.find_by_id(@timesheet_summ_user[0].id)
+                          if @status_log!=nil and @status_log.status != nil
+                          @status = @timesheet_summ_user[0].status
+                          @td = @timesheet_summ_user[0].task_date
+                          else
+                          @status = "pending"
+                          @td = ""
+                          end
 
+                          if @timesheet_summ_user[0].comments != nil
+                          @comments = @timesheet_summ_user[0].comments
+                          else
+                          @comments = ""
+                          end
+                        end
+                      resp << {         
+                        'project_name' => p.project_name,
+                        'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
+                        'employee_no' => @resource_name.employee_no,
+                        'manager_name' => @resource_name.reporting_to,
+                        'task_date' => tdu,
+                        'task_time' => @timesheet_summ_user_time,
+                        #'status' => @status,
+                        #'comments' => @comments
+                        }
+               end    
+          end#@task_date_uniq.each do |tdu|    
+         end#if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0
+       end#@pro_user.each do |pu|
+      end#@pro_all.each do |p|
+    else#if @pro_id!=""
+    end#if @pro_id!=""
 
-         end
+      @find_defaulters = Logtime.find_by_sql("SELECT distinct u.id FROM `logtimes` l,users u where l.user_id!=u.id and #{@search}")
 
-    
-      end#@task_date_uniq.each do |tdu|
-    
-     end#if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0
-   end#@pro_user.each do |pu|
-  end#@pro_all.each do |p|
-
-else#if @pro_id!=""
-
-end#if @pro_id!=""
-
-@find_defaulters = Logtime.find_by_sql("SELECT distinct u.id FROM `logtimes` l,users u where l.user_id!=u.id and #{@search}")
-
-@find_defaulters.each do |fd|
-  @resource_name = User.find_by_id(fd.id)
-resp << {         
-                'project_name' => "",
-                'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
-                'employee_no' => @resource_name.employee_no,
-                'manager_name' => @resource_name.reporting_to,
-                'task_date' => "",
-                'task_time' => 0,
-                #'status' => @status,
-                #'comments' => @comments
-                }
-
-
-end#@find_defaulters.each do |fd|
-
+          @find_defaulters.each do |fd|
+            @resource_name = User.find_by_id(fd.id)
+                  resp << {         
+                    'project_name' => "",
+                    'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
+                    'employee_no' => @resource_name.employee_no,
+                    'manager_name' => @resource_name.reporting_to,
+                    'task_date' => "",
+                    'task_time' => 0,
+                    #'status' => @status,
+                    #'comments' => @comments
+                    }
+          end#@find_defaulters.each do |fd|
       response = {       
         'timesheet_report' => resp,
         'count' => resp.count
