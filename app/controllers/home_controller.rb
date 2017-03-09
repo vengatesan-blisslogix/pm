@@ -7,6 +7,8 @@ class HomeController < ApplicationController
   end
 
   def timesheet_report
+                  resp = []
+
     if params[:start_date]
       @start_date = params[:start_date] 
       @end_date = params[:end_date]
@@ -14,18 +16,50 @@ class HomeController < ApplicationController
       @start_date = Date.today.at_beginning_of_week
       @end_date =  Date.today.at_end_of_week
     end#if 
-        @search="task_date between '#{@start_date}' and '#{@end_date}'"    
-        @timesheet_summ = Logtime.where("#{@search}")
-          
-          resp = []
-          @pro_id=""       
-           @timesheet_summ.each do |lts|
-            if @pro_id ==""
-              @pro_id = lts.project_master_id
-            else
-              @pro_id = @pro_id.to_s+","+lts.project_master_id.to_s
-            end
-           end#@timesheet_summ.each do |lts|
+        @user_dep = []
+        if params[:department]!=nil and params[:department]!=""
+          convert_param_to_array(params[:department])
+          @user_dep = @output_array
+
+
+
+        end#if params[:department]!=nil and params[:department]!=""
+        @user_dep.each do |ud|
+
+          @find_dep = User.where("department LIKE '%#{ud.to_s}%'")
+
+            @usr_id =""
+            @find_dep.each do |fd|
+            @department_user = "#{fd.name}#{fd.last_name}"
+                if @usr_id ==""
+                  @usr_id = fd.id
+                else
+                  @usr_id = @usr_id.to_s+","+fd.id.to_s
+                end
+            end#@find_dep.each do |fd|
+
+              if @usr_id == "" 
+                @search_usr = "and user_id IN(0)"
+                @search_usr_d = ""
+              else
+                @search_usr = "and user_id IN(#{@usr_id})"
+                @search_usr_d = "id IN(#{@usr_id})"
+              end#if @usr_id == "" 
+
+
+
+
+            @search="task_date between '#{@start_date}' and '#{@end_date}' #{@search_usr}"    
+            @timesheet_summ = Logtime.where("#{@search}")
+              
+              @pro_id=""       
+               @timesheet_summ.each do |lts|
+                if @pro_id ==""
+                  @pro_id = lts.project_master_id
+                else
+                  @pro_id = @pro_id.to_s+","+lts.project_master_id.to_s
+                end
+               end#@timesheet_summ.each do |lts|
 
       if @pro_id!=""
 
@@ -40,7 +74,7 @@ class HomeController < ApplicationController
                     @task_date_uniq << td.task_date
                   end
             end
-         @pro_user = ProjectUser.where("project_master_id=#{p.id}")
+         @pro_user = ProjectUser.where("project_master_id=#{p.id} #{@search_usr}")
          @find_reporting_to = ProjectUser.where("manager=1 and project_master_id=#{p.id}")
          @pro_user.each do |pu|
          @resource_name = User.find_by_id(pu.user_id)
@@ -86,10 +120,12 @@ class HomeController < ApplicationController
     else#if @pro_id!=""
     end#if @pro_id!=""
 
-      @find_defaulters = Logtime.find_by_sql("SELECT distinct u.id FROM `logtimes` l,users u where l.user_id!=u.id and #{@search}")
-
+      @find_defaulters =User.where("#{@search_usr_d}")
+     
           @find_defaulters.each do |fd|
-            @resource_name = User.find_by_id(fd.id)
+            @resource_name=fd
+            @find_log_time =   Logtime.where("task_date between '#{@start_date}' and '#{@end_date}' and user_id = #{fd.id}")
+             if @find_log_time.size == 0
                   resp << {         
                     'project_name' => "",
                     'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
@@ -101,7 +137,9 @@ class HomeController < ApplicationController
                     #'status' => @status,
                     #'comments' => @comments
                     }
-          end#@find_defaulters.each do |fd|
+                  end
+          end#@find_defaulters.each do |fd|            
+        end#@user_dep.each do |ud|
       response = {       
         'timesheet_report' => resp,
         'count' => resp.count
