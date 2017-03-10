@@ -1,16 +1,24 @@
-#require "rubygems"
-#require "active_record"
-#require "mail"
-#require "action_mailer"
+require "rubygems"
+require "active_record"
+require "mail"
+require "action_mailer"
+require "activerecord-sqlserver-adapter"
+require "tiny_tds"
+require "mysql2"
+
+
+
+
 
 
 ActiveRecord::Base.establish_connection({
-  :adapter => 'postgresql',
-  :user => 'postgres',
-  :password => 'postgres',
-  :database => 'pm_development',
+  :adapter => 'mysql2',
+  :user => 'root',
+  :password => 'tvsnext',
+  :database => 'pm_production',
   :host => 'localhost'
 })
+
 
 Mail.defaults do
 delivery_method :smtp, { 
@@ -44,19 +52,32 @@ end
 class ProjectTask < ActiveRecord::Base
 set_table_name ="project_tasks"
 end
+class Taskboard < ActiveRecord::Base
+set_table_name ="taskboards"
+end
+class Assign < ActiveRecord::Base
+set_table_name ="assigns"
+end
 @today = Date.today
-@week_days=["#{@today-5}","#{@today-4}","#{@today-3}","#{@today-2}","#{@today-1}"]
-@all_user = User.where("active = 'active' and id=1")
+@week_days=["#{@today-7}","#{@today-6}","#{@today-5}","#{@today-4}","#{@today-3}"]
+#all_user = User.where("active = 'active'")
+#@week_days=["#{@today-5}","#{@today-4}","#{@today-3}","#{@today-2}","#{@today-1}"]
+@all_user = User.where("active = 'active' and id=308")
 @all_user.each do |au|
-  puts "#{au.email}"
+  #puts "#{au.email}"
+if au.email!="" and au.email!=nil
 mail_body = []
 @find_project_for_user = ProjectUser.where("user_id=#{au.id}")
 @project_id = ""
+@pro_id = []
 @find_project_for_user.each do |pu|
+if @pro_id.include?(pu.project_master_id.to_s)
+else
 if @project_id == ""
 @project_id = pu.project_master_id
 else
 @project_id = @project_id.to_s+","+pu.project_master_id.to_s
+end
 end
 end#@find_project_for_user.each do |pu|
 puts"@project_id@project_id---#{@project_id}"
@@ -78,7 +99,7 @@ end#@week_days.each do |day|
 puts"@time_sheet_present.sum----#{@time_sheet_present.sum}"
 if @time_sheet_present.sum.to_i < 40
 
-@pro_task_mapping = ProjectTaskMapping.where("project_master_id=#{pro.id}")
+@pro_task_mapping = Taskboard.where("project_master_id=#{pro.id}")
 
 #-------table for details --------
 
@@ -94,11 +115,15 @@ end # if @thead==""
 end#@week_days.each do |day|
 @task_tbody = ""
 @pro_task_mapping.each do |task_map|
-  @task_name = ProjectTask.find_by_id(task_map.project_task_id)
-  if @task_name !=nil
+  @task_name_assign = Assign.where("taskboard_id=#{task_map.id} and assigned_user_id=#{au.id}")
+
+if  @task_name_assign!=nil and  @task_name_assign.size!=0
+
+@task_name = ProjectTask.find_by_id(task_map.task_master_id)
+  if @task_name !=nil and @task_name.task_name!="Leave"
 @tbody_details = "<td align='center'>#{@task_name.task_name}</td>"
 @week_days.each do |day|
-@find_timesheet_log_details = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}' and task_master_id=#{task_map.project_task_id}") 
+@find_timesheet_log_details = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}' and task_master_id=#{task_map.task_master_id}") 
   if @find_timesheet_log_details!=nil and @find_timesheet_log_details.size!=0
     @log_time_details = @find_timesheet_log_details[0].task_time
   else
@@ -115,7 +140,7 @@ else
 end # if @thead==""
 
 end# if @task_name !=nil
-
+end# if  @task_name_assign!=nil and  @task_name_assign.size!=0
 
 end#@pro_task_mapping.each do |task_map|
 
@@ -147,8 +172,8 @@ end#@week_days.each do |day|
 @thead = "<tr style='background-color: #FFA500;'><td align='center'>Name</td>#{@thead}</tr>"
 table_cont = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
 #-------table for summary --------
-
-
+puts "#{au.email}"
+ 
 #mail  part
 mail = Mail.new
   mail.sender = "pmo@tvsnext.io"
@@ -227,9 +252,6 @@ end#if @project_id!=""
 
 
 
-
-	 #send_reminder_to_all_users(au.email,au.name,pro_details)
+end
+   #send_reminder_to_all_users(au.email,au.name,pro_details)
 end #@all_user.each do |au|
-
-
-

@@ -8,7 +8,7 @@ ActiveRecord::Base.establish_connection({
   :adapter => 'postgresql',
   :user => 'postgres',
   :password => 'postgres',
-  :database => 'pm_development',
+  :database => 'pm_production',
   :host => 'localhost'
 })
 
@@ -238,8 +238,5 @@ end#if @project_id!=""
 
 
 
-	 #send_reminder_to_all_users(au.email,au.name,pro_details)
+   #send_reminder_to_all_users(au.email,au.name,pro_details)
 end #@all_user.each do |au|
-
-
-
