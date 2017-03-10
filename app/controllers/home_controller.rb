@@ -405,7 +405,7 @@ class HomeController < ApplicationController
     @default_proj = User.find_by_id(params[:user_id])
     @default_proj.default_project_id   = params[:default_project_id ]
     @default_proj.save
-        render json: { valid: true, msg:"#{@default_proj.name} This is your default project."}
+        render json: { valid: true, msg:"Hi, #{@default_proj.name} This is your default project."}
   end
 
   def all_sprint
