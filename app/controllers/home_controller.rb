@@ -109,6 +109,7 @@ class HomeController < ApplicationController
                         'manager_name' => @resource_name.reporting_to,
                         'task_date' => tdu,
                         'task_time' => @timesheet_summ_user_time,
+                        'is_billable' => pu.is_billable
                         #'status' => @status,
                         #'comments' => @comments
                         }
@@ -134,6 +135,7 @@ class HomeController < ApplicationController
                     'manager_name' => @resource_name.reporting_to,
                     'task_date' => "",
                     'task_time' => 0,
+                    'is_billable' => 'no'
                     #'status' => @status,
                     #'comments' => @comments
                     }
