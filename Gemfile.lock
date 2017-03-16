@@ -117,7 +117,6 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
-    puma (3.6.2)
     rack (1.6.5)
     rack-cors (0.4.0)
     rack-test (0.6.3)
@@ -201,7 +200,6 @@ DEPENDENCIES
   net-ldap (~> 0.15.0)
   omniauth
   paperclip
-  puma
   rack-cors
   rails (= 4.2.6)
   sass-rails (~> 5.0)
