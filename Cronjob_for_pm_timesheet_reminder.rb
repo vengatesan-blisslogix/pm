@@ -177,9 +177,9 @@ end#@week_days.each do |day|
 
 
 if @table_cont == ""
-@table_cont = "#{pro.project_name}<br/><br><br/><br>"+"<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>" +"<br/><br><br/><br>Details:<br>"+ @table_cont_details
+@table_cont = "#{pro.project_name}<br/><br>"+"<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>" +"<br/><br>Details:<br>"+ @table_cont_details
 else
-@table_cont = @table_cont.to_s+"#{pro.project_name}<br/><br><br/><br>"+ "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"+"<br/><br><br/><br>Details:"+@table_cont_details
+@table_cont = "<br/><br>"+@table_cont.to_s+"#{pro.project_name}<br/><br>"+ "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"+"<br/><br>Details:"+@table_cont_details
 end
 
 #-------table for summary --------
