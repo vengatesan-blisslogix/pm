@@ -3,7 +3,7 @@ require "active_record"
 require "mail"
 require "action_mailer"
 require "activerecord-sqlserver-adapter"
-require "tiny_tds"
+#require "tiny_tds"
 require "mysql2"
 
 
@@ -12,7 +12,7 @@ ActiveRecord::Base.establish_connection({
   :user => 'root',
   :password => 'tvsnext',
   :database => 'pm_production',
-  :host => 'linchpin.tvsnext.io'
+  :host => 'localhost'
 })
 
 
@@ -177,9 +177,9 @@ end#@week_days.each do |day|
 
 
 if @table_cont == ""
-@table_cont = @table_cont_details +"<br/><br><br/><br>Details:<br>"+ "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
+@table_cont = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>" +"<br/><br><br/><br>Details:<br>"+ @table_cont_details
 else
-@table_cont = @table_cont.to_s+"<br/><br><br/><br>"+@table_cont_details +"<br/><br><br/><br>Details:<br>"+ "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
+@table_cont = @table_cont.to_s+"<br/><br><br/><br>"+ "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"+"<br/><br><br/><br>Details:"+@table_cont_details
 end
 
 #-------table for summary --------
