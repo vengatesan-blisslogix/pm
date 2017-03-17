@@ -162,7 +162,7 @@ else
 @thead=@thead+"<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
 end # if @thead==""
 @find_timesheet_log = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
-puts"@find_timesheet_log-----------#{@find_timesheet_log}-----------#{ Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") }"
+puts"@find_timesheet_log-----------#{@find_timesheet_log}-----------#{pro.id}-#{au.id} --#{day}--------#{@find_timesheet_log[0].task_time}"
   if @find_timesheet_log!=nil and @find_timesheet_log.size!=0
     @log_time = @find_timesheet_log[0].task_time
   else
