@@ -12,7 +12,7 @@ ActiveRecord::Base.establish_connection({
   :user => 'root',
   :password => 'tvsnext',
   :database => 'pm_production',
-  :host => 'localhost'
+  :host => 'linchpin.tvsnext.io'
 })
 
 
@@ -114,9 +114,10 @@ else
 end # if @thead==""
 end#@week_days.each do |day|
 @task_tbody = ""
+puts"222222222------#{@thead_details}---------"
 @pro_task_mapping.each do |task_map|
   @task_name_assign = Assign.where("taskboard_id=#{task_map.id} and assigned_user_id=#{au.id}")
-
+puts"111111111------#{@task_name_assign}---------"
 if  @task_name_assign!=nil and  @task_name_assign.size!=0
 
 @task_name = ProjectTask.find_by_id(task_map.task_master_id)
@@ -145,9 +146,9 @@ end# if  @task_name_assign!=nil and  @task_name_assign.size!=0
 end#@pro_task_mapping.each do |task_map|
 
 
-@thead_details = "<tr style='background-color: #FFA500;'><td align='center'>Task Name</td>#{@thead_details}</tr>"
+@thead_details1 = "<tr style='background-color: #FFA500;'><td align='center'>Task Name</td>#{@thead_details}</tr>"
 
-@table_cont_details = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead_details}#{@task_tbody}</table>"
+@table_cont_details = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead_details1}#{@task_tbody}</table>"
 
 
 #-------table for details --------
@@ -182,7 +183,7 @@ else
 end
 
 #-------table for summary --------
-puts "#{au.email}"
+puts "#{au.email}------------------------#{@table_cont}"
  
 
 
