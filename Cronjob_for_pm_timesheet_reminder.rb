@@ -103,7 +103,7 @@ if @time_sheet_present.sum.to_i < 40
 #-------table for details --------
 
 
-
+@thead_details = ""
 
 @week_days.each do |day|
 if @thead_details==""
