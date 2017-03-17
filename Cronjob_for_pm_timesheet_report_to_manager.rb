@@ -202,7 +202,6 @@ Dear #{},<br/><br>
 
 Hey Seems #{} has not entered the timesheets for this week. You may have to check
 <br/><br>
-Project Name : <b>#{pro.project_name}</b><br/><br>
 Summary:<br>
 #{table_cont}<br>
 Details:<br>

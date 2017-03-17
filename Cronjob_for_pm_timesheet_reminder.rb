@@ -7,10 +7,6 @@ require "tiny_tds"
 require "mysql2"
 
 
-
-
-
-
 ActiveRecord::Base.establish_connection({
   :adapter => 'mysql2',
   :user => 'root',
@@ -59,11 +55,12 @@ class Assign < ActiveRecord::Base
 set_table_name ="assigns"
 end
 @today = Date.today
-@week_days=["#{@today-7}","#{@today-6}","#{@today-5}","#{@today-4}","#{@today-3}"]
-#all_user = User.where("active = 'active'")
-#@week_days=["#{@today-5}","#{@today-4}","#{@today-3}","#{@today-2}","#{@today-1}"]
-@all_user = User.where("active = 'active' and id=308")
+#@week_days=["#{@today-7}","#{@today-6}","#{@today-5}","#{@today-4}","#{@today-3}"]
+all_user = User.where("active = 'active' and id=227")
+@week_days=["#{@today-5}","#{@today-4}","#{@today-3}","#{@today-2}","#{@today-1}"]
+#@all_user = User.where("active = 'active' and id=308")
 @all_user.each do |au|
+  
   #puts "#{au.email}"
 if au.email!="" and au.email!=nil
 mail_body = []
@@ -177,7 +174,7 @@ puts "#{au.email}"
 #mail  part
 mail = Mail.new
   mail.sender = "pmo@tvsnext.io"
-  mail.to = au.email
+  mail.to = "yogesh.s1@tvsnext.io"
   #mail.to = "sastrayogesh@gmail.com"
   mail.subject = "[REMINDER][Timesheet Entry] - #{pro.project_name}"
   mail.content_type = "multipart/mixed"
@@ -216,7 +213,6 @@ mail = Mail.new
 Dear #{au.name},<br/><br>
 
 Oops !!, Did you forget to enter your timesheets<br/><br>
-Project Name : <b>#{pro.project_name}</b><br/><br>
 Summary:<br>
 #{table_cont}<br>
 Details:<br>

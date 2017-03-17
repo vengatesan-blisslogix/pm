@@ -195,7 +195,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   kaminari
-  mail
   mysql2
   net-ldap (~> 0.15.0)
   omniauth

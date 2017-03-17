@@ -3,14 +3,14 @@
 #require "mail"
 #require "action_mailer"
 
-
 ActiveRecord::Base.establish_connection({
-  :adapter => 'postgresql',
-  :user => 'postgres',
-  :password => 'postgres',
-  :database => 'pm_development',
+  :adapter => 'mysql2',
+  :user => 'root',
+  :password => 'tvsnext',
+  :database => 'pm_production',
   :host => 'localhost'
 })
+
 
 Mail.defaults do
 delivery_method :smtp, { 
