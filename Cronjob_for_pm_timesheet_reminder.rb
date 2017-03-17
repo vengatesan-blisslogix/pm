@@ -89,7 +89,7 @@ if @project_id!=""
 
 
 @week_days.each do |day|
-@find_timesheet_entry = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
+@find_timesheet_entry = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and task_date='#{day}'") 
 puts"---find_timesheet_entry-----#{@find_timesheet_entry}---"
   if @find_timesheet_entry!=nil and @find_timesheet_entry.size!=0
     @find_timesheet_entry.each do |logtime|
@@ -125,7 +125,7 @@ if  @task_name_assign!=nil and  @task_name_assign.size!=0
   if @task_name !=nil and @task_name.task_name!="Leave"
 @tbody_details = "<td align='center'>#{@task_name.task_name}</td>"
 @week_days.each do |day|
-@find_timesheet_log_details = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}' and task_master_id=#{task_map.task_master_id}") 
+@find_timesheet_log_details = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and task_date='#{day}' and task_master_id=#{task_map.task_master_id}") 
   if @find_timesheet_log_details!=nil and @find_timesheet_log_details.size!=0
     @log_time_details = @find_timesheet_log_details[0].task_time
   else
@@ -162,9 +162,13 @@ if @thead==""
 else
 @thead=@thead+"<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
 end # if @thead==""
-@find_timesheet_log = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
+@find_timesheet_log = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and task_date='#{day}'") 
 puts"@find_timesheet_log-----#{@find_timesheet_log}-----#{pro.id}---#{au.id}--#{day}---project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'-----"
-  if @find_timesheet_log!=nil and @find_timesheet_log.size!=0
+
+if @find_timesheet_log!=nil
+  puts"@find_timesheet_log[0].task_time----qqqqqqqqq---#{@find_timesheet_log.size}"
+  end
+  if @find_timesheet_log!=nil and @find_timesheet_log.size.to_i!=0
     puts"@find_timesheet_log[0].task_time----IF---#{@find_timesheet_log[0].task_time}"
     @log_time = @find_timesheet_log[0].task_time
   else
