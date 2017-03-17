@@ -79,6 +79,7 @@ end
 end#@find_project_for_user.each do |pu|
 @table_cont = ""
 @table_cont_details = ""
+@time_sheet_present = []
 puts"@project_id@project_id---#{@project_id}"
 if @project_id!=""
 @project_all = ProjectMaster.where("id IN(#{@project_id})")
@@ -86,7 +87,7 @@ if @project_id!=""
 
 @project_all.each do |pro|
 
-@time_sheet_present = []
+
 @week_days.each do |day|
 @find_timesheet_entry = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
   if @find_timesheet_entry!=nil and @find_timesheet_entry.size!=0
@@ -96,7 +97,7 @@ if @project_id!=""
   end
 end#@week_days.each do |day|
 puts"@time_sheet_present.sum----#{@time_sheet_present.sum}"
-if @time_sheet_present.sum.to_i < 40
+#if @time_sheet_present.sum.to_i < 40
 
 @pro_task_mapping = Taskboard.where("project_master_id=#{pro.id}")
 
@@ -187,7 +188,7 @@ puts "#{au.email}"
 
 
 
-end#if @time_sheet_present.sum.to_i < 40
+#end#if @time_sheet_present.sum.to_i < 40
 end#@project_all.each do |pro|
 end#if @project_id!=""
 
@@ -198,9 +199,9 @@ end#if @project_id!=""
 end
 
 
+puts"@time_sheet_present.sum.to_i-----#{@time_sheet_present.sum.to_i}"
 
-
-
+if @time_sheet_present.sum.to_i < 40
 #mail  part
 mail = Mail.new
   mail.sender = "pmo@tvsnext.io"
@@ -267,7 +268,7 @@ Linchpin Team
   mail.deliver
 #mail  part
 
-
+end#if @time_sheet_present.sum.to_i < 40
 
 
 
