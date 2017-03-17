@@ -77,6 +77,8 @@ else
 end
 end
 end#@find_project_for_user.each do |pu|
+@table_cont = ""
+@table_cont_details = ""
 puts"@project_id@project_id---#{@project_id}"
 if @project_id!=""
 @project_all = ProjectMaster.where("id IN(#{@project_id})")
@@ -101,7 +103,7 @@ if @time_sheet_present.sum.to_i < 40
 #-------table for details --------
 
 
-@thead_details= ""
+
 
 @week_days.each do |day|
 if @thead_details==""
@@ -143,7 +145,10 @@ end#@pro_task_mapping.each do |task_map|
 
 
 @thead_details = "<tr style='background-color: #FFA500;'><td align='center'>Task Name</td>#{@thead_details}</tr>"
-table_cont_details = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead_details}#{@task_tbody}</table>"
+
+@table_cont_details = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead_details}#{@task_tbody}</table>"
+
+
 #-------table for details --------
 #-------table for summary --------
 @thead = ""
@@ -167,10 +172,35 @@ end#@week_days.each do |day|
 @tbody ="<tr style='background-color: #d0dfe5;'>#{@tbody}</tr>"
 
 @thead = "<tr style='background-color: #FFA500;'><td align='center'>Name</td>#{@thead}</tr>"
-table_cont = "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
+
+
+if @table_cont == ""
+@table_cont = @table_cont_details +"<br/><br><br/><br>Details:<br>"+ "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
+else
+@table_cont = @table_cont.to_s+"<br/><br><br/><br>"+@table_cont_details +"<br/><br><br/><br>Details:<br>"+ "<table width='750' border='1' align='center' cellpadding='0' cellspacing='0'>#{@thead}#{@tbody}</table>"
+end
+
 #-------table for summary --------
 puts "#{au.email}"
  
+
+
+
+
+end#if @time_sheet_present.sum.to_i < 40
+end#@project_all.each do |pro|
+end#if @project_id!=""
+
+
+
+
+
+end
+
+
+
+
+
 #mail  part
 mail = Mail.new
   mail.sender = "pmo@tvsnext.io"
@@ -214,9 +244,9 @@ Dear #{au.name},<br/><br>
 
 Oops !!, Did you forget to enter your timesheets<br/><br>
 Summary:<br>
-#{table_cont}<br>
-Details:<br>
-#{table_cont_details}
+#{@table_cont}
+
+
 <br>We seriously don't mind even if you have already entered, again just a reminder.
 <br/><br>
 
@@ -240,14 +270,6 @@ Linchpin Team
 
 
 
-end#if @time_sheet_present.sum.to_i < 40
-end#@project_all.each do |pro|
-end#if @project_id!=""
 
-
-
-
-
-end
    #send_reminder_to_all_users(au.email,au.name,pro_details)
 end #@all_user.each do |au|
