@@ -90,9 +90,10 @@ if @project_id!=""
 
 @week_days.each do |day|
 @find_timesheet_entry = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
+puts"---find_timesheet_entry-----#{@find_timesheet_entry}---"
   if @find_timesheet_entry!=nil and @find_timesheet_entry.size!=0
     @find_timesheet_entry.each do |logtime|
-     @time_sheet_present << logtime.task_time
+     @time_sheet_present << logtime.task_time.to_i
     end#@find_timesheet_entry.each do |logtime|
   end
 end#@week_days.each do |day|
@@ -114,10 +115,10 @@ else
 end # if @thead==""
 end#@week_days.each do |day|
 @task_tbody = ""
-puts"222222222------#{@thead_details}---------"
+
 @pro_task_mapping.each do |task_map|
   @task_name_assign = Assign.where("taskboard_id=#{task_map.id} and assigned_user_id=#{au.id}")
-puts"111111111------#{@task_name_assign}---------"
+#puts"111111111------#{@task_name_assign}---------"
 if  @task_name_assign!=nil and  @task_name_assign.size!=0
 
 @task_name = ProjectTask.find_by_id(task_map.task_master_id)
@@ -162,10 +163,12 @@ else
 @thead=@thead+"<td align='center'>#{day.to_date.strftime("%d/%m/%Y")}</td>"
 end # if @thead==""
 @find_timesheet_log = Logtime.where("project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'") 
-puts"@find_timesheet_log-----#{@find_timesheet_log}-----#{pro.id}---#{au.id} --#{day}--------"
+puts"@find_timesheet_log-----#{@find_timesheet_log}-----#{pro.id}---#{au.id}--#{day}---project_master_id=#{pro.id} and user_id=#{au.id} and date='#{day}'-----"
   if @find_timesheet_log!=nil and @find_timesheet_log.size!=0
+    puts"@find_timesheet_log[0].task_time----IF---#{@find_timesheet_log[0].task_time}"
     @log_time = @find_timesheet_log[0].task_time
   else
+    puts"@find_timesheet_log[0].task_time----else---0"
     @log_time = 0
   end
 
