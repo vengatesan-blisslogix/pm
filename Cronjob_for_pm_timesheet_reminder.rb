@@ -3,7 +3,7 @@ require "active_record"
 require "mail"
 require "action_mailer"
 require "activerecord-sqlserver-adapter"
-#require "tiny_tds"
+require "tiny_tds"
 require "mysql2"
 
 
