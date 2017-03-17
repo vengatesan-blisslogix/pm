@@ -56,7 +56,7 @@ set_table_name ="assigns"
 end
 @today = Date.today
 #@week_days=["#{@today-7}","#{@today-6}","#{@today-5}","#{@today-4}","#{@today-3}"]
-@all_user = User.where("active = 'active' and id=227")
+@all_user = User.where("active = 'active'")
 @week_days=["#{@today-5}","#{@today-4}","#{@today-3}","#{@today-2}","#{@today-1}"]
 #@all_user = User.where("active = 'active' and id=308")
 @all_user.each do |au|
