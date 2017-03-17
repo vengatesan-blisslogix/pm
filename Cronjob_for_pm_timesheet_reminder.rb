@@ -206,7 +206,7 @@ mail = Mail.new
   mail.sender = "pmo@tvsnext.io"
   mail.to = "yogesh.s1@tvsnext.io"
   #mail.to = "sastrayogesh@gmail.com"
-  mail.subject = "[REMINDER][Timesheet Entry] - #{pro.project_name}"
+  mail.subject = "[REMINDER][Timesheet Entry]"
   mail.content_type = "multipart/mixed"
 
   html_part = Mail::Part.new do
