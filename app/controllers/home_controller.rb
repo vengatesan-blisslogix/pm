@@ -121,13 +121,12 @@ class HomeController < ApplicationController
                         }
                end    
             end#@task_date_uniq.each do |tdu|   
-          end#@task_master_id_uniq.each do |tmr|
          end#if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0
        end#@pro_user.each do |pu|
       end#@pro_all.each do |p|
     else#if @pro_id!=""
     end#if @pro_id!=""
-
+    
       @find_defaulters =User.where("#{@search_usr_d}")
      
           @find_defaulters.each do |fd|
