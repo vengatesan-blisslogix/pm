@@ -54,86 +54,61 @@ class HomeController < ApplicationController
 
 
             @search="task_date between '#{@start_date}' and '#{@end_date}' #{@search_usr}"    
-            @timesheet_summ = Logtime.where("#{@search}")
+            @timesheet_summ_usr = User.where("#{@search_usr_d}")
               
-              @pro_id=""       
-               @timesheet_summ.each do |lts|
-                if @pro_id ==""
-                  @pro_id = lts.project_master_id
-                else
-                  @pro_id = @pro_id.to_s+","+lts.project_master_id.to_s
-                end
-               end#@timesheet_summ.each do |lts|
+                   
+               @timesheet_summ_usr.each do |lts|
 
-      if @pro_id!=""
+
+
+@find_l = Logtime.where("task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{lts.id}")
+@pro_id_uniq=[]
+ @pro_id =""
+@find_l.each do |up|
+  if @pro_id_uniq.include?(up.project_master_id)
+  else
+    if @pro_id ==""
+    @pro_id = up.project_master_id
+    else
+    @pro_id = @pro_id.to_s+","+up.project_master_id.to_s
+    end
+  end
+end
+
+if @pro_id!=""
 
         @pro_all = ProjectMaster.where("id IN(#{@pro_id})")
-        @pro_all.each do |p|
 
-            @timesheet_summ_date = Logtime.where("#{@search} and project_master_id=#{p.id}")
-             @task_date_uniq = []
-              @task_master_id_uniq =[]
-            @timesheet_summ_date.each do |td|
-            if @task_date_uniq.include?(td.task_date)
-                  else
-                    @task_date_uniq << td.task_date
-                  end
-                  if @task_master_id_uniq.include?(td.task_master_id)
-                  else
-                    @task_master_id_uniq << td.task_master_id
-                  end
-            end
-            
-            
-         @pro_user = ProjectUser.where("project_master_id=#{p.id} #{@search_usr}")
-         @find_reporting_to = ProjectUser.where("manager=1 and project_master_id=#{p.id}")
-         @pro_user.each do |pu|
-         @resource_name = User.find_by_id(pu.user_id)
-           if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0           
-            @find_reporting_to_name= User.find_by_id(@find_reporting_to[0].user_id)
-       
-        
-            @task_date_uniq.each do |tdu|
-                @task_master_id_uniq.each do |tmr|
-               @timesheet_summ_user = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id} and task_master_id=#{tmr}")
-               if @timesheet_summ_user!=nil and @timesheet_summ_user.size!=0         
-                    @timesheet_summ_user_time = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id} and task_master_id=#{tmr}").sum(:task_time)
-                          if @timesheet_summ_user[0] != nil
-                          @status_log= Logtime.find_by_id(@timesheet_summ_user[0].id)
-                          if @status_log!=nil and @status_log.status != nil
-                          @status = @timesheet_summ_user[0].status
-                          @td = @timesheet_summ_user[0].task_date
-                          else
-                          @status = "pending"
-                          @td = ""
-                          end
+@pro_all.each do |p|
 
-                          if @timesheet_summ_user[0].comments != nil
-                          @comments = @timesheet_summ_user[0].comments
-                          else
-                          @comments = ""
-                          end
-                        end
-                      resp << {         
+            @timesheet_summ_date = Logtime.where("task_date between '#{@start_date}' and '#{@end_date}' and user_id=#{lts.id} and project_master_id=#{p.id}").uniq(:task_date)
+       @timesheet_summ_date.each do |ud|     
+@resource_name = lts;
+
+ @timesheet_summ_user_time = Logtime.where("task_date='#{ud.task_date}' and project_master_id=#{p.id} and user_id=#{lts.id}").sum(:task_time)
+@find_billing = ProjectUser.where("user_id=#{lts.id} and project_master_id=#{p.id}")
+         @bill_u = "no"
+if @find_billing!=nil and @find_billing.size!=0
+@bill_u = @find_billing[0].is_billable
+end#if @find_billing!=nil and @find_billing.size!=0
+   resp << {         
                         'project_name' => p.project_name,
                         'user_name' => "#{@resource_name.name} #{@resource_name.last_name}",
                         'employee_no' => @resource_name.employee_no,
                         'department' => @resource_name.department,
                         'manager_name' => @resource_name.reporting_to,
-                        'task_date' => tdu,
+                        'task_date' => ud.task_date,
                         'task_time' => @timesheet_summ_user_time,
-                        'is_billable' => pu.is_billable
-                        #'status' => @status,
-                        #'comments' => @comments
+                        'is_billable' => @bill_u
                         }
-               end    
-            end#@task_date_uniq.each do |tdu|   
-          end#@task_master_id_uniq.each do |tmr|
-         end#if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0
-       end#@pro_user.each do |pu|
-      end#@pro_all.each do |p|
-    else#if @pro_id!=""
-    end#if @pro_id!=""
+
+end#@timesheet_summ_date.each do |ud| 
+end#@pro_all.each do |p|
+
+end#if @pro_id!=""
+end#@timesheet_summ.each do |lts|
+
+      
 
       @find_defaulters =User.where("#{@search_usr_d}")
      
@@ -147,7 +122,7 @@ class HomeController < ApplicationController
                     'employee_no' => @resource_name.employee_no,
                     'department' => @resource_name.department,
                     'manager_name' => @resource_name.reporting_to,
-                    'task_date' => "11",
+                    'task_date' => "",
                     'task_time' => 0,
                     'is_billable' => 'no'
                     #'status' => @status,
