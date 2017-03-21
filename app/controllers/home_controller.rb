@@ -68,17 +68,19 @@ class HomeController < ApplicationController
 
             @timesheet_summ_date = Logtime.where("#{@search} and project_master_id=#{p.id}")
              @task_date_uniq = []
+              @task_master_id_uniq =[]
             @timesheet_summ_date.each do |td|
             if @task_date_uniq.include?(td.task_date)
                   else
                     @task_date_uniq << td.task_date
                   end
-            end
-            if @task_master_id_uniq.include?(td.task_master_id)
+                  if @task_master_id_uniq.include?(td.task_master_id)
                   else
                     @task_master_id_uniq << td.task_master_id
                   end
             end
+            
+            
          @pro_user = ProjectUser.where("project_master_id=#{p.id} #{@search_usr}")
          @find_reporting_to = ProjectUser.where("manager=1 and project_master_id=#{p.id}")
          @pro_user.each do |pu|
@@ -121,12 +123,13 @@ class HomeController < ApplicationController
                         }
                end    
             end#@task_date_uniq.each do |tdu|   
+          end#@task_master_id_uniq.each do |tmr|
          end#if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0
        end#@pro_user.each do |pu|
       end#@pro_all.each do |p|
     else#if @pro_id!=""
     end#if @pro_id!=""
-    
+
       @find_defaulters =User.where("#{@search_usr_d}")
      
           @find_defaulters.each do |fd|
