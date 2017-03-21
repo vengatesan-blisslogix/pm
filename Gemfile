@@ -6,7 +6,7 @@ gem 'rails', '4.2.6'
 
 gem 'mysql2'
 
-gem 'tiny_tds'
+#gem 'tiny_tds'
 gem 'activerecord-sqlserver-adapter'
 
 #gem 'pg', '~> 0.15'
