@@ -29,13 +29,17 @@ class HomeController < ApplicationController
           @find_dep = User.where("department LIKE '%#{ud.to_s}%'")
 
             @usr_id =""
+@task_u_id = []
             @find_dep.each do |fd|
             @department_user = "#{fd.name}#{fd.last_name}"
+            if @task_u_id.include?(fd.id)
+                  else
                 if @usr_id ==""
                   @usr_id = fd.id
                 else
                   @usr_id = @usr_id.to_s+","+fd.id.to_s
                 end
+              end
             end#@find_dep.each do |fd|
 
               if @usr_id == "" 
@@ -143,7 +147,7 @@ class HomeController < ApplicationController
                     'employee_no' => @resource_name.employee_no,
                     'department' => @resource_name.department,
                     'manager_name' => @resource_name.reporting_to,
-                    'task_date' => "",
+                    'task_date' => "11",
                     'task_time' => 0,
                     'is_billable' => 'no'
                     #'status' => @status,
