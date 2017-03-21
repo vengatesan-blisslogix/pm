@@ -88,8 +88,9 @@ class HomeController < ApplicationController
            if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0           
             @find_reporting_to_name= User.find_by_id(@find_reporting_to[0].user_id)
        
-          @task_master_id_uniq.each do |tmr|
+        
             @task_date_uniq.each do |tdu|
+                @task_master_id_uniq.each do |tmr|
                @timesheet_summ_user = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id} and task_master_id=#{tmr}")
                if @timesheet_summ_user!=nil and @timesheet_summ_user.size!=0         
                     @timesheet_summ_user_time = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id} and task_master_id=#{tmr}").sum(:task_time)
