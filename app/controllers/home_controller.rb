@@ -74,6 +74,11 @@ class HomeController < ApplicationController
                     @task_date_uniq << td.task_date
                   end
             end
+            if @task_master_id_uniq.include?(td.task_master_id)
+                  else
+                    @task_master_id_uniq << td.task_master_id
+                  end
+            end
          @pro_user = ProjectUser.where("project_master_id=#{p.id} #{@search_usr}")
          @find_reporting_to = ProjectUser.where("manager=1 and project_master_id=#{p.id}")
          @pro_user.each do |pu|
@@ -81,10 +86,11 @@ class HomeController < ApplicationController
            if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0           
             @find_reporting_to_name= User.find_by_id(@find_reporting_to[0].user_id)
        
+          @task_master_id_uniq.each do |tmr|
             @task_date_uniq.each do |tdu|
-               @timesheet_summ_user = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id}")
+               @timesheet_summ_user = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id} and task_master_id=#{tmr}")
                if @timesheet_summ_user!=nil and @timesheet_summ_user.size!=0         
-                    @timesheet_summ_user_time = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id}").sum(:task_time)
+                    @timesheet_summ_user_time = Logtime.where("task_date='#{tdu}' and project_master_id=#{p.id} and user_id=#{pu.user_id} and task_master_id=#{tmr}").sum(:task_time)
                           if @timesheet_summ_user[0] != nil
                           @status_log= Logtime.find_by_id(@timesheet_summ_user[0].id)
                           if @status_log!=nil and @status_log.status != nil
@@ -114,7 +120,8 @@ class HomeController < ApplicationController
                         #'comments' => @comments
                         }
                end    
-          end#@task_date_uniq.each do |tdu|    
+            end#@task_date_uniq.each do |tdu|   
+          end#@task_master_id_uniq.each do |tmr|
          end#if @resource_name!=nil and @find_reporting_to!=nil and @find_reporting_to.size!=0
        end#@pro_user.each do |pu|
       end#@pro_all.each do |p|
